@@ -281,6 +281,7 @@ namespace TGC_SceneRenderer {
             #pragma endregion
         private: System::Void timer1_Tick(System::Object  ^sender, System::Windows::Forms::PaintEventArgs  ^e)
             {
+                OpenGL->RestartStopwatch();
                 UNREFERENCED_PARAMETER(sender);
                 UNREFERENCED_PARAMETER(e);
                 OpenGL->Render();
