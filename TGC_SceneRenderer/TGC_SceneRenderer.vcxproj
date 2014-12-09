@@ -89,6 +89,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp" />
+    <ClCompile Include="Utils\Logger.cpp" />
     <ClCompile Include="src\gl3w.c" />
     <ClCompile Include="TGC_SceneRenderer.cpp" />
   </ItemGroup>
@@ -100,6 +101,7 @@
     <ClInclude Include="include\GL\gl3w.h" />
     <ClInclude Include="include\GL\glcorearb.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="Utils\Logger.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="app.rc" />

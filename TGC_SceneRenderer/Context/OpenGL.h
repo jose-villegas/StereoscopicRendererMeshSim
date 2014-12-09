@@ -1,10 +1,10 @@
 #pragma once
 #include <GL/gl3w.h>
-
+#include "../Utils/Logger.h"
 using namespace System::Windows::Forms;
 
 namespace OpenGLForm {
-    public ref class COpenGL: public System::Windows::Forms::NativeWindow {
+    public ref class COpenGL : public System::Windows::Forms::NativeWindow {
         public:
             COpenGL(System::Windows::Forms::Panel ^parentForm, int iPositionX, int iPositionY, GLsizei iWidth, GLsizei iHeight)
             {
@@ -34,6 +34,11 @@ namespace OpenGLForm {
                 if (!gl3wIsSupported(3, 2)) {
                     MessageBox::Show("OpenGL 3.2 not supported");
                 }
+
+                System::String ^glVersionString = gcnew System::String((char *)glGetString(GL_VERSION));
+                System::String ^glslVersionString = gcnew System::String((char *)glGetString(GL_SHADING_LANGUAGE_VERSION));
+                System::String ^oglString = L"OpenGL " + glVersionString + "s, GLSL " + glslVersionString + "\n";
+                Utils::Logger::Write(oglString, true, System::Drawing::Color::Green);
             }
 
             virtual System::Void Render(System::Void)
@@ -46,11 +51,17 @@ namespace OpenGLForm {
             System::Void SwapOpenGLBuffers(System::Void)
             {
                 SwapBuffers(m_hDC);
+                deltaTime = stopWatch.Elapsed.TotalSeconds;
+                totalTime += deltaTime;
+                stopWatch.Restart();
             }
 
         private:
             HDC m_hDC;
             HGLRC m_hglrc;
+            System::Diagnostics::Stopwatch stopWatch;
+            double deltaTime;
+            double totalTime;
 
         protected:
             ~COpenGL(System::Void)
