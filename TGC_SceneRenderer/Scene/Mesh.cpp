@@ -2,6 +2,7 @@
 
 Mesh::Mesh(void)
 {
+    _texCollection->Inst();
 }
 
 Mesh::~Mesh(void)

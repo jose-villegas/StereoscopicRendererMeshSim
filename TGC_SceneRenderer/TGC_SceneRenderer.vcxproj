@@ -92,6 +92,7 @@
     <ClCompile Include="Context\OpenGL.cpp" />
     <ClCompile Include="Scene\Mesh.cpp" />
     <ClCompile Include="Collections\TextureCollection.cpp" />
+    <ClCompile Include="Types\Texture.cpp" />
     <ClCompile Include="Utils\FrameRate.cpp" />
     <ClCompile Include="Utils\Logger.cpp" />
     <ClCompile Include="src\gl3w.c" />
@@ -101,6 +102,7 @@
   <ItemGroup>
     <ClInclude Include="Scene\Mesh.h" />
     <ClInclude Include="Collections\TextureCollection.h" />
+    <ClInclude Include="Types\Texture.h" />
     <ClInclude Include="Utils\FrameRate.h" />
     <ClInclude Include="MainWindow.h">
       <FileType>CppForm</FileType>

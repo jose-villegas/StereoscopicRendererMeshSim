@@ -30,6 +30,7 @@ class Mesh {
             void init(const std::vector<Vertex> &vertices, const std::vector<unsigned int> &indexes);
         };
 
-        std::vector<MeshEntry> m_Entries;
+        std::vector<MeshEntry> _meshEntries;
+        TextureCollection *_texCollection;
 };
 

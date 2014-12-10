@@ -43,7 +43,7 @@ bool TextureCollection::loadTexture(const char *filename,
     //pointer to the image data
     BYTE *bits = nullptr;
     //image width and height
-    unsigned int width = 0, height = 0;
+    unsigned int width = 0, height = 0, bpp = 0;
     //OpenGL's image ID to map to
     GLuint gl_texID;
     //check the file signature and deduce its format
@@ -74,6 +74,7 @@ bool TextureCollection::loadTexture(const char *filename,
     //get the image width and height
     width = FreeImage_GetWidth(dib);
     height = FreeImage_GetHeight(dib);
+    bpp = FreeImage_GetBPP(dib);
 
     //if this somehow one of these failed (they shouldn't), return failure
     if ((bits == 0) || (width == 0) || (height == 0)) {
@@ -82,21 +83,20 @@ bool TextureCollection::loadTexture(const char *filename,
 
     //if this texture ID is in use, unload the current texture
     if (m_texID.find(texID) != m_texID.end()) {
-        glDeleteTextures(1, &(m_texID[texID]));
+        glDeleteTextures(1, &(m_texID[texID]->oglTexID));
     }
 
-    //generate an OpenGL texture ID for this texture
-    glGenTextures(1, &gl_texID);
-    //store the texture ID mapping
-    m_texID[texID] = gl_texID;
-    //bind to the new texture ID
-    glBindTexture(GL_TEXTURE_2D, gl_texID);
-    //store the texture data for OpenGL use
-    glTexImage2D(GL_TEXTURE_2D, level, internal_format, width, height,
-                 border, image_format, GL_UNSIGNED_BYTE, bits);
-    //Free FreeImage's copy of the data
+    glGenTextures(1, &gl_texID);												// generate an OpenGL texture ID for this texture
+    m_texID[texID] = new Texture(filename, width, height, bpp, gl_texID, texID);	// store the texture
+    glBindTexture(GL_TEXTURE_2D, gl_texID);		// bind to the new texture ID
+    // store the texture data for OpenGL use
+    glTexImage2D(GL_TEXTURE_2D, level, internal_format, width, height, border, image_format, GL_UNSIGNED_BYTE, bits);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glBindTexture(GL_TEXTURE_2D, 0);
+    // Free FreeImage's copy of the data
     FreeImage_Unload(dib);
-    //return success
+    // return success
     return true;
 }
 
@@ -106,7 +106,7 @@ bool TextureCollection::unloadTexture(const unsigned int texID)
 
     //if this texture ID mapped, unload it's texture, and remove it from the map
     if (m_texID.find(texID) != m_texID.end()) {
-        glDeleteTextures(1, &(m_texID[texID]));
+        glDeleteTextures(1, &(m_texID[texID]->oglTexID));
         m_texID.erase(texID);
     }
     //otherwise, unload failed
@@ -120,13 +120,13 @@ bool TextureCollection::unloadTexture(const unsigned int texID)
 bool TextureCollection::bindTexture(const unsigned int texID)
 {
     bool result(true);
+    // If this texture ID mapped, bind it's texture as current
+    std::map<unsigned int, Texture *>::iterator it = m_texID.find(texID);
 
-    //if this texture ID mapped, bind it's texture as current
-    if (m_texID.find(texID) != m_texID.end()) {
-        glBindTexture(GL_TEXTURE_2D, m_texID[texID]);
-    }
-    //otherwise, binding failed
-    else {
+    if (it != m_texID.end()) {
+        it->second->bind();
+    } else {
+        // Binding Failed
         result = false;
     }
 
@@ -136,11 +136,11 @@ bool TextureCollection::bindTexture(const unsigned int texID)
 void TextureCollection::unloadAllTextures()
 {
     //start at the begginning of the texture map
-    std::map<unsigned int, GLuint>::iterator i = m_texID.begin();
+    std::map<unsigned int, Texture *>::iterator it = m_texID.begin();
 
     //Unload the textures untill the end of the texture map is found
-    while (i != m_texID.end()) {
-        unloadTexture(i->first);
+    while (it != m_texID.end()) {
+        unloadTexture(it->first);
     }
 
     //clear the texture map

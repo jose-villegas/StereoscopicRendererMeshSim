@@ -34,7 +34,8 @@ OpenGLForm::COpenGL::COpenGL(System::Windows::Forms::Panel ^parentForm, int iPos
     System::String ^oglString = L"OpenGL " + glVersionString + "s, GLSL " + glslVersionString + "\n";
     Utils::Logger::Write(oglString, true, System::Drawing::Color::Green);
     // Other Class Variables
-    calcFramerate = false;
+    _calcFramerate = false;
+    _texCollection->Inst();
 }
 
 System::Void OpenGLForm::COpenGL::restartStopwatch(System::Void)
@@ -43,7 +44,7 @@ System::Void OpenGLForm::COpenGL::restartStopwatch(System::Void)
     _totalTime += _deltaTime;
     _stopwatch.Restart();
 
-    if (calcFramerate) { _framerate = _fmCalc.Calculate(_deltaTime); }
+    if (_calcFramerate) { _framerate = _fmCalc.Calculate(_deltaTime); }
 }
 
 System::Void OpenGLForm::COpenGL::render(System::Void)
