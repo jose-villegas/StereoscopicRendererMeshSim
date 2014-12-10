@@ -18,6 +18,8 @@ TextureCollection::TextureCollection()
 #ifdef FREEIMAGE_LIB
     FreeImage_Initialise();
 #endif
+    // Default Texture
+    loadTexture("../Resources/white.png", 0, GL_RGBA, GL_RGBA, 0, 0);
 }
 
 TextureCollection::~TextureCollection()
@@ -34,7 +36,8 @@ bool TextureCollection::loadTexture(const char *filename,
                                     const unsigned int texID,
                                     GLenum image_format ,
                                     GLint internal_format ,
-                                    GLint level, GLint border)
+                                    GLint level,
+                                    GLint border)
 {
     //image format
     FREE_IMAGE_FORMAT fif = FIF_UNKNOWN;
@@ -86,9 +89,9 @@ bool TextureCollection::loadTexture(const char *filename,
         glDeleteTextures(1, &(m_texID[texID]->oglTexID));
     }
 
-    glGenTextures(1, &gl_texID);												// generate an OpenGL texture ID for this texture
+    glGenTextures(1, &gl_texID);													// generate an OpenGL texture ID for this texture
     m_texID[texID] = new Texture(filename, width, height, bpp, gl_texID, texID);	// store the texture
-    glBindTexture(GL_TEXTURE_2D, gl_texID);		// bind to the new texture ID
+    glBindTexture(GL_TEXTURE_2D, gl_texID);											// bind to the new texture ID
     // store the texture data for OpenGL use
     glTexImage2D(GL_TEXTURE_2D, level, internal_format, width, height, border, image_format, GL_UNSIGNED_BYTE, bits);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -98,6 +101,21 @@ bool TextureCollection::loadTexture(const char *filename,
     FreeImage_Unload(dib);
     // return success
     return true;
+}
+
+bool TextureCollection::loadTexture(const char *filename, GLenum image_format, GLint internal_format, GLint level, GLint border)
+{
+    int unique_texID = 1;
+
+    for (std::map<unsigned int, Texture *>::iterator it = m_texID.begin(); it != m_texID.end(); ++it) {
+        if (it->second->texID == unique_texID) {
+            unique_texID++;
+        } else {
+            break;
+        }
+    }
+
+    loadTexture(filename, unique_texID, image_format, internal_format, level, border);
 }
 
 bool TextureCollection::unloadTexture(const unsigned int texID)
@@ -145,4 +163,9 @@ void TextureCollection::unloadAllTextures()
 
     //clear the texture map
     m_texID.clear();
+}
+
+unsigned int TextureCollection::count(void)
+{
+    m_texID.size();
 }

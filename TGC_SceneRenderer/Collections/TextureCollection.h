@@ -4,6 +4,7 @@
 #include <GL/gl3w.h>
 #include "FreeImage/FreeImage.h"
 #include <map>
+#define DEFAULT_TEXTURE_ID 0
 
 class TextureCollection {
     public:
@@ -16,11 +17,27 @@ class TextureCollection {
         // internal_format: format to store the image in (default GL_RGB)
         // level: mipmapping level (default 0)
         // border: border size (default 0)
-        bool loadTexture(const char *filename, const unsigned int texID, GLenum image_format = GL_RGB, GLint internal_format = GL_RGB,
-                         GLint level = 0, GLint border = 0);
+        bool loadTexture(const char *filename,
+                         const unsigned int texID,
+                         GLenum image_format = GL_RGB,
+                         GLint internal_format = GL_RGB,
+                         GLint level = 0,
+                         GLint border = 0);
+        // Loads a new texture with unique texID
+        // image_format: format the image is in (default GL_RGB)
+        // internal_format: format to store the image in (default GL_RGB)
+        // level: mipmapping level (default 0)
+        // border: border size (default 0)
+        bool loadTexture(const char *filename,
+                         GLenum image_format = GL_RGB,
+                         GLint internal_format = GL_RGB,
+                         GLint level = 0,
+                         GLint border = 0);
         bool unloadTexture(const unsigned int texID);		// free the memory for a texture
         bool bindTexture(const unsigned int texID);			// set the current texture
         void unloadAllTextures();							// free all texture memory
+        unsigned int count(void);
+        unsigned int getDefaultTexture() { return DEFAULT_TEXTURE_ID; }
 
     protected:
         TextureCollection();
