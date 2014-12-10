@@ -1,8 +1,8 @@
 #pragma once
 #include <string>
 #include "GL\gl3w.h"
-#define TEX_TYPE_NORMALMAP 1
-#define TEX_TYPE_COLORMAP 2
+#define TEX_TYPE_NORMALS 1
+#define TEX_TYPE_DIFFUSE 2
 
 class Texture {
     public:
