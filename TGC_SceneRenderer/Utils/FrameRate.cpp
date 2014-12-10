@@ -23,3 +23,8 @@ System::Double Utils::FrameRate::Calculate(System::Double deltaTime)
 
     return ((System::Double)frameTimeSum / NUM_FPS_SAMPLES);
 }
+
+Utils::FrameRate::~FrameRate()
+{
+    delete fpsSamples;
+}

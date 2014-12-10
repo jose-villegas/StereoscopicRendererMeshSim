@@ -9,6 +9,7 @@ namespace Utils {
             System::Double frameTimeSum;
         public:
             FrameRate(void);
+            ~FrameRate();
             // Calculates the average framerate based on NUM_FPS_SAMPLES
             System::Double Calculate(System::Double deltaTime);
     };

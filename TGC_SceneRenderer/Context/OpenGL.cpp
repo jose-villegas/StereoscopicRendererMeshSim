@@ -14,10 +14,10 @@ OpenGLForm::COpenGL::COpenGL(System::Windows::Forms::Panel ^parentForm, int iPos
     cp->Style = WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN;
     // Create the actual window
     this->CreateHandle(cp);
-    m_hDC = GetDC((HWND)this->Handle.ToPointer());
+    _mHDC = GetDC((HWND)this->Handle.ToPointer());
 
-    if (m_hDC) {
-        oglSetPixelFormat(m_hDC);
+    if (_mHDC) {
+        oglSetPixelFormat(_mHDC);
     }
 
     if (gl3wInit()) {
@@ -33,17 +33,20 @@ OpenGLForm::COpenGL::COpenGL(System::Windows::Forms::Panel ^parentForm, int iPos
     System::String ^glslVersionString = gcnew System::String((char *)glGetString(GL_SHADING_LANGUAGE_VERSION));
     System::String ^oglString = L"OpenGL " + glVersionString + "s, GLSL " + glslVersionString + "\n";
     Utils::Logger::Write(oglString, true, System::Drawing::Color::Green);
+    // Other Class Variables
+    calcFramerate = false;
 }
 
-System::Void OpenGLForm::COpenGL::RestartStopwatch(System::Void)
+System::Void OpenGLForm::COpenGL::restartStopwatch(System::Void)
 {
-    deltaTime = stopWatch.Elapsed.TotalSeconds;
-    totalTime += deltaTime;
-    stopWatch.Restart();
-    frameRate = fmCalc.Calculate(deltaTime);
+    _deltaTime = _stopwatch.Elapsed.TotalSeconds;
+    _totalTime += _deltaTime;
+    _stopwatch.Restart();
+
+    if (calcFramerate) { _framerate = _fmCalc.Calculate(_deltaTime); }
 }
 
-System::Void OpenGLForm::COpenGL::Render(System::Void)
+System::Void OpenGLForm::COpenGL::render(System::Void)
 {
     // Clear the color and depth buffers.
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f) ;
@@ -86,12 +89,12 @@ GLint OpenGLForm::COpenGL::oglSetPixelFormat(HDC hdc)
         return 0;
     }
 
-    if ((m_hglrc = wglCreateContext(m_hDC)) == NULL) {
+    if ((_mHGLRC = wglCreateContext(_mHDC)) == NULL) {
         MessageBox::Show("wglCreateContext Failed");
         return 0;
     }
 
-    if ((wglMakeCurrent(m_hDC, m_hglrc)) == NULL) {
+    if ((wglMakeCurrent(_mHDC, _mHGLRC)) == NULL) {
         MessageBox::Show("wglMakeCurrent Failed");
         return 0;
     }

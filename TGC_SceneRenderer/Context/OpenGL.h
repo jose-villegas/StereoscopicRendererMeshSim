@@ -8,21 +8,23 @@ namespace OpenGLForm {
     public ref class COpenGL : public System::Windows::Forms::NativeWindow {
         public:
             COpenGL(System::Windows::Forms::Panel ^parentForm, int iPositionX, int iPositionY, GLsizei iWidth, GLsizei iHeight);
-            System::Void RestartStopwatch(System::Void);
-            System::Void SwapOpenGLBuffers(System::Void) { SwapBuffers(m_hDC); }
-            System::Double getDeltaTime() { return deltaTime; }
-            System::Double getTotalTime() { return totalTime; }
-            System::Double getFrameRate() { return frameRate; }
-            virtual System::Void Render(System::Void);
+            System::Void restartStopwatch(System::Void);
+            System::Void calculateFramerate(System::Boolean blSet) { this->calcFramerate = blSet; }
+            System::Void swapOpenGLBuffers(System::Void) { SwapBuffers(_mHDC); }
+            System::Double getDeltaTime() { return _deltaTime; }
+            System::Double getTotalTime() { return _totalTime; }
+            System::Double getFrameRate() { return _framerate; }
+            virtual System::Void render(System::Void);
 
         private:
-            HDC m_hDC;
-            HGLRC m_hglrc;
-            System::Diagnostics::Stopwatch stopWatch;
-            System::Double deltaTime;
-            System::Double totalTime;
-            System::Double frameRate;
-            Utils::FrameRate fmCalc;
+            HDC _mHDC;
+            HGLRC _mHGLRC;
+            System::Diagnostics::Stopwatch _stopwatch;
+            System::Double _deltaTime;
+            System::Double _totalTime;
+            System::Double _framerate;
+            Utils::FrameRate _fmCalc;
+            System::Boolean calcFramerate;
 
         protected:
             ~COpenGL(System::Void) { this->DestroyHandle(); }

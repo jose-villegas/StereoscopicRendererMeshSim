@@ -22,7 +22,7 @@ namespace TGC_SceneRenderer {
             {
                 InitializeComponent();
                 // Pass Tool Label To Logger
-                Utils::Logger::SetStatusLabel(this->StatusStripLabel);
+                Utils::Logger::SetStatusLabel(this->statusStripLabel);
                 // Setup OpenGL Render Context Inside a Panel
                 System::Windows::Forms::Panel ^oglRenderPanel = this->OpenGLRenderPanel;
                 OpenGL = gcnew COpenGL(oglRenderPanel, 0, 0, oglRenderPanel->ClientSize.Width, oglRenderPanel->ClientSize.Height);
@@ -67,10 +67,11 @@ namespace TGC_SceneRenderer {
         private: System::Windows::Forms::ToolStripMenuItem  ^windowToolStripMenuItem;
         private: System::Windows::Forms::ToolStripMenuItem  ^aboutToolStripMenuItem;
         private: System::Windows::Forms::OpenFileDialog  ^assetImportFileDialog;
-        private: System::Windows::Forms::StatusStrip  ^StatusStrip;
+        private: System::Windows::Forms::StatusStrip  ^statusStrip;
 
-        private: System::Windows::Forms::ToolStripStatusLabel  ^StatusStripLabel;
+        private: System::Windows::Forms::ToolStripStatusLabel  ^statusStripLabel;
         private: System::Windows::Forms::ToolStripMenuItem  ^consoleToolStripMenuItem;
+
 
 
 
@@ -108,18 +109,17 @@ namespace TGC_SceneRenderer {
                 this->consoleToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
                 this->aboutToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
                 this->assetImportFileDialog = (gcnew System::Windows::Forms::OpenFileDialog());
-                this->StatusStrip = (gcnew System::Windows::Forms::StatusStrip());
-                this->StatusStripLabel = (gcnew System::Windows::Forms::ToolStripStatusLabel());
+                this->statusStrip = (gcnew System::Windows::Forms::StatusStrip());
+                this->statusStripLabel = (gcnew System::Windows::Forms::ToolStripStatusLabel());
                 this->topMenuBar->SuspendLayout();
-                this->StatusStrip->SuspendLayout();
+                this->statusStrip->SuspendLayout();
                 this->SuspendLayout();
                 //
                 // OpenGLRenderPanel
                 //
-                this->OpenGLRenderPanel->Dock = System::Windows::Forms::DockStyle::Fill;
-                this->OpenGLRenderPanel->Location = System::Drawing::Point(0, 24);
+                this->OpenGLRenderPanel->Location = System::Drawing::Point(468, 117);
                 this->OpenGLRenderPanel->Name = L"OpenGLRenderPanel";
-                this->OpenGLRenderPanel->Size = System::Drawing::Size(1226, 541);
+                this->OpenGLRenderPanel->Size = System::Drawing::Size(387, 325);
                 this->OpenGLRenderPanel->TabIndex = 0;
                 this->OpenGLRenderPanel->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &MainWindow::timer1_Tick);
                 //
@@ -243,29 +243,29 @@ namespace TGC_SceneRenderer {
                 //
                 this->assetImportFileDialog->FileName = L"assetImportFileDialog";
                 //
-                // StatusStrip
+                // statusStrip
                 //
-                this->StatusStrip->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem ^  >(1) {this->StatusStripLabel});
-                this->StatusStrip->Location = System::Drawing::Point(0, 543);
-                this->StatusStrip->Name = L"StatusStrip";
-                this->StatusStrip->Size = System::Drawing::Size(1226, 22);
-                this->StatusStrip->TabIndex = 2;
-                this->StatusStrip->Text = L"statusStrip1";
+                this->statusStrip->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem ^  >(1) {this->statusStripLabel});
+                this->statusStrip->Location = System::Drawing::Point(0, 543);
+                this->statusStrip->Name = L"statusStrip";
+                this->statusStrip->Size = System::Drawing::Size(1226, 22);
+                this->statusStrip->TabIndex = 2;
+                this->statusStrip->Text = L"statusStrip1";
                 //
-                // StatusStripLabel
+                // statusStripLabel
                 //
-                this->StatusStripLabel->AutoSize = false;
-                this->StatusStripLabel->Name = L"StatusStripLabel";
-                this->StatusStripLabel->Size = System::Drawing::Size(500, 17);
-                this->StatusStripLabel->Text = L"Welcome";
-                this->StatusStripLabel->TextAlign = System::Drawing::ContentAlignment::MiddleLeft;
+                this->statusStripLabel->AutoSize = false;
+                this->statusStripLabel->Name = L"statusStripLabel";
+                this->statusStripLabel->Size = System::Drawing::Size(500, 17);
+                this->statusStripLabel->Text = L"Welcome";
+                this->statusStripLabel->TextAlign = System::Drawing::ContentAlignment::MiddleLeft;
                 //
                 // MainWindow
                 //
                 this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
                 this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
                 this->ClientSize = System::Drawing::Size(1226, 565);
-                this->Controls->Add(this->StatusStrip);
+                this->Controls->Add(this->statusStrip);
                 this->Controls->Add(this->OpenGLRenderPanel);
                 this->Controls->Add(this->topMenuBar);
                 this->MainMenuStrip = this->topMenuBar;
@@ -273,19 +273,19 @@ namespace TGC_SceneRenderer {
                 this->Text = L"TCG - SCENE";
                 this->topMenuBar->ResumeLayout(false);
                 this->topMenuBar->PerformLayout();
-                this->StatusStrip->ResumeLayout(false);
-                this->StatusStrip->PerformLayout();
+                this->statusStrip->ResumeLayout(false);
+                this->statusStrip->PerformLayout();
                 this->ResumeLayout(false);
                 this->PerformLayout();
             }
             #pragma endregion
         private: System::Void timer1_Tick(System::Object  ^sender, System::Windows::Forms::PaintEventArgs  ^e)
             {
-                OpenGL->RestartStopwatch();
+                OpenGL->restartStopwatch();
                 UNREFERENCED_PARAMETER(sender);
                 UNREFERENCED_PARAMETER(e);
-                OpenGL->Render();
-                OpenGL->SwapOpenGLBuffers();
+                OpenGL->render();
+                OpenGL->swapOpenGLBuffers();
                 ((System::Windows::Forms::Panel ^)sender)->Invalidate();
             }
 

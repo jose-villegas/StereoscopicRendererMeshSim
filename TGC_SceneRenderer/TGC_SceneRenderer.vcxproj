@@ -21,7 +21,7 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v110</PlatformToolset>
-    <CLRSupport>Pure</CLRSupport>
+    <CLRSupport>true</CLRSupport>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -58,7 +58,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>opengl32.lib;gdi32.lib;user32.lib</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;gdi32.lib;user32.lib;FreeImage.lib;assimpd.lib</AdditionalDependencies>
       <SubSystem>Windows</SubSystem>
       <EntryPointSymbol>main</EntryPointSymbol>
       <AdditionalLibraryDirectories>$(ProjectDir)lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -72,7 +72,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>opengl32.lib;gdi32.lib;user32.lib</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;gdi32.lib;user32.lib;freeimage.lib;</AdditionalDependencies>
       <SubSystem>Windows</SubSystem>
       <EntryPointSymbol>main</EntryPointSymbol>
     </Link>
@@ -90,12 +90,17 @@
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp" />
     <ClCompile Include="Context\OpenGL.cpp" />
+    <ClCompile Include="Scene\Mesh.cpp" />
+    <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Utils\FrameRate.cpp" />
     <ClCompile Include="Utils\Logger.cpp" />
     <ClCompile Include="src\gl3w.c" />
     <ClCompile Include="TGC_SceneRenderer.cpp" />
+    <ClCompile Include="Types\Vertex.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Scene\Mesh.h" />
+    <ClInclude Include="Texture.h" />
     <ClInclude Include="Utils\FrameRate.h" />
     <ClInclude Include="MainWindow.h">
       <FileType>CppForm</FileType>
@@ -105,6 +110,7 @@
     <ClInclude Include="include\GL\glcorearb.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Utils\Logger.h" />
+    <ClInclude Include="Types\Vertex.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="app.rc" />
