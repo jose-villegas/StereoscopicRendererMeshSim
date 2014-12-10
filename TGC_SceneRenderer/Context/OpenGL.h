@@ -2,6 +2,7 @@
 #include <GL/gl3w.h>
 #include "../Utils/Logger.h"
 #include "../Utils/FrameRate.h"
+#include "../Collections/TextureCollection.h"
 using namespace System::Windows::Forms;
 
 namespace OpenGLForm {
