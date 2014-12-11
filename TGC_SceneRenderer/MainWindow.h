@@ -1,6 +1,7 @@
 #pragma once
 #include "Context/OpenGL.h"
 #include "Utils/Logger.h"
+#include "ConsoleWindow.h"
 
 namespace TGC_SceneRenderer {
 
@@ -28,6 +29,8 @@ namespace TGC_SceneRenderer {
                 OpenGL = gcnew COpenGL(oglRenderPanel, 0, 0, oglRenderPanel->ClientSize.Width, oglRenderPanel->ClientSize.Height);
                 // Add OpenGL Info to Form Title
                 this->Text += " (" + Utils::Logger::GetLastLog() + ")";
+                // Other Components
+                consoleWindow = gcnew ConsoleWindow();
             }
 
         protected:
@@ -46,7 +49,7 @@ namespace TGC_SceneRenderer {
             /// Required designer variable.
             /// </summary>
         private: OpenGLForm::COpenGL ^OpenGL;
-
+        private: ConsoleWindow ^consoleWindow;
         private: System::Windows::Forms::MenuStrip  ^topMenuBar;
 
 
@@ -72,20 +75,6 @@ namespace TGC_SceneRenderer {
         private: System::Windows::Forms::ToolStripStatusLabel  ^statusStripLabel;
         private: System::Windows::Forms::ToolStripMenuItem  ^consoleToolStripMenuItem;
         private: System::Windows::Forms::Panel  ^OpenGLRenderPanel;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
             System::ComponentModel::Container ^components;
 
@@ -228,8 +217,9 @@ namespace TGC_SceneRenderer {
                 // consoleToolStripMenuItem
                 //
                 this->consoleToolStripMenuItem->Name = L"consoleToolStripMenuItem";
-                this->consoleToolStripMenuItem->Size = System::Drawing::Size(117, 22);
+                this->consoleToolStripMenuItem->Size = System::Drawing::Size(152, 22);
                 this->consoleToolStripMenuItem->Text = L"Console";
+                this->consoleToolStripMenuItem->Click += gcnew System::EventHandler(this, &MainWindow::consoleToolStripMenuItem_Click);
                 //
                 // aboutToolStripMenuItem
                 //
@@ -296,6 +286,16 @@ namespace TGC_SceneRenderer {
                 ((System::Windows::Forms::Panel ^)sender)->Invalidate();
             }
 
+        private: System::Void consoleToolStripMenuItem_Click(System::Object  ^sender, System::EventArgs  ^e)
+            {
+                if (consoleWindow->Visible) {
+                    ((System::Windows::Forms::ToolStripMenuItem ^)sender)->Checked = false;
+                    consoleWindow->Hide();
+                } else {
+                    ((System::Windows::Forms::ToolStripMenuItem ^)sender)->Checked = true;
+                    consoleWindow->Show();
+                }
+            }
     };
 }
 

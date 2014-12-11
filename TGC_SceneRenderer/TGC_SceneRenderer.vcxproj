@@ -89,6 +89,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp" />
+    <ClCompile Include="ConsoleWindow.cpp" />
     <ClCompile Include="Context\OpenGL.cpp" />
     <ClCompile Include="Scene\Mesh.cpp" />
     <ClCompile Include="Collections\TextureCollection.cpp" />
@@ -100,6 +101,9 @@
     <ClCompile Include="Types\Vertex.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ConsoleWindow.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
     <ClInclude Include="Scene\Mesh.h" />
     <ClInclude Include="Collections\TextureCollection.h" />
     <ClInclude Include="Types\Texture.h" />
@@ -122,6 +126,9 @@
     <Image Include="Resources\default.png" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="ConsoleWindow.resx">
+      <DependentUpon>ConsoleWindow.h</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainWindow.resX">
       <DependentUpon>MainWindow.h</DependentUpon>
       <SubType>Designer</SubType>

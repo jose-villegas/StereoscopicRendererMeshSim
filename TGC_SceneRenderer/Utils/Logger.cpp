@@ -2,17 +2,17 @@
 
 void Utils::Logger::ClearLog()
 {
-    Log.Clear();
+    Log->Clear();
 }
 
 void Utils::Logger::Write(System::String ^text)
 {
-    Log.Add(text);
+    Log->Add(text);
 }
 
 void Utils::Logger::Write(System::String ^text, bool writeToStatusLabel)
 {
-    Log.Add(text);
+    Log->Add(text);
 
     if (writeToStatusLabel && windowStatusLabel) {
         windowStatusLabel->Text = text;
@@ -22,7 +22,7 @@ void Utils::Logger::Write(System::String ^text, bool writeToStatusLabel)
 
 void Utils::Logger::Write(System::String ^text, bool writeToStatusLabel, System::Drawing::Color labelForeColor)
 {
-    Log.Add(text);
+    Log->Add(text);
 
     if (writeToStatusLabel && windowStatusLabel) {
         windowStatusLabel->Text = text;
@@ -32,7 +32,7 @@ void Utils::Logger::Write(System::String ^text, bool writeToStatusLabel, System:
 
 System::String ^Utils::Logger::GetLastLog()
 {
-    return (System::String ^)Log[Log.Count - 1];
+    return (System::String ^)Log[Log->Count - 1];
 }
 
 void Utils::Logger::SetStatusLabel(System::Windows::Forms::ToolStripStatusLabel ^statusLabel)
