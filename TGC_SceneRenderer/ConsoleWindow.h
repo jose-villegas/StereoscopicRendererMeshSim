@@ -22,7 +22,7 @@ namespace TGC_SceneRenderer {
                 //TODO: Add the constructor code here
                 //
                 // Bind Logger.h Log with Console Window List
-                listBox1->DataSource = Utils::Logger::GetLog();
+                logListbox->DataSource = Utils::Logger::GetLog();
             }
 
         protected:
