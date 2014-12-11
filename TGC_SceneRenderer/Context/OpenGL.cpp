@@ -15,6 +15,10 @@ GLuint vBuffer;
 
 OpenGLForm::COpenGL::COpenGL(System::Windows::Forms::Panel ^parentForm, int iPositionX, int iPositionY, GLsizei iWidth, GLsizei iHeight)
 {
+    // Other Class Variables
+    _calcFramerate = false;
+    _texCollection->Inst();
+    // Create OGL Context
     CreateParams ^cp = gcnew CreateParams;
     // Set the position on the form
     cp->X = iPositionX;
@@ -34,12 +38,12 @@ OpenGLForm::COpenGL::COpenGL(System::Windows::Forms::Panel ^parentForm, int iPos
     }
 
     if (gl3wInit()) {
-        MessageBox::Show("Failed to initialize OpenGL");
+        Utils::Logger::Write("Failed to initialize OpenGL", true, System::Drawing::Color::Red);
     }
 
     // Min Version
     if (!gl3wIsSupported(3, 2)) {
-        MessageBox::Show("OpenGL 3.2 not supported");
+        Utils::Logger::Write("OpenGL 3.2 not supported", true, System::Drawing::Color::Red);
     }
 
     // Setup OpenGL
@@ -49,9 +53,6 @@ OpenGLForm::COpenGL::COpenGL(System::Windows::Forms::Panel ^parentForm, int iPos
     System::String ^glslVersionString = gcnew System::String((char *)glGetString(GL_SHADING_LANGUAGE_VERSION));
     System::String ^oglString = L"OpenGL " + glVersionString + "s, GLSL " + glslVersionString + "\n";
     Utils::Logger::Write(oglString, true, System::Drawing::Color::Green);
-    // Other Class Variables
-    _calcFramerate = false;
-    _texCollection->Inst();
     // Triangle Render Test
     glGenVertexArrays(1, &vArrayID);
     glBindVertexArray(vArrayID);
@@ -104,14 +105,14 @@ GLint OpenGLForm::COpenGL::oglSetPixelFormat(HDC hdc)
         PFD_SUPPORT_OPENGL |              // support OpenGL
         PFD_DOUBLEBUFFER,                 // double buffered
         PFD_TYPE_RGBA,                    // RGBA type
-        24,                               // 24-bit color depth
+        32,                               // 32-bit color depth
         0, 0, 0, 0, 0, 0,                 // color bits ignored
         0,                                // no alpha buffer
         0,                                // shift bit ignored
         0,                                // no accumulation buffer
         0, 0, 0, 0,                       // accum bits ignored
         32,                               // 32-bit z-buffer
-        0,                                // no stencil buffer
+        8,                                // 8-bit stencil buffer
         0,                                // no auxiliary buffer
         PFD_MAIN_PLANE,                   // main layer
         0,                                // reserved
@@ -121,25 +122,26 @@ GLint OpenGLForm::COpenGL::oglSetPixelFormat(HDC hdc)
 
     // get the device context's best, available pixel format match
     if ((iPixelFormat = ChoosePixelFormat(hdc, &pfd)) == 0) {
-        MessageBox::Show("ChoosePixelFormat Failed");
+        Utils::Logger::Write("ChoosePixelFormat Failed", true, System::Drawing::Color::Red);
         return 0;
     }
 
     // make that match the device context's current pixel format
     if (SetPixelFormat(hdc, iPixelFormat, &pfd) == FALSE) {
-        MessageBox::Show("SetPixelFormat Failed");
+        Utils::Logger::Write("SetPixelFormat Failed", true, System::Drawing::Color::Red);
         return 0;
     }
 
     if ((_mHGLRC = wglCreateContext(_mHDC)) == NULL) {
-        MessageBox::Show("wglCreateContext Failed");
+        Utils::Logger::Write("wglCreateContext Failed", true, System::Drawing::Color::Red);
         return 0;
     }
 
     if ((wglMakeCurrent(_mHDC, _mHGLRC)) == NULL) {
-        MessageBox::Show("wglMakeCurrent Failed");
+        Utils::Logger::Write("wglMakeCurrent Failed", true, System::Drawing::Color::Red);
         return 0;
     }
 
+    Utils::Logger::Write("OpenGL Context Created Successfully", true, System::Drawing::Color::Green);
     return 1;
 }

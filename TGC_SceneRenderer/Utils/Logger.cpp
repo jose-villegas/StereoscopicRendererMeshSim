@@ -7,12 +7,16 @@ void Utils::Logger::ClearLog()
 
 void Utils::Logger::Write(System::String ^text)
 {
-    Log->Add(text);
+    System::Windows::Forms::Label ^newLabel = gcnew System::Windows::Forms::Label();
+    newLabel->Text = text;
+    Log->Add(newLabel);
 }
 
 void Utils::Logger::Write(System::String ^text, bool writeToStatusLabel)
 {
-    Log->Add(text);
+    System::Windows::Forms::Label ^newLabel = gcnew System::Windows::Forms::Label();
+    newLabel->Text = text;
+    Log->Add(newLabel);
 
     if (writeToStatusLabel && windowStatusLabel) {
         windowStatusLabel->Text = text;
@@ -22,7 +26,10 @@ void Utils::Logger::Write(System::String ^text, bool writeToStatusLabel)
 
 void Utils::Logger::Write(System::String ^text, bool writeToStatusLabel, System::Drawing::Color labelForeColor)
 {
-    Log->Add(text);
+    System::Windows::Forms::Label ^newLabel = gcnew System::Windows::Forms::Label();
+    newLabel->Text = text;
+    newLabel->ForeColor = labelForeColor;
+    Log->Add(newLabel);
 
     if (writeToStatusLabel && windowStatusLabel) {
         windowStatusLabel->Text = text;
@@ -30,9 +37,17 @@ void Utils::Logger::Write(System::String ^text, bool writeToStatusLabel, System:
     }
 }
 
+void Utils::Logger::Write(System::String ^text, System::Drawing::Color labelForeColor)
+{
+    System::Windows::Forms::Label ^newLabel = gcnew System::Windows::Forms::Label();
+    newLabel->Text = text;
+    newLabel->ForeColor = labelForeColor;
+    Log->Add(newLabel);
+}
+
 System::String ^Utils::Logger::GetLastLog()
 {
-    return (System::String ^)Log[Log->Count - 1];
+    return ((System::Windows::Forms::Label ^)Log[Log->Count - 1])->Text;
 }
 
 void Utils::Logger::SetStatusLabel(System::Windows::Forms::ToolStripStatusLabel ^statusLabel)

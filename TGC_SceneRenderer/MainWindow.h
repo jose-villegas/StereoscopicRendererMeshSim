@@ -31,6 +31,7 @@ namespace TGC_SceneRenderer {
                 this->Text += " (" + Utils::Logger::GetLastLog() + ")";
                 // Other Components
                 consoleWindow = gcnew ConsoleWindow();
+                consoleWindow->Owner = this;
             }
 
         protected:
@@ -290,10 +291,8 @@ namespace TGC_SceneRenderer {
         private: System::Void consoleToolStripMenuItem_Click(System::Object  ^sender, System::EventArgs  ^e)
             {
                 if (consoleWindow->Visible) {
-                    ((System::Windows::Forms::ToolStripMenuItem ^)sender)->Checked = false;
                     consoleWindow->Hide();
                 } else {
-                    ((System::Windows::Forms::ToolStripMenuItem ^)sender)->Checked = true;
                     consoleWindow->Show();
                 }
             }
