@@ -29,6 +29,9 @@ OpenGLForm::COpenGL::COpenGL(System::Windows::Forms::Panel ^parentForm, int iPos
         MessageBox::Show("OpenGL 3.2 not supported");
     }
 
+    // Setup OpenGL
+    glEnable(GL_DEPTH_TEST);
+    // Write Sucessfull Core Load
     System::String ^glVersionString = gcnew System::String((char *)glGetString(GL_VERSION));
     System::String ^glslVersionString = gcnew System::String((char *)glGetString(GL_SHADING_LANGUAGE_VERSION));
     System::String ^oglString = L"OpenGL " + glVersionString + "s, GLSL " + glslVersionString + "\n";

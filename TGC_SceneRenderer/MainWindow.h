@@ -46,7 +46,7 @@ namespace TGC_SceneRenderer {
             /// Required designer variable.
             /// </summary>
         private: OpenGLForm::COpenGL ^OpenGL;
-        private: System::Windows::Forms::Panel  ^OpenGLRenderPanel;
+
         private: System::Windows::Forms::MenuStrip  ^topMenuBar;
 
 
@@ -71,6 +71,12 @@ namespace TGC_SceneRenderer {
 
         private: System::Windows::Forms::ToolStripStatusLabel  ^statusStripLabel;
         private: System::Windows::Forms::ToolStripMenuItem  ^consoleToolStripMenuItem;
+        private: System::Windows::Forms::Panel  ^OpenGLRenderPanel;
+
+
+
+
+
 
 
 
@@ -90,7 +96,6 @@ namespace TGC_SceneRenderer {
             /// </summary>
             void InitializeComponent(void)
             {
-                this->OpenGLRenderPanel = (gcnew System::Windows::Forms::Panel());
                 this->topMenuBar = (gcnew System::Windows::Forms::MenuStrip());
                 this->fileToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
                 this->newSceneToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
@@ -111,17 +116,10 @@ namespace TGC_SceneRenderer {
                 this->assetImportFileDialog = (gcnew System::Windows::Forms::OpenFileDialog());
                 this->statusStrip = (gcnew System::Windows::Forms::StatusStrip());
                 this->statusStripLabel = (gcnew System::Windows::Forms::ToolStripStatusLabel());
+                this->OpenGLRenderPanel = (gcnew System::Windows::Forms::Panel());
                 this->topMenuBar->SuspendLayout();
                 this->statusStrip->SuspendLayout();
                 this->SuspendLayout();
-                //
-                // OpenGLRenderPanel
-                //
-                this->OpenGLRenderPanel->Location = System::Drawing::Point(468, 117);
-                this->OpenGLRenderPanel->Name = L"OpenGLRenderPanel";
-                this->OpenGLRenderPanel->Size = System::Drawing::Size(387, 325);
-                this->OpenGLRenderPanel->TabIndex = 0;
-                this->OpenGLRenderPanel->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &MainWindow::timer1_Tick);
                 //
                 // topMenuBar
                 //
@@ -260,13 +258,22 @@ namespace TGC_SceneRenderer {
                 this->statusStripLabel->Text = L"Welcome";
                 this->statusStripLabel->TextAlign = System::Drawing::ContentAlignment::MiddleLeft;
                 //
+                // OpenGLRenderPanel
+                //
+                this->OpenGLRenderPanel->Dock = System::Windows::Forms::DockStyle::Fill;
+                this->OpenGLRenderPanel->Location = System::Drawing::Point(0, 24);
+                this->OpenGLRenderPanel->Name = L"OpenGLRenderPanel";
+                this->OpenGLRenderPanel->Size = System::Drawing::Size(1226, 519);
+                this->OpenGLRenderPanel->TabIndex = 3;
+                this->OpenGLRenderPanel->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &MainWindow::timer1_Tick);
+                //
                 // MainWindow
                 //
                 this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
                 this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
                 this->ClientSize = System::Drawing::Size(1226, 565);
-                this->Controls->Add(this->statusStrip);
                 this->Controls->Add(this->OpenGLRenderPanel);
+                this->Controls->Add(this->statusStrip);
                 this->Controls->Add(this->topMenuBar);
                 this->MainMenuStrip = this->topMenuBar;
                 this->Name = L"MainWindow";

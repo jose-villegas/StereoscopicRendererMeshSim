@@ -33,9 +33,6 @@
     <ClCompile Include="Utils\FrameRate.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Context\OpenGL.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Scene\Mesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -46,6 +43,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Types\Texture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Context\OpenGL.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -91,6 +91,9 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="app.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Resources\default.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

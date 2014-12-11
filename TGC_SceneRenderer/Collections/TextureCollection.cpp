@@ -115,7 +115,7 @@ bool TextureCollection::loadTexture(const char *filename, GLenum image_format, G
         }
     }
 
-    loadTexture(filename, unique_texID, image_format, internal_format, level, border);
+    return loadTexture(filename, unique_texID, image_format, internal_format, level, border);
 }
 
 bool TextureCollection::unloadTexture(const unsigned int texID)
@@ -167,5 +167,5 @@ void TextureCollection::unloadAllTextures()
 
 unsigned int TextureCollection::count(void)
 {
-    m_texID.size();
+    return m_texID.size();
 }

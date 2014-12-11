@@ -119,6 +119,7 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="app.ico" />
+    <Image Include="Resources\default.png" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="MainWindow.resX">
