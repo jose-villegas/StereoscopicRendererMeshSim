@@ -89,6 +89,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp" />
+    <ClCompile Include="Scene\Light.cpp" />
+    <ClCompile Include="Scene\Camera.cpp" />
     <ClCompile Include="ConsoleWindow.cpp" />
     <ClCompile Include="Context\OpenGL.cpp" />
     <ClCompile Include="Scene\Mesh.cpp" />
@@ -101,6 +103,8 @@
     <ClCompile Include="Types\Vertex.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Scene\Light.h" />
+    <ClInclude Include="Scene\Camera.h" />
     <ClInclude Include="ConsoleWindow.h">
       <FileType>CppForm</FileType>
     </ClInclude>

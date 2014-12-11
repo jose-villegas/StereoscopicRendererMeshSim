@@ -119,7 +119,7 @@ namespace TGC_SceneRenderer {
                 });
                 this->topMenuBar->Location = System::Drawing::Point(0, 0);
                 this->topMenuBar->Name = L"topMenuBar";
-                this->topMenuBar->Size = System::Drawing::Size(1226, 24);
+                this->topMenuBar->Size = System::Drawing::Size(944, 24);
                 this->topMenuBar->TabIndex = 1;
                 this->topMenuBar->Text = L"topMenu";
                 //
@@ -217,7 +217,7 @@ namespace TGC_SceneRenderer {
                 // consoleToolStripMenuItem
                 //
                 this->consoleToolStripMenuItem->Name = L"consoleToolStripMenuItem";
-                this->consoleToolStripMenuItem->Size = System::Drawing::Size(152, 22);
+                this->consoleToolStripMenuItem->Size = System::Drawing::Size(117, 22);
                 this->consoleToolStripMenuItem->Text = L"Console";
                 this->consoleToolStripMenuItem->Click += gcnew System::EventHandler(this, &MainWindow::consoleToolStripMenuItem_Click);
                 //
@@ -234,9 +234,9 @@ namespace TGC_SceneRenderer {
                 // statusStrip
                 //
                 this->statusStrip->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem ^  >(1) {this->statusStripLabel});
-                this->statusStrip->Location = System::Drawing::Point(0, 543);
+                this->statusStrip->Location = System::Drawing::Point(0, 480);
                 this->statusStrip->Name = L"statusStrip";
-                this->statusStrip->Size = System::Drawing::Size(1226, 22);
+                this->statusStrip->Size = System::Drawing::Size(944, 22);
                 this->statusStrip->TabIndex = 2;
                 this->statusStrip->Text = L"statusStrip1";
                 //
@@ -250,10 +250,11 @@ namespace TGC_SceneRenderer {
                 //
                 // OpenGLRenderPanel
                 //
+                this->OpenGLRenderPanel->AutoSizeMode = System::Windows::Forms::AutoSizeMode::GrowAndShrink;
                 this->OpenGLRenderPanel->Dock = System::Windows::Forms::DockStyle::Fill;
                 this->OpenGLRenderPanel->Location = System::Drawing::Point(0, 24);
                 this->OpenGLRenderPanel->Name = L"OpenGLRenderPanel";
-                this->OpenGLRenderPanel->Size = System::Drawing::Size(1226, 519);
+                this->OpenGLRenderPanel->Size = System::Drawing::Size(944, 456);
                 this->OpenGLRenderPanel->TabIndex = 3;
                 this->OpenGLRenderPanel->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &MainWindow::timer1_Tick);
                 //
@@ -261,7 +262,7 @@ namespace TGC_SceneRenderer {
                 //
                 this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
                 this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-                this->ClientSize = System::Drawing::Size(1226, 565);
+                this->ClientSize = System::Drawing::Size(944, 502);
                 this->Controls->Add(this->OpenGLRenderPanel);
                 this->Controls->Add(this->statusStrip);
                 this->Controls->Add(this->topMenuBar);

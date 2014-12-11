@@ -36,14 +36,6 @@ namespace TGC_SceneRenderer {
                 }
             }
         private: System::Windows::Forms::ListBox  ^logListbox;
-        protected:
-
-        protected:
-
-
-
-
-        protected:
 
         private:
             /// <summary>

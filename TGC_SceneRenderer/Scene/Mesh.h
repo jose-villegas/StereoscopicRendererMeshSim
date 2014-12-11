@@ -9,33 +9,33 @@
 #include <vector>
 #define INVALID_MATERIAL 0xFFFFFFFF
 #define INVALID_VALUE 0xFFFFFFFF
+namespace Scene {
+    class Mesh {
+        public:
+            Mesh(void);
+            ~Mesh(void);
+            bool loadMesh(std::string sFileName);
+            void render();
 
-class Mesh {
-    public:
-        Mesh(void);
-        ~Mesh(void);
-        bool loadMesh(std::string sFileName);
-        void render();
+        private:
+            bool initFromScene(const aiScene *paiScene, const std::string &sFilename);
+            void initMesh(unsigned int index, const aiMesh *paiMesh);
+            bool initMaterials(const aiScene *paiScene, const std::string &sFilename);
+            void clear();
 
-    private:
-        bool initFromScene(const aiScene *paiScene, const std::string &sFilename);
-        void initMesh(unsigned int index, const aiMesh *paiMesh);
-        bool initMaterials(const aiScene *paiScene, const std::string &sFilename);
-        void clear();
+            struct MeshEntry {
+                GLuint VB;
+                GLuint IB;
+                unsigned int numIndexes;
+                unsigned int materialIndex;
 
-        struct MeshEntry {
-            GLuint VB;
-            GLuint IB;
-            unsigned int numIndexes;
-            unsigned int materialIndex;
+                MeshEntry();
+                ~MeshEntry();
+                void init(const std::vector<Types::Vertex> &vertices, const std::vector<unsigned int> &indexes);
+            };
 
-            MeshEntry();
-            ~MeshEntry();
-            void init(const std::vector<Vertex> &vertices, const std::vector<unsigned int> &indexes);
-        };
-
-        std::vector<MeshEntry> _meshEntries;
-        std::vector<unsigned int> _meshTextures;
-        TextureCollection *_texCollection;
-};
-
+            std::vector<MeshEntry> _meshEntries;
+            std::vector<unsigned int> _meshTextures;
+            TextureCollection *_texCollection;
+    };
+}

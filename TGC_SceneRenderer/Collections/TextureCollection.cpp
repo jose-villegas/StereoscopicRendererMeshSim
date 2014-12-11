@@ -90,7 +90,7 @@ bool TextureCollection::loadTexture(const char *filename,
     }
 
     glGenTextures(1, &gl_texID);													// generate an OpenGL texture ID for this texture
-    m_texID[texID] = new Texture(filename, width, height, bpp, gl_texID, texID);	// store the texture
+    m_texID[texID] = new Types::Texture(filename, width, height, bpp, gl_texID, texID);	// store the texture
     glBindTexture(GL_TEXTURE_2D, gl_texID);											// bind to the new texture ID
     // store the texture data for OpenGL use
     glTexImage2D(GL_TEXTURE_2D, level, internal_format, width, height, border, image_format, GL_UNSIGNED_BYTE, bits);
@@ -107,7 +107,7 @@ bool TextureCollection::loadTexture(const char *filename, GLenum image_format, G
 {
     int unique_texID = 1;
 
-    for (std::map<unsigned int, Texture *>::iterator it = m_texID.begin(); it != m_texID.end(); ++it) {
+    for (std::map<unsigned int, Types::Texture *>::iterator it = m_texID.begin(); it != m_texID.end(); ++it) {
         if (it->second->texID == unique_texID) {
             unique_texID++;
         } else {
@@ -139,7 +139,7 @@ bool TextureCollection::bindTexture(const unsigned int texID)
 {
     bool result(true);
     // If this texture ID mapped, bind it's texture as current
-    std::map<unsigned int, Texture *>::iterator it = m_texID.find(texID);
+    std::map<unsigned int, Types::Texture *>::iterator it = m_texID.find(texID);
 
     if (it != m_texID.end()) {
         it->second->bind();
@@ -154,7 +154,7 @@ bool TextureCollection::bindTexture(const unsigned int texID)
 void TextureCollection::unloadAllTextures()
 {
     //start at the begginning of the texture map
-    std::map<unsigned int, Texture *>::iterator it = m_texID.begin();
+    std::map<unsigned int, Types::Texture *>::iterator it = m_texID.begin();
 
     //Unload the textures untill the end of the texture map is found
     while (it != m_texID.end()) {

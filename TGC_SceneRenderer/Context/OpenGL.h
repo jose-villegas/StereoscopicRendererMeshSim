@@ -28,6 +28,7 @@ namespace OpenGLForm {
             TextureCollection *_texCollection;
             System::Boolean _calcFramerate;
 
+
         protected:
             ~COpenGL(System::Void) { this->DestroyHandle(); }
             GLint oglSetPixelFormat(HDC hdc);

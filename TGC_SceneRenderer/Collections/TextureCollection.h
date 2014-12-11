@@ -44,6 +44,6 @@ class TextureCollection {
         TextureCollection(const TextureCollection &tm);
         TextureCollection &operator=(const TextureCollection &tm);
         static TextureCollection *m_inst;
-        std::map<unsigned int, Texture *> m_texID;
+        std::map<unsigned int, Types::Texture *> m_texID;
 };
 

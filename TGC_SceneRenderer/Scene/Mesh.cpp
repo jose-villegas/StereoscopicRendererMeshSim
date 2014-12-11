@@ -1,16 +1,16 @@
 #include "Mesh.h"
 
-Mesh::Mesh(void)
+Scene::Mesh::Mesh(void)
 {
     _texCollection->Inst();
 }
 
-Mesh::~Mesh(void)
+Scene::Mesh::~Mesh(void)
 {
     clear();
 }
 
-bool Mesh::loadMesh(std::string sFileName)
+bool Scene::Mesh::loadMesh(std::string sFileName)
 {
     // Release the previously loaded mesh (if it exists)
     clear();
@@ -28,7 +28,7 @@ bool Mesh::loadMesh(std::string sFileName)
     return bRtrn;
 }
 
-bool Mesh::initFromScene(const aiScene *pScene, const std::string &Filename)
+bool Scene::Mesh::initFromScene(const aiScene *pScene, const std::string &Filename)
 {
     _meshEntries.resize(pScene->mNumMeshes);
     _meshTextures.resize(pScene->mNumMaterials);
@@ -42,10 +42,10 @@ bool Mesh::initFromScene(const aiScene *pScene, const std::string &Filename)
     return initMaterials(pScene, Filename);
 }
 
-void Mesh::initMesh(unsigned int Index, const aiMesh *paiMesh)
+void Scene::Mesh::initMesh(unsigned int Index, const aiMesh *paiMesh)
 {
     _meshEntries[Index].materialIndex = paiMesh->mMaterialIndex;
-    std::vector<Vertex> Vertices;
+    std::vector<Types::Vertex> Vertices;
     std::vector<unsigned int> Indices;
     const aiVector3D Zero3D(0.0f, 0.0f, 0.0f);
 
@@ -53,7 +53,7 @@ void Mesh::initMesh(unsigned int Index, const aiMesh *paiMesh)
         const aiVector3D *pPos      = &(paiMesh->mVertices[i]);
         const aiVector3D *pNormal   = &(paiMesh->mNormals[i]);
         const aiVector3D *pTexCoord = paiMesh->HasTextureCoords(0) ? &(paiMesh->mTextureCoords[0][i]) : &Zero3D;
-        Vertex v(glm::vec3(pPos->x, pPos->y, pPos->z), glm::vec2(pTexCoord->x, pTexCoord->y), glm::vec3(pNormal->x, pNormal->y, pNormal->z));
+        Types::Vertex v(glm::vec3(pPos->x, pPos->y, pPos->z), glm::vec2(pTexCoord->x, pTexCoord->y), glm::vec3(pNormal->x, pNormal->y, pNormal->z));
         Vertices.push_back(v);
     }
 
@@ -68,7 +68,7 @@ void Mesh::initMesh(unsigned int Index, const aiMesh *paiMesh)
     _meshEntries[Index].init(Vertices, Indices);
 }
 
-bool Mesh::initMaterials(const aiScene *pScene, const std::string &Filename)
+bool Scene::Mesh::initMaterials(const aiScene *pScene, const std::string &Filename)
 {
     // Extract the directory part from the file name
     std::string::size_type SlashIndex = Filename.find_last_of("/");
@@ -116,12 +116,12 @@ bool Mesh::initMaterials(const aiScene *pScene, const std::string &Filename)
     return bRtrn;
 }
 
-void Mesh::clear()
+void Scene::Mesh::clear()
 {
     _meshTextures.clear();
 }
 
-void Mesh::render()
+void Scene::Mesh::render()
 {
     glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
@@ -129,9 +129,9 @@ void Mesh::render()
 
     for (unsigned int i = 0 ; i < _meshEntries.size() ; i++) {
         glBindBuffer(GL_ARRAY_BUFFER, _meshEntries[i].VB);
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
-        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid *)12);
-        glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid *)20);
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Types::Vertex), 0);
+        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Types::Vertex), (const GLvoid *)12);
+        glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Types::Vertex), (const GLvoid *)20);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _meshEntries[i].IB);
         const unsigned int materialIndex = _meshEntries[i].materialIndex;
 
@@ -147,18 +147,18 @@ void Mesh::render()
     glDisableVertexAttribArray(2);
 }
 
-void Mesh::MeshEntry::init(const std::vector<Vertex> &vertices, const std::vector<unsigned int> &indexes)
+void Scene::Mesh::MeshEntry::init(const std::vector<Types::Vertex> &vertices, const std::vector<unsigned int> &indexes)
 {
     numIndexes = indexes.size();
     glGenBuffers(1, &VB);
     glBindBuffer(GL_ARRAY_BUFFER, VB);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * vertices.size(), &vertices[0], GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(Types::Vertex) * vertices.size(), &vertices[0], GL_STATIC_DRAW);
     glGenBuffers(1, &IB);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IB);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * numIndexes, &indexes[0], GL_STATIC_DRAW);
 }
 
-Mesh::MeshEntry::MeshEntry()
+Scene::Mesh::MeshEntry::MeshEntry()
 {
     VB = INVALID_VALUE;
     IB = INVALID_VALUE;
@@ -166,7 +166,7 @@ Mesh::MeshEntry::MeshEntry()
     materialIndex = INVALID_MATERIAL;
 }
 
-Mesh::MeshEntry::~MeshEntry()
+Scene::Mesh::MeshEntry::~MeshEntry()
 {
     if (VB != INVALID_VALUE) {
         glDeleteBuffers(1, &VB);
