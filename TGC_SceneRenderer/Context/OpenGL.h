@@ -1,5 +1,7 @@
 #pragma once
-#include <GL/gl3w.h>
+#include "GL/gl_core_4_4.h"
+#include "GL/wglext.h"
+#include <windows.h>
 #include "../Utils/Logger.h"
 #include "../Utils/FrameRate.h"
 #include "../Collections/TextureCollection.h"
@@ -15,6 +17,7 @@ namespace OpenGLForm {
             System::Double getDeltaTime() { return _deltaTime; }
             System::Double getTotalTime() { return _totalTime; }
             System::Double getFrameRate() { return _framerate; }
+            System::Boolean wglIsExtensionSupported(const char *extension);
             virtual System::Void render(System::Void);
 
         private:
@@ -27,7 +30,6 @@ namespace OpenGLForm {
             Utils::FrameRate _fmCalc;
             TextureCollection *_texCollection;
             System::Boolean _calcFramerate;
-
 
         protected:
             ~COpenGL(System::Void) { this->DestroyHandle(); }

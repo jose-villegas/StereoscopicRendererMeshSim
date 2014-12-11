@@ -89,6 +89,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp" />
+    <ClCompile Include="include\GL\gl_core_4_4.c" />
     <ClCompile Include="Scene\Light.cpp" />
     <ClCompile Include="Scene\Camera.cpp" />
     <ClCompile Include="ConsoleWindow.cpp" />
@@ -98,11 +99,12 @@
     <ClCompile Include="Types\Texture.cpp" />
     <ClCompile Include="Utils\FrameRate.cpp" />
     <ClCompile Include="Utils\Logger.cpp" />
-    <ClCompile Include="src\gl3w.c" />
     <ClCompile Include="TGC_SceneRenderer.cpp" />
     <ClCompile Include="Types\Vertex.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\GL\gl_core_4_4.h" />
+    <ClInclude Include="include\GL\wglext.h" />
     <ClInclude Include="Scene\Light.h" />
     <ClInclude Include="Scene\Camera.h" />
     <ClInclude Include="ConsoleWindow.h">
@@ -116,8 +118,6 @@
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="Context\OpenGL.h" />
-    <ClInclude Include="include\GL\gl3w.h" />
-    <ClInclude Include="include\GL\glcorearb.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Utils\Logger.h" />
     <ClInclude Include="Types\Vertex.h" />

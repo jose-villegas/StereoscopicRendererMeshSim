@@ -37,15 +37,12 @@ OpenGLForm::COpenGL::COpenGL(System::Windows::Forms::Panel ^parentForm, int iPos
         oglSetPixelFormat(_mHDC);
     }
 
-    if (gl3wInit()) {
+    if (!ogl_LoadFunctions()) {
         Utils::Logger::Write("Failed to initialize OpenGL", true, System::Drawing::Color::Red);
     }
 
-    // Min Version
-    if (!gl3wIsSupported(3, 2)) {
-        Utils::Logger::Write("OpenGL 3.2 not supported", true, System::Drawing::Color::Red);
-    }
-
+    // Query Multisample Support
+    // --- TODO ---
     // Setup OpenGL
     glEnable(GL_DEPTH_TEST);
     // Write Sucessfull Core Load
@@ -144,4 +141,46 @@ GLint OpenGLForm::COpenGL::oglSetPixelFormat(HDC hdc)
 
     Utils::Logger::Write("OpenGL Context Created Successfully", true, System::Drawing::Color::Green);
     return 1;
+}
+
+System::Boolean OpenGLForm::COpenGL::wglIsExtensionSupported(const char *extension)
+{
+    const size_t extlen = strlen(extension);
+    const char *supported = NULL;
+    // Try To Use wglGetExtensionStringARB On Current DC, If Possible
+    PROC wglGetExtString = wglGetProcAddress("wglGetExtensionsStringARB");
+
+    if (wglGetExtString) {
+        supported = ((char *(__stdcall *)(HDC))wglGetExtString)(wglGetCurrentDC());
+    }
+
+    // If That Failed, Try Standard Opengl Extensions String
+    if (supported == NULL) {
+        supported = (char *)glGetString(GL_EXTENSIONS);
+    }
+
+    // If That Failed Too, Must Be No Extensions Supported
+    if (supported == NULL) {
+        return false;
+    }
+
+    // Begin Examination At Start Of String, Increment By 1 On False Match
+    for (const char *p = supported; ; p++) {
+        // Advance p Up To The Next Possible Match
+        p = strstr(p, extension);
+
+        if (p == NULL) {
+            return false;    // No Match
+        }
+
+        // Make Sure That Match Is At The Start Of The String Or That
+        // The Previous Char Is A Space, Or Else We Could Accidentally
+        // Match "wglFunkywglExtension" With "wglExtension"
+
+        // Also, Make Sure That The Following Character Is Space Or NULL
+        // Or Else "wglExtensionTwo" Might Match "wglExtension"
+        if ((p == supported || p[-1] == ' ') && (p[extlen] == '\0' || p[extlen] == ' ')) {
+            return true;    // Match
+        }
+    }
 }

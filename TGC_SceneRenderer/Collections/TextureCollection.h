@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../Types/Texture.h"
-#include <GL/gl3w.h>
+#include "GL/gl_core_4_4.h"
 #include "FreeImage/FreeImage.h"
 #include <map>
 #define DEFAULT_TEXTURE_ID 0

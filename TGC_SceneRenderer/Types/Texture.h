@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-#include "GL\gl3w.h"
+#include "GL\gl_core_4_4.h"
 #define TEX_TYPE_NORMALS 1
 #define TEX_TYPE_DIFFUSE 2
 namespace Types {

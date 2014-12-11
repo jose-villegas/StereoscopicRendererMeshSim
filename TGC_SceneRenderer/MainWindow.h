@@ -270,6 +270,7 @@ namespace TGC_SceneRenderer {
                 this->MainMenuStrip = this->topMenuBar;
                 this->Name = L"MainWindow";
                 this->Text = L"TCG - SCENE";
+                this->Shown += gcnew System::EventHandler(this, &MainWindow::MainWindow_Shown);
                 this->topMenuBar->ResumeLayout(false);
                 this->topMenuBar->PerformLayout();
                 this->statusStrip->ResumeLayout(false);
@@ -295,6 +296,13 @@ namespace TGC_SceneRenderer {
                 } else {
                     consoleWindow->Show();
                 }
+            }
+        private: System::Void MainWindow_Shown(System::Object  ^sender, System::EventArgs  ^e)
+            {
+                // Need to Refresh the Form working with OGL Context
+                // for some reason some controls don't load after
+                // form load event until repaint or refresh
+                this->Refresh();
             }
     };
 }
