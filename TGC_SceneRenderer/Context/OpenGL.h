@@ -2,6 +2,7 @@
 #include "GL/gl_core_4_4.h"
 #include "GL/wglext.h"
 #include <windows.h>
+#include "Multisample/arb_multisample.h"
 #include "../Utils/Logger.h"
 #include "../Utils/FrameRate.h"
 #include "../Collections/TextureCollection.h"
@@ -17,12 +18,12 @@ namespace OpenGLForm {
             System::Double getDeltaTime() { return _deltaTime; }
             System::Double getTotalTime() { return _totalTime; }
             System::Double getFrameRate() { return _framerate; }
-            System::Boolean wglIsExtensionSupported(const char *extension);
             virtual System::Void render(System::Void);
 
         private:
             HDC _mHDC;
             HGLRC _mHGLRC;
+            PIXELFORMATDESCRIPTOR *pfd;
             System::Diagnostics::Stopwatch _stopwatch;
             System::Double _deltaTime;
             System::Double _totalTime;
@@ -30,6 +31,7 @@ namespace OpenGLForm {
             Utils::FrameRate _fmCalc;
             TextureCollection *_texCollection;
             System::Boolean _calcFramerate;
+            HDC createHandle(System::Windows::Forms::Panel ^parentForm, int iPositionX, int iPositionY, GLsizei iWidth, GLsizei iHeight);
 
         protected:
             ~COpenGL(System::Void) { this->DestroyHandle(); }

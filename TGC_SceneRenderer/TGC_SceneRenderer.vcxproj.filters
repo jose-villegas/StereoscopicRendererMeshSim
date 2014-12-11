@@ -57,6 +57,9 @@
     <ClCompile Include="include\GL\gl_core_4_4.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Context\Multisample\ARB_Multisample.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -99,6 +102,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\GL\gl_core_4_4.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Context\Multisample\ARB_Multisample.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

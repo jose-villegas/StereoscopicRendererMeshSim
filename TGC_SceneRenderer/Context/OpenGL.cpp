@@ -1,5 +1,6 @@
 #include "OpenGL.h"
 
+
 #define DRAW_TEST_TRIANGLE
 
 #ifdef DRAW_TEST_TRIANGLE
@@ -19,22 +20,22 @@ OpenGLForm::COpenGL::COpenGL(System::Windows::Forms::Panel ^parentForm, int iPos
     _calcFramerate = false;
     _texCollection->Inst();
     // Create OGL Context
-    CreateParams ^cp = gcnew CreateParams;
-    // Set the position on the form
-    cp->X = iPositionX;
-    cp->Y = iPositionY;
-    cp->Height = iHeight;
-    cp->Width = iWidth;
-    // Specify the form as the parent.
-    cp->Parent = parentForm->Handle;
-    // Create as a child of the specified parent and make OpenGL compliant (no clipping)
-    cp->Style = WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN;
-    // Create the actual window
-    this->CreateHandle(cp);
-    _mHDC = GetDC((HWND)this->Handle.ToPointer());
+    _mHDC = createHandle(parentForm, iPositionX, iPositionY, iWidth, iHeight);
 
     if (_mHDC) {
         oglSetPixelFormat(_mHDC);
+        HINSTANCE hInstance = (HINSTANCE)GetWindowLong((HWND)this->Handle.ToPointer(), GWL_HINSTANCE);
+
+        // Check For Multisample Support
+        if (!arbMultisampleSupported && CHECK_FOR_MULTISAMPLE) {
+            if (InitMultisample(hInstance, (HWND)this->Handle.ToPointer(), *pfd)) {
+                // Destroy Temporary Context
+                DestroyWindow((HWND)this->Handle.ToPointer());
+                // Create new Context with MultiSample Support
+                _mHDC = createHandle(parentForm, iPositionX, iPositionY, iWidth, iHeight);;
+                oglSetPixelFormat(_mHDC);
+            }
+        }
     }
 
     if (!ogl_LoadFunctions()) {
@@ -42,7 +43,6 @@ OpenGLForm::COpenGL::COpenGL(System::Windows::Forms::Panel ^parentForm, int iPos
     }
 
     // Query Multisample Support
-    // --- TODO ---
     // Setup OpenGL
     glEnable(GL_DEPTH_TEST);
     // Write Sucessfull Core Load
@@ -95,36 +95,46 @@ System::Void OpenGLForm::COpenGL::render(System::Void)
 
 GLint OpenGLForm::COpenGL::oglSetPixelFormat(HDC hdc)
 {
-    PIXELFORMATDESCRIPTOR pfd = {
-        sizeof(PIXELFORMATDESCRIPTOR),    // size of this pfd
-        1,                                // version number
-        PFD_DRAW_TO_WINDOW |              // support window
-        PFD_SUPPORT_OPENGL |              // support OpenGL
-        PFD_DOUBLEBUFFER,                 // double buffered
-        PFD_TYPE_RGBA,                    // RGBA type
-        32,                               // 32-bit color depth
-        0, 0, 0, 0, 0, 0,                 // color bits ignored
-        0,                                // no alpha buffer
-        0,                                // shift bit ignored
-        0,                                // no accumulation buffer
-        0, 0, 0, 0,                       // accum bits ignored
-        32,                               // 32-bit z-buffer
-        8,                                // 8-bit stencil buffer
-        0,                                // no auxiliary buffer
-        PFD_MAIN_PLANE,                   // main layer
-        0,                                // reserved
-        0, 0, 0                           // layer masks ignored
-    };
+    if (!pfd) {
+        PIXELFORMATDESCRIPTOR temporalPFD = {
+            sizeof(PIXELFORMATDESCRIPTOR),    // size of this pfd
+            1,                                // version number
+            PFD_DRAW_TO_WINDOW |              // support window
+            PFD_SUPPORT_OPENGL |              // support OpenGL
+            PFD_DOUBLEBUFFER,                 // double buffered
+            PFD_TYPE_RGBA,                    // RGBA type
+            32,                               // 32-bit color depth
+            0, 0, 0, 0, 0, 0,                 // color bits ignored
+            0,                                // no alpha buffer
+            0,                                // shift bit ignored
+            0,                                // no accumulation buffer
+            0, 0, 0, 0,                       // accum bits ignored
+            32,                               // 32-bit z-buffer
+            8,                                // 8-bit stencil buffer
+            0,                                // no auxiliary buffer
+            PFD_MAIN_PLANE,                   // main layer
+            0,                                // reserved
+            0, 0, 0                           // layer masks ignored
+        };
+        pfd = new PIXELFORMATDESCRIPTOR(temporalPFD);
+    }
+
     GLint  iPixelFormat;
 
-    // get the device context's best, available pixel format match
-    if ((iPixelFormat = ChoosePixelFormat(hdc, &pfd)) == 0) {
-        Utils::Logger::Write("ChoosePixelFormat Failed", true, System::Drawing::Color::Red);
-        return 0;
+    // First Pass Before Querying Multisample support
+    // so it actually creates a temporary OGL Context
+    if (!arbMultisampleSupported) {
+        // get the device context's best, available pixel format match
+        if ((iPixelFormat = ChoosePixelFormat(hdc, pfd)) == 0) {
+            Utils::Logger::Write("ChoosePixelFormat Failed", true, System::Drawing::Color::Red);
+            return 0;
+        }
+    } else {
+        iPixelFormat = arbMultisampleFormat;
     }
 
     // make that match the device context's current pixel format
-    if (SetPixelFormat(hdc, iPixelFormat, &pfd) == FALSE) {
+    if (SetPixelFormat(hdc, iPixelFormat, pfd) == FALSE) {
         Utils::Logger::Write("SetPixelFormat Failed", true, System::Drawing::Color::Red);
         return 0;
     }
@@ -143,44 +153,22 @@ GLint OpenGLForm::COpenGL::oglSetPixelFormat(HDC hdc)
     return 1;
 }
 
-System::Boolean OpenGLForm::COpenGL::wglIsExtensionSupported(const char *extension)
+HDC OpenGLForm::COpenGL::createHandle(System::Windows::Forms::Panel ^parentForm, int iPositionX, int iPositionY, GLsizei iWidth,
+                                      GLsizei iHeight)
 {
-    const size_t extlen = strlen(extension);
-    const char *supported = NULL;
-    // Try To Use wglGetExtensionStringARB On Current DC, If Possible
-    PROC wglGetExtString = wglGetProcAddress("wglGetExtensionsStringARB");
-
-    if (wglGetExtString) {
-        supported = ((char *(__stdcall *)(HDC))wglGetExtString)(wglGetCurrentDC());
-    }
-
-    // If That Failed, Try Standard Opengl Extensions String
-    if (supported == NULL) {
-        supported = (char *)glGetString(GL_EXTENSIONS);
-    }
-
-    // If That Failed Too, Must Be No Extensions Supported
-    if (supported == NULL) {
-        return false;
-    }
-
-    // Begin Examination At Start Of String, Increment By 1 On False Match
-    for (const char *p = supported; ; p++) {
-        // Advance p Up To The Next Possible Match
-        p = strstr(p, extension);
-
-        if (p == NULL) {
-            return false;    // No Match
-        }
-
-        // Make Sure That Match Is At The Start Of The String Or That
-        // The Previous Char Is A Space, Or Else We Could Accidentally
-        // Match "wglFunkywglExtension" With "wglExtension"
-
-        // Also, Make Sure That The Following Character Is Space Or NULL
-        // Or Else "wglExtensionTwo" Might Match "wglExtension"
-        if ((p == supported || p[-1] == ' ') && (p[extlen] == '\0' || p[extlen] == ' ')) {
-            return true;    // Match
-        }
-    }
+    // Create Windows Handler Again But Now With MultiSample Enabled
+    CreateParams ^cp = gcnew CreateParams;
+    // Set the position on the form
+    cp->X = iPositionX;
+    cp->Y = iPositionY;
+    cp->Height = iHeight;
+    cp->Width = iWidth;
+    // Specify the form as the parent.
+    cp->Parent = parentForm->Handle;
+    // Create as a child of the specified parent and make OpenGL compliant (no clipping)
+    cp->Style = WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN;
+    // Create the actual window
+    this->CreateHandle(cp);
+    // Return Created Handle
+    return GetDC((HWND)this->Handle.ToPointer());
 }

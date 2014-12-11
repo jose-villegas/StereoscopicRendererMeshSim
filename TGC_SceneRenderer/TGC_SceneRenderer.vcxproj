@@ -89,6 +89,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp" />
+    <ClCompile Include="Context\Multisample\ARB_Multisample.cpp" />
     <ClCompile Include="include\GL\gl_core_4_4.c" />
     <ClCompile Include="Scene\Light.cpp" />
     <ClCompile Include="Scene\Camera.cpp" />
@@ -103,6 +104,7 @@
     <ClCompile Include="Types\Vertex.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Context\Multisample\ARB_Multisample.h" />
     <ClInclude Include="include\GL\gl_core_4_4.h" />
     <ClInclude Include="include\GL\wglext.h" />
     <ClInclude Include="Scene\Light.h" />
