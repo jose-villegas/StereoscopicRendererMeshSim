@@ -1,10 +1,11 @@
 #include "Texture.h"
+using namespace Types;
 
-Types::Texture::Texture(void)
+Texture::Texture(void)
 {
 }
 
-Types::Texture::Texture(std::string sFileName, int textureWidth, int textureHeight, int textureBitsPerPixel, int oglTexID, int texID)
+Texture::Texture(std::string sFileName, int textureWidth, int textureHeight, int textureBitsPerPixel, int oglTexID, int texID)
 {
     this->sFileName = sFileName;
     this->textureWidth = textureWidth;
@@ -14,11 +15,11 @@ Types::Texture::Texture(std::string sFileName, int textureWidth, int textureHeig
     this->texID = texID;
 }
 
-Types::Texture::~Texture()
+Texture::~Texture()
 {
 }
 
-void Types::Texture::bind()
+void Texture::bind()
 {
     glActiveTexture(texID);
     glBindTexture(GL_TEXTURE_2D, oglTexID);

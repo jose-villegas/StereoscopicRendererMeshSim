@@ -1,14 +1,14 @@
 #include "FrameRate.h"
+using namespace Utils;
 
-
-Utils::FrameRate::FrameRate(void)
+FrameRate::FrameRate(void)
 {
     fpsSamples = gcnew array<System::Double>(NUM_FPS_SAMPLES);
     currentSample = 0;
     frameTimeSum = 0.0;
 }
 
-System::Double Utils::FrameRate::Calculate(System::Double deltaTime)
+System::Double FrameRate::Calculate(System::Double deltaTime)
 {
     if (deltaTime == 0.0) { return 0.0; }
 
@@ -24,7 +24,7 @@ System::Double Utils::FrameRate::Calculate(System::Double deltaTime)
     return ((System::Double)frameTimeSum / NUM_FPS_SAMPLES);
 }
 
-Utils::FrameRate::~FrameRate()
+FrameRate::~FrameRate()
 {
     delete fpsSamples;
 }

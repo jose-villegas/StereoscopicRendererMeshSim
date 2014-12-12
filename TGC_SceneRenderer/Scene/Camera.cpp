@@ -1,5 +1,6 @@
 #include "Camera.h"
+using namespace Scene;
 
-Scene::Camera::Camera(void)
+Camera::Camera(void)
 {
 }

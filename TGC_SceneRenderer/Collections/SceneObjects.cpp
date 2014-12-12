@@ -1,20 +1,21 @@
 #include "SceneObjects.h"
+using namespace ECollections;
 
-ECollections::SceneObjects *ECollections::SceneObjects::_eInstance;
+SceneObjects *SceneObjects::_eInstance;
 
-ECollections::SceneObjects::SceneObjects(void)
+SceneObjects::SceneObjects(void)
 {
 }
 
-ECollections::SceneObjects::~SceneObjects()
+SceneObjects::~SceneObjects()
 {
     _eInstance = 0;
 }
 
-ECollections::SceneObjects *ECollections::SceneObjects::Instance()
+SceneObjects *SceneObjects::Instance()
 {
     if (!_eInstance) {
-        _eInstance = new ECollections::SceneObjects();
+        _eInstance = new SceneObjects();
     }
 
     return _eInstance;

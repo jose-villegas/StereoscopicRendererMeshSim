@@ -1,5 +1,5 @@
 #include "Light.h"
-
-Scene::Light::Light(void)
+using namespace Scene;
+Light::Light(void)
 {
 }

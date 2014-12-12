@@ -90,6 +90,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp" />
+    <ClCompile Include="Bounding\Volumes\BoundingSphere.cpp" />
+    <ClCompile Include="Bounding\Volumes\BoundingBox.cpp" />
+    <ClCompile Include="Components\Material.cpp" />
     <ClCompile Include="ObjectsWindow.cpp" />
     <ClCompile Include="Collections\SceneObjects.cpp" />
     <ClCompile Include="Scene\BaseObject.cpp" />
@@ -99,7 +102,7 @@
     <ClCompile Include="Scene\Camera.cpp" />
     <ClCompile Include="ConsoleWindow.cpp" />
     <ClCompile Include="Context\OpenGL.cpp" />
-    <ClCompile Include="Components\Mesh.cpp" />
+    <ClCompile Include="Scene\Mesh.cpp" />
     <ClCompile Include="Collections\Textures.cpp" />
     <ClCompile Include="Types\Texture.cpp" />
     <ClCompile Include="Utils\FrameRate.cpp" />
@@ -108,6 +111,9 @@
     <ClCompile Include="Types\Vertex.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Bounding\Volumes\BoundingSphere.h" />
+    <ClInclude Include="Bounding\Volumes\BoundingBox.h" />
+    <ClInclude Include="Components\Material.h" />
     <ClInclude Include="ObjectsWindow.h">
       <FileType>CppForm</FileType>
     </ClInclude>
@@ -121,7 +127,7 @@
     <ClInclude Include="ConsoleWindow.h">
       <FileType>CppForm</FileType>
     </ClInclude>
-    <ClInclude Include="Components\Mesh.h" />
+    <ClInclude Include="Scene\Mesh.h" />
     <ClInclude Include="Collections\Textures.h" />
     <ClInclude Include="Types\Texture.h" />
     <ClInclude Include="Utils\FrameRate.h" />

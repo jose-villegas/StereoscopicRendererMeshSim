@@ -1,16 +1,17 @@
 #include "Mesh.h"
+using namespace Scene;
 
-Scene::Mesh::Mesh(void)
+Mesh::Mesh(void)
 {
     _texCollection->Instance();
 }
 
-Scene::Mesh::~Mesh(void)
+Mesh::~Mesh(void)
 {
     clear();
 }
 
-bool Scene::Mesh::loadMesh(std::string sFileName)
+bool Mesh::loadMesh(std::string sFileName)
 {
     // Release the previously loaded mesh (if it exists)
     clear();
@@ -28,7 +29,7 @@ bool Scene::Mesh::loadMesh(std::string sFileName)
     return bRtrn;
 }
 
-bool Scene::Mesh::initFromScene(const aiScene *pScene, const std::string &Filename)
+bool Mesh::initFromScene(const aiScene *pScene, const std::string &Filename)
 {
     _meshEntries.resize(pScene->mNumMeshes);
     _meshTextures.resize(pScene->mNumMaterials);
@@ -42,7 +43,7 @@ bool Scene::Mesh::initFromScene(const aiScene *pScene, const std::string &Filena
     return initMaterials(pScene, Filename);
 }
 
-void Scene::Mesh::initMesh(unsigned int Index, const aiMesh *paiMesh)
+void Mesh::initMesh(unsigned int Index, const aiMesh *paiMesh)
 {
     _meshEntries[Index].materialIndex = paiMesh->mMaterialIndex;
     std::vector<Types::Vertex> Vertices;
@@ -68,7 +69,7 @@ void Scene::Mesh::initMesh(unsigned int Index, const aiMesh *paiMesh)
     _meshEntries[Index].init(Vertices, Indices);
 }
 
-bool Scene::Mesh::initMaterials(const aiScene *pScene, const std::string &Filename)
+bool Mesh::initMaterials(const aiScene *pScene, const std::string &Filename)
 {
     // Extract the directory part from the file name
     std::string::size_type SlashIndex = Filename.find_last_of("/");
@@ -116,12 +117,12 @@ bool Scene::Mesh::initMaterials(const aiScene *pScene, const std::string &Filena
     return bRtrn;
 }
 
-void Scene::Mesh::clear()
+void Mesh::clear()
 {
     _meshTextures.clear();
 }
 
-void Scene::Mesh::render()
+void Mesh::render()
 {
     glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
@@ -147,7 +148,7 @@ void Scene::Mesh::render()
     glDisableVertexAttribArray(2);
 }
 
-void Scene::Mesh::MeshEntry::init(const std::vector<Types::Vertex> &vertices, const std::vector<unsigned int> &indexes)
+void Mesh::MeshEntry::init(const std::vector<Types::Vertex> &vertices, const std::vector<unsigned int> &indexes)
 {
     numIndexes = indexes.size();
     glGenBuffers(1, &VB);
@@ -158,7 +159,7 @@ void Scene::Mesh::MeshEntry::init(const std::vector<Types::Vertex> &vertices, co
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * numIndexes, &indexes[0], GL_STATIC_DRAW);
 }
 
-Scene::Mesh::MeshEntry::MeshEntry()
+Mesh::MeshEntry::MeshEntry()
 {
     VB = INVALID_VALUE;
     IB = INVALID_VALUE;
@@ -166,7 +167,7 @@ Scene::Mesh::MeshEntry::MeshEntry()
     materialIndex = INVALID_MATERIAL;
 }
 
-Scene::Mesh::MeshEntry::~MeshEntry()
+Mesh::MeshEntry::~MeshEntry()
 {
     if (VB != INVALID_VALUE) {
         glDeleteBuffers(1, &VB);
