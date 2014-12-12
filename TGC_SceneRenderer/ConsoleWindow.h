@@ -21,7 +21,7 @@ namespace TGC_SceneRenderer {
                 //
                 //TODO: Add the constructor code here
                 //
-                listBox1->DataSource = Utils::Logger::GetLog();
+                loggerListBox->DataSource = Utils::Logger::GetLog();
             }
 
         protected:
@@ -34,11 +34,8 @@ namespace TGC_SceneRenderer {
                     delete components;
                 }
             }
-        private: System::Windows::Forms::ListBox  ^listBox1;
-        protected:
-
-        protected:
-
+        private: System::Windows::Forms::ListBox  ^loggerListBox;
+        private: System::Windows::Forms::Panel  ^consoleWindowControlPanel;
 
         private:
             /// <summary>
@@ -53,27 +50,45 @@ namespace TGC_SceneRenderer {
             /// </summary>
             void InitializeComponent(void)
             {
-                this->listBox1 = (gcnew System::Windows::Forms::ListBox());
+                this->loggerListBox = (gcnew System::Windows::Forms::ListBox());
+                this->consoleWindowControlPanel = (gcnew System::Windows::Forms::Panel());
+                this->consoleWindowControlPanel->SuspendLayout();
                 this->SuspendLayout();
-                this->listBox1->Dock = System::Windows::Forms::DockStyle::Fill;
-                this->listBox1->DrawMode = System::Windows::Forms::DrawMode::OwnerDrawFixed;
-                this->listBox1->FormattingEnabled = true;
-                this->listBox1->Items->AddRange(gcnew cli::array< System::Object ^  >(2) {L"asd", L"asd"});
-                this->listBox1->Location = System::Drawing::Point(0, 0);
-                this->listBox1->Name = L"listBox1";
-                this->listBox1->Size = System::Drawing::Size(484, 216);
-                this->listBox1->TabIndex = 0;
-                this->listBox1->DrawItem += gcnew System::Windows::Forms::DrawItemEventHandler(this, &ConsoleWindow::listBox1_DrawItem);
+                //
+                // loggerListBox
+                //
+                this->loggerListBox->Dock = System::Windows::Forms::DockStyle::Fill;
+                this->loggerListBox->DrawMode = System::Windows::Forms::DrawMode::OwnerDrawFixed;
+                this->loggerListBox->FormattingEnabled = true;
+                this->loggerListBox->Items->AddRange(gcnew cli::array< System::Object ^  >(2) {L"asd", L"asd"});
+                this->loggerListBox->Location = System::Drawing::Point(0, 0);
+                this->loggerListBox->Name = L"loggerListBox";
+                this->loggerListBox->Size = System::Drawing::Size(484, 216);
+                this->loggerListBox->TabIndex = 0;
+                this->loggerListBox->DrawItem += gcnew System::Windows::Forms::DrawItemEventHandler(this, &ConsoleWindow::listBox1_DrawItem);
+                //
+                // consoleWindowControlPanel
+                //
+                this->consoleWindowControlPanel->Controls->Add(this->loggerListBox);
+                this->consoleWindowControlPanel->Dock = System::Windows::Forms::DockStyle::Fill;
+                this->consoleWindowControlPanel->Location = System::Drawing::Point(0, 0);
+                this->consoleWindowControlPanel->Name = L"consoleWindowControlPanel";
+                this->consoleWindowControlPanel->Size = System::Drawing::Size(484, 216);
+                this->consoleWindowControlPanel->TabIndex = 1;
+                //
+                // ConsoleWindow
+                //
                 this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
                 this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
                 this->ClientSize = System::Drawing::Size(484, 216);
-                this->Controls->Add(this->listBox1);
+                this->Controls->Add(this->consoleWindowControlPanel);
                 this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::SizableToolWindow;
                 this->Name = L"ConsoleWindow";
                 this->ShowInTaskbar = false;
                 this->Text = L"Console";
                 this->TopMost = true;
                 this->FormClosing += gcnew System::Windows::Forms::FormClosingEventHandler(this, &ConsoleWindow::ConsoleWindow_FormClosing);
+                this->consoleWindowControlPanel->ResumeLayout(false);
                 this->ResumeLayout(false);
             }
             #pragma endregion

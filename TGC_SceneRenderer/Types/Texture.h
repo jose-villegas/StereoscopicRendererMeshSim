@@ -1,8 +1,14 @@
 #pragma once
 #include <string>
 #include "GL\gl_core_4_4.h"
-#define TEX_TYPE_NORMALS 1
-#define TEX_TYPE_DIFFUSE 2
+
+enum TEXTURE_TYPE {
+    DIFFUSE,
+    NORMALS,
+    REFLECTION,
+    LIGHTMAP
+};
+
 namespace Types {
     class Texture {
         public:
