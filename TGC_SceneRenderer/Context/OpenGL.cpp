@@ -51,6 +51,7 @@ OpenGLForm::COpenGL::COpenGL(System::Windows::Forms::Panel ^parentForm, int iPos
     System::String ^oglString = L"OpenGL " + glVersionString + "s, GLSL " + glslVersionString + "\n";
     Utils::Logger::Write(oglString, true, System::Drawing::Color::Green);
     // Triangle Render Test
+#ifdef DRAW_TEST_TRIANGLE
     glGenVertexArrays(1, &vArrayID);
     glBindVertexArray(vArrayID);
     // Generate 1 buffer, put the resulting identifier in vertexbuffer
@@ -59,6 +60,7 @@ OpenGLForm::COpenGL::COpenGL(System::Windows::Forms::Panel ^parentForm, int iPos
     glBindBuffer(GL_ARRAY_BUFFER, vBuffer);
     // Give our vertices to OpenGL.
     glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
+#endif
 }
 
 System::Void OpenGLForm::COpenGL::restartStopwatch(System::Void)
@@ -149,7 +151,6 @@ GLint OpenGLForm::COpenGL::oglSetPixelFormat(HDC hdc)
         return 0;
     }
 
-    Utils::Logger::Write("OpenGL Context Created Successfully", true, System::Drawing::Color::Green);
     return 1;
 }
 
