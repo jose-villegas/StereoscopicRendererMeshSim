@@ -12,7 +12,7 @@ Textures ^Textures::Instance()
 
 Textures::Textures()
 {
-    this->m_texID = gcnew System::Collections::Hashtable();
+    this->_eTexCollection = gcnew System::Collections::Hashtable();
     // call this ONLY when linking with FreeImage as a static library
 #ifdef FREEIMAGE_LIB
     FreeImage_Initialise();
@@ -79,17 +79,17 @@ bool Textures::loadTexture(const char *filename, const unsigned int texID, GLenu
     }
 
     //if this texture ID is in use, unload the current texture
-    if (m_texID->Contains(texID)) {
-        // glDeleteTextures(1, &(m_texID[texID]->oglTexID));
-        interior_ptr<unsigned int> intTexPtr = &((((Types::Texture ^)m_texID[texID]))->oglTexID);
+    if (_eTexCollection->Contains(texID)) {
+        // glDeleteTextures(1, &(_eTexCollection[texID]->oglTexID));
+        interior_ptr<unsigned int> intTexPtr = &((((Types::Texture ^)_eTexCollection[texID]))->oglTexID);
         pin_ptr<unsigned int> pinnedPtr = &intTexPtr[0];
         glDeleteTextures(1, pinnedPtr);
     }
 
     glGenTextures(1, &gl_texID);													// generate an OpenGL texture ID for this texture
-    // m_texID[texID] = new Types::Texture(filename, width, height, bpp, gl_texID, texID);	// store the texture
+    // _eTexCollection[texID] = new Types::Texture(filename, width, height, bpp, gl_texID, texID);	// store the texture
     Types::Texture ^newTexture = gcnew Types::Texture(gcnew System::String(filename), width, height, bpp, gl_texID, texID);
-    m_texID->Add(texID, newTexture);
+    _eTexCollection->Add(texID, newTexture);
     glBindTexture(GL_TEXTURE_2D, gl_texID);											// bind to the new texture ID
     // store the texture data for OpenGL use
     glTexImage2D(GL_TEXTURE_2D, level, internal_format, width, height, border, image_format, GL_UNSIGNED_BYTE, bits);
@@ -106,7 +106,7 @@ bool Textures::loadTexture(const char *filename, GLenum image_format, GLint inte
 {
     int unique_texID = 1;
 
-    for each(Types::Texture ^ var in m_texID) {
+    for each(Types::Texture ^ var in _eTexCollection) {
         if (var->texID == unique_texID) {
             unique_texID++;
         } else {
@@ -121,11 +121,11 @@ bool Textures::unloadTexture(const unsigned int texID)
 {
     bool result = true;
 
-    if (m_texID->Contains(texID)) {
-        interior_ptr<unsigned int> intTexPtr = &((((Types::Texture ^)m_texID[texID]))->oglTexID);
+    if (_eTexCollection->Contains(texID)) {
+        interior_ptr<unsigned int> intTexPtr = &((((Types::Texture ^)_eTexCollection[texID]))->oglTexID);
         pin_ptr<unsigned int> pinnedPtr = &intTexPtr[0];
         glDeleteTextures(1, pinnedPtr);
-        m_texID->Remove(texID);
+        _eTexCollection->Remove(texID);
     }
 
     return result;
@@ -135,8 +135,8 @@ bool Textures::bindTexture(const unsigned int texID)
 {
     bool result = true;
 
-    if (m_texID->Contains(texID)) {
-        ((Types::Texture ^)m_texID[texID])->bind();
+    if (_eTexCollection->Contains(texID)) {
+        ((Types::Texture ^)_eTexCollection[texID])->bind();
     } else {
         result = false;
     }
@@ -146,15 +146,15 @@ bool Textures::bindTexture(const unsigned int texID)
 
 void Textures::unloadAllTextures()
 {
-    for each(Types::Texture ^ var in m_texID) {
+    for each(Types::Texture ^ var in _eTexCollection) {
         unloadTexture(var->texID);
     }
 
     //clear the texture map
-    m_texID->Clear();
+    _eTexCollection->Clear();
 }
 
 unsigned int Textures::count(void)
 {
-    return m_texID->Count;
+    return _eTexCollection->Count;
 }

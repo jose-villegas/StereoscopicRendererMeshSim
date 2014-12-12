@@ -5,12 +5,12 @@ Texture::Texture(void)
 {
 }
 
-Texture::Texture(System::String ^sFileName, int textureWidth, int textureHeight, int textureBitsPerPixel, int oglTexID, int texID)
+Texture::Texture(System::String ^sFileName, int tw, int textureHeight, int textureBitsPerPixel, int oglTexID, int texID)
 {
     this->sFileName = sFileName;
-    this->textureWidth = textureWidth;
-    this->textureHeight = textureHeight;
-    this->textureBitsPerPixel = textureBitsPerPixel;
+    this->tWidth = tw;
+    this->tHeight = textureHeight;
+    this->tBitsPerPixel = textureBitsPerPixel;
     this->oglTexID = oglTexID;
     this->texID = texID;
 }
