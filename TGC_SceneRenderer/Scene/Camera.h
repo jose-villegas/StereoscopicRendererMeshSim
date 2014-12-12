@@ -1,6 +1,8 @@
 #pragma once
+#include "BaseObject.h"
 namespace Scene {
-    class Camera {
+
+    class Camera : public BaseObject {
         public:
             Camera(void);
     };

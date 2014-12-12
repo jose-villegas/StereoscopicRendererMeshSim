@@ -89,13 +89,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp" />
+    <ClCompile Include="Scene\BaseObject.cpp" />
     <ClCompile Include="Context\Multisample\ARB_Multisample.cpp" />
     <ClCompile Include="include\GL\gl_core_4_4.c" />
     <ClCompile Include="Scene\Light.cpp" />
     <ClCompile Include="Scene\Camera.cpp" />
     <ClCompile Include="ConsoleWindow.cpp" />
     <ClCompile Include="Context\OpenGL.cpp" />
-    <ClCompile Include="Scene\Mesh.cpp" />
+    <ClCompile Include="Components\Mesh.cpp" />
     <ClCompile Include="Collections\TextureCollection.cpp" />
     <ClCompile Include="Types\Texture.cpp" />
     <ClCompile Include="Utils\FrameRate.cpp" />
@@ -104,6 +105,7 @@
     <ClCompile Include="Types\Vertex.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Scene\BaseObject.h" />
     <ClInclude Include="Context\Multisample\ARB_Multisample.h" />
     <ClInclude Include="include\GL\gl_core_4_4.h" />
     <ClInclude Include="include\GL\wglext.h" />
@@ -112,7 +114,7 @@
     <ClInclude Include="ConsoleWindow.h">
       <FileType>CppForm</FileType>
     </ClInclude>
-    <ClInclude Include="Scene\Mesh.h" />
+    <ClInclude Include="Components\Mesh.h" />
     <ClInclude Include="Collections\TextureCollection.h" />
     <ClInclude Include="Types\Texture.h" />
     <ClInclude Include="Utils\FrameRate.h" />
