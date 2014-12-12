@@ -3,7 +3,7 @@ using namespace Scene;
 
 Mesh::Mesh(void)
 {
-    _texCollection->Instance();
+    _texCollection = ECollections::Textures::Instance();
 }
 
 Mesh::~Mesh(void)

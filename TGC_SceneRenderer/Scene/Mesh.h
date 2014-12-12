@@ -6,6 +6,7 @@
 #include "Assimp/scene.h"
 #include "Assimp/postprocess.h"
 #include "GLM/glm.hpp"
+#include <vcclr.h>
 #include <vector>
 #define INVALID_MATERIAL 0xFFFFFFFF
 #define INVALID_VALUE 0xFFFFFFFF
@@ -36,6 +37,8 @@ namespace Scene {
 
             std::vector<MeshEntry> _meshEntries;
             std::vector<unsigned int> _meshTextures;
-            ECollections::Textures *_texCollection;
+            // Store a managed reference (ECollections::Texture being the managed class)
+            // in the C++ native heap
+            gcroot<ECollections::Textures ^> _texCollection;
     };
 }

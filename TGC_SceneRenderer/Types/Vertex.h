@@ -7,7 +7,7 @@ namespace Types {
             glm::vec2 m_tex;
             glm::vec3 m_normal;
             Vertex(void);
-            Vertex(const glm::vec3 &pos, const glm::vec2 &tex, const const glm::vec3 &normal);
+            Vertex(const glm::vec3 &pos, const glm::vec2 &tex, const glm::vec3 &normal);
     };
 }
 

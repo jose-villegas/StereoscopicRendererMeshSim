@@ -1,21 +1,19 @@
 #include "SceneObjects.h"
 using namespace ECollections;
 
-SceneObjects *SceneObjects::_eInstance;
-
 SceneObjects::SceneObjects(void)
 {
+    _sceneInstancedObjects = gcnew System::Collections::Hashtable();
 }
 
 SceneObjects::~SceneObjects()
 {
-    _eInstance = 0;
 }
 
-SceneObjects *SceneObjects::Instance()
+SceneObjects ^SceneObjects::Instance()
 {
     if (!_eInstance) {
-        _eInstance = new SceneObjects();
+        _eInstance = gcnew SceneObjects();
     }
 
     return _eInstance;

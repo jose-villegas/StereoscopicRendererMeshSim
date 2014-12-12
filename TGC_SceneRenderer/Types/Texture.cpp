@@ -5,7 +5,7 @@ Texture::Texture(void)
 {
 }
 
-Texture::Texture(std::string sFileName, int textureWidth, int textureHeight, int textureBitsPerPixel, int oglTexID, int texID)
+Texture::Texture(System::String ^sFileName, int textureWidth, int textureHeight, int textureBitsPerPixel, int oglTexID, int texID)
 {
     this->sFileName = sFileName;
     this->textureWidth = textureWidth;

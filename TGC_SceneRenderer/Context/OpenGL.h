@@ -29,7 +29,7 @@ namespace OpenGLForm {
             System::Double _totalTime;
             System::Double _framerate;
             Utils::FrameRate _fmCalc;
-            ECollections::Textures *_texCollection;
+            ECollections::Textures ^_texCollection;
             System::Boolean _calcFramerate;
             HDC createHandle(System::Windows::Forms::Panel ^parentForm, int iPositionX, int iPositionY, GLsizei iWidth, GLsizei iHeight);
 

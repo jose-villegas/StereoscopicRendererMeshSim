@@ -10,18 +10,17 @@ enum TEXTURE_TYPE {
 };
 
 namespace Types {
-    class Texture {
+    ref class Texture {
         public:
             Texture(void);
-            Texture(std::string sFileName, int textureWidth, int textureHeight, int textureBitsPerPixel, int oglTexID, int texID);
+            Texture(System::String ^sFileName, int textureWidth, int textureHeight, int textureBitsPerPixel, int oglTexID, int texID);
             ~Texture();
-            std::string sFileName;
+            System::String ^sFileName;
             unsigned int textureWidth;
             unsigned int textureHeight;
             unsigned int textureBitsPerPixel;
             unsigned int oglTexID;
             unsigned int texID;
             void bind();
-            void unbind();
     };
 }
