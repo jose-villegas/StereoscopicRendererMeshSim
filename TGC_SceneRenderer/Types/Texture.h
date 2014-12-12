@@ -16,9 +16,9 @@ namespace Types {
             Texture(System::String ^sFileName, int textureWidth, int textureHeight, int textureBitsPerPixel, int oglTexID, int texID);
             ~Texture();
             System::String ^sFileName;
-            unsigned int textureWidth;
-            unsigned int textureHeight;
-            unsigned int textureBitsPerPixel;
+            unsigned int tWidth;
+            unsigned int tHeight;
+            unsigned int tBitsPerPixel;
             unsigned int oglTexID;
             unsigned int texID;
             void bind();

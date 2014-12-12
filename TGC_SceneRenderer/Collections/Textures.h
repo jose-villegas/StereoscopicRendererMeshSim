@@ -9,6 +9,7 @@ namespace ECollections {
 
     ref class Textures {
         public:
+            // Creates Unique Static Instance
             static Textures ^Instance();
             virtual ~Textures();
             // Loads a Texture if texID is already taken it will be replaced with the new texture
@@ -25,16 +26,17 @@ namespace ECollections {
             // level: mipmapping level (usually 0)
             // border: border size (usually 0)
             bool loadTexture(const char *filename, GLenum image_format, GLint internal_format, GLint level, GLint border);
-            bool unloadTexture(const unsigned int texID);		// free the memory for a texture
-            bool bindTexture(const unsigned int texID);			// set the current texture
-            void unloadAllTextures();							// free all texture memory
-            unsigned int count(void);
-            unsigned int getDefaultTexture() { return DEFAULT_TEXTURE_ID; }
+            bool unloadTexture(const unsigned int texID);					// frees memory reserved for texID texture
+            bool bindTexture(const unsigned int texID);						// sets texID texture as the current active texture
+            void unloadAllTextures();										// frees memory reserved for all the textures
+            unsigned int count(void);										// Amount of textures loaded
+            unsigned int getDefaultTexture() { return DEFAULT_TEXTURE_ID; }	// Return default texture's texID, white texture
 
         protected:
             Textures();
             static Textures ^_eInstance = nullptr;
-            System::Collections::Hashtable ^m_texID;
+            // Texture Collection
+            System::Collections::Hashtable ^_eTexCollection;
     };
 
 }

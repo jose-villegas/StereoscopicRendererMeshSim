@@ -5,6 +5,7 @@ namespace ECollections {
 
     ref class SceneObjects {
         public:
+            // Creates Unique Static Instace
             static SceneObjects ^Instance();
             SceneObjects(void);
             ~SceneObjects();
@@ -12,6 +13,7 @@ namespace ECollections {
             System::ComponentModel::BindingList<System::String ^> ^objectsWindowBindingList;
 
         private:
+            // Unique Static Instance
             static SceneObjects ^_eInstance;
             System::Collections::Hashtable ^_sceneInstancedObjects;
     };
