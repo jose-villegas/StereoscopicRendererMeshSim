@@ -3,6 +3,7 @@
 
 Scene::BaseObject::BaseObject(void)
 {
+    objectName = "SceneObject";
 }
 
 glm::mat4 Scene::BaseObject::getModelMatrix()

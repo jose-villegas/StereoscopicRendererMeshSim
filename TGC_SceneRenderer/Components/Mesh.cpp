@@ -2,7 +2,7 @@
 
 Scene::Mesh::Mesh(void)
 {
-    _texCollection->Inst();
+    _texCollection->Instance();
 }
 
 Scene::Mesh::~Mesh(void)

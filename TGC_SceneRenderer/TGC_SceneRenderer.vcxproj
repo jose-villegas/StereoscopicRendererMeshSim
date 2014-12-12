@@ -80,6 +80,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.DirectoryServices" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
@@ -89,6 +90,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp" />
+    <ClCompile Include="ObjectsWindow.cpp" />
+    <ClCompile Include="Collections\SceneObjects.cpp" />
     <ClCompile Include="Scene\BaseObject.cpp" />
     <ClCompile Include="Context\Multisample\ARB_Multisample.cpp" />
     <ClCompile Include="include\GL\gl_core_4_4.c" />
@@ -97,7 +100,7 @@
     <ClCompile Include="ConsoleWindow.cpp" />
     <ClCompile Include="Context\OpenGL.cpp" />
     <ClCompile Include="Components\Mesh.cpp" />
-    <ClCompile Include="Collections\TextureCollection.cpp" />
+    <ClCompile Include="Collections\Textures.cpp" />
     <ClCompile Include="Types\Texture.cpp" />
     <ClCompile Include="Utils\FrameRate.cpp" />
     <ClCompile Include="Utils\Logger.cpp" />
@@ -105,6 +108,10 @@
     <ClCompile Include="Types\Vertex.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ObjectsWindow.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
+    <ClInclude Include="Collections\SceneObjects.h" />
     <ClInclude Include="Scene\BaseObject.h" />
     <ClInclude Include="Context\Multisample\ARB_Multisample.h" />
     <ClInclude Include="include\GL\gl_core_4_4.h" />
@@ -115,7 +122,7 @@
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="Components\Mesh.h" />
-    <ClInclude Include="Collections\TextureCollection.h" />
+    <ClInclude Include="Collections\Textures.h" />
     <ClInclude Include="Types\Texture.h" />
     <ClInclude Include="Utils\FrameRate.h" />
     <ClInclude Include="MainWindow.h">
@@ -140,6 +147,9 @@
     <EmbeddedResource Include="MainWindow.resX">
       <DependentUpon>MainWindow.h</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ObjectsWindow.resx">
+      <DependentUpon>ObjectsWindow.h</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

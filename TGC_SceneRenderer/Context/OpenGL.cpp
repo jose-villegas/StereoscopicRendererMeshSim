@@ -18,7 +18,7 @@ OpenGLForm::COpenGL::COpenGL(System::Windows::Forms::Panel ^parentForm, int iPos
 {
     // Other Class Variables
     _calcFramerate = false;
-    _texCollection->Inst();
+    _texCollection->Instance();
     // Create OGL Context
     _mHDC = createHandle(parentForm, iPositionX, iPositionY, iWidth, iHeight);
 

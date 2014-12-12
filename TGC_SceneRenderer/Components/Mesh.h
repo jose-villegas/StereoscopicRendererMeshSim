@@ -36,6 +36,6 @@ namespace Scene {
 
             std::vector<MeshEntry> _meshEntries;
             std::vector<unsigned int> _meshTextures;
-            TextureCollection *_texCollection;
+            ECollections::Textures *_texCollection;
     };
 }

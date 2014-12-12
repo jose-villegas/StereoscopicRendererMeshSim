@@ -1,18 +1,18 @@
-#include "TextureCollection.h"
+#include "Textures.h"
 
 
-TextureCollection *TextureCollection::m_inst = nullptr;
+ECollections::Textures *ECollections::Textures::_eInstance = nullptr;
 
-TextureCollection *TextureCollection::Inst()
+ECollections::Textures *ECollections::Textures::Instance()
 {
-    if (!m_inst) {
-        m_inst = new TextureCollection();
+    if (!_eInstance) {
+        _eInstance = new Textures();
     }
 
-    return m_inst;
+    return _eInstance;
 }
 
-TextureCollection::TextureCollection()
+ECollections::Textures::Textures()
 {
     // call this ONLY when linking with FreeImage as a static library
 #ifdef FREEIMAGE_LIB
@@ -22,22 +22,22 @@ TextureCollection::TextureCollection()
     loadTexture("../Resources/white.png", 0, GL_RGBA, GL_RGBA, 0, 0);
 }
 
-TextureCollection::~TextureCollection()
+ECollections::Textures::~Textures()
 {
     // call this ONLY when linking with FreeImage as a static library
 #ifdef FREEIMAGE_LIB
     FreeImage_DeInitialise();
 #endif
     unloadAllTextures();
-    m_inst = 0;
+    _eInstance = 0;
 }
 
-bool TextureCollection::loadTexture(const char *filename,
-                                    const unsigned int texID,
-                                    GLenum image_format ,
-                                    GLint internal_format ,
-                                    GLint level,
-                                    GLint border)
+bool ECollections::Textures::loadTexture(const char *filename,
+        const unsigned int texID,
+        GLenum image_format ,
+        GLint internal_format ,
+        GLint level,
+        GLint border)
 {
     //image format
     FREE_IMAGE_FORMAT fif = FIF_UNKNOWN;
@@ -103,7 +103,7 @@ bool TextureCollection::loadTexture(const char *filename,
     return true;
 }
 
-bool TextureCollection::loadTexture(const char *filename, GLenum image_format, GLint internal_format, GLint level, GLint border)
+bool ECollections::Textures::loadTexture(const char *filename, GLenum image_format, GLint internal_format, GLint level, GLint border)
 {
     int unique_texID = 1;
 
@@ -118,7 +118,7 @@ bool TextureCollection::loadTexture(const char *filename, GLenum image_format, G
     return loadTexture(filename, unique_texID, image_format, internal_format, level, border);
 }
 
-bool TextureCollection::unloadTexture(const unsigned int texID)
+bool ECollections::Textures::unloadTexture(const unsigned int texID)
 {
     bool result = true;
 
@@ -135,7 +135,7 @@ bool TextureCollection::unloadTexture(const unsigned int texID)
     return result;
 }
 
-bool TextureCollection::bindTexture(const unsigned int texID)
+bool ECollections::Textures::bindTexture(const unsigned int texID)
 {
     bool result(true);
     // If this texture ID mapped, bind it's texture as current
@@ -151,7 +151,7 @@ bool TextureCollection::bindTexture(const unsigned int texID)
     return result;
 }
 
-void TextureCollection::unloadAllTextures()
+void ECollections::Textures::unloadAllTextures()
 {
     //start at the begginning of the texture map
     std::map<unsigned int, Types::Texture *>::iterator it = m_texID.begin();
@@ -165,7 +165,7 @@ void TextureCollection::unloadAllTextures()
     m_texID.clear();
 }
 
-unsigned int TextureCollection::count(void)
+unsigned int ECollections::Textures::count(void)
 {
     return m_texID.size();
 }

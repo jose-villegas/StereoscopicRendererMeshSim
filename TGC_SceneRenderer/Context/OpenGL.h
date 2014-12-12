@@ -5,7 +5,7 @@
 #include "Multisample/arb_multisample.h"
 #include "../Utils/Logger.h"
 #include "../Utils/FrameRate.h"
-#include "../Collections/TextureCollection.h"
+#include "../Collections/Textures.h"
 using namespace System::Windows::Forms;
 
 namespace OpenGLForm {
@@ -29,7 +29,7 @@ namespace OpenGLForm {
             System::Double _totalTime;
             System::Double _framerate;
             Utils::FrameRate _fmCalc;
-            TextureCollection *_texCollection;
+            ECollections::Textures *_texCollection;
             System::Boolean _calcFramerate;
             HDC createHandle(System::Windows::Forms::Panel ^parentForm, int iPositionX, int iPositionY, GLsizei iWidth, GLsizei iHeight);
 
