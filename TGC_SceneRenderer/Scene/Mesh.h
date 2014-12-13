@@ -8,12 +8,11 @@
 #include "GLM/glm.hpp"
 #include <vcclr.h>
 #include <vector>
-#include "BaseObject.h"
 #define INVALID_MATERIAL 0xFFFFFFFF
 #define INVALID_VALUE 0xFFFFFFFF
 namespace Scene  {
 
-    class Mesh : public BaseObject {
+    class Mesh {
         public:
             Mesh(void);
             ~Mesh(void);
@@ -41,6 +40,6 @@ namespace Scene  {
             std::vector<unsigned int> _meshTextures;
             // Store a managed reference (ECollections::Texture being the managed class)
             // in the C++ native heap
-            gcroot<ECollections::Textures ^> _texCollection;
+            ECollections::Textures *_texCollection;
     };
 }

@@ -1,8 +1,4 @@
 #include "OpenGL.h"
-#include "..\Scene\Mesh.h"
-
-
-#define DRAW_TEST_TRIANGLE
 
 #ifdef DRAW_TEST_TRIANGLE
 static const GLfloat g_vertex_buffer_data[] = {
@@ -20,7 +16,6 @@ OpenGLForm::COpenGL::COpenGL(System::Windows::Forms::Panel ^parentForm, int iPos
     // Other Class Variables
     _calcFramerate = false;
     _texCollection = ECollections::Textures::Instance();
-    Scene::Mesh mshScene = Scene::Mesh();
     // Create OGL Context
     _mHDC = createHandle(parentForm, iPositionX, iPositionY, iWidth, iHeight);
 

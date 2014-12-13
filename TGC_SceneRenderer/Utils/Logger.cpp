@@ -22,6 +22,7 @@ void Logger::Write(System::String ^text, bool writeToStatusLabel)
     if (writeToStatusLabel && windowStatusLabel) {
         windowStatusLabel->Text = text;
         windowStatusLabel->ForeColor = System::Drawing::Color::Black;
+        windowStatusLabel->GetCurrentParent()->Refresh();
     }
 }
 
@@ -35,6 +36,7 @@ void Logger::Write(System::String ^text, bool writeToStatusLabel, System::Drawin
     if (writeToStatusLabel && windowStatusLabel) {
         windowStatusLabel->Text = text;
         windowStatusLabel->ForeColor = labelForeColor;
+        windowStatusLabel->GetCurrentParent()->Refresh();
     }
 }
 

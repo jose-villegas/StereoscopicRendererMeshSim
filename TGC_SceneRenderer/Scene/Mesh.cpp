@@ -96,14 +96,10 @@ bool Mesh::initMaterials(const aiScene *pScene, const std::string &Filename)
             if (pMaterial->GetTexture(aiTextureType_DIFFUSE, 0, &Path, NULL, NULL, NULL, NULL, NULL) == AI_SUCCESS) {
                 std::string FullPath = Dir + "/" + Path.data;
 
-                if (!_texCollection->loadTexture(FullPath.c_str(), _texCollection->count(), GL_RGBA, GL_RGBA, 0, 0)) {
-                    std::string sError = "Error loading texture '" + FullPath;
-                    Utils::Logger::Write(gcnew System::String(sError.c_str()), true, System::Drawing::Color::Red);
+                if (!_texCollection->loadTexture(FullPath.c_str(), _texCollection->count())) {
                     bRtrn = false;
                 } else {
                     _meshTextures[i] = _texCollection->count() - 1;
-                    std::string sSuccess = "Loaded texture '" + FullPath;
-                    Utils::Logger::Write(gcnew System::String(sSuccess.c_str()), true, System::Drawing::Color::Green);
                 }
             }
         }
