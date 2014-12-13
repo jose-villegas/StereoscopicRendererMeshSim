@@ -55,7 +55,7 @@ bool Textures::loadTexture(const char *filename, const unsigned int texID)
 
     //if still unkown, return failure
     if (fif == FIF_UNKNOWN) {
-        std::string sError = "Error loading texture '" + std::string(filename);
+        std::string sError = "Error loading texture " + std::string(filename);
         Utils::Logger::Write(gcnew System::String(sError.c_str()), true, System::Drawing::Color::Red);
         return false;
     }
@@ -71,7 +71,7 @@ bool Textures::loadTexture(const char *filename, const unsigned int texID)
     //if the image failed to load, return failure
     if (!dib) {
         // In your main program …
-        std::string sError = "Error loading texture '" + std::string(filename);
+        std::string sError = "Error loading texture " + std::string(filename);
         Utils::Logger::Write(gcnew System::String(sError.c_str()), true, System::Drawing::Color::Red);
         return false;
     }

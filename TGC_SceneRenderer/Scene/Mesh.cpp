@@ -17,7 +17,8 @@ bool Mesh::loadMesh(std::string sFileName)
     clear();
     bool bRtrn = false;
     Assimp::Importer Importer;
-    const aiScene *pScene = Importer.ReadFile(sFileName.c_str(), aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_FlipUVs);
+    const aiScene *pScene = Importer.ReadFile(sFileName.c_str(),
+                            aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_CalcTangentSpace | aiProcess_FlipUVs);
 
     if (pScene) {
         bRtrn = initFromScene(pScene, sFileName);
@@ -40,6 +41,7 @@ bool Mesh::initFromScene(const aiScene *pScene, const std::string &Filename)
         initMesh(i, paiMesh);
     }
 
+    Utils::Logger::Write(gcnew System::String(Filename.c_str()));
     return initMaterials(pScene, Filename);
 }
 
@@ -74,11 +76,20 @@ bool Mesh::initMaterials(const aiScene *pScene, const std::string &Filename)
     // Extract the directory part from the file name
     std::string::size_type SlashIndex = Filename.find_last_of("/");
     std::string Dir;
+    std::string slashDir = "/";
+    // Try with \ slashes if / didn't work out
 
     if (SlashIndex == std::string::npos) {
-        Dir = ".";
-    } else if (SlashIndex == 0) {
-        Dir = "/";
+        std::string::size_type tempSlashIndex = Filename.find_last_of("\\");
+
+        if (tempSlashIndex != std::string::npos) {
+            SlashIndex = tempSlashIndex;
+            slashDir = "\\";
+        }
+    }
+
+    if (SlashIndex == 0) {
+        Dir = slashDir;
     } else {
         Dir = Filename.substr(0, SlashIndex);
     }
@@ -94,7 +105,7 @@ bool Mesh::initMaterials(const aiScene *pScene, const std::string &Filename)
             aiString Path;
 
             if (pMaterial->GetTexture(aiTextureType_DIFFUSE, 0, &Path, NULL, NULL, NULL, NULL, NULL) == AI_SUCCESS) {
-                std::string FullPath = Dir + "/" + Path.data;
+                std::string FullPath = Dir + slashDir + Path.data;
 
                 if (!_texCollection->loadTexture(FullPath.c_str(), _texCollection->count())) {
                     bRtrn = false;

@@ -90,7 +90,6 @@ namespace TGC_SceneRenderer {
                 this->Controls->Add(this->consoleWindowControlPanel);
                 this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::SizableToolWindow;
                 this->Name = L"ConsoleWindow";
-                this->ShowInTaskbar = false;
                 this->Text = L"Console";
                 this->FormClosing += gcnew System::Windows::Forms::FormClosingEventHandler(this, &ConsoleWindow::ConsoleWindow_FormClosing);
                 this->consoleWindowControlPanel->ResumeLayout(false);

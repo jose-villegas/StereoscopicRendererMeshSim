@@ -69,16 +69,16 @@
     <ClCompile Include="Bounding\Volumes\BoundingSphere.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="AssetsWindow.cpp">
+    <ClCompile Include="Scene\Mesh.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="include\GL\gl_core_4_4.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="AssetBoxControl.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Scene\Mesh.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="include\GL\gl_core_4_4.c">
+    <ClCompile Include="AssetsWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

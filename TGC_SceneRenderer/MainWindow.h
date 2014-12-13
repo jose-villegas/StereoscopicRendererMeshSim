@@ -37,9 +37,6 @@ namespace TGC_SceneRenderer {
                 consoleWindow = gcnew ConsoleWindow();
                 objectsWindow = gcnew ObjectsWindow();
                 assetsWindow = gcnew AssetsWindow();
-                consoleWindow->Owner = this;
-                objectsWindow->Owner = this;
-                assetsWindow->Owner = this;
             }
 
         protected:
@@ -250,7 +247,7 @@ namespace TGC_SceneRenderer {
                 // materialToolStripMenuItem
                 //
                 this->materialToolStripMenuItem->Name = L"materialToolStripMenuItem";
-                this->materialToolStripMenuItem->Size = System::Drawing::Size(152, 22);
+                this->materialToolStripMenuItem->Size = System::Drawing::Size(117, 22);
                 this->materialToolStripMenuItem->Text = L"Material";
                 //
                 // showInExplorerToolStripMenuItem
@@ -296,7 +293,7 @@ namespace TGC_SceneRenderer {
                 // createEmptyToolStripMenuItem
                 //
                 this->createEmptyToolStripMenuItem->Name = L"createEmptyToolStripMenuItem";
-                this->createEmptyToolStripMenuItem->Size = System::Drawing::Size(152, 22);
+                this->createEmptyToolStripMenuItem->Size = System::Drawing::Size(145, 22);
                 this->createEmptyToolStripMenuItem->Text = L"Create Empty";
                 //
                 // createOtherToolStripMenuItem
@@ -307,7 +304,7 @@ namespace TGC_SceneRenderer {
                          this->toolStripSeparator5, this->cubeToolStripMenuItem, this->sphereToolStripMenuItem
                 });
                 this->createOtherToolStripMenuItem->Name = L"createOtherToolStripMenuItem";
-                this->createOtherToolStripMenuItem->Size = System::Drawing::Size(152, 22);
+                this->createOtherToolStripMenuItem->Size = System::Drawing::Size(145, 22);
                 this->createOtherToolStripMenuItem->Text = L"Create Other";
                 //
                 // cameraToolStripMenuItem
@@ -369,21 +366,21 @@ namespace TGC_SceneRenderer {
                 // consoleToolStripMenuItem
                 //
                 this->consoleToolStripMenuItem->Name = L"consoleToolStripMenuItem";
-                this->consoleToolStripMenuItem->Size = System::Drawing::Size(152, 22);
+                this->consoleToolStripMenuItem->Size = System::Drawing::Size(117, 22);
                 this->consoleToolStripMenuItem->Text = L"Console";
                 this->consoleToolStripMenuItem->Click += gcnew System::EventHandler(this, &MainWindow::consoleToolStripMenuItem_Click);
                 //
                 // objectsToolStripMenuItem
                 //
                 this->objectsToolStripMenuItem->Name = L"objectsToolStripMenuItem";
-                this->objectsToolStripMenuItem->Size = System::Drawing::Size(152, 22);
+                this->objectsToolStripMenuItem->Size = System::Drawing::Size(117, 22);
                 this->objectsToolStripMenuItem->Text = L"Objects";
                 this->objectsToolStripMenuItem->Click += gcnew System::EventHandler(this, &MainWindow::objectsToolStripMenuItem_Click);
                 //
                 // assetsToolStripMenuItem
                 //
                 this->assetsToolStripMenuItem->Name = L"assetsToolStripMenuItem";
-                this->assetsToolStripMenuItem->Size = System::Drawing::Size(152, 22);
+                this->assetsToolStripMenuItem->Size = System::Drawing::Size(117, 22);
                 this->assetsToolStripMenuItem->Text = L"Assets";
                 this->assetsToolStripMenuItem->Click += gcnew System::EventHandler(this, &MainWindow::assetsToolStripMenuItem_Click);
                 //
@@ -401,9 +398,9 @@ namespace TGC_SceneRenderer {
                 //
                 this->statusStrip->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem ^  >(1) {this->statusStripLabel});
                 this->statusStrip->LayoutStyle = System::Windows::Forms::ToolStripLayoutStyle::Flow;
-                this->statusStrip->Location = System::Drawing::Point(0, 483);
+                this->statusStrip->Location = System::Drawing::Point(0, 482);
                 this->statusStrip->Name = L"statusStrip";
-                this->statusStrip->Size = System::Drawing::Size(944, 19);
+                this->statusStrip->Size = System::Drawing::Size(944, 20);
                 this->statusStrip->TabIndex = 2;
                 this->statusStrip->Text = L"statusStrip1";
                 //
@@ -411,7 +408,7 @@ namespace TGC_SceneRenderer {
                 //
                 this->statusStripLabel->AutoSize = false;
                 this->statusStripLabel->Name = L"statusStripLabel";
-                this->statusStripLabel->Size = System::Drawing::Size(500, 14);
+                this->statusStripLabel->Size = System::Drawing::Size(800, 15);
                 this->statusStripLabel->Text = L"Welcome";
                 this->statusStripLabel->TextAlign = System::Drawing::ContentAlignment::MiddleLeft;
                 //
@@ -422,7 +419,7 @@ namespace TGC_SceneRenderer {
                 this->OpenGLRenderPanel->Location = System::Drawing::Point(0, 24);
                 this->OpenGLRenderPanel->Margin = System::Windows::Forms::Padding(0);
                 this->OpenGLRenderPanel->Name = L"OpenGLRenderPanel";
-                this->OpenGLRenderPanel->Size = System::Drawing::Size(944, 459);
+                this->OpenGLRenderPanel->Size = System::Drawing::Size(944, 458);
                 this->OpenGLRenderPanel->TabIndex = 3;
                 this->OpenGLRenderPanel->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &MainWindow::timer1_Tick);
                 //
@@ -430,6 +427,7 @@ namespace TGC_SceneRenderer {
                 //
                 this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
                 this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
+                this->AutoValidate = System::Windows::Forms::AutoValidate::EnablePreventFocusChange;
                 this->ClientSize = System::Drawing::Size(944, 502);
                 this->Controls->Add(this->OpenGLRenderPanel);
                 this->Controls->Add(this->statusStrip);
@@ -486,13 +484,18 @@ namespace TGC_SceneRenderer {
             }
         private: System::Void importAssetToolStripMenuItem_Click(System::Object  ^sender, System::EventArgs  ^e)
             {
-                assetImportFileDialog->ShowDialog();
-                Scene::Mesh *nMesh = new Scene::Mesh();
-                msclr::interop::marshal_context context;
-                std::string standardString = context.marshal_as<std::string>(assetImportFileDialog->FileName);
+                System::Windows::Forms::DialogResult result = assetImportFileDialog->ShowDialog();
 
-                if (nMesh->loadMesh(standardString)) {
-                    Utils::Logger::Write("Asset: " +  assetImportFileDialog->FileName + " loaded successfully");
+                if (result != System::Windows::Forms::DialogResult::Cancel) {
+                    Scene::Mesh *nMesh = new Scene::Mesh();
+                    msclr::interop::marshal_context context;
+                    std::string standardString = context.marshal_as<std::string>(assetImportFileDialog->FileName);
+
+                    if (nMesh->loadMesh(standardString)) {
+                        Utils::Logger::Write("Asset: " +  assetImportFileDialog->FileName + " loaded successfully", true, System::Drawing::Color::Green);
+                    } else {
+                        Utils::Logger::Write("An error occurred loading " +  assetImportFileDialog->FileName + " asset", true, System::Drawing::Color::Red);
+                    }
                 }
             }
     };
