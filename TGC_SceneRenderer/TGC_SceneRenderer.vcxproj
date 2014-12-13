@@ -90,6 +90,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp" />
+    <ClCompile Include="AssetBoxControl.cpp" />
     <ClCompile Include="AssetsWindow.cpp" />
     <ClCompile Include="Bounding\Volumes\BoundingSphere.cpp" />
     <ClCompile Include="Bounding\Volumes\BoundingBox.cpp" />
@@ -112,6 +113,9 @@
     <ClCompile Include="Types\Vertex.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AssetBoxControl.h">
+      <FileType>CppControl</FileType>
+    </ClInclude>
     <ClInclude Include="AssetsWindow.h">
       <FileType>CppForm</FileType>
     </ClInclude>
@@ -151,6 +155,9 @@
     <Image Include="Resources\default.png" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="AssetBoxControl.resx">
+      <DependentUpon>AssetBoxControl.h</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="AssetsWindow.resx">
       <DependentUpon>AssetsWindow.h</DependentUpon>
     </EmbeddedResource>
@@ -164,6 +171,9 @@
     <EmbeddedResource Include="ObjectsWindow.resx">
       <DependentUpon>ObjectsWindow.h</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

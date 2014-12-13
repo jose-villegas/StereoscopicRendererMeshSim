@@ -1,7 +1,8 @@
 #pragma once
+#include "BaseObject.h"
 namespace Scene {
 
-    class Light {
+    class Light : public BaseObject {
         public:
             Light(void);
     };
