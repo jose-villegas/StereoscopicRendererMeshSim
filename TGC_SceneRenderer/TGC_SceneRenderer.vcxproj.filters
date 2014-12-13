@@ -51,9 +51,6 @@
     <ClCompile Include="Scene\Light.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Scene\BaseObject.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ObjectsWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -79,6 +76,18 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="AssetsWindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\SceneObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Types\Transform.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Bases\BaseComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Bases\BaseObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -116,9 +125,6 @@
     <ClInclude Include="Scene\Light.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Scene\BaseObject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ObjectsWindow.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -152,6 +158,18 @@
     <ClInclude Include="include\FreeImage\FreeImage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Scene\SceneObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Types\Transform.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Bases\BaseComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Bases\BaseObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="app.rc">
@@ -171,6 +189,15 @@
       <Filter>Resource Files</Filter>
     </EmbeddedResource>
     <EmbeddedResource Include="ConsoleWindow.resx">
+      <Filter>Resource Files</Filter>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AssetBoxControl.resx">
+      <Filter>Resource Files</Filter>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AssetsWindow.resx">
+      <Filter>Resource Files</Filter>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ObjectsWindow.resx">
       <Filter>Resource Files</Filter>
     </EmbeddedResource>
   </ItemGroup>

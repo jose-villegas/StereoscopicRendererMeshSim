@@ -8,11 +8,12 @@
 #include "GLM/glm.hpp"
 #include <vcclr.h>
 #include <vector>
+#include "../Bases/BaseComponent.h"
 #define INVALID_MATERIAL 0xFFFFFFFF
 #define INVALID_VALUE 0xFFFFFFFF
-namespace Scene  {
+namespace Scene {
 
-    class Mesh {
+    class Mesh : public BaseComponent {
         public:
             Mesh(void);
             ~Mesh(void);
@@ -38,8 +39,6 @@ namespace Scene  {
 
             std::vector<MeshEntry> _meshEntries;
             std::vector<unsigned int> _meshTextures;
-            // Store a managed reference (ECollections::Texture being the managed class)
-            // in the C++ native heap
             ECollections::Textures *_texCollection;
     };
 }

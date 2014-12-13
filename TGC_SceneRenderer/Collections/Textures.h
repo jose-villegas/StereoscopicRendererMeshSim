@@ -15,9 +15,14 @@ namespace ECollections {
             // Creates Unique Static Instance
             static Textures *Instance();
             virtual ~Textures();
-            // Loads a Texture if texID is already taken it will be replaced with the new texture
-            // filename: where to load the file from
-            // texID: arbitrary id you will reference the texture by if texID is taken previous texture will be taken out
+            //************************************
+            // Method:    loadTexture
+            // FullName:  ECollections::Textures::loadTexture
+            // Access:    public
+            // Returns:   bool - true on success, on false check Utils::Logger
+            // Parameter: const char * filename
+            // Parameter: const unsigned int texID - Texture ID
+            //************************************
             bool loadTexture(const char *filename, const unsigned int texID);
             // Loads a new texture with unique texID
             bool loadTexture(const char *filename);

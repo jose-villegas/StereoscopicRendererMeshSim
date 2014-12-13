@@ -1,6 +1,4 @@
 #pragma once
-#include <unordered_map>
-#include "..\Scene\BaseObject.h"
 namespace ECollections {
 
     ref class SceneObjects {

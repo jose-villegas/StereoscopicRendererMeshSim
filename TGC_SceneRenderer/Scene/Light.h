@@ -1,8 +1,8 @@
 #pragma once
-#include "BaseObject.h"
+#include "../Bases/BaseComponent.h"
 namespace Scene {
 
-    class Light : public BaseObject {
+    class Light : public BaseComponent {
         public:
             Light(void);
     };

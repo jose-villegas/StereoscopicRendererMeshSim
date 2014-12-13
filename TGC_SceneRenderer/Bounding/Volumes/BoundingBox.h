@@ -1,6 +1,11 @@
 #pragma once
-class BoundingBox {
-    public:
-        BoundingBox(void);
-};
+namespace Bounding {
+    namespace Volumes {
+
+        class BoundingBox {
+            public:
+                BoundingBox(void);
+        };
+    }
+}
 
