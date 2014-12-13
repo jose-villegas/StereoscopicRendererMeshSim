@@ -13,9 +13,6 @@ GLuint vBuffer;
 
 OpenGLForm::COpenGL::COpenGL(System::Windows::Forms::Panel ^parentForm, int iPositionX, int iPositionY, GLsizei iWidth, GLsizei iHeight)
 {
-    // Other Class Variables
-    _calcFramerate = false;
-    _texCollection = ECollections::Textures::Instance();
     // Create OGL Context
     _mHDC = createHandle(parentForm, iPositionX, iPositionY, iWidth, iHeight);
 
@@ -39,6 +36,9 @@ OpenGLForm::COpenGL::COpenGL(System::Windows::Forms::Panel ^parentForm, int iPos
         Utils::Logger::Write("Failed to initialize OpenGL", true, System::Drawing::Color::Red);
     }
 
+    // Other Class Variables
+    _calcFramerate = false;
+    _texCollection = ECollections::Textures::Instance();
     // Query Multisample Support
     // Setup OpenGL
     glEnable(GL_DEPTH_TEST);
@@ -169,4 +169,11 @@ HDC OpenGLForm::COpenGL::createHandle(System::Windows::Forms::Panel ^parentForm,
     this->CreateHandle(cp);
     // Return Created Handle
     return GetDC((HWND)this->Handle.ToPointer());
+}
+
+OpenGLForm::COpenGL::~COpenGL(System::Void)
+{
+    _texCollection->unloadAllTextures();
+    _texCollection->~Textures();
+    this->DestroyHandle();
 }

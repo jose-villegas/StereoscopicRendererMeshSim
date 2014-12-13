@@ -5,10 +5,10 @@ Texture::Texture(void)
 {
 }
 
-Texture::Texture(std::string, int tw, int textureHeight, int textureBitsPerPixel, int oglTexID, int texID)
+Texture::Texture(std::string sFileName, int textureWidth, int textureHeight, int textureBitsPerPixel, int oglTexID, int texID)
 {
     this->sFileName = sFileName;
-    this->tWidth = tw;
+    this->tWidth = textureWidth;
     this->tHeight = textureHeight;
     this->tBitsPerPixel = textureBitsPerPixel;
     this->oglTexID = oglTexID;

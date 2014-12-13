@@ -1,12 +1,22 @@
 #include "Textures.h"
 #include "..\Utils\Logger.h"
+#include "..\Types\Texture.h"
+#include <fstream>
+#include <iostream>
+#include <streambuf>
 using namespace ECollections;
 
 Textures *Textures::Instance()
 {
     if (!_eInstance) {
+        // Create Unique Shared Static Instance
         _eInstance = new Textures();
-        _eInstance->loadTexture("C:/Users/Admin/Documents/visual studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/Resources/white.png", 0);
+        // Write To Logger Current FreeImage Version
+        char s_version[32];
+        sprintf(s_version, "Using FreeImage v%d.%d.%d ...", FREEIMAGE_MAJOR_VERSION, FREEIMAGE_MINOR_VERSION, FREEIMAGE_RELEASE_SERIAL);
+        Utils::Logger::Write(gcnew System::String(s_version), true, System::Drawing::Color::Green);
+        // Load Default Resources
+        _eInstance->loadTexture("../TGC_SceneRenderer/Resources/default.png", 0);
     }
 
     return _eInstance;
@@ -60,6 +70,7 @@ bool Textures::loadTexture(const char *filename, const unsigned int texID)
 
     //if the image failed to load, return failure
     if (!dib) {
+        // In your main program …
         std::string sError = "Error loading texture '" + std::string(filename);
         Utils::Logger::Write(gcnew System::String(sError.c_str()), true, System::Drawing::Color::Red);
         return false;
@@ -85,8 +96,9 @@ bool Textures::loadTexture(const char *filename, const unsigned int texID)
         glDeleteTextures(1, &(_eTexCollection[texID]->oglTexID));
     }
 
-    glGenTextures(1, &gl_texID);													// generate an OpenGL texture ID for this texture
-    _eTexCollection[texID] = new Types::Texture(filename, width, height, bpp, gl_texID, texID);
+    glGenTextures(1, &gl_texID);
+    // generate an OpenGL texture ID for this texture
+    _eTexCollection[texID] = new Types::Texture(std::string(filename), width, height, bpp, gl_texID, texID);
     glBindTexture(GL_TEXTURE_2D, gl_texID);											// bind to the new texture ID
     // store the texture data for OpenGL use
     glTexImage2D(GL_TEXTURE_2D, 0, internal_format, width, height, 0, image_format, GL_UNSIGNED_BYTE, bits);

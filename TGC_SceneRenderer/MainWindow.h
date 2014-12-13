@@ -490,8 +490,10 @@ namespace TGC_SceneRenderer {
                 Scene::Mesh *nMesh = new Scene::Mesh();
                 msclr::interop::marshal_context context;
                 std::string standardString = context.marshal_as<std::string>(assetImportFileDialog->FileName);
-                nMesh->loadMesh(standardString);
-                Utils::Logger::Write(assetImportFileDialog->FileName);
+
+                if (nMesh->loadMesh(standardString)) {
+                    Utils::Logger::Write("Asset: " +  assetImportFileDialog->FileName + " loaded successfully");
+                }
             }
     };
 }

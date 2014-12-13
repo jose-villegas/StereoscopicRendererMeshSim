@@ -34,7 +34,7 @@ namespace OpenGLForm {
             HDC createHandle(System::Windows::Forms::Panel ^parentForm, int iPositionX, int iPositionY, GLsizei iWidth, GLsizei iHeight);
 
         protected:
-            ~COpenGL(System::Void) { this->DestroyHandle(); }
+            ~COpenGL(System::Void);
             GLint oglSetPixelFormat(HDC hdc);
     };
 }

@@ -28,7 +28,7 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v110</PlatformToolset>
-    <CLRSupport>Pure</CLRSupport>
+    <CLRSupport>true</CLRSupport>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
@@ -70,10 +70,11 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <AdditionalIncludeDirectories>$(ProjectDir)include</AdditionalIncludeDirectories>
+      <CompileAs>CompileAsCpp</CompileAs>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>opengl32.lib;gdi32.lib;user32.lib;FreeImage.lib;assimp.lib</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;gdi32.lib;user32.lib;freeimage.lib;assimp.lib</AdditionalDependencies>
       <SubSystem>Windows</SubSystem>
       <EntryPointSymbol>main</EntryPointSymbol>
       <AdditionalLibraryDirectories>$(ProjectDir)lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -96,11 +97,11 @@
     <ClCompile Include="AssetsWindow.cpp" />
     <ClCompile Include="Bounding\Volumes\BoundingSphere.cpp" />
     <ClCompile Include="Bounding\Volumes\BoundingBox.cpp" />
+    <ClCompile Include="include\GL\gl_core_4_4.c" />
     <ClCompile Include="ObjectsWindow.cpp" />
     <ClCompile Include="Collections\SceneObjects.cpp" />
     <ClCompile Include="Scene\BaseObject.cpp" />
     <ClCompile Include="Context\Multisample\ARB_Multisample.cpp" />
-    <ClCompile Include="include\GL\gl_core_4_4.c" />
     <ClCompile Include="Scene\Light.cpp" />
     <ClCompile Include="Scene\Camera.cpp" />
     <ClCompile Include="ConsoleWindow.cpp" />
@@ -123,14 +124,14 @@
     <ClInclude Include="Bounding\Volumes\BoundingSphere.h" />
     <ClInclude Include="Bounding\Volumes\BoundingBox.h" />
     <ClInclude Include="include\FreeImage\FreeImage.h" />
+    <ClInclude Include="include\GL\gl_core_4_4.h" />
+    <ClInclude Include="include\GL\wglext.h" />
     <ClInclude Include="ObjectsWindow.h">
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="Collections\SceneObjects.h" />
     <ClInclude Include="Scene\BaseObject.h" />
     <ClInclude Include="Context\Multisample\ARB_Multisample.h" />
-    <ClInclude Include="include\GL\gl_core_4_4.h" />
-    <ClInclude Include="include\GL\wglext.h" />
     <ClInclude Include="Scene\Light.h" />
     <ClInclude Include="Scene\Camera.h" />
     <ClInclude Include="ConsoleWindow.h">
@@ -172,9 +173,6 @@
     <EmbeddedResource Include="ObjectsWindow.resx">
       <DependentUpon>ObjectsWindow.h</DependentUpon>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

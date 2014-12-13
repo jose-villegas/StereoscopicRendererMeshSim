@@ -21,6 +21,7 @@ namespace TGC_SceneRenderer {
                 //
                 //TODO: Add the constructor code here
                 //
+                // loggerListBox->Enabled = false;
                 loggerListBox->DataSource = Utils::Logger::GetLog();
             }
 
@@ -34,8 +35,9 @@ namespace TGC_SceneRenderer {
                     delete components;
                 }
             }
-        private: System::Windows::Forms::ListBox  ^loggerListBox;
+
         private: System::Windows::Forms::Panel  ^consoleWindowControlPanel;
+        private: System::Windows::Forms::ListBox  ^loggerListBox;
 
         private:
             /// <summary>
@@ -59,7 +61,11 @@ namespace TGC_SceneRenderer {
                 //
                 this->loggerListBox->Dock = System::Windows::Forms::DockStyle::Fill;
                 this->loggerListBox->DrawMode = System::Windows::Forms::DrawMode::OwnerDrawFixed;
+                this->loggerListBox->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Regular,
+                                             System::Drawing::GraphicsUnit::Point,
+                                             static_cast<System::Byte>(0)));
                 this->loggerListBox->FormattingEnabled = true;
+                this->loggerListBox->HorizontalScrollbar = true;
                 this->loggerListBox->Items->AddRange(gcnew cli::array< System::Object ^  >(2) {L"asd", L"asd"});
                 this->loggerListBox->Location = System::Drawing::Point(0, 0);
                 this->loggerListBox->Name = L"loggerListBox";
@@ -86,7 +92,6 @@ namespace TGC_SceneRenderer {
                 this->Name = L"ConsoleWindow";
                 this->ShowInTaskbar = false;
                 this->Text = L"Console";
-                this->TopMost = true;
                 this->FormClosing += gcnew System::Windows::Forms::FormClosingEventHandler(this, &ConsoleWindow::ConsoleWindow_FormClosing);
                 this->consoleWindowControlPanel->ResumeLayout(false);
                 this->ResumeLayout(false);

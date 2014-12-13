@@ -1,5 +1,5 @@
 #pragma once
-#define FREEIMAGE_LIB
+// #define FREEIMAGE_LIB
 #define DEFAULT_TEXTURE_ID 0
 
 #include <windows.h>
