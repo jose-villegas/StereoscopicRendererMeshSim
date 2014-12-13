@@ -20,7 +20,7 @@ OpenGLForm::COpenGL::COpenGL(System::Windows::Forms::Panel ^parentForm, int iPos
         oglSetPixelFormat(_mHDC);
         HINSTANCE hInstance = (HINSTANCE)GetWindowLong((HWND)this->Handle.ToPointer(), GWL_HINSTANCE);
 
-        // Check For Multisample Support
+        // Query Multisample Support
         if (!arbMultisampleSupported && CHECK_FOR_MULTISAMPLE) {
             if (InitMultisample(hInstance, (HWND)this->Handle.ToPointer(), *pfd)) {
                 // Destroy Temporary Context
@@ -33,20 +33,16 @@ OpenGLForm::COpenGL::COpenGL(System::Windows::Forms::Panel ^parentForm, int iPos
     }
 
     if (!ogl_LoadFunctions()) {
-        Utils::Logger::Write("Failed to initialize OpenGL", true, System::Drawing::Color::Red);
+        Utils::Logger::Write("Failed to initialize OpenGL", true, LOG_CONTEXT_DANGER);
     }
 
-    // Other Class Variables
     _calcFramerate = false;
     _texCollection = ECollections::Textures::Instance();
-    // Query Multisample Support
+    // Write Library Loading / Current Instance Info
+    LibInfo::Write();
+    // Other Class Variables
     // Setup OpenGL
     glEnable(GL_DEPTH_TEST);
-    // Write Sucessfull Core Load
-    System::String ^glVersionString = gcnew System::String((char *)glGetString(GL_VERSION));
-    System::String ^glslVersionString = gcnew System::String((char *)glGetString(GL_SHADING_LANGUAGE_VERSION));
-    System::String ^oglString = L"OpenGL " + glVersionString + "s, GLSL " + glslVersionString + "\n";
-    Utils::Logger::Write(oglString, true, System::Drawing::Color::Green);
     // Triangle Render Test
 #ifdef DRAW_TEST_TRIANGLE
     glGenVertexArrays(1, &vArrayID);

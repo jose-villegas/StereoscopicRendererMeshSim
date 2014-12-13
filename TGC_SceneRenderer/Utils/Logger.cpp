@@ -48,6 +48,26 @@ void Logger::Write(System::String ^text, System::Drawing::Color labelForeColor)
     Log->Add(newLabel);
 }
 
+void Utils::Logger::Write(std::string text)
+{
+    Logger::Write(gcnew System::String(text.c_str()));
+}
+
+void Utils::Logger::Write(std::string text, System::Drawing::Color labelForeColor)
+{
+    Logger::Write(gcnew System::String(text.c_str()), labelForeColor);
+}
+
+void Utils::Logger::Write(std::string text, bool writeToStatusLabel)
+{
+    Logger::Write(gcnew System::String(text.c_str()), writeToStatusLabel);
+}
+
+void Utils::Logger::Write(std::string text, bool writeToStatusLabel, System::Drawing::Color labelForeColor)
+{
+    Logger::Write(gcnew System::String(text.c_str()), writeToStatusLabel, labelForeColor);
+}
+
 System::String ^Logger::GetLastLog()
 {
     return ((System::Windows::Forms::Label ^)Log[Log->Count - 1])->Text;

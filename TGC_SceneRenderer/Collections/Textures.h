@@ -23,9 +23,9 @@ namespace ECollections {
             // Parameter: const char * filename
             // Parameter: const unsigned int texID - Texture ID
             //************************************
-            bool loadTexture(const char *filename, const unsigned int texID);
+            bool loadTexture(const char *sFilename, const unsigned int texID);
             // Loads a new texture with unique texID
-            bool loadTexture(const char *filename);
+            bool loadTexture(const char *sFilename);
             bool unloadTexture(const unsigned int texID);					// frees memory reserved for texID texture
             bool bindTexture(const unsigned int texID);						// sets texID texture as the current active texture
             void unloadAllTextures();										// frees memory reserved for all the textures

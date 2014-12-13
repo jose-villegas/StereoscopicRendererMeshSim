@@ -1,4 +1,11 @@
 #pragma once
+#include <string>
+
+#define LOG_CONTEXT_WARNING System::Drawing::Color::Yellow
+#define LOG_CONTEXT_DANGER System::Drawing::Color::Red
+#define LOG_CONTEXT_SUCCESS System::Drawing::Color::Green
+#define LOG_CONTEXT_INFO System::Drawing::Color::Blue
+#define LOG_CONTEXT_ACTIVE System::Drawing::Color::Gray
 
 namespace Utils {
     public ref class Logger {
@@ -11,6 +18,10 @@ namespace Utils {
             static void Write(System::String ^text, System::Drawing::Color labelForeColor);
             static void Write(System::String ^text, bool writeToStatusLabel);
             static void Write(System::String ^text, bool writeToStatusLabel, System::Drawing::Color labelForeColor);
+            static void Write(std::string text);
+            static void Write(std::string text, System::Drawing::Color labelForeColor);
+            static void Write(std::string text, bool writeToStatusLabel);
+            static void Write(std::string text, bool writeToStatusLabel, System::Drawing::Color labelForeColor);
             static void ClearLog();
             static void SetStatusLabel(System::Windows::Forms::ToolStripStatusLabel ^statusLabel);
             static System::String ^GetLastLog();

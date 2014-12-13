@@ -11,10 +11,6 @@ Textures *Textures::Instance()
     if (!_eInstance) {
         // Create Unique Shared Static Instance
         _eInstance = new Textures();
-        // Write To Logger Current FreeImage Version
-        char s_version[32];
-        sprintf(s_version, "Using FreeImage v%d.%d.%d ...", FREEIMAGE_MAJOR_VERSION, FREEIMAGE_MINOR_VERSION, FREEIMAGE_RELEASE_SERIAL);
-        Utils::Logger::Write(gcnew System::String(s_version), true, System::Drawing::Color::Green);
         // Load Default Resources
         _eInstance->loadTexture("../TGC_SceneRenderer/Resources/default.png", 0);
     }
@@ -24,96 +20,35 @@ Textures *Textures::Instance()
 
 Textures::Textures()
 {
-    // call this ONLY when linking with FreeImage as a static library
-#ifdef FREEIMAGE_LIB
-    FreeImage_Initialise();
-#endif
 }
 
 Textures::~Textures()
 {
-    // call this ONLY when linking with FreeImage as a static library
-#ifdef FREEIMAGE_LIB
-    FreeImage_DeInitialise();
-#endif
     unloadAllTextures();
 }
 
-bool Textures::loadTexture(const char *filename, const unsigned int texID)
+bool Textures::loadTexture(const char *sFilename, const unsigned int texID)
 {
-    //image width and height
-    unsigned int width = 0, height = 0, bpp = 0;
-    //OpenGL's image ID to map to
-    GLuint gl_texID;
-    //check the file signature and deduce its format
-    FREE_IMAGE_FORMAT fif = FreeImage_GetFileType(filename, 0);
+    Types::Texture *newTex = new Types::Texture(std::string(sFilename), texID);
+    bool loadingResult = newTex->load(sFilename);
 
-    //if still unknown, try to guess the file format from the file extension
-    if (fif == FIF_UNKNOWN) {
-        fif = FreeImage_GetFIFFromFilename(filename);
+    if (!loadingResult) {
+        Utils::Logger::Write("Error loading '" + std::string(sFilename) + " texture", true, LOG_CONTEXT_DANGER);
+        return loadingResult;
     }
-
-    //if still unkown, return failure
-    if (fif == FIF_UNKNOWN) {
-        std::string sError = "Error loading texture " + std::string(filename);
-        Utils::Logger::Write(gcnew System::String(sError.c_str()), true, System::Drawing::Color::Red);
-        return false;
-    }
-
-    //pointer to the image, once loaded
-    FIBITMAP *dib = 0;
-
-    //check that the plugin has reading capabilities and load the file
-    if (FreeImage_FIFSupportsReading(fif)) {
-        dib = FreeImage_Load(fif, filename);
-    }
-
-    //if the image failed to load, return failure
-    if (!dib) {
-        // In your main program …
-        std::string sError = "Error loading texture " + std::string(filename);
-        Utils::Logger::Write(gcnew System::String(sError.c_str()), true, System::Drawing::Color::Red);
-        return false;
-    }
-
-    //retrieve the image data
-    BYTE *bits = FreeImage_GetBits(dib);
-    //get the image width and height
-    width = FreeImage_GetWidth(dib);
-    height = FreeImage_GetHeight(dib);
-    bpp = FreeImage_GetBPP(dib);
-
-    //if this somehow one of these failed (they shouldn't), return failure
-    if ((bits == 0) || (width == 0) || (height == 0)) {
-        return false;
-    }
-
-    int image_format = bpp == 32 ? GL_BGRA : bpp == 24 ? GL_BGR : bpp == 8 ? GL_RG : 0;
-    int internal_format = bpp == 32 ? GL_BGRA : bpp == 24 ? GL_RGB : GL_DEPTH_COMPONENT;
 
     //if this texture ID is in use, unload the current texture
     if (_eTexCollection.find(texID) != _eTexCollection.end()) {
+        Utils::Logger::Write("Warning '" + _eTexCollection[texID]->sFilename + " texture replaced", true, LOG_CONTEXT_WARNING);
         glDeleteTextures(1, &(_eTexCollection[texID]->oglTexID));
     }
 
-    glGenTextures(1, &gl_texID);
-    // generate an OpenGL texture ID for this texture
-    _eTexCollection[texID] = new Types::Texture(std::string(filename), width, height, bpp, gl_texID, texID);
-    glBindTexture(GL_TEXTURE_2D, gl_texID);											// bind to the new texture ID
-    // store the texture data for OpenGL use
-    glTexImage2D(GL_TEXTURE_2D, 0, internal_format, width, height, 0, image_format, GL_UNSIGNED_BYTE, bits);
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glBindTexture(GL_TEXTURE_2D, 0);
-    // Free FreeImage's copy of the data
-    FreeImage_Unload(dib);
-    // return success
-    std::string sSuccess = "Loaded texture '" + std::string(filename) + " successfully";
-    Utils::Logger::Write(gcnew System::String(sSuccess.c_str()), true, System::Drawing::Color::Green);
-    return true;
+    _eTexCollection[texID] = newTex;
+    Utils::Logger::Write("Loaded texture '" + std::string(sFilename) + " successfully", true, LOG_CONTEXT_SUCCESS);
+    return loadingResult;
 }
 
-bool Textures::loadTexture(const char *filename)
+bool Textures::loadTexture(const char *sFilename)
 {
     int unique_texID = 1;
 
@@ -125,7 +60,7 @@ bool Textures::loadTexture(const char *filename)
         }
     }
 
-    return loadTexture(filename, unique_texID);
+    return loadTexture(sFilename, unique_texID);
 }
 
 bool Textures::unloadTexture(const unsigned int texID)

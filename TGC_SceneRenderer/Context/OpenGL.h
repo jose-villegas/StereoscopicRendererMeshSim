@@ -6,6 +6,7 @@
 #include "../Utils/Logger.h"
 #include "../Utils/FrameRate.h"
 #include "../Collections/Textures.h"
+#include "LibInfo.h"
 using namespace System::Windows::Forms;
 
 namespace OpenGLForm {
