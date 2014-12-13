@@ -2,7 +2,7 @@
 #include "../Bases/BaseComponent.h"
 namespace Scene {
 
-    class Camera : public BaseComponent {
+    class Camera : public Bases::BaseComponent {
         public:
             Camera(void);
     };

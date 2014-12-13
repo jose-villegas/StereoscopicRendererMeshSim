@@ -13,7 +13,7 @@
 #define INVALID_VALUE 0xFFFFFFFF
 namespace Scene {
 
-    class Mesh : public BaseComponent {
+    class Mesh : public Bases::BaseComponent {
         public:
             Mesh(void);
             ~Mesh(void);
