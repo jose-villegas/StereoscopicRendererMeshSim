@@ -20,6 +20,7 @@ namespace OpenGLForm {
             System::Double getTotalTime() { return _totalTime; }
             System::Double getFrameRate() { return _framerate; }
             virtual System::Void render(System::Void);
+            System::String ^OGL_INFO_STRING;
 
         private:
             HDC _mHDC;

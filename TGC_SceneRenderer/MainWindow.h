@@ -26,13 +26,13 @@ namespace TGC_SceneRenderer {
             MainWindow(void)
             {
                 InitializeComponent();
-                // Pass Tool Label To Logger
+                // Pass Tool Label To Logger for future info writes
                 Utils::Logger::SetStatusLabel(this->statusStripLabel);
                 // Setup OpenGL Render Context Inside a Panel
                 System::Windows::Forms::Panel ^oglRenderPanel = this->OpenGLRenderPanel;
                 OpenGL = gcnew COpenGL(oglRenderPanel, 0, 0, oglRenderPanel->ClientSize.Width, oglRenderPanel->ClientSize.Height);
                 // Add OpenGL Info to Form Title
-                this->Text += " (" + Utils::Logger::GetLastLog() + ")";
+                this->Text += " (" + OpenGL->OGL_INFO_STRING + ")";
                 // Other Components / Forms
                 consoleWindow = gcnew ConsoleWindow();
                 objectsWindow = gcnew ObjectsWindow();
@@ -492,9 +492,9 @@ namespace TGC_SceneRenderer {
                     std::string standardString = context.marshal_as<std::string>(assetImportFileDialog->FileName);
 
                     if (nMesh->loadMesh(standardString)) {
-                        Utils::Logger::Write("Asset: " +  assetImportFileDialog->FileName + " loaded successfully", true, System::Drawing::Color::Green);
+                        Utils::Logger::Write("Asset: " +  assetImportFileDialog->FileName + " loaded successfully", true, LOG_CONTEXT_SUCCESS);
                     } else {
-                        Utils::Logger::Write("An error occurred loading " +  assetImportFileDialog->FileName + " asset", true, System::Drawing::Color::Red);
+                        Utils::Logger::Write("An error occurred loading " +  assetImportFileDialog->FileName + " asset", true, LOG_CONTEXT_DANGER);
                     }
                 }
             }

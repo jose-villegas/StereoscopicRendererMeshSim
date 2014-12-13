@@ -33,18 +33,18 @@ bool Textures::loadTexture(const char *sFilename, const unsigned int texID)
     bool loadingResult = newTex->load(sFilename);
 
     if (!loadingResult) {
-        Utils::Logger::Write("Error loading '" + std::string(sFilename) + " texture", true, LOG_CONTEXT_DANGER);
+        Utils::Logger::Write("Error loading " + std::string(sFilename) + " texture", true, LOG_CONTEXT_DANGER);
         return loadingResult;
     }
 
     //if this texture ID is in use, unload the current texture
     if (_eTexCollection.find(texID) != _eTexCollection.end()) {
-        Utils::Logger::Write("Warning '" + _eTexCollection[texID]->sFilename + " texture replaced", true, LOG_CONTEXT_WARNING);
+        Utils::Logger::Write("Warning texture: " + _eTexCollection[texID]->sFilename + " replaced", true, LOG_CONTEXT_WARNING);
         glDeleteTextures(1, &(_eTexCollection[texID]->oglTexID));
     }
 
     _eTexCollection[texID] = newTex;
-    Utils::Logger::Write("Loaded texture '" + std::string(sFilename) + " successfully", true, LOG_CONTEXT_SUCCESS);
+    Utils::Logger::Write("Texture: " + std::string(sFilename) + "loaded successfully", true, LOG_CONTEXT_SUCCESS);
     return loadingResult;
 }
 

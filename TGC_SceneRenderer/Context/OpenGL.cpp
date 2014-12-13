@@ -1,5 +1,5 @@
 #include "OpenGL.h"
-
+#define DRAW_TEST_TRIANGLE
 #ifdef DRAW_TEST_TRIANGLE
 static const GLfloat g_vertex_buffer_data[] = {
     -1.0f, -1.0f, 0.0f,
@@ -36,11 +36,12 @@ OpenGLForm::COpenGL::COpenGL(System::Windows::Forms::Panel ^parentForm, int iPos
         Utils::Logger::Write("Failed to initialize OpenGL", true, LOG_CONTEXT_DANGER);
     }
 
-    _calcFramerate = false;
-    _texCollection = ECollections::Textures::Instance();
     // Write Library Loading / Current Instance Info
     LibInfo::Write();
+    OGL_INFO_STRING = LibInfo::OGL_INFO_STRING;
     // Other Class Variables
+    _calcFramerate = false;
+    _texCollection = ECollections::Textures::Instance();
     // Setup OpenGL
     glEnable(GL_DEPTH_TEST);
     // Triangle Render Test
