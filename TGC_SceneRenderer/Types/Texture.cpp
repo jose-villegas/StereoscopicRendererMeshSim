@@ -7,16 +7,6 @@ Texture::Texture(void)
 {
 }
 
-Texture::Texture(std::string sFilename, int textureWidth, int textureHeight, int textureBitsPerPixel, int oglTexID, int texID)
-{
-    this->sFilename = sFilename;
-    this->tWidth = textureWidth;
-    this->tHeight = textureHeight;
-    this->tBitsPerPixel = textureBitsPerPixel;
-    this->oglTexID = oglTexID;
-    this->texID = texID;
-}
-
 Types::Texture::Texture(std::string sFilename, const unsigned int texID)
 {
     this->sFilename = sFilename;
@@ -65,18 +55,23 @@ bool Types::Texture::load(const char *sFilename)
     }
 
     // Check Image Bit Density
-    image_format = tBitsPerPixel == 32 ? GL_BGRA : tBitsPerPixel == 24 ? GL_BGR : tBitsPerPixel == 8 ? GL_RG : 0;
-    internal_format = tBitsPerPixel == 32 ? GL_BGRA : tBitsPerPixel == 24 ? GL_RGB : GL_DEPTH_COMPONENT;
+    imageFormat = tBitsPerPixel == 32 ? GL_BGRA : tBitsPerPixel == 24 ? GL_BGR : tBitsPerPixel == 8 ? GL_RG : 0;
+    internalFormat = tBitsPerPixel == 32 ? GL_BGRA : tBitsPerPixel == 24 ? GL_RGB : GL_DEPTH_COMPONENT;
     glGenTextures(1, &oglTexID);
     glBindTexture(GL_TEXTURE_2D, oglTexID);											// bind to the new texture ID
     // store the texture data for OpenGL use
-    glTexImage2D(GL_TEXTURE_2D, 0, internal_format, tWidth, tHeight, 0, image_format, GL_UNSIGNED_BYTE, bits);
+    glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, tWidth, tHeight, 0, imageFormat, GL_UNSIGNED_BYTE, bits);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glBindTexture(GL_TEXTURE_2D, 0);
     // Free FreeImage's copy of the data
     FreeImage_Unload(dib);
     return true;
+}
+
+void Types::Texture::unload()
+{
+    glDeleteTextures(1, &oglTexID);
 }
 
 Texture::~Texture()

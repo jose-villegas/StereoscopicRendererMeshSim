@@ -69,7 +69,7 @@ bool Textures::unloadTexture(const unsigned int texID)
 
     //if this texture ID mapped, unload it's texture, and remove it from the map
     if (_eTexCollection.find(texID) != _eTexCollection.end()) {
-        glDeleteTextures(1, &(_eTexCollection[texID]->oglTexID));
+        _eTexCollection[texID]->unload();
         _eTexCollection.erase(texID);
     }
     //otherwise, unload failed

@@ -1,12 +1,11 @@
 #pragma once
-#include "GL/gl_core_4_4.h"
-#include "GL/wglext.h"
 #include <windows.h>
-#include "Multisample/arb_multisample.h"
 #include "../Utils/Logger.h"
 #include "../Utils/FrameRate.h"
+#include "../Core/Renderer.h"
 #include "../Collections/Textures.h"
 #include "LibInfo.h"
+#include "Multisample/arb_multisample.h"
 using namespace System::Windows::Forms;
 
 namespace OpenGLForm {
@@ -33,6 +32,7 @@ namespace OpenGLForm {
             Utils::FrameRate _fmCalc;
             ECollections::Textures *_texCollection;
             System::Boolean _calcFramerate;
+            Core::Renderer *_oglRender;
             HDC createHandle(System::Windows::Forms::Panel ^parentForm, int iPositionX, int iPositionY, GLsizei iWidth, GLsizei iHeight);
 
         protected:

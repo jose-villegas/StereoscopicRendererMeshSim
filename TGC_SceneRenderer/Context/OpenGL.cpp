@@ -1,15 +1,5 @@
 #include "OpenGL.h"
-#define DRAW_TEST_TRIANGLE
-#ifdef DRAW_TEST_TRIANGLE
-static const GLfloat g_vertex_buffer_data[] = {
-    -1.0f, -1.0f, 0.0f,
-    1.0f, -1.0f, 0.0f,
-    0.0f,  1.0f, 0.0f,
-};
 
-GLuint vArrayID;
-GLuint vBuffer;
-#endif // DRAW_TEST_TRIANGLE
 
 OpenGLForm::COpenGL::COpenGL(System::Windows::Forms::Panel ^parentForm, int iPositionX, int iPositionY, GLsizei iWidth, GLsizei iHeight)
 {
@@ -32,29 +22,21 @@ OpenGLForm::COpenGL::COpenGL(System::Windows::Forms::Panel ^parentForm, int iPos
         }
     }
 
-    if (!ogl_LoadFunctions()) {
+    // Create Renderer (Core::Renderer is in charge of rendering all scene objects and misc)
+    _oglRender = new Core::Renderer();
+
+    if (!_oglRender->load()) {
         Utils::Logger::Write("Failed to initialize OpenGL", true, LOG_CONTEXT_DANGER);
     }
 
+    // Setup OGL Flags
+    _oglRender->setup();
     // Write Library Loading / Current Instance Info
     LibInfo::Write();
     OGL_INFO_STRING = LibInfo::OGL_INFO_STRING;
     // Other Class Variables
-    _calcFramerate = false;
+    _calcFramerate = false; // Default Don't
     _texCollection = ECollections::Textures::Instance();
-    // Setup OpenGL
-    glEnable(GL_DEPTH_TEST);
-    // Triangle Render Test
-#ifdef DRAW_TEST_TRIANGLE
-    glGenVertexArrays(1, &vArrayID);
-    glBindVertexArray(vArrayID);
-    // Generate 1 buffer, put the resulting identifier in vertexbuffer
-    glGenBuffers(1, &vBuffer);
-    // The following commands will talk about our 'vertexbuffer' buffer
-    glBindBuffer(GL_ARRAY_BUFFER, vBuffer);
-    // Give our vertices to OpenGL.
-    glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
-#endif
 }
 
 System::Void OpenGLForm::COpenGL::restartStopwatch(System::Void)
@@ -68,25 +50,7 @@ System::Void OpenGLForm::COpenGL::restartStopwatch(System::Void)
 
 System::Void OpenGLForm::COpenGL::render(System::Void)
 {
-    // Clear the color and depth buffers.
-    glClearColor(0.0f, 0.0f, 0.0f, 0.0f) ;
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-#ifdef DRAW_TEST_TRIANGLE
-    // 1rst attribute buffer : vertices
-    glEnableVertexAttribArray(0);
-    glBindBuffer(GL_ARRAY_BUFFER, vBuffer);
-    glVertexAttribPointer(
-        0,                  // attribute 0. No particular reason for 0, but must match the layout in the shader.
-        3,                  // size
-        GL_FLOAT,           // type
-        GL_FALSE,           // normalized?
-        0,                  // stride
-        (void *)0           // array buffer offset
-    );
-    // Draw the triangle !
-    glDrawArrays(GL_TRIANGLES, 0, 3); // Starting from vertex 0; 3 vertices total -> 1 triangle
-    glDisableVertexAttribArray(0);
-#endif
+    _oglRender->loop();
 }
 
 GLint OpenGLForm::COpenGL::oglSetPixelFormat(HDC hdc)

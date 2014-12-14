@@ -14,7 +14,6 @@ namespace Types {
     class Texture {
         public:
             Texture(void);
-            Texture(std::string sFilename, int textureWidth, int textureHeight, int textureBitsPerPixel, int oglTexID, int texID);
             Texture(std::string sFilename, const unsigned int texID);
             ~Texture();
             std::string sFilename;
@@ -23,9 +22,10 @@ namespace Types {
             unsigned int tBitsPerPixel;
             unsigned int oglTexID;
             unsigned int texID;
-            unsigned int internal_format;
-            unsigned int image_format;
+            unsigned int internalFormat;
+            unsigned int imageFormat;
             void bind();
             bool load(const char *sFilename);
+            void unload();
     };
 }

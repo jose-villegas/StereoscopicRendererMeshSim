@@ -102,6 +102,7 @@
     <ClCompile Include="Context\LibInfo.cpp" />
     <ClCompile Include="ObjectsWindow.cpp" />
     <ClCompile Include="Collections\SceneObjects.cpp" />
+    <ClCompile Include="Core\Renderer.cpp" />
     <ClCompile Include="Scene\SceneObject.cpp" />
     <ClCompile Include="Bases\BaseObject.cpp" />
     <ClCompile Include="Context\Multisample\ARB_Multisample.cpp" />
@@ -136,6 +137,7 @@
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="Collections\SceneObjects.h" />
+    <ClInclude Include="Core\Renderer.h" />
     <ClInclude Include="Scene\SceneObject.h" />
     <ClInclude Include="Bases\BaseObject.h" />
     <ClInclude Include="Context\Multisample\ARB_Multisample.h" />
