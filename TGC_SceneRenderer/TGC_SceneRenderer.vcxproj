@@ -112,6 +112,7 @@
     <ClCompile Include="Context\OpenGL.cpp" />
     <ClCompile Include="Scene\Mesh.cpp" />
     <ClCompile Include="Collections\Textures.cpp" />
+    <ClCompile Include="Types\ShaderProgram.cpp" />
     <ClCompile Include="Types\Shader.cpp" />
     <ClCompile Include="Types\Transform.cpp" />
     <ClCompile Include="Types\Texture.cpp" />
@@ -149,6 +150,7 @@
     </ClInclude>
     <ClInclude Include="Scene\Mesh.h" />
     <ClInclude Include="Collections\Textures.h" />
+    <ClInclude Include="Types\ShaderProgram.h" />
     <ClInclude Include="Types\Shader.h" />
     <ClInclude Include="Types\Transform.h" />
     <ClInclude Include="Types\Texture.h" />

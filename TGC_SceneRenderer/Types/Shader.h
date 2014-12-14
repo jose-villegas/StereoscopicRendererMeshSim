@@ -23,6 +23,7 @@ namespace Types {
             bool loadFromString(const std::string &sSource);
             bool loadFromFile(const std::string &sFilename);
             bool compile();
+            GLuint getId() const { return _id; }
         private:
             GLuint _id;
             ShaderType _type;
