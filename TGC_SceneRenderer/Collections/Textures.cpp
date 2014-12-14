@@ -38,9 +38,11 @@ bool Textures::loadTexture(const std::string &sFilename, const unsigned int texI
     }
 
     //if this texture ID is in use, unload the current texture
-    if (_eTexCollection.find(texID) != _eTexCollection.end()) {
+    std::map<unsigned int, Types::Texture *>::iterator it = _eTexCollection.find(texID);
+
+    if (it != _eTexCollection.end()) {
         Utils::Logger::Write("Warning texture: " + _eTexCollection[texID]->sFilename + " replaced", true, LOG_CONTEXT_WARNING);
-        glDeleteTextures(1, &(_eTexCollection[texID]->oglTexID));
+        glDeleteTextures(1, &(it->second->oglTexID));
     }
 
     _eTexCollection[texID] = newTex;
@@ -66,10 +68,11 @@ bool Textures::loadTexture(const std::string &sFilename)
 bool Textures::unloadTexture(const unsigned int texID)
 {
     bool result = true;
-
     //if this texture ID mapped, unload it's texture, and remove it from the map
-    if (_eTexCollection.find(texID) != _eTexCollection.end()) {
-        _eTexCollection[texID]->unload();
+    std::map<unsigned int, Types::Texture *>::iterator it = _eTexCollection.find(texID);
+
+    if (it != _eTexCollection.end()) {
+        it->second->unload();
         _eTexCollection.erase(texID);
     }
     //otherwise, unload failed
