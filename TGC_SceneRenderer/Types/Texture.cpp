@@ -13,14 +13,14 @@ Types::Texture::Texture(std::string sFilename, const unsigned int texID)
     this->texID = texID;
 }
 
-bool Types::Texture::load(const char *sFilename)
+bool Types::Texture::load(std::string sFilename)
 {
     //check the file signature and deduce its format
-    FREE_IMAGE_FORMAT fif = FreeImage_GetFileType(sFilename, 0);
+    FREE_IMAGE_FORMAT fif = FreeImage_GetFileType(sFilename.c_str(), 0);
 
     //if still unknown, try to guess the file format from the file extension
     if (fif == FIF_UNKNOWN) {
-        fif = FreeImage_GetFIFFromFilename(sFilename);
+        fif = FreeImage_GetFIFFromFilename(sFilename.c_str());
     }
 
     //if still unkown, return failure
@@ -33,7 +33,7 @@ bool Types::Texture::load(const char *sFilename)
 
     //check that the plugin has reading capabilities and load the file
     if (FreeImage_FIFSupportsReading(fif)) {
-        dib = FreeImage_Load(fif, sFilename);
+        dib = FreeImage_Load(fif, sFilename.c_str());
     }
 
     //if the image failed to load, return failure

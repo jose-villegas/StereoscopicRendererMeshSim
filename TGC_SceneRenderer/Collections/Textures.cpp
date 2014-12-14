@@ -27,9 +27,9 @@ Textures::~Textures()
     unloadAllTextures();
 }
 
-bool Textures::loadTexture(const char *sFilename, const unsigned int texID)
+bool Textures::loadTexture(const std::string &sFilename, const unsigned int texID)
 {
-    Types::Texture *newTex = new Types::Texture(std::string(sFilename), texID);
+    Types::Texture *newTex = new Types::Texture(sFilename, texID);
     bool loadingResult = newTex->load(sFilename);
 
     if (!loadingResult) {
@@ -48,7 +48,7 @@ bool Textures::loadTexture(const char *sFilename, const unsigned int texID)
     return loadingResult;
 }
 
-bool Textures::loadTexture(const char *sFilename)
+bool Textures::loadTexture(const std::string &sFilename)
 {
     int unique_texID = 1;
 

@@ -98,8 +98,8 @@
     <ClCompile Include="Bases\BaseComponent.cpp" />
     <ClCompile Include="Bounding\Volumes\BoundingSphere.cpp" />
     <ClCompile Include="Bounding\Volumes\BoundingBox.cpp" />
-    <ClCompile Include="include\GL\gl_core_4_4.c" />
     <ClCompile Include="Context\LibInfo.cpp" />
+    <ClCompile Include="include\GL\gl_core_4_4.c" />
     <ClCompile Include="ObjectsWindow.cpp" />
     <ClCompile Include="Collections\SceneObjects.cpp" />
     <ClCompile Include="Core\Renderer.cpp" />
@@ -112,6 +112,7 @@
     <ClCompile Include="Context\OpenGL.cpp" />
     <ClCompile Include="Scene\Mesh.cpp" />
     <ClCompile Include="Collections\Textures.cpp" />
+    <ClCompile Include="Types\Shader.cpp" />
     <ClCompile Include="Types\Transform.cpp" />
     <ClCompile Include="Types\Texture.cpp" />
     <ClCompile Include="Utils\FrameRate.cpp" />
@@ -129,10 +130,10 @@
     <ClInclude Include="Bases\BaseComponent.h" />
     <ClInclude Include="Bounding\Volumes\BoundingSphere.h" />
     <ClInclude Include="Bounding\Volumes\BoundingBox.h" />
+    <ClInclude Include="Context\LibInfo.h" />
     <ClInclude Include="include\FreeImage\FreeImage.h" />
     <ClInclude Include="include\GL\gl_core_4_4.h" />
     <ClInclude Include="include\GL\wglext.h" />
-    <ClInclude Include="Context\LibInfo.h" />
     <ClInclude Include="ObjectsWindow.h">
       <FileType>CppForm</FileType>
     </ClInclude>
@@ -148,6 +149,7 @@
     </ClInclude>
     <ClInclude Include="Scene\Mesh.h" />
     <ClInclude Include="Collections\Textures.h" />
+    <ClInclude Include="Types\Shader.h" />
     <ClInclude Include="Types\Transform.h" />
     <ClInclude Include="Types\Texture.h" />
     <ClInclude Include="Utils\FrameRate.h" />

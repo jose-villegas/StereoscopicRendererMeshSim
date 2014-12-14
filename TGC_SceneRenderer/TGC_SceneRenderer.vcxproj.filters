@@ -69,9 +69,6 @@
     <ClCompile Include="Scene\Mesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="include\GL\gl_core_4_4.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="AssetBoxControl.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -84,16 +81,22 @@
     <ClCompile Include="Types\Transform.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Context\LibInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Renderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Types\Shader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="Bases\BaseComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Bases\BaseObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Context\LibInfo.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\Renderer.cpp">
+    <ClCompile Include="include\GL\gl_core_4_4.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -155,19 +158,19 @@
     <ClInclude Include="Scene\Mesh.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\GL\gl_core_4_4.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\GL\wglext.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\FreeImage\FreeImage.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Scene\SceneObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Types\Transform.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Context\LibInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Renderer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Types\Shader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Bases\BaseComponent.h">
@@ -176,10 +179,13 @@
     <ClInclude Include="Bases\BaseObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Context\LibInfo.h">
+    <ClInclude Include="include\GL\gl_core_4_4.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Renderer.h">
+    <ClInclude Include="include\GL\wglext.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\FreeImage\FreeImage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

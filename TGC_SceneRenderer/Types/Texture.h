@@ -25,7 +25,7 @@ namespace Types {
             unsigned int internalFormat;
             unsigned int imageFormat;
             void bind();
-            bool load(const char *sFilename);
+            bool load(std::string sFilename);
             void unload();
     };
 }
