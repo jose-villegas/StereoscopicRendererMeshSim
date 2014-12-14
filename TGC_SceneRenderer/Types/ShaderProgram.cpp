@@ -83,13 +83,43 @@ GLuint Types::ShaderProgram::addUniform(const std::string &sUniformName)
 }
 
 template<typename T>
-void Types::ShaderProgram::setUniform(const std::string &sUniformName, T &&value) const
+void Types::ShaderProgram::setUniform(const std::string &sUniformName, T &&value0) const
 {
     GLuint unfrLoc = getUniform(name);
 
     if (unfrLoc == -1) { return; }
 
-    setUniform(unfrLoc, std::forward<T>(value));
+    setUniform(unfrLoc, std::forward<T>(value0));
+}
+
+template<typename T>
+void Types::ShaderProgram::setUniform(const std::string &sUniformName, T &&value0, T &&value1) const
+{
+    GLuint unfrLoc = getUniform(name);
+
+    if (unfrLoc == -1) { return; }
+
+    setUniform(unfrLoc, std::forward<T>(value0), std::forward<T>(value1));
+}
+
+template<typename T>
+void Types::ShaderProgram::setUniform(const std::string &sUniformName, T &&value0, T &&value1, T &&value2) const
+{
+    GLuint unfrLoc = getUniform(name);
+
+    if (unfrLoc == -1) { return; }
+
+    setUniform(unfrLoc, std::forward<T>(value0), std::forward<T>(value1), std::forward<T>(value2));
+}
+
+template<typename T>
+void Types::ShaderProgram::setUniform(const std::string &sUniformName, T &&value0, T &&value1, T &&value2, T &&value3) const
+{
+    GLuint unfrLoc = getUniform(name);
+
+    if (unfrLoc == -1) { return; }
+
+    setUniform(unfrLoc, std::forward<T>(value0), std::forward<T>(value1), std::forward<T>(value2), std::forward<T>(value3));
 }
 
 void Types::ShaderProgram::setUniform(unsigned int unfrLoc, const float value0) const
