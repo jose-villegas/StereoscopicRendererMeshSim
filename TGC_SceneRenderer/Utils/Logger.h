@@ -15,6 +15,7 @@ namespace Utils {
             static System::Windows::Forms::ListBox ^_bindedListBox;
             static System::Windows::Forms::ToolStripStatusLabel ^_windowStatusLabel;
             static System::Boolean _writeToLogFile = true;
+
         public:
             static void Write(System::String ^text);
             static void Write(System::String ^text, System::Drawing::Color labelForeColor);
@@ -28,6 +29,7 @@ namespace Utils {
             static void SetStatusLabel(System::Windows::Forms::ToolStripStatusLabel ^statusLabel);
             static void SetBindedListBox(static System::Windows::Forms::ListBox ^bindedListBox);
             static void UseLogFile(System::Boolean writeToLogFile);
+            static void CleanLogFile();
             static System::String ^GetLastLog();
             static System::ComponentModel::BindingList<System::Windows::Forms::Label ^> ^GetLog() { return _Log; };
     };

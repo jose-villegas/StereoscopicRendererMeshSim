@@ -3,7 +3,6 @@
 #include "Utils/Logger.h"
 #include "ConsoleWindow.h"
 #include "ObjectsWindow.h"
-#include "AssetsWindow.h"
 #include "Scene/Mesh.h"
 #include <msclr\marshal_cppstd.h>
 
@@ -26,21 +25,15 @@ namespace TGC_SceneRenderer {
             MainWindow(void)
             {
                 InitializeComponent();
-                // Form Extra Settings
-                this->StartPosition = System::Windows::Forms::FormStartPosition::CenterScreen;
                 // Other Components / Forms
                 consoleWindow = gcnew ConsoleWindow();
                 objectsWindow = gcnew ObjectsWindow();
-                assetsWindow = gcnew AssetsWindow();
-                // Console Window Settings
                 consoleWindow->Width = this->Width;
-                consoleWindow->WindowState = System::Windows::Forms::FormWindowState::Normal;
-                consoleWindow->StartPosition =  System::Windows::Forms::FormStartPosition::Manual;
-                consoleWindow->BringToFront();
-                consoleWindow->Top = this->Height + consoleWindow->Height;
-                consoleWindow->Left = this->Width / 2;
+                objectsWindow->Height = this->Height;
                 // Pass Tool Label To Logger for future info writes
                 Utils::Logger::SetStatusLabel(this->statusStripLabel);
+                // Clean Up Log File per execution
+                Utils::Logger::CleanLogFile();
                 // Setup OpenGL Render Context Inside a Panel
                 System::Windows::Forms::Panel ^oglRenderPanel = this->OpenGLRenderPanel;
                 OpenGL = gcnew COpenGL(oglRenderPanel, 0, 0, oglRenderPanel->ClientSize.Width, oglRenderPanel->ClientSize.Height);
@@ -48,6 +41,7 @@ namespace TGC_SceneRenderer {
                 this->Text += " (" + OpenGL->OGL_INFO_STRING + ")";
                 // Show Console Window At Startup
                 consoleWindow->Show();
+                objectsWindow->Show();
                 consoleWindow->Refresh();
             }
 
@@ -67,7 +61,6 @@ namespace TGC_SceneRenderer {
             /// Required designer variable.
             /// </summary>
         private: OpenGLForm::COpenGL ^OpenGL;
-        private: AssetsWindow ^assetsWindow;
         private: ConsoleWindow ^consoleWindow;
         private: ObjectsWindow ^objectsWindow;
         private: System::Windows::Forms::MenuStrip  ^topMenuBar;
@@ -378,23 +371,22 @@ namespace TGC_SceneRenderer {
                 // consoleToolStripMenuItem
                 //
                 this->consoleToolStripMenuItem->Name = L"consoleToolStripMenuItem";
-                this->consoleToolStripMenuItem->Size = System::Drawing::Size(117, 22);
+                this->consoleToolStripMenuItem->Size = System::Drawing::Size(152, 22);
                 this->consoleToolStripMenuItem->Text = L"Console";
                 this->consoleToolStripMenuItem->Click += gcnew System::EventHandler(this, &MainWindow::consoleToolStripMenuItem_Click);
                 //
                 // objectsToolStripMenuItem
                 //
                 this->objectsToolStripMenuItem->Name = L"objectsToolStripMenuItem";
-                this->objectsToolStripMenuItem->Size = System::Drawing::Size(117, 22);
+                this->objectsToolStripMenuItem->Size = System::Drawing::Size(152, 22);
                 this->objectsToolStripMenuItem->Text = L"Objects";
                 this->objectsToolStripMenuItem->Click += gcnew System::EventHandler(this, &MainWindow::objectsToolStripMenuItem_Click);
                 //
                 // assetsToolStripMenuItem
                 //
                 this->assetsToolStripMenuItem->Name = L"assetsToolStripMenuItem";
-                this->assetsToolStripMenuItem->Size = System::Drawing::Size(117, 22);
+                this->assetsToolStripMenuItem->Size = System::Drawing::Size(152, 22);
                 this->assetsToolStripMenuItem->Text = L"Assets";
-                this->assetsToolStripMenuItem->Click += gcnew System::EventHandler(this, &MainWindow::assetsToolStripMenuItem_Click);
                 //
                 // aboutToolStripMenuItem
                 //
@@ -447,6 +439,7 @@ namespace TGC_SceneRenderer {
                 this->MainMenuStrip = this->topMenuBar;
                 this->Name = L"MainWindow";
                 this->Text = L"TCG - SCENE";
+                this->Shown += gcnew System::EventHandler(this, &MainWindow::MainWindow_Shown);
                 this->topMenuBar->ResumeLayout(false);
                 this->topMenuBar->PerformLayout();
                 this->statusStrip->ResumeLayout(false);
@@ -486,14 +479,7 @@ namespace TGC_SceneRenderer {
                     objectsWindow->Show();
                 }
             }
-        private: System::Void assetsToolStripMenuItem_Click(System::Object  ^sender, System::EventArgs  ^e)
-            {
-                if (assetsWindow->Visible) {
-                    assetsWindow->Hide();
-                } else {
-                    assetsWindow->Show();
-                }
-            }
+
         private: System::Void importAssetToolStripMenuItem_Click(System::Object  ^sender, System::EventArgs  ^e)
             {
                 System::Windows::Forms::DialogResult result = assetImportFileDialog->ShowDialog();
@@ -509,6 +495,11 @@ namespace TGC_SceneRenderer {
                         Utils::Logger::Write("An error occurred loading " +  assetImportFileDialog->FileName + " asset", true, LOG_CONTEXT_DANGER);
                     }
                 }
+            }
+        private: System::Void MainWindow_Shown(System::Object  ^sender, System::EventArgs  ^e)
+            {
+                this->consoleWindow->SetDesktopLocation(this->DesktopLocation.X, this->DesktopLocation.Y + this->Height + 5);
+                this->objectsWindow->SetDesktopLocation(this->DesktopLocation.X + this->Width + 5, this->DesktopLocation.Y);
             }
     };
 }

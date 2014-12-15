@@ -94,8 +94,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp" />
-    <ClCompile Include="AssetBoxControl.cpp" />
-    <ClCompile Include="AssetsWindow.cpp" />
     <ClCompile Include="Bases\BaseComponent.cpp" />
     <ClCompile Include="Bounding\Volumes\BoundingSphere.cpp" />
     <ClCompile Include="Bounding\Volumes\BoundingBox.cpp" />
@@ -123,12 +121,6 @@
     <ClCompile Include="Types\Vertex.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AssetBoxControl.h">
-      <FileType>CppControl</FileType>
-    </ClInclude>
-    <ClInclude Include="AssetsWindow.h">
-      <FileType>CppForm</FileType>
-    </ClInclude>
     <ClInclude Include="Bases\BaseComponent.h" />
     <ClInclude Include="Bounding\Volumes\BoundingSphere.h" />
     <ClInclude Include="Bounding\Volumes\BoundingBox.h" />
@@ -172,12 +164,6 @@
     <Image Include="Resources\default.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="AssetBoxControl.resx">
-      <DependentUpon>AssetBoxControl.h</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="AssetsWindow.resx">
-      <DependentUpon>AssetsWindow.h</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="ConsoleWindow.resx">
       <DependentUpon>ConsoleWindow.h</DependentUpon>
     </EmbeddedResource>

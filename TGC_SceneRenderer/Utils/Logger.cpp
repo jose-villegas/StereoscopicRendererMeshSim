@@ -104,6 +104,11 @@ void Utils::Logger::SetBindedListBox(static System::Windows::Forms::ListBox ^bin
     _bindedListBox = bindedListBox;
 }
 
+void Utils::Logger::CleanLogFile()
+{
+    System::IO::File::Delete(logFileLocation);
+}
+
 System::String ^Logger::GetLastLog()
 {
     return ((System::Windows::Forms::Label ^)_Log[_Log->Count - 1])->Text;
