@@ -3,6 +3,7 @@
 #include "GLM\gtx\transform.hpp"
 #include "GLM\gtc\quaternion.hpp"
 namespace Types {
+
     class Transform {
         public:
             glm::vec3 position;
@@ -12,3 +13,4 @@ namespace Types {
             glm::mat4 getModelMatrix();
     };
 }
+

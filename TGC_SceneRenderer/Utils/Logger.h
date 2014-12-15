@@ -31,3 +31,4 @@ namespace Utils {
             static System::ComponentModel::BindingList<System::Windows::Forms::Label ^> ^GetLog() { return _Log; };
     };
 }
+

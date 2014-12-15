@@ -14,6 +14,7 @@ enum ASSET_TYPE {
 };
 
 namespace TGC_SceneRenderer {
+
     /// <summary>
     /// Summary for AssetBoxControl
     /// </summary>

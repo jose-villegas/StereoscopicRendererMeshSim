@@ -3,6 +3,7 @@
 #include "..\Types\Transform.h"
 #include "..\Bases\BaseComponent.h"
 namespace Scene {
+
     class SceneObject {
         public:
             // Holds the base name and state for the scene object - CANT BE NULL
@@ -14,3 +15,4 @@ namespace Scene {
             SceneObject(void);
     };
 }
+

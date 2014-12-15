@@ -14,3 +14,4 @@ ref class LibInfo {
         static System::String ^ASSIMP_INFO_STRING;
         static void Write();
 };
+
