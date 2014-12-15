@@ -13,6 +13,8 @@ static const GLfloat g_vertex_buffer_data[] = {
 GLuint vArrayID;
 GLuint vBuffer;
 Types::ShaderProgram *shProgram;
+Scene::Camera *cam;
+glm::mat4 MVP;
 #endif // DRAW_TEST_TRIANGLE
 
 Renderer::Renderer(void)
@@ -48,6 +50,17 @@ void Core::Renderer::setup()
     shProgram->attachShader(*frag);
     shProgram->attachShader(*vert);
     shProgram->link();
+    shProgram->addUniform("MVP");
+    cam = new Scene::Camera();
+    cam->fieldOfView = 45.0f;
+    cam->aspectRatio = 4.0f / 3.0f;
+    cam->nearClipping = 0.1f;
+    cam->farClipping = 100.0f;
+    cam->projectionType = Scene::Camera::Perspective;
+    glm::mat4 view = cam->getViewMatrix(glm::vec3(4, 3, 3), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
+    glm::mat4 projection = cam->getProjectionMatrix();
+    glm::mat4 model = glm::mat4(1.0f);
+    MVP = projection * view * model;
 #endif
 }
 
@@ -58,6 +71,7 @@ void Core::Renderer::loop()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 #ifdef DRAW_TEST_TRIANGLE
     shProgram->use();
+    shProgram->setUniform("MVP", MVP);
     // 1rst attribute buffer : vertices
     glEnableVertexAttribArray(0);
     glBindBuffer(GL_ARRAY_BUFFER, vBuffer);

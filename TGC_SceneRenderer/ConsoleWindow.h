@@ -23,6 +23,7 @@ namespace TGC_SceneRenderer {
                 //
                 // loggerListBox->Enabled = false;
                 loggerListBox->DataSource = Utils::Logger::GetLog();
+                Utils::Logger::SetBindedListBox(loggerListBox);
             }
 
         protected:

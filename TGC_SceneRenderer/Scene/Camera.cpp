@@ -14,9 +14,11 @@ glm::mat4 Scene::Camera::getProjectionMatrix() const
 {
     if (this->projectionType == Perspective) {
         return glm::perspective(this->fieldOfView, this->aspectRatio, this->nearClipping, this->farClipping);
-    } else {
+    } else if (this->projectionType == Orthographic) {
         return glm::ortho(this->viewPortRect.x, this->viewPortRect.y, this->viewPortRect.z, this->viewPortRect.w, this->nearClipping, this->farClipping);
     }
+
+    return glm::mat4(1.0);
 }
 
 glm::mat4 Scene::Camera::getProjectionMatrixFrustum() const

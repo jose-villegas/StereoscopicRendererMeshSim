@@ -40,21 +40,21 @@ namespace Types {
             template<typename T> void setUniform(const std::string &sUniformName, T &&value0, T &&value1, T &&value2) const;
             template<typename T> void setUniform(const std::string &sUniformName, T &&value0, T &&value1, T &&value2, T &&value3) const;
 
-            void setUniform(unsigned int unfrLoc, const float value0, const float value1) const;
-            void setUniform(unsigned int unfrLoc, const float value0, const float value1, const float value2) const;
-            void setUniform(unsigned int unfrLoc, const float value0, const float value1, const float value2, const float value3) const;
+            void setUniform(unsigned int unfrLoc, const float &value0, const float &value1) const;
+            void setUniform(unsigned int unfrLoc, const float &value0, const float &value1, const float &value2) const;
+            void setUniform(unsigned int unfrLoc, const float &value0, const float &value1, const float &value2, const float &value3) const;
 
-            void setUniform(unsigned int unfrLoc, const int value0, const int value1) const;
-            void setUniform(unsigned int unfrLoc, const int value0, const int value1, const int value2) const;
-            void setUniform(unsigned int unfrLoc, const int value0, const int value1, const int value2, const int value3) const;
+            void setUniform(unsigned int unfrLoc, const int &value0, const int &value1) const;
+            void setUniform(unsigned int unfrLoc, const int &value0, const int &value1, const int &value2) const;
+            void setUniform(unsigned int unfrLoc, const int &value0, const int &value1, const int &value2, const int &value3) const;
 
-            void setUniform(unsigned int unfrLoc, const unsigned int value0, const unsigned int value1) const;
-            void setUniform(unsigned int unfrLoc, const unsigned int value0, const unsigned int value1, const unsigned int value2) const;
-            void setUniform(unsigned int unfrLoc, const unsigned int value0, const unsigned int value1, const unsigned int value2, const unsigned int value3) const;
+            void setUniform(unsigned int unfrLoc, const unsigned int &value0, const unsigned int &value1) const;
+            void setUniform(unsigned int unfrLoc, const unsigned int &value0, const unsigned int &value1, const unsigned int &value2) const;
+            void setUniform(unsigned int unfrLoc, const unsigned int &value0, const unsigned int &value1, const unsigned int &value2, const unsigned int &value3) const;
 
-            void setUniform(unsigned int unfrLoc, const float value0) const;
-            void setUniform(unsigned int unfrLoc, const int value0) const;
-            void setUniform(unsigned int unfrLoc, const unsigned int value0) const;
+            void setUniform(unsigned int unfrLoc, const float &value0) const;
+            void setUniform(unsigned int unfrLoc, const int &value0) const;
+            void setUniform(unsigned int unfrLoc, const unsigned int &value0) const;
 
             void setUniform(unsigned int unfrLoc, const glm::mat4 &value0) const;
             void setUniform(unsigned int unfrLoc, const glm::mat3 &value0) const;
@@ -64,5 +64,45 @@ namespace Types {
             void setUniform(unsigned int unfrLoc, const glm::vec3 &value0) const;
             void setUniform(unsigned int unfrLoc, const glm::vec2 &value0) const;
     };
+
+    template<typename T>
+    void Types::ShaderProgram::setUniform(const std::string &sUniformName, T &&value0) const
+    {
+        GLint unfrLoc = getUniform(sUniformName);
+
+        if (unfrLoc == -1) { return; }
+
+        setUniform(unfrLoc, std::forward<T>(value0));
+    }
+
+    template<typename T>
+    void Types::ShaderProgram::setUniform(const std::string &sUniformName, T &&value0, T &&value1) const
+    {
+        GLint unfrLoc = getUniform(sUniformName);
+
+        if (unfrLoc == -1) { return; }
+
+        setUniform(unfrLoc, std::forward<T>(value0), std::forward<T>(value1));
+    }
+
+    template<typename T>
+    void Types::ShaderProgram::setUniform(const std::string &sUniformName, T &&value0, T &&value1, T &&value2) const
+    {
+        GLint unfrLoc = getUniform(sUniformName);
+
+        if (unfrLoc == -1) { return; }
+
+        setUniform(unfrLoc, std::forward<T>(value0), std::forward<T>(value1), std::forward<T>(value2));
+    }
+
+    template<typename T>
+    void Types::ShaderProgram::setUniform(const std::string &sUniformName, T &&value0, T &&value1, T &&value2, T &&value3) const
+    {
+        GLint unfrLoc = getUniform(sUniformName);
+
+        if (unfrLoc == -1) { return; }
+
+        setUniform(unfrLoc, std::forward<T>(value0), std::forward<T>(value1), std::forward<T>(value2), std::forward<T>(value3));
+    }
 }
 

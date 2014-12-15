@@ -1,5 +1,6 @@
 #pragma once
 #include "..\Types\ShaderProgram.h"
+#include "..\Scene\Camera.h"
 
 namespace Core {
 

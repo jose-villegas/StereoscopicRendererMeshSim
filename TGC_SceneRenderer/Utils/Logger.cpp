@@ -17,6 +17,8 @@ void Logger::Write(System::String ^text)
         tempWriter->WriteLine(text);
         tempWriter->Close();
     }
+
+    if (_bindedListBox) { _bindedListBox->Refresh(); }
 }
 
 void Logger::Write(System::String ^text, bool writeToStatusLabel)
@@ -31,11 +33,7 @@ void Logger::Write(System::String ^text, bool writeToStatusLabel)
         _windowStatusLabel->GetCurrentParent()->Refresh();
     }
 
-    if (_writeToLogFile) {
-        System::IO::StreamWriter ^tempWriter = gcnew System::IO::StreamWriter(logFileLocation, true);
-        tempWriter->WriteLine(text);
-        tempWriter->Close();
-    }
+    if (_bindedListBox) { _bindedListBox->Refresh(); }
 }
 
 void Logger::Write(System::String ^text, bool writeToStatusLabel, System::Drawing::Color labelForeColor)
@@ -56,6 +54,8 @@ void Logger::Write(System::String ^text, bool writeToStatusLabel, System::Drawin
         tempWriter->WriteLine(text);
         tempWriter->Close();
     }
+
+    if (_bindedListBox) { _bindedListBox->Refresh(); }
 }
 
 void Logger::Write(System::String ^text, System::Drawing::Color labelForeColor)
@@ -70,6 +70,8 @@ void Logger::Write(System::String ^text, System::Drawing::Color labelForeColor)
         tempWriter->WriteLine(text);
         tempWriter->Close();
     }
+
+    if (_bindedListBox) { _bindedListBox->Refresh(); }
 }
 
 void Utils::Logger::Write(std::string text)
@@ -95,6 +97,11 @@ void Utils::Logger::Write(std::string text, bool writeToStatusLabel, System::Dra
 void Utils::Logger::UseLogFile(System::Boolean writeToLogFile)
 {
     _writeToLogFile = writeToLogFile;
+}
+
+void Utils::Logger::SetBindedListBox(static System::Windows::Forms::ListBox ^bindedListBox)
+{
+    _bindedListBox = bindedListBox;
 }
 
 System::String ^Logger::GetLastLog()

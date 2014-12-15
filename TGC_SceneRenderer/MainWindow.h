@@ -26,6 +26,19 @@ namespace TGC_SceneRenderer {
             MainWindow(void)
             {
                 InitializeComponent();
+                // Form Extra Settings
+                this->StartPosition = System::Windows::Forms::FormStartPosition::CenterScreen;
+                // Other Components / Forms
+                consoleWindow = gcnew ConsoleWindow();
+                objectsWindow = gcnew ObjectsWindow();
+                assetsWindow = gcnew AssetsWindow();
+                // Console Window Settings
+                consoleWindow->Width = this->Width;
+                consoleWindow->WindowState = System::Windows::Forms::FormWindowState::Normal;
+                consoleWindow->StartPosition =  System::Windows::Forms::FormStartPosition::Manual;
+                consoleWindow->BringToFront();
+                consoleWindow->Top = this->Height + consoleWindow->Height;
+                consoleWindow->Left = this->Width / 2;
                 // Pass Tool Label To Logger for future info writes
                 Utils::Logger::SetStatusLabel(this->statusStripLabel);
                 // Setup OpenGL Render Context Inside a Panel
@@ -33,10 +46,9 @@ namespace TGC_SceneRenderer {
                 OpenGL = gcnew COpenGL(oglRenderPanel, 0, 0, oglRenderPanel->ClientSize.Width, oglRenderPanel->ClientSize.Height);
                 // Add OpenGL Info to Form Title
                 this->Text += " (" + OpenGL->OGL_INFO_STRING + ")";
-                // Other Components / Forms
-                consoleWindow = gcnew ConsoleWindow();
-                objectsWindow = gcnew ObjectsWindow();
-                assetsWindow = gcnew AssetsWindow();
+                // Show Console Window At Startup
+                consoleWindow->Show();
+                consoleWindow->Refresh();
             }
 
         protected:
