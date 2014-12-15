@@ -12,7 +12,7 @@ Textures *Textures::Instance()
         // Create Unique Shared Static Instance
         _eInstance = new Textures();
         // Load Default Resources
-        _eInstance->loadTexture("../TGC_SceneRenderer/Resources/default.png", 0);
+        _eInstance->loadTexture("../TGC_SceneRenderer/Resources/default.png", 0, Types::Texture::Diffuse);
     }
 
     return _eInstance;
@@ -27,9 +27,9 @@ Textures::~Textures()
     unloadAllTextures();
 }
 
-bool Textures::loadTexture(const std::string &sFilename, const unsigned int texID)
+bool Textures::loadTexture(const std::string &sFilename, const unsigned int texID, Types::Texture::TextureType textureType)
 {
-    Types::Texture *newTex = new Types::Texture(sFilename, texID);
+    Types::Texture *newTex = new Types::Texture(sFilename, texID, textureType);
     bool loadingResult = newTex->load(sFilename);
 
     if (!loadingResult) {
@@ -50,7 +50,7 @@ bool Textures::loadTexture(const std::string &sFilename, const unsigned int texI
     return loadingResult;
 }
 
-bool Textures::loadTexture(const std::string &sFilename)
+bool Textures::loadTexture(const std::string &sFilename, Types::Texture::TextureType textureType)
 {
     int unique_texID = 1;
 
@@ -62,7 +62,7 @@ bool Textures::loadTexture(const std::string &sFilename)
         }
     }
 
-    return loadTexture(sFilename, unique_texID);
+    return loadTexture(sFilename, unique_texID, textureType);
 }
 
 bool Textures::unloadTexture(const unsigned int texID)

@@ -1,16 +1,15 @@
 #include "Texture.h"
-
-
 using namespace Types;
 
 Texture::Texture(void)
 {
 }
 
-Types::Texture::Texture(std::string sFilename, const unsigned int texID)
+Types::Texture::Texture(std::string sFilename, const unsigned int texID, TextureType tType)
 {
     this->sFilename = sFilename;
     this->texID = texID;
+    this->tType = tType;
 }
 
 bool Types::Texture::load(std::string sFilename)
@@ -69,7 +68,7 @@ bool Types::Texture::load(std::string sFilename)
     return true;
 }
 
-void Types::Texture::unload()
+void Types::Texture::unload() const
 {
     glDeleteTextures(1, &oglTexID);
 }
@@ -78,7 +77,7 @@ Texture::~Texture()
 {
 }
 
-void Texture::bind()
+void Texture::bind() const
 {
     glActiveTexture(texID);
     glBindTexture(GL_TEXTURE_2D, oglTexID);

@@ -1,11 +1,8 @@
 #pragma once
-// #define FREEIMAGE_LIB
 #define DEFAULT_TEXTURE_ID 0
 
 #include <windows.h>
 #include "../Types/Texture.h"
-#include "GL/gl_core_4_4.h"
-#include "FreeImage/FreeImage.h"
 #include <map>
 
 namespace ECollections {
@@ -15,9 +12,10 @@ namespace ECollections {
             // Creates Unique Static Instance
             static Textures *Instance();
             virtual ~Textures();
-            bool loadTexture(const std::string &sFilename, const unsigned int texID);
-            // Loads a new texture with unique texID
-            bool loadTexture(const std::string &sFilename);
+            // Loads a new texture
+            bool loadTexture(const std::string &sFilename, const unsigned int texID, Types::Texture::TextureType textureType);
+            // Loads a new texture with unique texID (slower)
+            bool loadTexture(const std::string &sFilename, Types::Texture::TextureType textureType);
             bool unloadTexture(const unsigned int texID);					// frees memory reserved for texID texture
             bool bindTexture(const unsigned int texID);						// sets texID texture as the current active texture
             void unloadAllTextures();										// frees memory reserved for all the textures

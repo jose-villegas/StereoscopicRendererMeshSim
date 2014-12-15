@@ -86,7 +86,7 @@ GLint OpenGLForm::COpenGL::oglSetPixelFormat(HDC hdc)
     if (!arbMultisampleSupported) {
         // get the device context's best, available pixel format match
         if ((iPixelFormat = ChoosePixelFormat(hdc, pfd)) == 0) {
-            Utils::Logger::Write("ChoosePixelFormat Failed", true, System::Drawing::Color::Red);
+            Utils::Logger::Write("ChoosePixelFormat Failed", true, LOG_CONTEXT_DANGER);
             return 0;
         }
     } else {
@@ -95,17 +95,17 @@ GLint OpenGLForm::COpenGL::oglSetPixelFormat(HDC hdc)
 
     // make that match the device context's current pixel format
     if (SetPixelFormat(hdc, iPixelFormat, pfd) == FALSE) {
-        Utils::Logger::Write("SetPixelFormat Failed", true, System::Drawing::Color::Red);
+        Utils::Logger::Write("SetPixelFormat Failed", true, LOG_CONTEXT_DANGER);
         return 0;
     }
 
     if ((_mHGLRC = wglCreateContext(_mHDC)) == NULL) {
-        Utils::Logger::Write("wglCreateContext Failed", true, System::Drawing::Color::Red);
+        Utils::Logger::Write("wglCreateContext Failed", true, LOG_CONTEXT_DANGER);
         return 0;
     }
 
     if ((wglMakeCurrent(_mHDC, _mHGLRC)) == NULL) {
-        Utils::Logger::Write("wglMakeCurrent Failed", true, System::Drawing::Color::Red);
+        Utils::Logger::Write("wglMakeCurrent Failed", true, LOG_CONTEXT_DANGER);
         return 0;
     }
 

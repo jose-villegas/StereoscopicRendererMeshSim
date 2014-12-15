@@ -17,14 +17,13 @@ bool Mesh::loadMesh(std::string sFileName)
     clear();
     bool bRtrn = false;
     Assimp::Importer Importer;
-    const aiScene *pScene = Importer.ReadFile(sFileName.c_str(),
-                            aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_CalcTangentSpace | aiProcess_FlipUVs);
+    const aiScene *pScene = Importer.ReadFile(sFileName.c_str(), aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_CalcTangentSpace | aiProcess_FlipUVs);
 
     if (pScene) {
+        Utils::Logger::Write("Loading asset " + sFileName + " ...", LOG_CONTEXT_ACTIVE);
         bRtrn = initFromScene(pScene, sFileName);
     } else {
-        std::string sError =  "Error parsing '" + sFileName + "': '" + Importer.GetErrorString();
-        Utils::Logger::Write(gcnew System::String(sError.c_str()), true, System::Drawing::Color::Red);
+        Utils::Logger::Write("Error parsing '" + sFileName + "': '" + Importer.GetErrorString(), true, LOG_CONTEXT_DANGER);
     }
 
     return bRtrn;
@@ -41,7 +40,6 @@ bool Mesh::initFromScene(const aiScene *pScene, const std::string &Filename)
         initMesh(i, paiMesh);
     }
 
-    Utils::Logger::Write(gcnew System::String(Filename.c_str()));
     return initMaterials(pScene, Filename);
 }
 
@@ -74,24 +72,24 @@ void Mesh::initMesh(unsigned int Index, const aiMesh *paiMesh)
 bool Mesh::initMaterials(const aiScene *pScene, const std::string &Filename)
 {
     // Extract the directory part from the file name
-    std::string::size_type SlashIndex = Filename.find_last_of("/");
-    std::string Dir;
+    std::string::size_type slashIndex = Filename.find_last_of("/");
+    std::string dir;
     std::string slashDir = "/";
     // Try with \ slashes if / didn't work out
 
-    if (SlashIndex == std::string::npos) {
+    if (slashIndex == std::string::npos) {
         std::string::size_type tempSlashIndex = Filename.find_last_of("\\");
 
         if (tempSlashIndex != std::string::npos) {
-            SlashIndex = tempSlashIndex;
+            slashIndex = tempSlashIndex;
             slashDir = "\\";
         }
     }
 
-    if (SlashIndex == 0) {
-        Dir = slashDir;
+    if (slashIndex == 0) {
+        dir = slashDir;
     } else {
-        Dir = Filename.substr(0, SlashIndex);
+        dir = Filename.substr(0, slashIndex);
     }
 
     bool bRtrn = true;
@@ -102,12 +100,12 @@ bool Mesh::initMaterials(const aiScene *pScene, const std::string &Filename)
         _meshTextures[i] = INVALID_MATERIAL;
 
         if (pMaterial->GetTextureCount(aiTextureType_DIFFUSE) > 0) {
-            aiString Path;
+            aiString textureFilename;
 
-            if (pMaterial->GetTexture(aiTextureType_DIFFUSE, 0, &Path, NULL, NULL, NULL, NULL, NULL) == AI_SUCCESS) {
-                std::string FullPath = Dir + slashDir + Path.data;
+            if (pMaterial->GetTexture(aiTextureType_DIFFUSE, 0, &textureFilename, NULL, NULL, NULL, NULL, NULL) == AI_SUCCESS) {
+                std::string fullPath = dir + slashDir + textureFilename.data;
 
-                if (!_texCollection->loadTexture(FullPath.c_str(), _texCollection->count())) {
+                if (!_texCollection->loadTexture(fullPath, _texCollection->count(), Types::Texture::Diffuse)) {
                     bRtrn = false;
                 } else {
                     _meshTextures[i] = _texCollection->count() - 1;

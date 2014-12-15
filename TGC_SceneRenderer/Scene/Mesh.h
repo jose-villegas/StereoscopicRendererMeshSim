@@ -1,14 +1,13 @@
 #pragma once
-#include "../Context/OpenGL.h"
 #include "../Types/Vertex.h"
 #include "../Utils/Logger.h"
+#include "../Bases/BaseComponent.h"
+#include "../Collections/Textures.h"
 #include "Assimp/Importer.hpp"
 #include "Assimp/scene.h"
 #include "Assimp/postprocess.h"
 #include "GLM/glm.hpp"
-#include <vcclr.h>
 #include <vector>
-#include "../Bases/BaseComponent.h"
 #define INVALID_MATERIAL 0xFFFFFFFF
 #define INVALID_VALUE 0xFFFFFFFF
 namespace Scene {
