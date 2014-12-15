@@ -1,6 +1,6 @@
 #pragma once
-#include "GL/gl_core_4_4.h"
-#include "GL/wglext.h"
+#include "..\Types\ShaderProgram.h"
+
 namespace Core {
 
     class Renderer {

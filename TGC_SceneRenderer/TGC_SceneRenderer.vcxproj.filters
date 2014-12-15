@@ -16,7 +16,6 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
-    <Text Include="utils_logger.log" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TGC_SceneRenderer.cpp">
@@ -225,5 +224,9 @@
     <EmbeddedResource Include="ObjectsWindow.resx">
       <Filter>Resource Files</Filter>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Shaders\default_vert.glsl" />
+    <None Include="Resources\Shaders\default_frag.glsl" />
   </ItemGroup>
 </Project>

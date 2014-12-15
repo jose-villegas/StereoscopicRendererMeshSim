@@ -1,10 +1,6 @@
 #include "Shader.h"
 using namespace Types;
 
-Shader::Shader(void)
-{
-}
-
 Types::Shader::Shader(const ShaderType shaderType)
 {
     this->_type = shaderType;
@@ -19,6 +15,8 @@ bool Types::Shader::loadFromString(const std::string &sSource)
     const char *source = sSource.c_str();
     // Associate source with this shader ID
     glShaderSource(_id, 1, &source, NULL);
+    // Successful shader file load
+    Utils::Logger::Write(getShaderTypeString() + " file: " + _shaderName + " loaded successfully", false, LOG_CONTEXT_SUCCESS);
     return true;
 }
 
@@ -27,6 +25,7 @@ bool Types::Shader::loadFromFile(const std::string &sFilename)
     std::ifstream file(sFilename, std::ifstream::in);
 
     if (!file.good()) {
+        Utils::Logger::Write("Error Opening " + getShaderTypeString() + " file: " + sFilename, true, LOG_CONTEXT_DANGER);
         return false;
     }
 
@@ -34,6 +33,7 @@ bool Types::Shader::loadFromFile(const std::string &sFilename)
     // Dump File Content into stream buffer
     sourceSS << file.rdbuf();
     file.close();
+    _shaderName = sFilename;
     // Load Source and Associate with this shader ID
     return loadFromString(sourceSS.str());
 }
@@ -63,7 +63,7 @@ bool Types::Shader::compilationCheck()
         // Return Failure
         return false;
     } else {
-        Utils::Logger::Write(_shaderName + getShaderTypeString() + " compilation successful");
+        Utils::Logger::Write(getShaderTypeString() + " file: " + _shaderName + " compilation successful", LOG_CONTEXT_SUCCESS);
         return true;
     }
 }
@@ -71,24 +71,24 @@ bool Types::Shader::compilationCheck()
 std::string Types::Shader::getShaderTypeString()
 {
     switch (_type) {
-        case Types::Shader::VERTEX_SHADER:
-            return "Vertex Shader";
+        case Types::Shader::Vertex:
+            return "Vertex shader";
             break;
 
-        case Types::Shader::FRAGMENT_SHADER:
-            return "Fragment Shader";
+        case Types::Shader::Fragment:
+            return "Fragment shader";
             break;
 
-        case Types::Shader::GEOMETRY_SHADER:
-            return "Geometry Shader";
+        case Types::Shader::Geometry:
+            return "Geometry shader";
             break;
 
-        case Types::Shader::TESSELATION_CONTROL:
-            return "Tesselation Control Shader";
+        case Types::Shader::TesselationControl:
+            return "Tesselation control shader";
             break;
 
-        case Types::Shader::TESSELATION_EVALUATION:
-            return "Tesselation Evaluation Shader";
+        case Types::Shader::TesselationEvaluation:
+            return "Tesselation evaluation shader";
             break;
 
         default:

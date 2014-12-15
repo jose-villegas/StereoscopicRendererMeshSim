@@ -113,3 +113,77 @@ Using FreeImage v3.16.0 for texture loading
 Using Assimp v3.1.0 for asset loading
 OpenGL 4.4.0 NVIDIA 344.75s, GLSL 4.40 NVIDIA via Cg compiler
 Texture: ../TGC_SceneRenderer/Resources/default.pngloaded successfully
+Using FreeImage v3.16.0 for texture loading
+Using Assimp v3.1.0 for asset loading
+OpenGL 4.4.0 NVIDIA 344.75s, GLSL 4.40 NVIDIA via Cg compiler
+Texture: ../TGC_SceneRenderer/Resources/default.pngloaded successfully
+Using FreeImage v3.16.0 for texture loading
+Using Assimp v3.1.0 for asset loading
+OpenGL 4.4.0 NVIDIA 344.75s, GLSL 4.40 NVIDIA via Cg compiler
+Texture: ../TGC_SceneRenderer/Resources/default.pngloaded successfully
+Using FreeImage v3.16.0 for texture loading
+Using Assimp v3.1.0 for asset loading
+OpenGL 4.4.0 NVIDIA 344.75s, GLSL 4.40 NVIDIA via Cg compiler
+Texture: ../TGC_SceneRenderer/Resources/default.pngloaded successfully
+Using FreeImage v3.16.0 for texture loading
+Using Assimp v3.1.0 for asset loading
+OpenGL 4.4.0 NVIDIA 344.75s, GLSL 4.40 NVIDIA via Cg compiler
+Texture: ../TGC_SceneRenderer/Resources/default.pngloaded successfully
+Error Opening Fragment Shader file: ../Resources/Shaders/default_frag.glsl
+Using FreeImage v3.16.0 for texture loading
+Using Assimp v3.1.0 for asset loading
+OpenGL 4.4.0 NVIDIA 344.75s, GLSL 4.40 NVIDIA via Cg compiler
+Texture: ../TGC_SceneRenderer/Resources/default.pngloaded successfully
+Using FreeImage v3.16.0 for texture loading
+Using Assimp v3.1.0 for asset loading
+OpenGL 4.4.0 NVIDIA 344.75s, GLSL 4.40 NVIDIA via Cg compiler
+Texture: ../TGC_SceneRenderer/Resources/default.pngloaded successfully
+Fragment Shader compilation successful
+Using FreeImage v3.16.0 for texture loading
+Using Assimp v3.1.0 for asset loading
+OpenGL 4.4.0 NVIDIA 344.75s, GLSL 4.40 NVIDIA via Cg compiler
+Texture: ../TGC_SceneRenderer/Resources/default.pngloaded successfully
+Fragment Shader file: ../TGC_SceneRenderer/Resources/Shaders/default_frag.glslloaded successfully
+../TGC_SceneRenderer/Resources/Shaders/default_frag.glslFragment Shader compilation successful
+Using FreeImage v3.16.0 for texture loading
+Using Assimp v3.1.0 for asset loading
+OpenGL 4.4.0 NVIDIA 344.75s, GLSL 4.40 NVIDIA via Cg compiler
+Texture: ../TGC_SceneRenderer/Resources/default.pngloaded successfully
+Fragment Shader file: ../TGC_SceneRenderer/Resources/Shaders/default_frag.glsl loaded successfully
+Fragment Shader file: ../TGC_SceneRenderer/Resources/Shaders/default_frag.glsl compilation successful
+Using FreeImage v3.16.0 for texture loading
+Using Assimp v3.1.0 for asset loading
+OpenGL 4.4.0 NVIDIA 344.75s, GLSL 4.40 NVIDIA via Cg compiler
+Texture: ../TGC_SceneRenderer/Resources/default.png loaded successfully
+Fragment shader file: ../TGC_SceneRenderer/Resources/Shaders/default_frag.glsl loaded successfully
+Fragment shader file: ../TGC_SceneRenderer/Resources/Shaders/default_frag.glsl compilation successful
+Using FreeImage v3.16.0 for texture loading
+Using Assimp v3.1.0 for asset loading
+OpenGL 4.4.0 NVIDIA 344.75s, GLSL 4.40 NVIDIA via Cg compiler
+Texture: ../TGC_SceneRenderer/Resources/default.png loaded successfully
+Fragment shader file: ../TGC_SceneRenderer/Resources/Shaders/default_frag.glsl loaded successfully
+Vertex shader file: ../TGC_SceneRenderer/Resources/Shaders/default_vert.glsl loaded successfully
+Fragment shader file: ../TGC_SceneRenderer/Resources/Shaders/default_frag.glsl compilation successful
+Vertex shader file: ../TGC_SceneRenderer/Resources/Shaders/default_vert.glsl compilation successful
+Using FreeImage v3.16.0 for texture loading
+Using Assimp v3.1.0 for asset loading
+OpenGL 4.4.0 NVIDIA 344.75s, GLSL 4.40 NVIDIA via Cg compiler
+Texture: ../TGC_SceneRenderer/Resources/default.png loaded successfully
+Fragment shader file: ../TGC_SceneRenderer/Resources/Shaders/default_frag.glsl loaded successfully
+Vertex shader file: ../TGC_SceneRenderer/Resources/Shaders/default_vert.glsl loaded successfully
+Fragment shader file: ../TGC_SceneRenderer/Resources/Shaders/default_frag.glsl compilation successful
+Vertex shader file: ../TGC_SceneRenderer/Resources/Shaders/default_vert.glsl compilation successful
+Shader Program Linking Successful
+Using FreeImage v3.16.0 for texture loading
+Using Assimp v3.1.0 for asset loading
+OpenGL 4.4.0 NVIDIA 344.75s, GLSL 4.40 NVIDIA via Cg compiler
+Texture: ../TGC_SceneRenderer/Resources/default.png loaded successfully
+Fragment shader file: ../TGC_SceneRenderer/Resources/Shaders/default_frag.glsl loaded successfully
+Vertex shader file: ../TGC_SceneRenderer/Resources/Shaders/default_vert.glsl loaded successfully
+Fragment shader file: ../TGC_SceneRenderer/Resources/Shaders/default_frag.glsl compilation successful
+Vertex shader file: ../TGC_SceneRenderer/Resources/Shaders/default_vert.glsl compilation successful
+Shader Program Linking Successful
+Using FreeImage v3.16.0 for texture loading
+Using Assimp v3.1.0 for asset loading
+OpenGL 4.4.0 NVIDIA 344.75s, GLSL 4.40 NVIDIA via Cg compiler
+Texture: ../TGC_SceneRenderer/Resources/default.png loaded successfully

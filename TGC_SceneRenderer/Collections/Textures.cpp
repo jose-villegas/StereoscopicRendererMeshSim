@@ -33,7 +33,7 @@ bool Textures::loadTexture(const std::string &sFilename, const unsigned int texI
     bool loadingResult = newTex->load(sFilename);
 
     if (!loadingResult) {
-        Utils::Logger::Write("Error loading " + std::string(sFilename) + " texture", true, LOG_CONTEXT_DANGER);
+        Utils::Logger::Write("Error loading " + sFilename + " texture", true, LOG_CONTEXT_DANGER);
         return loadingResult;
     }
 
@@ -46,7 +46,7 @@ bool Textures::loadTexture(const std::string &sFilename, const unsigned int texI
     }
 
     _eTexCollection[texID] = newTex;
-    Utils::Logger::Write("Texture: " + std::string(sFilename) + "loaded successfully", true, LOG_CONTEXT_SUCCESS);
+    Utils::Logger::Write("Texture: " + std::string(sFilename) + " loaded successfully", true, LOG_CONTEXT_SUCCESS);
     return loadingResult;
 }
 

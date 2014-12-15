@@ -12,13 +12,12 @@ namespace Types {
     class Shader {
         public:
             enum ShaderType {
-                VERTEX_SHADER = GL_VERTEX_SHADER,
-                FRAGMENT_SHADER = GL_FRAGMENT_SHADER,
-                GEOMETRY_SHADER = GL_GEOMETRY_SHADER,
-                TESSELATION_CONTROL = GL_TESS_CONTROL_SHADER,
-                TESSELATION_EVALUATION = GL_TESS_EVALUATION_SHADER
+                Vertex = GL_VERTEX_SHADER,
+                Fragment = GL_FRAGMENT_SHADER,
+                Geometry = GL_GEOMETRY_SHADER,
+                TesselationControl = GL_TESS_CONTROL_SHADER,
+                TesselationEvaluation = GL_TESS_EVALUATION_SHADER
             };
-            Shader(void);
             Shader(const ShaderType shaderType);
             bool loadFromString(const std::string &sSource);
             bool loadFromFile(const std::string &sFilename);

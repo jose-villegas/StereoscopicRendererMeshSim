@@ -12,6 +12,7 @@ static const GLfloat g_vertex_buffer_data[] = {
 
 GLuint vArrayID;
 GLuint vBuffer;
+Types::ShaderProgram *shProgram;
 #endif // DRAW_TEST_TRIANGLE
 
 Renderer::Renderer(void)
@@ -37,6 +38,16 @@ void Core::Renderer::setup()
     glBindBuffer(GL_ARRAY_BUFFER, vBuffer);
     // Give our vertices to OpenGL.
     glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
+    shProgram = new Types::ShaderProgram();
+    Types::Shader *frag = new Types::Shader(Types::Shader::Fragment);
+    Types::Shader *vert = new Types::Shader(Types::Shader::Vertex);
+    frag->loadFromFile("../TGC_SceneRenderer/Resources/Shaders/default_frag.glsl");
+    vert->loadFromFile("../TGC_SceneRenderer/Resources/Shaders/default_vert.glsl");
+    frag->compile();
+    vert->compile();
+    shProgram->attachShader(*frag);
+    shProgram->attachShader(*vert);
+    shProgram->link();
 #endif
 }
 
@@ -46,6 +57,7 @@ void Core::Renderer::loop()
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f) ;
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 #ifdef DRAW_TEST_TRIANGLE
+    shProgram->use();
     // 1rst attribute buffer : vertices
     glEnableVertexAttribArray(0);
     glBindBuffer(GL_ARRAY_BUFFER, vBuffer);
