@@ -1,0 +1,115 @@
+Using FreeImage v3.16.0 for texture loading
+Using Assimp v3.1.0 for asset loading
+OpenGL 4.4.0 NVIDIA 344.75s, GLSL 4.40 NVIDIA via Cg compiler
+Texture: ../TGC_SceneRenderer/Resources/default.pngloaded successfully
+Using FreeImage v3.16.0 for texture loading
+Using Assimp v3.1.0 for asset loading
+OpenGL 4.4.0 NVIDIA 344.75s, GLSL 4.40 NVIDIA via Cg compiler
+Texture: ../TGC_SceneRenderer/Resources/default.pngloaded successfully
+Using FreeImage v3.16.0 for texture loading
+Using Assimp v3.1.0 for asset loading
+OpenGL 4.4.0 NVIDIA 344.75s, GLSL 4.40 NVIDIA via Cg compiler
+Texture: ../TGC_SceneRenderer/Resources/default.pngloaded successfully
+Using FreeImage v3.16.0 for texture loading
+Using Assimp v3.1.0 for asset loading
+OpenGL 4.4.0 NVIDIA 344.75s, GLSL 4.40 NVIDIA via Cg compiler
+Texture: ../TGC_SceneRenderer/Resources/default.pngloaded successfully
+Using FreeImage v3.16.0 for texture loading
+Using Assimp v3.1.0 for asset loading
+OpenGL 4.4.0 NVIDIA 344.75s, GLSL 4.40 NVIDIA via Cg compiler
+Texture: ../TGC_SceneRenderer/Resources/default.pngloaded successfully
+Using FreeImage v3.16.0 for texture loading
+Using Assimp v3.1.0 for asset loading
+OpenGL 4.4.0 NVIDIA 344.75s, GLSL 4.40 NVIDIA via Cg compiler
+Texture: ../TGC_SceneRenderer/Resources/default.pngloaded successfully
+Using FreeImage v3.16.0 for texture loading
+Using Assimp v3.1.0 for asset loading
+OpenGL 4.4.0 NVIDIA 344.75s, GLSL 4.40 NVIDIA via Cg compiler
+Texture: ../TGC_SceneRenderer/Resources/default.pngloaded successfully
+Using FreeImage v3.16.0 for texture loading
+Using Assimp v3.1.0 for asset loading
+OpenGL 4.4.0 NVIDIA 344.75s, GLSL 4.40 NVIDIA via Cg compiler
+Texture: ../TGC_SceneRenderer/Resources/default.pngloaded successfully
+Using FreeImage v3.16.0 for texture loading
+Using Assimp v3.1.0 for asset loading
+OpenGL 4.4.0 NVIDIA 344.75s, GLSL 4.40 NVIDIA via Cg compiler
+Texture: ../TGC_SceneRenderer/Resources/default.pngloaded successfully
+Using FreeImage v3.16.0 for texture loading
+Using Assimp v3.1.0 for asset loading
+OpenGL 4.4.0 NVIDIA 344.75s, GLSL 4.40 NVIDIA via Cg compiler
+Texture: ../TGC_SceneRenderer/Resources/default.pngloaded successfully
+Using FreeImage v3.16.0 for texture loading
+Using Assimp v3.1.0 for asset loading
+OpenGL 4.4.0 NVIDIA 344.75s, GLSL 4.40 NVIDIA via Cg compiler
+Texture: ../TGC_SceneRenderer/Resources/default.pngloaded successfully
+C:\Users\Admin\Documents\Visual Studio 2012\Projects\FCG_T1\ICG_P1\Models\Cube\cube.obj
+Texture: C:\Users\Admin\Documents\Visual Studio 2012\Projects\FCG_T1\ICG_P1\Models\Cube\bricks_color_map.jpgloaded successfully
+Asset: C:\Users\Admin\Documents\Visual Studio 2012\Projects\FCG_T1\ICG_P1\Models\Cube\cube.obj loaded successfully
+Using FreeImage v3.16.0 for texture loading
+Using Assimp v3.1.0 for asset loading
+OpenGL 4.4.0 NVIDIA 344.75s, GLSL 4.40 NVIDIA via Cg compiler
+Texture: ../TGC_SceneRenderer/Resources/default.pngloaded successfully
+Using FreeImage v3.16.0 for texture loading
+Using Assimp v3.1.0 for asset loading
+OpenGL 4.4.0 NVIDIA 344.75s, GLSL 4.40 NVIDIA via Cg compiler
+Texture: ../TGC_SceneRenderer/Resources/default.pngloaded successfully
+Loading asset C:\Users\Admin\Documents\Visual Studio 2012\Projects\FCG_T1\ICG_P1\Models\Cube\cube.obj ...
+Texture: C:\Users\Admin\Documents\Visual Studio 2012\Projects\FCG_T1\ICG_P1\Models\Cube\bricks_color_map.jpgloaded successfully
+Asset: C:\Users\Admin\Documents\Visual Studio 2012\Projects\FCG_T1\ICG_P1\Models\Cube\cube.obj loaded successfully
+Error parsing 'C:\Users\Admin\Documents\Visual Studio 2012\Projects\FCG_T1\ICG_P1\Models\Cube\cube.mtl': 'The string "«$&¹kI_tóp„ÂŒ" cannot be converted into a value.
+An error occurred loading C:\Users\Admin\Documents\Visual Studio 2012\Projects\FCG_T1\ICG_P1\Models\Cube\cube.mtl asset
+Loading asset C:\Users\Admin\Documents\Visual Studio 2012\Projects\FCG_T1\ICG_P1\Models\Cube\credits.txt ...
+Asset: C:\Users\Admin\Documents\Visual Studio 2012\Projects\FCG_T1\ICG_P1\Models\Cube\credits.txt loaded successfully
+Error parsing 'C:\Users\Admin\Documents\Visual Studio 2012\Projects\FCG_T1\ICG_P1\Models\Cube\bricks_normal_map.jpg': 'No suitable reader found for the file format of file "C:\Users\Admin\Documents\Visual Studio 2012\Projects\FCG_T1\ICG_P1\Models\Cube\bricks_normal_map.jpg".
+An error occurred loading C:\Users\Admin\Documents\Visual Studio 2012\Projects\FCG_T1\ICG_P1\Models\Cube\bricks_normal_map.jpg asset
+Using FreeImage v3.16.0 for texture loading
+Using Assimp v3.1.0 for asset loading
+OpenGL 4.4.0 NVIDIA 344.75s, GLSL 4.40 NVIDIA via Cg compiler
+Texture: ../TGC_SceneRenderer/Resources/default.pngloaded successfully
+Loading asset C:\Users\Admin\Documents\Visual Studio 2012\Projects\FCG_T1\ICG_P1\Models\Cube\cube.obj ...
+Texture: C:\Users\Admin\Documents\Visual Studio 2012\Projects\FCG_T1\ICG_P1\Models\Cube\bricks_color_map.jpgloaded successfully
+Asset: C:\Users\Admin\Documents\Visual Studio 2012\Projects\FCG_T1\ICG_P1\Models\Cube\cube.obj loaded successfully
+Using FreeImage v3.16.0 for texture loading
+Using Assimp v3.1.0 for asset loading
+OpenGL 4.4.0 NVIDIA 344.75s, GLSL 4.40 NVIDIA via Cg compiler
+Texture: ../TGC_SceneRenderer/Resources/default.pngloaded successfully
+Loading asset C:\Users\Admin\Documents\Visual Studio 2012\Projects\FCG_T1\ICG_P1\Models\Cube\cube.obj ...
+Texture: C:\Users\Admin\Documents\Visual Studio 2012\Projects\FCG_T1\ICG_P1\Models\Cube\bricks_color_map.jpgloaded successfully
+Using FreeImage v3.16.0 for texture loading
+Using Assimp v3.1.0 for asset loading
+OpenGL 4.4.0 NVIDIA 344.75s, GLSL 4.40 NVIDIA via Cg compiler
+Texture: ../TGC_SceneRenderer/Resources/default.pngloaded successfully
+Using FreeImage v3.16.0 for texture loading
+Using Assimp v3.1.0 for asset loading
+OpenGL 4.4.0 NVIDIA 344.75s, GLSL 4.40 NVIDIA via Cg compiler
+Texture: ../TGC_SceneRenderer/Resources/default.pngloaded successfully
+Loading asset C:\Users\Admin\Documents\Visual Studio 2012\Projects\FCG_T1\ICG_P1\Models\Cube\cube.obj ...
+Texture: C:\Users\Admin\Documents\Visual Studio 2012\Projects\FCG_T1\ICG_P1\Models\Cube\bricks_color_map.jpgloaded successfully
+Using FreeImage v3.16.0 for texture loading
+Using Assimp v3.1.0 for asset loading
+OpenGL 4.4.0 NVIDIA 344.75s, GLSL 4.40 NVIDIA via Cg compiler
+Texture: ../TGC_SceneRenderer/Resources/default.pngloaded successfully
+Using FreeImage v3.16.0 for texture loading
+Using Assimp v3.1.0 for asset loading
+OpenGL 4.4.0 NVIDIA 344.75s, GLSL 4.40 NVIDIA via Cg compiler
+Texture: ../TGC_SceneRenderer/Resources/default.pngloaded successfully
+Using FreeImage v3.16.0 for texture loading
+Using Assimp v3.1.0 for asset loading
+OpenGL 4.4.0 NVIDIA 344.75s, GLSL 4.40 NVIDIA via Cg compiler
+Texture: ../TGC_SceneRenderer/Resources/default.pngloaded successfully
+Using FreeImage v3.16.0 for texture loading
+Using Assimp v3.1.0 for asset loading
+OpenGL 4.4.0 NVIDIA 344.75s, GLSL 4.40 NVIDIA via Cg compiler
+Texture: ../TGC_SceneRenderer/Resources/default.pngloaded successfully
+Using FreeImage v3.16.0 for texture loading
+Using Assimp v3.1.0 for asset loading
+OpenGL 4.4.0 NVIDIA 344.75s, GLSL 4.40 NVIDIA via Cg compiler
+Texture: ../TGC_SceneRenderer/Resources/default.pngloaded successfully
+Using FreeImage v3.16.0 for texture loading
+Using Assimp v3.1.0 for asset loading
+OpenGL 4.4.0 NVIDIA 344.75s, GLSL 4.40 NVIDIA via Cg compiler
+Texture: ../TGC_SceneRenderer/Resources/default.pngloaded successfully
+Using FreeImage v3.16.0 for texture loading
+Using Assimp v3.1.0 for asset loading
+OpenGL 4.4.0 NVIDIA 344.75s, GLSL 4.40 NVIDIA via Cg compiler
+Texture: ../TGC_SceneRenderer/Resources/default.pngloaded successfully

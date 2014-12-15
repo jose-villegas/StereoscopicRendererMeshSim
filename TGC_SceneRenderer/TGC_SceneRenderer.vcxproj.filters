@@ -16,6 +16,7 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
+    <Text Include="utils_logger.log" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TGC_SceneRenderer.cpp">

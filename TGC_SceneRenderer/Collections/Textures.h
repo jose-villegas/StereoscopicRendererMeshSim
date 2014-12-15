@@ -1,9 +1,9 @@
 #pragma once
 #define DEFAULT_TEXTURE_ID 0
 
-#include <windows.h>
 #include "../Types/Texture.h"
 #include <map>
+#include <windows.h>
 
 namespace ECollections {
 
