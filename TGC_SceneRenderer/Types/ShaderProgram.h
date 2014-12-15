@@ -5,7 +5,6 @@
 #include "glm\glm.hpp"
 #include "glm\gtc\type_ptr.hpp"
 namespace Types {
-
     class ShaderProgram {
         private:
             unsigned int _programID;
@@ -65,4 +64,3 @@ namespace Types {
             void setUniform(unsigned int unfrLoc, const glm::vec2 &value0) const;
     };
 }
-

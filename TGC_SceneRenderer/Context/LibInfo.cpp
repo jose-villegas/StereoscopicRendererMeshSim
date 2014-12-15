@@ -1,7 +1,6 @@
 #include "LibInfo.h"
 #include "Assimp\version.h"
 
-
 void LibInfo::Write()
 {
     // Write To Logger Current FreeImage Version

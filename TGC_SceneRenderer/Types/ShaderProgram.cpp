@@ -211,4 +211,3 @@ void Types::ShaderProgram::setUniform(unsigned int unfrLoc, const unsigned int v
 {
     glUniform4ui(unfrLoc, value0, value1, value2, value3);
 }
-

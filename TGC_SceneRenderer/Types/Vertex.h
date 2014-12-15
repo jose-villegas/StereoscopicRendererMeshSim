@@ -10,4 +10,3 @@ namespace Types {
             Vertex(const glm::vec3 &pos, const glm::vec2 &tex, const glm::vec3 &normal);
     };
 }
-

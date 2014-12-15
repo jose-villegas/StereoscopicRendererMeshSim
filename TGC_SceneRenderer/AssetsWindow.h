@@ -2,7 +2,6 @@
 #include "AssetBoxControl.h"
 
 namespace TGC_SceneRenderer {
-
     using namespace System;
     using namespace System::ComponentModel;
     using namespace System::Collections;
@@ -28,7 +27,6 @@ namespace TGC_SceneRenderer {
                 flowLayoutPanel1->Controls->Add(gcnew AssetBoxControl());
             }
 
-
         protected:
             /// <summary>
             /// Clean up any resources being used.
@@ -48,7 +46,6 @@ namespace TGC_SceneRenderer {
         private: System::Windows::Forms::FlowLayoutPanel  ^flowLayoutPanel2;
         private: System::Windows::Forms::FlowLayoutPanel  ^flowLayoutPanel1;
         private: System::Windows::Forms::FlowLayoutPanel  ^flowLayoutPanel3;
-
 
         private:
             /// <summary>
@@ -177,6 +174,5 @@ namespace TGC_SceneRenderer {
                 this->ResumeLayout(false);
             }
             #pragma endregion
-
     };
 }

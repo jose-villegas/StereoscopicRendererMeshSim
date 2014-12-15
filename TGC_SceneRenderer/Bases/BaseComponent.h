@@ -1,6 +1,5 @@
 #pragma once
 namespace Bases {
-
     class BaseComponent {
         public:
             bool alwaysActive;
@@ -8,4 +7,3 @@ namespace Bases {
             BaseComponent(void);
     };
 }
-

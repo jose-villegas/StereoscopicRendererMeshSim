@@ -8,7 +8,6 @@
 #include <msclr\marshal_cppstd.h>
 
 namespace TGC_SceneRenderer {
-
     using namespace System;
     using namespace System::ComponentModel;
     using namespace System::Collections;
@@ -60,8 +59,6 @@ namespace TGC_SceneRenderer {
         private: ObjectsWindow ^objectsWindow;
         private: System::Windows::Forms::MenuStrip  ^topMenuBar;
 
-
-
         private: System::Windows::Forms::ToolStripMenuItem  ^fileToolStripMenuItem;
         private: System::Windows::Forms::ToolStripMenuItem  ^newSceneToolStripMenuItem;
         private: System::Windows::Forms::ToolStripMenuItem  ^openSceneToolStripMenuItem;
@@ -102,7 +99,6 @@ namespace TGC_SceneRenderer {
         private: System::Windows::Forms::ToolStripMenuItem  ^cubeToolStripMenuItem;
         private: System::Windows::Forms::ToolStripMenuItem  ^sphereToolStripMenuItem;
         private: System::Windows::Forms::ToolStripMenuItem  ^assetsToolStripMenuItem;
-
 
             System::ComponentModel::Container ^components;
 
@@ -500,4 +496,3 @@ namespace TGC_SceneRenderer {
             }
     };
 }
-

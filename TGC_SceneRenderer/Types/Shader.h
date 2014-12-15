@@ -8,7 +8,6 @@
 #include <map>
 
 namespace Types {
-
     class Shader {
         public:
             enum ShaderType {
@@ -33,4 +32,3 @@ namespace Types {
             std::string getShaderTypeString();
     };
 }
-

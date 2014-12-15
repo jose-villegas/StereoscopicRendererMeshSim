@@ -1,6 +1,5 @@
 #include "OpenGL.h"
 
-
 OpenGLForm::COpenGL::COpenGL(System::Windows::Forms::Panel ^parentForm, int iPositionX, int iPositionY, GLsizei iWidth, GLsizei iHeight)
 {
     // Create OGL Context

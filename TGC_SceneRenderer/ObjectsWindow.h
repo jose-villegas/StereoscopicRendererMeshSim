@@ -1,7 +1,6 @@
 #pragma once
 
 namespace TGC_SceneRenderer {
-
     using namespace System;
     using namespace System::ComponentModel;
     using namespace System::Collections;
@@ -39,21 +38,12 @@ namespace TGC_SceneRenderer {
 
         protected:
 
-
-
         private: System::Windows::Forms::MenuStrip  ^createMenu;
         private: System::Windows::Forms::ToolStripMenuItem  ^createToolStripMenuItem;
         private: System::Windows::Forms::ToolStripMenuItem  ^searchToolStripTag;
 
         private: System::Windows::Forms::Panel  ^panel1;
         private: System::Windows::Forms::ToolStripTextBox  ^toolStripTextBox1;
-
-
-
-
-
-
-
 
         protected:
         private: System::ComponentModel::IContainer  ^components;
@@ -62,7 +52,6 @@ namespace TGC_SceneRenderer {
             /// <summary>
             /// Required designer variable.
             /// </summary>
-
 
             #pragma region Windows Form Designer generated code
             /// <summary>

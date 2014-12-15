@@ -2,7 +2,6 @@
 #include "Utils\Logger.h"
 
 namespace TGC_SceneRenderer {
-
     using namespace System;
     using namespace System::ComponentModel;
     using namespace System::Collections;

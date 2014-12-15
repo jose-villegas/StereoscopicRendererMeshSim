@@ -1,12 +1,11 @@
 #pragma once
 #define DEFAULT_TEXTURE_ID 0
 
-#include <windows.h>
 #include "../Types/Texture.h"
 #include <map>
+#include <windows.h>
 
 namespace ECollections {
-
     class Textures {
         public:
             // Creates Unique Static Instance
@@ -28,5 +27,4 @@ namespace ECollections {
             // Texture Collection
             std::map<unsigned int, Types::Texture *> _eTexCollection;
     };
-
 }

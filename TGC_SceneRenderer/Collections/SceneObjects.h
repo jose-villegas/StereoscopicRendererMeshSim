@@ -1,6 +1,5 @@
 #pragma once
 namespace ECollections {
-
     ref class SceneObjects {
         public:
             // Creates Unique Static Instace
@@ -15,5 +14,4 @@ namespace ECollections {
             static SceneObjects ^_eInstance;
             System::Collections::Hashtable ^_sceneInstancedObjects;
     };
-
 }
