@@ -116,7 +116,6 @@
     <ClCompile Include="Types\Transform.cpp" />
     <ClCompile Include="Types\Texture.cpp" />
     <ClCompile Include="Utils\FrameRate.cpp" />
-    <ClCompile Include="Utils\Logger.cpp" />
     <ClCompile Include="TGC_SceneRenderer.cpp" />
     <ClCompile Include="Types\Vertex.cpp" />
   </ItemGroup>
@@ -153,7 +152,6 @@
     </ClInclude>
     <ClInclude Include="Context\OpenGL.h" />
     <ClInclude Include="resource.h" />
-    <ClInclude Include="Utils\Logger.h" />
     <ClInclude Include="Types\Vertex.h" />
   </ItemGroup>
   <ItemGroup>

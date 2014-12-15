@@ -20,10 +20,10 @@ bool Mesh::loadMesh(std::string sFileName)
     const aiScene *pScene = Importer.ReadFile(sFileName.c_str(), aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_CalcTangentSpace | aiProcess_FlipUVs);
 
     if (pScene) {
-        Utils::Logger::Write("Loading asset " + sFileName + " ...", LOG_CONTEXT_ACTIVE);
+        std::cout << "Loading asset " << sFileName << " ..." << std::endl;
         bRtrn = initFromScene(pScene, sFileName);
     } else {
-        Utils::Logger::Write("Error parsing '" + sFileName + "': '" + Importer.GetErrorString(), true, LOG_CONTEXT_DANGER);
+        std::cout << "Error parsing '" << sFileName << "': '" << Importer.GetErrorString() << std::endl;
     }
 
     return bRtrn;

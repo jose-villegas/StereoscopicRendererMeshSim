@@ -1,18 +1,26 @@
 #include "Texture.h"
+#include <iostream>
 using namespace Types;
 
-Texture::Texture(void)
-{
-}
-
-Types::Texture::Texture(std::string sFilename, const unsigned int texID, TextureType tType)
+Types::Texture::Texture(const std::string &sFilename, const unsigned int &texID, const TextureType &tType)
 {
     this->sFilename = sFilename;
     this->texID = texID;
     this->tType = tType;
 }
 
-bool Types::Texture::load(std::string sFilename)
+Types::Texture::Texture(const unsigned int &texID, const TextureType &tType)
+{
+    this->texID = texID;
+    this->tType = tType;
+}
+
+bool Types::Texture::load()
+{
+    return load(this->sFilename);
+}
+
+bool Types::Texture::load(const std::string &sFilename)
 {
     //check the file signature and deduce its format
     FREE_IMAGE_FORMAT fif = FreeImage_GetFileType(sFilename.c_str(), 0);

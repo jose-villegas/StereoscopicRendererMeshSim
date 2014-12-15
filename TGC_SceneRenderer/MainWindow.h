@@ -1,6 +1,5 @@
 #pragma once
 #include "Context/OpenGL.h"
-#include "Utils/Logger.h"
 #include "ConsoleWindow.h"
 #include "ObjectsWindow.h"
 #include "Scene/Mesh.h"
@@ -30,10 +29,6 @@ namespace TGC_SceneRenderer {
                 objectsWindow = gcnew ObjectsWindow();
                 consoleWindow->Width = this->Width;
                 objectsWindow->Height = this->Height;
-                // Pass Tool Label To Logger for future info writes
-                Utils::Logger::SetStatusLabel(this->statusStripLabel);
-                // Clean Up Log File per execution
-                Utils::Logger::CleanLogFile();
                 // Setup OpenGL Render Context Inside a Panel
                 System::Windows::Forms::Panel ^oglRenderPanel = this->OpenGLRenderPanel;
                 OpenGL = gcnew COpenGL(oglRenderPanel, 0, 0, oglRenderPanel->ClientSize.Width, oglRenderPanel->ClientSize.Height);
@@ -106,7 +101,7 @@ namespace TGC_SceneRenderer {
         private: System::Windows::Forms::ToolStripSeparator  ^toolStripSeparator5;
         private: System::Windows::Forms::ToolStripMenuItem  ^cubeToolStripMenuItem;
         private: System::Windows::Forms::ToolStripMenuItem  ^sphereToolStripMenuItem;
-        private: System::Windows::Forms::ToolStripMenuItem  ^assetsToolStripMenuItem;
+
 
 
             System::ComponentModel::Container ^components;
@@ -150,7 +145,6 @@ namespace TGC_SceneRenderer {
                 this->windowToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
                 this->consoleToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
                 this->objectsToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-                this->assetsToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
                 this->aboutToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
                 this->assetImportFileDialog = (gcnew System::Windows::Forms::OpenFileDialog());
                 this->statusStrip = (gcnew System::Windows::Forms::StatusStrip());
@@ -360,9 +354,9 @@ namespace TGC_SceneRenderer {
                 //
                 // windowToolStripMenuItem
                 //
-                this->windowToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem ^  >(3) {
+                this->windowToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem ^  >(2) {
                     this->consoleToolStripMenuItem,
-                         this->objectsToolStripMenuItem, this->assetsToolStripMenuItem
+                         this->objectsToolStripMenuItem
                 });
                 this->windowToolStripMenuItem->Name = L"windowToolStripMenuItem";
                 this->windowToolStripMenuItem->Size = System::Drawing::Size(63, 20);
@@ -381,12 +375,6 @@ namespace TGC_SceneRenderer {
                 this->objectsToolStripMenuItem->Size = System::Drawing::Size(152, 22);
                 this->objectsToolStripMenuItem->Text = L"Objects";
                 this->objectsToolStripMenuItem->Click += gcnew System::EventHandler(this, &MainWindow::objectsToolStripMenuItem_Click);
-                //
-                // assetsToolStripMenuItem
-                //
-                this->assetsToolStripMenuItem->Name = L"assetsToolStripMenuItem";
-                this->assetsToolStripMenuItem->Size = System::Drawing::Size(152, 22);
-                this->assetsToolStripMenuItem->Text = L"Assets";
                 //
                 // aboutToolStripMenuItem
                 //
@@ -490,9 +478,9 @@ namespace TGC_SceneRenderer {
                     std::string standardString = context.marshal_as<std::string>(assetImportFileDialog->FileName);
 
                     if (nMesh->loadMesh(standardString)) {
-                        Utils::Logger::Write("Asset: " +  assetImportFileDialog->FileName + " loaded successfully", true, LOG_CONTEXT_SUCCESS);
+                        std::cout << "Asset: " << standardString << " loaded successfully" << std::endl;
                     } else {
-                        Utils::Logger::Write("An error occurred loading " +  assetImportFileDialog->FileName + " asset", true, LOG_CONTEXT_DANGER);
+                        std::cout << "An error occurred loading " <<  standardString << " asset" << std::endl;
                     }
                 }
             }

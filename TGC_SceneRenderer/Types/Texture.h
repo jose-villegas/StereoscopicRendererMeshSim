@@ -22,8 +22,8 @@ namespace Types {
                 Reflection = aiTextureType_REFLECTION
             };
 
-            Texture(void);
-            Texture(std::string sFilename, const unsigned int texID, TextureType tType);
+            Texture(const std::string &sFilename, const unsigned int &texID, const TextureType &tType);
+            Texture(const unsigned int &texID, const TextureType &tType);
             ~Texture();
             TextureType tType;
             std::string sFilename;
@@ -35,7 +35,8 @@ namespace Types {
             unsigned int internalFormat;
             unsigned int imageFormat;
             void bind() const;
-            bool load(std::string sFilename);
+            bool load();
+            bool load(const std::string &sFilename);
             void unload() const;
     };
 }

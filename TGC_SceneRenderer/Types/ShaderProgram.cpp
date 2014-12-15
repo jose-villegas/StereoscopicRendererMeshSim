@@ -6,8 +6,10 @@ Types::ShaderProgram::ShaderProgram(void)
     this->_programID = glCreateProgram();
     this->_shaderCount = 0;
 
-    if (this->_programID == 0) {
-        Utils::Logger::Write("Error Creating Shader Program", false, LOG_CONTEXT_DANGER);
+    if (this->_programID <= 0) {
+        std::cout << "ShaderProgram(" << this << "): " << "Error Creating Shader Program" << std::endl;
+    } else {
+        std::cout << "ShaderProgram(" << this << "): " << "Shader Program " << _programID << " created successfully" << std::endl;
     }
 }
 
@@ -32,11 +34,11 @@ bool Types::ShaderProgram::link() const
         glGetProgramiv(this->_programID, GL_LINK_STATUS, &linkStatus);
 
         if (linkStatus == GL_FALSE) {
-            Utils::Logger::Write("Shader Program Linking Failed", false, LOG_CONTEXT_DANGER);
+            std::cout << "ShaderProgram(" << this << "): " << "Shader program linking failed" << std::endl;
             return false;
         }
 
-        Utils::Logger::Write("Shader Program Linking Successful", false, LOG_CONTEXT_SUCCESS);
+        std::cout << "ShaderProgram(" << this << "): " << "Shader program linking successful" << std::endl;
         return true;
     }
 
@@ -61,7 +63,6 @@ GLuint Types::ShaderProgram::getUniform(const std::string &sUniformName) const
     if (it != _uniformLoc.end()) {
         return it->second;
     } else {
-        Utils::Logger::Write("Could not find uniform (" + sUniformName + ") in shader program", false, LOG_CONTEXT_DANGER);
         return -1;
     }
 }
@@ -73,13 +74,13 @@ GLuint Types::ShaderProgram::addUniform(const std::string &sUniformName)
 
     // Check if an uniform with this name actually exists
     if (nUniformLoc == -1) {
-        Utils::Logger::Write("Could not add uniform: (" + sUniformName + ") location returned -1", false, LOG_CONTEXT_DANGER);
+        std::cout << "ShaderProgram(" << this << "): " << "Could not add uniform: (" << sUniformName << ") location returned -1" << std::endl;
         return -1;
     }
 
     // Return Location
     this->_uniformLoc[sUniformName] = nUniformLoc;
-    Utils::Logger::Write("Uniform (" + sUniformName + ") bound to location: " + std::to_string(nUniformLoc), false, LOG_CONTEXT_SUCCESS);
+    std::cout << "ShaderProgram(" << this << "): " << "Uniform (" << sUniformName << ") bound to location: " << std::to_string(nUniformLoc) << std::endl;
     return nUniformLoc;
 }
 

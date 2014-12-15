@@ -1,6 +1,5 @@
 #pragma once
 #include <windows.h>
-#include "../Utils/Logger.h"
 #include "../Utils/FrameRate.h"
 #include "../Core/Renderer.h"
 #include "../Collections/Textures.h"

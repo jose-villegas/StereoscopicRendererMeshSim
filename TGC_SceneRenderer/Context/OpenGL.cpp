@@ -26,13 +26,14 @@ OpenGLForm::COpenGL::COpenGL(System::Windows::Forms::Panel ^parentForm, int iPos
     _oglRender = new Core::Renderer();
 
     if (!_oglRender->load()) {
-        Utils::Logger::Write("Failed to initialize OpenGL", true, LOG_CONTEXT_DANGER);
+        std::cout << "Failed to initialize OpenGL" << std::endl;
     }
 
-    // Setup OGL Flags
-    _oglRender->setup();
     // Write Library Loading / Current Instance Info
     LibInfo::Write();
+    // Setup OGL Flags
+    _oglRender->setup();
+    // Query Current OGL Context Info
     OGL_INFO_STRING = LibInfo::OGL_INFO_STRING;
     // Other Class Variables
     _calcFramerate = false; // Default Don't
@@ -86,7 +87,7 @@ GLint OpenGLForm::COpenGL::oglSetPixelFormat(HDC hdc)
     if (!arbMultisampleSupported) {
         // get the device context's best, available pixel format match
         if ((iPixelFormat = ChoosePixelFormat(hdc, pfd)) == 0) {
-            Utils::Logger::Write("ChoosePixelFormat Failed", true, LOG_CONTEXT_DANGER);
+            std::cout << "ChoosePixelFormat Failed" << std::endl;
             return 0;
         }
     } else {
@@ -95,17 +96,17 @@ GLint OpenGLForm::COpenGL::oglSetPixelFormat(HDC hdc)
 
     // make that match the device context's current pixel format
     if (SetPixelFormat(hdc, iPixelFormat, pfd) == FALSE) {
-        Utils::Logger::Write("SetPixelFormat Failed", true, LOG_CONTEXT_DANGER);
+        std::cout << "SetPixelFormat Failed" << std::endl;
         return 0;
     }
 
     if ((_mHGLRC = wglCreateContext(_mHDC)) == NULL) {
-        Utils::Logger::Write("wglCreateContext Failed", true, LOG_CONTEXT_DANGER);
+        std::cout << "wglCreateContext Failed" << std::endl;
         return 0;
     }
 
     if ((wglMakeCurrent(_mHDC, _mHGLRC)) == NULL) {
-        Utils::Logger::Write("wglMakeCurrent Failed", true, LOG_CONTEXT_DANGER);
+        std::cout << "wglMakeCurrent Failed" << std::endl;
         return 0;
     }
 

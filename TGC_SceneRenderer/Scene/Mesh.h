@@ -1,6 +1,5 @@
 #pragma once
 #include "../Types/Vertex.h"
-#include "../Utils/Logger.h"
 #include "../Bases/BaseComponent.h"
 #include "../Collections/Textures.h"
 #include "Assimp/Importer.hpp"
@@ -8,6 +7,7 @@
 #include "Assimp/postprocess.h"
 #include "GLM/glm.hpp"
 #include <vector>
+#include <iostream>
 #define INVALID_MATERIAL 0xFFFFFFFF
 #define INVALID_VALUE 0xFFFFFFFF
 namespace Scene {

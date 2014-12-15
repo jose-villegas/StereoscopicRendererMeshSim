@@ -16,7 +16,7 @@ bool Types::Shader::loadFromString(const std::string &sSource)
     // Associate source with this shader ID
     glShaderSource(_id, 1, &source, NULL);
     // Successful shader file load
-    Utils::Logger::Write(getShaderTypeString() + " file: " + _shaderName + " loaded successfully", false, LOG_CONTEXT_SUCCESS);
+    std::cout << "Shader(" << this << "): " << getShaderTypeString() << " file " << _shaderName << " loaded successfully" << std::endl;
     return true;
 }
 
@@ -25,7 +25,7 @@ bool Types::Shader::loadFromFile(const std::string &sFilename)
     std::ifstream file(sFilename, std::ifstream::in);
 
     if (!file.good()) {
-        Utils::Logger::Write("Error Opening " + getShaderTypeString() + " file: " + sFilename, true, LOG_CONTEXT_DANGER);
+        std::cout << "Shader(" << this << "): " << "Error Opening " << getShaderTypeString() << " file: " << sFilename << std::endl;
         return false;
     }
 
@@ -57,13 +57,13 @@ bool Types::Shader::compilationCheck()
         GLchar *strInfoLog = new GLchar[infoLength + 1];
         glGetShaderInfoLog(_id, infoLength, NULL, strInfoLog);
         // Write Compilation Errors to Utils Logger
-        Utils::Logger::Write(std::string(strInfoLog), false, LOG_CONTEXT_DANGER);
+        std::cout << "\n" << "Shader(" << this << "): " << getShaderTypeString() << " compilation errors:\n" << std::string(strInfoLog) << std::endl;
         // Free Reserved Memory for InfoLog
         delete[] strInfoLog;
         // Return Failure
         return false;
     } else {
-        Utils::Logger::Write(getShaderTypeString() + " file: " + _shaderName + " compilation successful", LOG_CONTEXT_SUCCESS);
+        std::cout << "Shader(" << this << "): " << getShaderTypeString() << " file: " << _shaderName << " compilation successful" << std::endl;
         return true;
     }
 }

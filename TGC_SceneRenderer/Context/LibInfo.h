@@ -1,10 +1,10 @@
 #pragma once
 // #define FREEIMAGE_LIB
-#include "..\Collections\Textures.h"
+#include "../Collections/Textures.h"
 #include "FreeImage/FreeImage.h"
-#include "..\Utils\Logger.h"
-#include "Assimp\defs.h"
-#include "Assimp\version.h"
+#include "Assimp/defs.h"
+#include "Assimp/version.h"
+#include <iostream>
 
 ref class LibInfo {
     public:
@@ -12,6 +12,9 @@ ref class LibInfo {
         static System::String ^OGL_INFO_STRING;
         static System::String ^FREEIMAGE_INFO_STRING;
         static System::String ^ASSIMP_INFO_STRING;
+        static std::string *OGL_INFO_STRING_STD;
+        static std::string *FREEIMAGE_INFO_STRING_STD;
+        static std::string *ASSIMP_INFO_STRING_STD;
         static void Write();
 };
 

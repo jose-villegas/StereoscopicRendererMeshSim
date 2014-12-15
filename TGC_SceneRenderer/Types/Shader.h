@@ -1,6 +1,5 @@
 #pragma once
 #include "GL\gl_core_4_4.h"
-#include "..\Utils\Logger.h"
 #include <iostream>
 #include <string>
 #include <sstream>

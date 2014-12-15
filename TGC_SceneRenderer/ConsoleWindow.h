@@ -1,5 +1,4 @@
 #pragma once
-#include "Utils\Logger.h"
 
 namespace TGC_SceneRenderer {
 
@@ -21,9 +20,6 @@ namespace TGC_SceneRenderer {
                 //
                 //TODO: Add the constructor code here
                 //
-                // loggerListBox->Enabled = false;
-                loggerListBox->DataSource = Utils::Logger::GetLog();
-                Utils::Logger::SetBindedListBox(loggerListBox);
             }
 
         protected:

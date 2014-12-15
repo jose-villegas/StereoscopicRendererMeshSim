@@ -1,5 +1,4 @@
 #include "Textures.h"
-#include "..\Utils\Logger.h"
 #include "..\Types\Texture.h"
 #include <fstream>
 #include <iostream>
@@ -30,10 +29,10 @@ Textures::~Textures()
 bool Textures::loadTexture(const std::string &sFilename, const unsigned int texID, Types::Texture::TextureType textureType)
 {
     Types::Texture *newTex = new Types::Texture(sFilename, texID, textureType);
-    bool loadingResult = newTex->load(sFilename);
+    bool loadingResult = newTex->load();
 
     if (!loadingResult) {
-        Utils::Logger::Write("Error loading " + sFilename + " texture", true, LOG_CONTEXT_DANGER);
+        std::cout << "Textures(" << this << "): " << "Error loading " << sFilename << " texture" << std::endl;
         return loadingResult;
     }
 
@@ -41,12 +40,13 @@ bool Textures::loadTexture(const std::string &sFilename, const unsigned int texI
     std::map<unsigned int, Types::Texture *>::iterator it = _eTexCollection.find(texID);
 
     if (it != _eTexCollection.end()) {
-        Utils::Logger::Write("Warning texture: " + _eTexCollection[texID]->sFilename + " replaced", true, LOG_CONTEXT_WARNING);
+        std::cout << "Textures(" << this << "): " << "Warning texture: " << _eTexCollection[texID]->sFilename << " replaced" << std::endl;
         glDeleteTextures(1, &(it->second->oglTexID));
     }
 
+    // Store new texID and return success
     _eTexCollection[texID] = newTex;
-    Utils::Logger::Write("Texture: " + std::string(sFilename) + " loaded successfully", true, LOG_CONTEXT_SUCCESS);
+    std::cout << "Textures(" << this << "): " << "Texture " << std::string(sFilename) << " loaded successfully" << std::endl;
     return loadingResult;
 }
 
