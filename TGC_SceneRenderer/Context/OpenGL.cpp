@@ -3,6 +3,7 @@
 
 OpenGLForm::COpenGL::COpenGL(System::Windows::Forms::Panel ^parentForm, int iPositionX, int iPositionY, GLsizei iWidth, GLsizei iHeight)
 {
+    enableRender = true;
     // Create OGL Context
     _mHDC = createHandle(parentForm, iPositionX, iPositionY, iWidth, iHeight);
 
@@ -46,14 +47,15 @@ System::Void OpenGLForm::COpenGL::restartStopwatch(System::Void)
 {
     this->_time->deltaTime(_stopwatch.Elapsed.TotalSeconds);
     this->_time->totalTime(this->_time->totalTime() + this->_time->deltaTime());
-    _stopwatch.Restart();
 
     if (_calcFramerate) { _fmCalc->calculate(this->_time->deltaTime()); }
+
+    _stopwatch.Restart();
 }
 
 System::Void OpenGLForm::COpenGL::render(System::Void)
 {
-    _oglRender->loop();
+    if (enableRender) { _oglRender->loop(); }
 }
 
 GLint OpenGLForm::COpenGL::oglSetPixelFormat(HDC hdc)
@@ -137,9 +139,15 @@ HDC OpenGLForm::COpenGL::createHandle(System::Windows::Forms::Panel ^parentForm,
 
 OpenGLForm::COpenGL::~COpenGL(System::Void)
 {
+    enableRender = false;
     _texCollection->unloadAllTextures();
     delete _texCollection;
     delete _fmCalc;
     delete _time;
     this->DestroyHandle();
 }
+
+System::Void OpenGLForm::COpenGL::clean()
+{
+}
+

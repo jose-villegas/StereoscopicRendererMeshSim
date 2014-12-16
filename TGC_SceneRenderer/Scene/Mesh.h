@@ -16,8 +16,9 @@ namespace Scene {
         public:
             Mesh(void);
             ~Mesh(void);
-            bool loadMesh(std::string sFileName);
-            void render();
+            bool loadMesh(const std::string &sFileName);
+            std::vector<unsigned int> textures() const { return _sceneTextures; };
+            void render() const;
 
         private:
             bool initFromScene(const aiScene *paiScene, const std::string &sFilename);
@@ -28,16 +29,22 @@ namespace Scene {
             struct MeshEntry {
                 GLuint VB;
                 GLuint IB;
-                unsigned int numIndexes;
+                unsigned int numIndices;
                 unsigned int materialIndex;
-
                 MeshEntry();
                 ~MeshEntry();
-                void init(const std::vector<Types::Vertex> &vertices, const std::vector<unsigned int> &indexes);
+                void init(const std::vector<Types::Vertex> &vertices, const std::vector<unsigned int> &indices);
+            };
+
+            struct Material {
+                unsigned int materialIndex;
+                std::vector<unsigned int> textureIndices;
+                Material(const unsigned int &index);
             };
 
             std::vector<MeshEntry> _meshEntries;
-            std::vector<unsigned int> _meshTextures;
+            std::vector<unsigned int> _sceneTextures;
+            std::vector<Material *> _sceneMaterials;
             ECollections::Textures *_texCollection;
     };
 }

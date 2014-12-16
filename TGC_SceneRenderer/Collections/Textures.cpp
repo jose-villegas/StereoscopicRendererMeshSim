@@ -37,15 +37,15 @@ bool Textures::loadTexture(const std::string &sFilename, const unsigned int texI
     }
 
     //if this texture ID is in use, unload the current texture
-    std::map<unsigned int, Types::Texture *>::iterator it = _eTexCollection.find(texID);
+    std::map<unsigned int, Types::Texture *>::iterator it = textures.find(texID);
 
-    if (it != _eTexCollection.end()) {
-        std::cout << "Textures(" << this << "): " << "Warning texture: " << _eTexCollection[texID]->sFilename << " replaced" << std::endl;
-        glDeleteTextures(1, &(it->second->oglTexID));
+    if (it != textures.end()) {
+        std::cout << "Textures(" << this << "): " << "Warning texture: " << textures[texID]->getFilename() << " replaced" << std::endl;
+        it->second->unload();
     }
 
     // Store new texID and return success
-    _eTexCollection[texID] = newTex;
+    textures[texID] = newTex;
     std::cout << "Textures(" << this << "): " << "Texture " << std::string(sFilename) << " loaded successfully" << std::endl;
     return loadingResult;
 }
@@ -54,8 +54,8 @@ bool Textures::loadTexture(const std::string &sFilename, Types::Texture::Texture
 {
     int unique_texID = 1;
 
-    for (std::map<unsigned int, Types::Texture *>::iterator it = _eTexCollection.begin(); it != _eTexCollection.end(); ++it) {
-        if (it->second->texID == unique_texID) {
+    for (std::map<unsigned int, Types::Texture *>::iterator it = textures.begin(); it != textures.end(); ++it) {
+        if (it->second->geTexID() == unique_texID) {
             unique_texID++;
         } else {
             break;
@@ -65,31 +65,29 @@ bool Textures::loadTexture(const std::string &sFilename, Types::Texture::Texture
     return loadTexture(sFilename, unique_texID, textureType);
 }
 
-bool Textures::unloadTexture(const unsigned int texID)
+bool Textures::unloadTexture(const unsigned int &texID)
 {
     bool result = true;
-    //if this texture ID mapped, unload it's texture, and remove it from the map
-    std::map<unsigned int, Types::Texture *>::iterator it = _eTexCollection.find(texID);
+    // if this texture ID mapped, unload it's texture, and remove it from the map
+    std::map<unsigned int, Types::Texture *>::iterator it = textures.find(texID);
 
-    if (it != _eTexCollection.end()) {
+    if (it != textures.end()) {
         it->second->unload();
-        _eTexCollection.erase(texID);
-    }
-    //otherwise, unload failed
-    else {
+        textures.erase(texID);
+    } else {
         result = false;
     }
 
     return result;
 }
 
-bool Textures::bindTexture(const unsigned int texID)
+bool Textures::bindTexture(const unsigned int &texID)
 {
     bool result(true);
     // If this texture ID mapped, bind it's texture as current
-    std::map<unsigned int, Types::Texture *>::iterator it = _eTexCollection.find(texID);
+    std::map<unsigned int, Types::Texture *>::iterator it = textures.find(texID);
 
-    if (it != _eTexCollection.end()) {
+    if (it != textures.end()) {
         it->second->bind();
     } else {
         // Binding Failed
@@ -102,21 +100,26 @@ bool Textures::bindTexture(const unsigned int texID)
 void Textures::unloadAllTextures()
 {
     //start at the begginning of the texture map
-    std::map<unsigned int, Types::Texture *>::iterator it = _eTexCollection.begin();
+    std::map<unsigned int, Types::Texture *>::iterator it = textures.begin();
+
+    // Collection already empty
+    if (it == textures.end()) { return; }
 
     //Unload the textures untill the end of the texture map is found
-    while (it != _eTexCollection.end()) {
-        unloadTexture(it->first);
-        it++;
-    }
+    do { it->second->unload(); } while (++it != textures.end());
 
     //clear the texture map
-    _eTexCollection.clear();
+    textures.clear();
 }
 
-unsigned int Textures::count(void)
+unsigned int Textures::count(void) const
 {
-    return this->_eTexCollection.size();
+    return this->textures.size();
+}
+
+Types::Texture *ECollections::Textures::getTexture(const unsigned &texID)
+{
+    return this->textures[texID];
 }
 
 Textures *ECollections::Textures::_eInstance = nullptr;

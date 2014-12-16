@@ -63,7 +63,7 @@ bool Types::Shader::compilationCheck()
         // Return Failure
         return false;
     } else {
-        std::cout << "Shader(" << this << "): " << getShaderTypeString() << " file: " << _shaderName << " compilation successful" << std::endl;
+        std::cout << "Shader(" << this << "): " << getShaderTypeString() << " file " << _shaderName << " compilation successful" << std::endl;
         return true;
     }
 }

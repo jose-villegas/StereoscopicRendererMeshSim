@@ -11,7 +11,7 @@ Mesh::~Mesh(void)
     clear();
 }
 
-bool Mesh::loadMesh(std::string sFileName)
+bool Mesh::loadMesh(const std::string &sFileName)
 {
     // Release the previously loaded mesh (if it exists)
     clear();
@@ -20,19 +20,22 @@ bool Mesh::loadMesh(std::string sFileName)
     const aiScene *pScene = Importer.ReadFile(sFileName.c_str(), aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_CalcTangentSpace | aiProcess_FlipUVs);
 
     if (pScene) {
-        std::cout << "Loading asset " << sFileName << " ..." << std::endl;
+        std::cout << "Mesh(" << this << ") " << "Loading asset " << sFileName << std::endl;
         bRtrn = initFromScene(pScene, sFileName);
     } else {
-        std::cout << "Error parsing '" << sFileName << "': '" << Importer.GetErrorString() << std::endl;
+        std::cout << "Mesh(" << this << ") " << "Error parsing '" << sFileName << "': '" << Importer.GetErrorString() << std::endl;
     }
+
+    if (bRtrn) { std::cout << "Mesh(" << this << ") " << "Asset " << sFileName << " loaded successfully" << std::endl; }
+    else { std::cout << "Mesh(" << this << ") " << "An error occured loading asset " << sFileName << std::endl; }
 
     return bRtrn;
 }
 
-bool Mesh::initFromScene(const aiScene *pScene, const std::string &Filename)
+bool Mesh::initFromScene(const aiScene *pScene, const std::string &sFilename)
 {
     _meshEntries.resize(pScene->mNumMeshes);
-    _meshTextures.resize(pScene->mNumMaterials);
+    _sceneMaterials.resize(pScene->mNumMaterials);
 
     // Initialize the meshes in the scene one by one
     for (unsigned int i = 0 ; i < _meshEntries.size() ; i++) {
@@ -40,45 +43,52 @@ bool Mesh::initFromScene(const aiScene *pScene, const std::string &Filename)
         initMesh(i, paiMesh);
     }
 
-    return initMaterials(pScene, Filename);
+    // Load associated materials
+    return initMaterials(pScene, sFilename);
 }
 
-void Mesh::initMesh(unsigned int Index, const aiMesh *paiMesh)
+void Mesh::initMesh(unsigned int index, const aiMesh *paiMesh)
 {
-    _meshEntries[Index].materialIndex = paiMesh->mMaterialIndex;
-    std::vector<Types::Vertex> Vertices;
-    std::vector<unsigned int> Indices;
+    _meshEntries[index].materialIndex = paiMesh->mMaterialIndex;
+    std::vector<Types::Vertex> vertices;
+    std::vector<unsigned int> indices;
     const aiVector3D Zero3D(0.0f, 0.0f, 0.0f);
 
     for (unsigned int i = 0 ; i < paiMesh->mNumVertices ; i++) {
         const aiVector3D *pPos      = &(paiMesh->mVertices[i]);
         const aiVector3D *pNormal   = &(paiMesh->mNormals[i]);
         const aiVector3D *pTexCoord = paiMesh->HasTextureCoords(0) ? &(paiMesh->mTextureCoords[0][i]) : &Zero3D;
-        Types::Vertex v(glm::vec3(pPos->x, pPos->y, pPos->z), glm::vec2(pTexCoord->x, pTexCoord->y), glm::vec3(pNormal->x, pNormal->y, pNormal->z));
-        Vertices.push_back(v);
+        const aiVector3D *pTangent = &paiMesh->mTangents[i];
+        Types::Vertex v(
+            glm::vec3(pPos->x, pPos->y, pPos->z),
+            glm::vec2(pTexCoord->x, pTexCoord->y),
+            glm::vec3(pNormal->x, pNormal->y, pNormal->z),
+            glm::vec3(pTangent->x, pTangent->y, pTangent->z)
+        );
+        vertices.push_back(v);
     }
 
     for (unsigned int i = 0 ; i < paiMesh->mNumFaces ; i++) {
-        const aiFace &Face = paiMesh->mFaces[i];
-        assert(Face.mNumIndices == 3);
-        Indices.push_back(Face.mIndices[0]);
-        Indices.push_back(Face.mIndices[1]);
-        Indices.push_back(Face.mIndices[2]);
+        const aiFace &face = paiMesh->mFaces[i];
+        assert(face.mNumIndices == 3);
+        indices.push_back(face.mIndices[0]);
+        indices.push_back(face.mIndices[1]);
+        indices.push_back(face.mIndices[2]);
     }
 
-    _meshEntries[Index].init(Vertices, Indices);
+    _meshEntries[index].init(vertices, indices);
 }
 
-bool Mesh::initMaterials(const aiScene *pScene, const std::string &Filename)
+bool Mesh::initMaterials(const aiScene *pScene, const std::string &sFilename)
 {
     // Extract the directory part from the file name
-    std::string::size_type slashIndex = Filename.find_last_of("/");
+    std::string::size_type slashIndex = sFilename.find_last_of("/");
     std::string dir;
     std::string slashDir = "/";
     // Try with \ slashes if / didn't work out
 
     if (slashIndex == std::string::npos) {
-        std::string::size_type tempSlashIndex = Filename.find_last_of("\\");
+        std::string::size_type tempSlashIndex = sFilename.find_last_of("\\");
 
         if (tempSlashIndex != std::string::npos) {
             slashIndex = tempSlashIndex;
@@ -89,7 +99,7 @@ bool Mesh::initMaterials(const aiScene *pScene, const std::string &Filename)
     if (slashIndex == 0) {
         dir = slashDir;
     } else {
-        dir = Filename.substr(0, slashIndex);
+        dir = sFilename.substr(0, slashIndex);
     }
 
     bool bRtrn = true;
@@ -97,26 +107,72 @@ bool Mesh::initMaterials(const aiScene *pScene, const std::string &Filename)
     // Initialize the materials
     for (unsigned int i = 0 ; i < pScene->mNumMaterials ; i++) {
         const aiMaterial *pMaterial = pScene->mMaterials[i];
-        _meshTextures[i] = INVALID_MATERIAL;
+        Material *currentMaterial = new Material(i);
+        // Get Texture Count
+        int diffuseTextureCount = pMaterial->GetTextureCount(aiTextureType_DIFFUSE);
+        int specularTextureCount = pMaterial->GetTextureCount(aiTextureType_SPECULAR);
+        int ambientextureCount = pMaterial->GetTextureCount(aiTextureType_AMBIENT);
+        int emissiveTextureCount = pMaterial->GetTextureCount(aiTextureType_EMISSIVE);
+        int heightTextureCount = pMaterial->GetTextureCount(aiTextureType_HEIGHT);
+        int normalTextureCount = pMaterial->GetTextureCount(aiTextureType_NORMALS);
+        int shininessTextureCount = pMaterial->GetTextureCount(aiTextureType_SHININESS);
+        int ocapacityTextureCount = pMaterial->GetTextureCount(aiTextureType_OPACITY);
+        int displacementTextureCount = pMaterial->GetTextureCount(aiTextureType_DISPLACEMENT);
+        int lightmapTextureCount = pMaterial->GetTextureCount(aiTextureType_LIGHTMAP);
+        int reflectionTextureCount = pMaterial->GetTextureCount(aiTextureType_REFLECTION);
 
-        if (pMaterial->GetTextureCount(aiTextureType_DIFFUSE) > 0) {
+        for (int tIndex = 0; tIndex < diffuseTextureCount; tIndex++) {
             aiString textureFilename;
 
-            if (pMaterial->GetTexture(aiTextureType_DIFFUSE, 0, &textureFilename, NULL, NULL, NULL, NULL, NULL) == AI_SUCCESS) {
+            if (pMaterial->GetTexture(aiTextureType_DIFFUSE, tIndex, &textureFilename) == AI_SUCCESS) {
                 std::string fullPath = dir + slashDir + textureFilename.data;
 
                 if (!_texCollection->loadTexture(fullPath, _texCollection->count(), Types::Texture::Diffuse)) {
-                    bRtrn = false;
+                    bRtrn = false; currentMaterial->textureIndices.push_back(_texCollection->getDefaultTexture());
                 } else {
-                    _meshTextures[i] = _texCollection->count() - 1;
+                    currentMaterial->textureIndices.push_back(_texCollection->count() - 1);
                 }
             }
         }
 
-        // Load a white texture in case the model does not include its own texture
-        if (_meshTextures[i] == INVALID_MATERIAL) {
-            _meshTextures[i] = _texCollection->getDefaultTexture();
+        for (int tIndex = 0; tIndex < heightTextureCount; tIndex++) {
+            aiString textureFilename;
+
+            if (pMaterial->GetTexture(aiTextureType_HEIGHT, tIndex, &textureFilename) == AI_SUCCESS) {
+                std::string fullPath = dir + slashDir + textureFilename.data;
+
+                if (!_texCollection->loadTexture(fullPath, _texCollection->count(), Types::Texture::Height)) {
+                    bRtrn = false; currentMaterial->textureIndices.push_back(_texCollection->getDefaultTexture());
+                } else {
+                    currentMaterial->textureIndices.push_back(_texCollection->count() - 1);
+                }
+            }
         }
+
+        for (int tIndex = 0; tIndex < normalTextureCount; tIndex++) {
+            aiString textureFilename;
+
+            if (pMaterial->GetTexture(aiTextureType_NORMALS, tIndex, &textureFilename) == AI_SUCCESS) {
+                std::string fullPath = dir + slashDir + textureFilename.data;
+
+                if (!_texCollection->loadTexture(fullPath, _texCollection->count(), Types::Texture::Normals)) {
+                    bRtrn = false; currentMaterial->textureIndices.push_back(_texCollection->getDefaultTexture());
+                } else {
+                    currentMaterial->textureIndices.push_back(_texCollection->count() - 1);
+                }
+            }
+        }
+
+        // Save Texture Values for whole scene
+        std::vector<unsigned int>::iterator it;
+
+        for (it = currentMaterial->textureIndices.begin(); it != currentMaterial->textureIndices.end(); it++) {
+            _sceneTextures.push_back(*it);
+        }
+
+        if (currentMaterial->textureIndices.empty()) { currentMaterial->textureIndices.push_back(_texCollection->getDefaultTexture()); }
+
+        _sceneMaterials[i] = currentMaterial;
     }
 
     return bRtrn;
@@ -124,51 +180,65 @@ bool Mesh::initMaterials(const aiScene *pScene, const std::string &Filename)
 
 void Mesh::clear()
 {
-    _meshTextures.clear();
+    for (unsigned int i = 0; i < _sceneMaterials.size(); i++) {
+        delete _sceneMaterials[i];
+    }
+
+    _sceneMaterials.clear();
+    _sceneTextures.clear();
 }
 
-void Mesh::render()
+void Mesh::render() const
 {
     glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
     glEnableVertexAttribArray(2);
+    glEnableVertexAttribArray(3);
 
     for (unsigned int i = 0 ; i < _meshEntries.size() ; i++) {
         glBindBuffer(GL_ARRAY_BUFFER, _meshEntries[i].VB);
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Types::Vertex), 0);
-        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Types::Vertex), (const GLvoid *)12);
-        glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Types::Vertex), (const GLvoid *)20);
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Types::Vertex), 0);						// Vertex Position
+        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Types::Vertex), (const GLvoid *)12);		// Vertex UVS
+        glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Types::Vertex), (const GLvoid *)20);		// Vertex Normal
+        glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Types::Vertex), (const GLvoid *)32);		// Vertex Tangent
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _meshEntries[i].IB);
         const unsigned int materialIndex = _meshEntries[i].materialIndex;
 
-        if (materialIndex < _meshTextures.size() && _meshTextures[materialIndex]) {
-            _texCollection->bindTexture(_meshTextures[materialIndex]);
+        /*
+        if (materialIndex < _sceneTextures.size() && _sceneTextures[materialIndex]) {
+            _texCollection->bindTexture(_sceneTextures[materialIndex]);
+        }
+        */
+
+        for (int texIndex = _sceneMaterials[materialIndex]->textureIndices.size() - 1; texIndex >= 0 ; texIndex--) {
+            _texCollection->bindTexture(_sceneMaterials[materialIndex]->textureIndices[texIndex]);
         }
 
-        glDrawElements(GL_TRIANGLES, _meshEntries[i].numIndexes, GL_UNSIGNED_INT, 0);
+        glDrawElements(GL_TRIANGLES, _meshEntries[i].numIndices, GL_UNSIGNED_INT, 0);
     }
 
     glDisableVertexAttribArray(0);
     glDisableVertexAttribArray(1);
     glDisableVertexAttribArray(2);
+    glDisableVertexAttribArray(3);
 }
 
-void Mesh::MeshEntry::init(const std::vector<Types::Vertex> &vertices, const std::vector<unsigned int> &indexes)
+void Mesh::MeshEntry::init(const std::vector<Types::Vertex> &vertices, const std::vector<unsigned int> &indices)
 {
-    numIndexes = indexes.size();
+    numIndices = indices.size();
     glGenBuffers(1, &VB);
     glBindBuffer(GL_ARRAY_BUFFER, VB);
     glBufferData(GL_ARRAY_BUFFER, sizeof(Types::Vertex) * vertices.size(), &vertices[0], GL_STATIC_DRAW);
     glGenBuffers(1, &IB);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IB);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * numIndexes, &indexes[0], GL_STATIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * numIndices, &indices[0], GL_STATIC_DRAW);
 }
 
 Mesh::MeshEntry::MeshEntry()
 {
     VB = INVALID_VALUE;
     IB = INVALID_VALUE;
-    numIndexes  = 0;
+    numIndices  = 0;
     materialIndex = INVALID_MATERIAL;
 }
 
@@ -181,4 +251,9 @@ Mesh::MeshEntry::~MeshEntry()
     if (IB != INVALID_VALUE) {
         glDeleteBuffers(1, &IB);
     }
+}
+
+Scene::Mesh::Material::Material(const unsigned int &index)
+{
+    this->materialIndex = index;
 }

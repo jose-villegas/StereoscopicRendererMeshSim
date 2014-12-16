@@ -10,10 +10,7 @@ int main(array<System::String ^> ^args)
     // Enabling Windows XP visual effects before any controls are created
     Application::EnableVisualStyles();
     Application::SetCompatibleTextRenderingDefault(false);
-    // Redirect cout stream to file
-    //std::ofstream out("utils_logger.txt");
-    //std::streambuf *coutbuf = std::cout.rdbuf(); //save old buf
-    //std::cout.rdbuf(out.rdbuf()); //redirect std::cout to out.txt!
+    // Create a Console for the Program and redirect stdout to it
     AllocConsole();
     freopen("CONOUT$", "w", stdout);
     // Create the main window and run it

@@ -3,6 +3,10 @@
 #include "..\Scene\Camera.h"
 #include "..\Utils\FrameRate.h"
 #include "..\Utils\Time.h"
+#include "..\Scene\Mesh.h"
+#include "..\Collections\Textures.h"
+#include "glm\gtx\transform.hpp"
+
 namespace Core {
 
     class Renderer {
@@ -14,6 +18,7 @@ namespace Core {
         private:
             Utils::FrameRate *frameRate;
             Utils::Time *time;
+            ECollections::Textures *_texCollection;
     };
 }
 

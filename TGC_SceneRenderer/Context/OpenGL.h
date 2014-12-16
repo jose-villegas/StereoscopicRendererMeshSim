@@ -20,6 +20,8 @@ namespace OpenGLForm {
             System::Double getFrameRate() { return _fmCalc->currentFramerate(); }
             virtual System::Void render(System::Void);
             System::String ^OGL_INFO_STRING;
+            System::Void clean();
+            System::Boolean enableRender;
 
         private:
             HDC _mHDC;

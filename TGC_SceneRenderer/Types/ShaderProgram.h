@@ -30,8 +30,6 @@ namespace Types {
              * Method:    setUniform
              * FullName:  Types::ShaderProgram::setUniform
              * Access:    public
-             * Returns:   void
-             * Qualifier: const
              * Parameter: const std::string & sUniformName
              * Parameter: T && value{1|2|3|4} -- rvalue to be forwarded to a specific overloaded function based on value type
              */
