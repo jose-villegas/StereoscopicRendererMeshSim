@@ -107,10 +107,10 @@
     <ClCompile Include="Context\Multisample\ARB_Multisample.cpp" />
     <ClCompile Include="Scene\Light.cpp" />
     <ClCompile Include="Scene\Camera.cpp" />
-    <ClCompile Include="ConsoleWindow.cpp" />
     <ClCompile Include="Context\OpenGL.cpp" />
     <ClCompile Include="Scene\Mesh.cpp" />
     <ClCompile Include="Collections\Textures.cpp" />
+    <ClCompile Include="Utils\Time.cpp" />
     <ClCompile Include="Types\ShaderProgram.cpp" />
     <ClCompile Include="Types\Shader.cpp" />
     <ClCompile Include="Types\Transform.cpp" />
@@ -137,11 +137,9 @@
     <ClInclude Include="Context\Multisample\ARB_Multisample.h" />
     <ClInclude Include="Scene\Light.h" />
     <ClInclude Include="Scene\Camera.h" />
-    <ClInclude Include="ConsoleWindow.h">
-      <FileType>CppForm</FileType>
-    </ClInclude>
     <ClInclude Include="Scene\Mesh.h" />
     <ClInclude Include="Collections\Textures.h" />
+    <ClInclude Include="Utils\Time.h" />
     <ClInclude Include="Types\ShaderProgram.h" />
     <ClInclude Include="Types\Shader.h" />
     <ClInclude Include="Types\Transform.h" />
@@ -162,9 +160,6 @@
     <Image Include="Resources\default.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="ConsoleWindow.resx">
-      <DependentUpon>ConsoleWindow.h</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="MainWindow.resX">
       <DependentUpon>MainWindow.h</DependentUpon>
       <SubType>Designer</SubType>

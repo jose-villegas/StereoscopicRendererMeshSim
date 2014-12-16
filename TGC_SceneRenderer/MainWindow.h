@@ -1,6 +1,5 @@
 #pragma once
 #include "Context/OpenGL.h"
-#include "ConsoleWindow.h"
 #include "ObjectsWindow.h"
 #include "Scene/Mesh.h"
 #include <msclr\marshal_cppstd.h>
@@ -25,19 +24,16 @@ namespace TGC_SceneRenderer {
             {
                 InitializeComponent();
                 // Other Components / Forms
-                consoleWindow = gcnew ConsoleWindow();
+                consoleIsActive = true;
                 objectsWindow = gcnew ObjectsWindow();
-                consoleWindow->Width = this->Width;
                 objectsWindow->Height = this->Height;
                 // Setup OpenGL Render Context Inside a Panel
                 System::Windows::Forms::Panel ^oglRenderPanel = this->OpenGLRenderPanel;
                 OpenGL = gcnew COpenGL(oglRenderPanel, 0, 0, oglRenderPanel->ClientSize.Width, oglRenderPanel->ClientSize.Height);
                 // Add OpenGL Info to Form Title
                 this->Text += " (" + OpenGL->OGL_INFO_STRING + ")";
-                // Show Console Window At Startup
-                consoleWindow->Show();
+                // Show Tool Windows At Startup
                 objectsWindow->Show();
-                consoleWindow->Refresh();
             }
 
         protected:
@@ -50,18 +46,13 @@ namespace TGC_SceneRenderer {
                     delete components;
                 }
             }
-
-        private:
+        private: OpenGLForm::COpenGL ^OpenGL;
+        private: ObjectsWindow ^objectsWindow;
+        private: System::Windows::Forms::MenuStrip  ^topMenuBar;
+        private: System::Boolean consoleIsActive;
             /// <summary>
             /// Required designer variable.
             /// </summary>
-        private: OpenGLForm::COpenGL ^OpenGL;
-        private: ConsoleWindow ^consoleWindow;
-        private: ObjectsWindow ^objectsWindow;
-        private: System::Windows::Forms::MenuStrip  ^topMenuBar;
-
-
-
         private: System::Windows::Forms::ToolStripMenuItem  ^fileToolStripMenuItem;
         private: System::Windows::Forms::ToolStripMenuItem  ^newSceneToolStripMenuItem;
         private: System::Windows::Forms::ToolStripMenuItem  ^openSceneToolStripMenuItem;
@@ -445,19 +436,15 @@ namespace TGC_SceneRenderer {
                 OpenGL->swapOpenGLBuffers();
                 // Invalidate To Create a Game Loop
                 ((System::Windows::Forms::Panel ^)sender)->Invalidate();
-
-                if (OpenGL->getTotalTime() == 0.0) {
-                    this->Refresh();
-                }
+                //if (OpenGL->getTotalTime() == 0.0) {
+                //    this->Refresh();
+                //}
             }
 
         private: System::Void consoleToolStripMenuItem_Click(System::Object  ^sender, System::EventArgs  ^e)
             {
-                if (consoleWindow->Visible) {
-                    consoleWindow->Hide();
-                } else {
-                    consoleWindow->Show();
-                }
+                consoleIsActive ? ShowWindow(GetConsoleWindow(), SW_HIDE) : ShowWindow(GetConsoleWindow(), SW_SHOW);
+                consoleIsActive = !consoleIsActive;
             }
         private: System::Void objectsToolStripMenuItem_Click(System::Object  ^sender, System::EventArgs  ^e)
             {
@@ -486,8 +473,8 @@ namespace TGC_SceneRenderer {
             }
         private: System::Void MainWindow_Shown(System::Object  ^sender, System::EventArgs  ^e)
             {
-                this->consoleWindow->SetDesktopLocation(this->DesktopLocation.X, this->DesktopLocation.Y + this->Height + 5);
                 this->objectsWindow->SetDesktopLocation(this->DesktopLocation.X + this->Width + 5, this->DesktopLocation.Y);
+                this->Refresh();
             }
     };
 }

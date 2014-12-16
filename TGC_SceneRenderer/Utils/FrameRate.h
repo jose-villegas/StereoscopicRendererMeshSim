@@ -1,16 +1,22 @@
 #pragma once
+#include <array>
 
 namespace Utils {
-    ref class FrameRate {
+    class FrameRate {
         private:
-            static System::Int32 const NUM_FPS_SAMPLES = 32;
-            array<System::Double> ^fpsSamples;
-            System::Int32 currentSample;
-            System::Double frameTimeSum;
+            static FrameRate *framerateInstance;
+            static int const NUM_FPS_SAMPLES = 32;
+            std::array<double, NUM_FPS_SAMPLES> fpsSamples;
+            int currentSample;
+            int frameTimeSum;
+            bool filled;
+            double _currentFramerate;
         public:
-            FrameRate(void);
-            ~FrameRate();
+            double currentFramerate() { return _currentFramerate; };
+            static FrameRate *Instance();
             // Calculates the average framerate based on NUM_FPS_SAMPLES
-            System::Double Calculate(System::Double deltaTime);
+            void calculate(const double &deltaTime);
+        protected:
+            FrameRate(void);
     };
 }

@@ -3,28 +3,27 @@ using namespace Utils;
 
 FrameRate::FrameRate(void)
 {
-    fpsSamples = gcnew array<System::Double>(NUM_FPS_SAMPLES);
+    fpsSamples.fill(0);
+    _currentFramerate = 0;
     currentSample = 0;
     frameTimeSum = 0.0;
+    filled = false;
 }
 
-System::Double FrameRate::Calculate(System::Double deltaTime)
+void Utils::FrameRate::calculate(const double &deltaTime)
 {
-    if (deltaTime == 0.0) { return 0.0; }
+    if (deltaTime == 0.0) { return; }
 
-    System::Double currentFrameRate = 1.0 / deltaTime;
-    frameTimeSum -= fpsSamples[currentSample];
-    frameTimeSum += currentFrameRate;
-    fpsSamples[currentSample] = currentFrameRate;
+    this->_currentFramerate = (1.0 / deltaTime) * 0.9 + this->_currentFramerate * 0.1;
+}
 
-    if (++currentSample == NUM_FPS_SAMPLES) {
-        currentSample = 0;
+FrameRate *Utils::FrameRate::Instance()
+{
+    if (!framerateInstance) {
+        framerateInstance = new FrameRate();
     }
 
-    return ((System::Double)frameTimeSum / NUM_FPS_SAMPLES);
+    return framerateInstance;
 }
 
-FrameRate::~FrameRate()
-{
-    delete fpsSamples;
-}
+FrameRate *Utils::FrameRate::framerateInstance = nullptr;

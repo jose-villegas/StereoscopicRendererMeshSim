@@ -1,6 +1,7 @@
 #pragma once
 #include <windows.h>
 #include "../Utils/FrameRate.h"
+#include "../Utils/Time.h"
 #include "../Core/Renderer.h"
 #include "../Collections/Textures.h"
 #include "LibInfo.h"
@@ -14,9 +15,9 @@ namespace OpenGLForm {
             System::Void restartStopwatch(System::Void);
             System::Void calculateFramerate(System::Boolean blSet) { this->_calcFramerate = blSet; }
             System::Void swapOpenGLBuffers(System::Void) { SwapBuffers(_mHDC); }
-            System::Double getDeltaTime() { return _deltaTime; }
-            System::Double getTotalTime() { return _totalTime; }
-            System::Double getFrameRate() { return _framerate; }
+            System::Double getDeltaTime() { return _time->deltaTime(); }
+            System::Double getTotalTime() { return _time->totalTime(); }
+            System::Double getFrameRate() { return _fmCalc->currentFramerate(); }
             virtual System::Void render(System::Void);
             System::String ^OGL_INFO_STRING;
 
@@ -25,10 +26,8 @@ namespace OpenGLForm {
             HGLRC _mHGLRC;
             PIXELFORMATDESCRIPTOR *pfd;
             System::Diagnostics::Stopwatch _stopwatch;
-            System::Double _deltaTime;
-            System::Double _totalTime;
-            System::Double _framerate;
-            Utils::FrameRate _fmCalc;
+            Utils::Time *_time;
+            Utils::FrameRate *_fmCalc;
             ECollections::Textures *_texCollection;
             System::Boolean _calcFramerate;
             Core::Renderer *_oglRender;

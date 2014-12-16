@@ -1,5 +1,6 @@
 #include "Renderer.h"
 
+
 using namespace Core;
 
 #define DRAW_TEST_TRIANGLE
@@ -19,6 +20,8 @@ glm::mat4 MVP;
 
 Renderer::Renderer(void)
 {
+    this->frameRate = Utils::FrameRate::Instance();
+    this->time = Utils::Time::Instance();
 }
 
 bool Core::Renderer::load()
@@ -70,6 +73,7 @@ void Core::Renderer::loop()
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f) ;
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 #ifdef DRAW_TEST_TRIANGLE
+    std::cout << frameRate->currentFramerate() << std::endl;
     shProgram->use();
     shProgram->setUniform("MVP", MVP);
     // 1rst attribute buffer : vertices

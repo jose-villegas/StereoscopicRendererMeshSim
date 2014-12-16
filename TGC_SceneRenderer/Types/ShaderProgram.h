@@ -20,21 +20,21 @@ namespace Types {
             void disable() const;
             unsigned int getUniform(const std::string &sUniformName) const;
             unsigned int addUniform(const std::string &sUniformName);
-            //************************************
-            // Validates the uniform name and location
-            // and forwards the rvalue to a specific
-            //  overloaded function that calls:
-            // glUniform{1|2|3|4}{f|i|ui} based on number of parameters
-            // glUniform{2|3|4}fv for type glm::vec{2|3|4}
-            // glUniformMatrix{2|3|4}fv for type glm::mat{2|3|4}
-            // Method:    setUniform
-            // FullName:  Types::ShaderProgram::setUniform
-            // Access:    public
-            // Returns:   bool
-            // Qualifier: const
-            // Parameter: const std::string & sUniformName
-            // Parameter: T &&value{1|2|3|4} -- rvalue to be forwarded to a specific overloaded function based on value type
-            //************************************
+            /*
+             * Validates the uniform name and location
+             * and forwards the rvalue to a specific
+             * overloaded function that calls:
+             * glUniform{1|2|3|4}{f|i|ui} based on number of parameters
+             * glUniform{2|3|4}fv for type glm::vec{2|3|4}
+             * glUniformMatrix{2|3|4}fv for type glm::mat{2|3|4}
+             * Method:    setUniform
+             * FullName:  Types::ShaderProgram::setUniform
+             * Access:    public
+             * Returns:   void
+             * Qualifier: const
+             * Parameter: const std::string & sUniformName
+             * Parameter: T && value{1|2|3|4} -- rvalue to be forwarded to a specific overloaded function based on value type
+             */
             template<typename T> void setUniform(const std::string &sUniformName, T &&value0) const;
             template<typename T> void setUniform(const std::string &sUniformName, T &&value0, T &&value1) const;
             template<typename T> void setUniform(const std::string &sUniformName, T &&value0, T &&value1, T &&value2) const;

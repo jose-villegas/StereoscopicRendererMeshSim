@@ -35,18 +35,20 @@ OpenGLForm::COpenGL::COpenGL(System::Windows::Forms::Panel ^parentForm, int iPos
     _oglRender->setup();
     // Query Current OGL Context Info
     OGL_INFO_STRING = LibInfo::OGL_INFO_STRING;
-    // Other Class Variables
-    _calcFramerate = false; // Default Don't
+    // Other Class Variables Instancing
+    _fmCalc = Utils::FrameRate::Instance();
+    _time = Utils::Time::Instance();
     _texCollection = ECollections::Textures::Instance();
+    _calcFramerate = true; // Default Don't
 }
 
 System::Void OpenGLForm::COpenGL::restartStopwatch(System::Void)
 {
-    _deltaTime = _stopwatch.Elapsed.TotalSeconds;
-    _totalTime += _deltaTime;
+    this->_time->deltaTime(_stopwatch.Elapsed.TotalSeconds);
+    this->_time->totalTime(this->_time->totalTime() + this->_time->deltaTime());
     _stopwatch.Restart();
 
-    if (_calcFramerate) { _framerate = _fmCalc.Calculate(_deltaTime); }
+    if (_calcFramerate) { _fmCalc->calculate(this->_time->deltaTime()); }
 }
 
 System::Void OpenGLForm::COpenGL::render(System::Void)
@@ -136,6 +138,8 @@ HDC OpenGLForm::COpenGL::createHandle(System::Windows::Forms::Panel ^parentForm,
 OpenGLForm::COpenGL::~COpenGL(System::Void)
 {
     _texCollection->unloadAllTextures();
-    _texCollection->~Textures();
+    delete _texCollection;
+    delete _fmCalc;
+    delete _time;
     this->DestroyHandle();
 }

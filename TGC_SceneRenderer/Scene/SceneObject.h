@@ -12,6 +12,7 @@ namespace Scene {
             Types::Transform *objectTransform;
             // Holds the scene object components, a scene object can have camera, lights and mesh components mixed together
             Bases::BaseComponent *objectComponents[];
+
             SceneObject(void);
     };
 }
