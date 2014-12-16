@@ -99,6 +99,9 @@
     <ClCompile Include="Bounding\Volumes\BoundingBox.cpp" />
     <ClCompile Include="Context\LibInfo.cpp" />
     <ClCompile Include="include\GL\gl_core_4_4.c" />
+    <ClCompile Include="Core\ResourcesLoader.cpp" />
+    <ClCompile Include="Collections\stored\Shaders.cpp" />
+    <ClCompile Include="Types\Material.cpp" />
     <ClCompile Include="ObjectsWindow.cpp" />
     <ClCompile Include="Collections\SceneObjects.cpp" />
     <ClCompile Include="Core\Renderer.cpp" />
@@ -127,6 +130,9 @@
     <ClInclude Include="include\FreeImage\FreeImage.h" />
     <ClInclude Include="include\GL\gl_core_4_4.h" />
     <ClInclude Include="include\GL\wglext.h" />
+    <ClInclude Include="Core\ResourcesLoader.h" />
+    <ClInclude Include="Collections\stored\Shaders.h" />
+    <ClInclude Include="Types\Material.h" />
     <ClInclude Include="ObjectsWindow.h">
       <FileType>CppForm</FileType>
     </ClInclude>
@@ -171,6 +177,8 @@
   <ItemGroup>
     <None Include="Resources\Shaders\default_frag.glsl" />
     <None Include="Resources\Shaders\default_vert.glsl" />
+    <None Include="Resources\Shaders\diffuse.frag" />
+    <None Include="Resources\Shaders\diffuse.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

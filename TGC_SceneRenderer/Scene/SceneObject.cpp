@@ -1,24 +1,24 @@
 #include "SceneObject.h"
-using namespace Scene;
+using namespace scene;
 
 SceneObject::SceneObject(unsigned int index)
 {
     this->ID = index;
-    this->base = new Bases::BaseObject();
+    this->base = new bases::BaseObject();
 }
 
-Scene::SceneObject::SceneObject(unsigned int index, const std::string &sObjectName)
+scene::SceneObject::SceneObject(unsigned int index, const std::string &sObjectName)
 {
     this->ID = index;
-    this->base = new Bases::BaseObject(sObjectName);
+    this->base = new bases::BaseObject(sObjectName);
 }
 
-void Scene::SceneObject::addComponent(Bases::BaseComponent *component)
+void scene::SceneObject::addComponent(bases::BaseComponent *component)
 {
     components.push_back(component);
 }
 
-void Scene::SceneObject::removeComponent(const unsigned int &componentIndex)
+void scene::SceneObject::removeComponent(const unsigned int &componentIndex)
 {
     if (!components[componentIndex]) { return; }
 

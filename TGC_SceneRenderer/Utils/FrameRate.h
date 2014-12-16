@@ -1,7 +1,7 @@
 #pragma once
 #include <array>
 
-namespace Utils {
+namespace utils {
     class FrameRate {
         private:
             static FrameRate *framerateInstance;

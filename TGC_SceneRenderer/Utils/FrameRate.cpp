@@ -1,5 +1,5 @@
 #include "FrameRate.h"
-using namespace Utils;
+using namespace utils;
 
 FrameRate::FrameRate(void)
 {
@@ -10,14 +10,14 @@ FrameRate::FrameRate(void)
     filled = false;
 }
 
-void Utils::FrameRate::calculate(const double &deltaTime)
+void utils::FrameRate::calculate(const double &deltaTime)
 {
     if (deltaTime == 0.0) { return; }
 
     this->_currentFramerate = (1.0 / deltaTime) * 0.9 + this->_currentFramerate * 0.1;
 }
 
-FrameRate *Utils::FrameRate::Instance()
+FrameRate *utils::FrameRate::Instance()
 {
     if (!framerateInstance) {
         framerateInstance = new FrameRate();
@@ -26,4 +26,4 @@ FrameRate *Utils::FrameRate::Instance()
     return framerateInstance;
 }
 
-FrameRate *Utils::FrameRate::framerateInstance = nullptr;
+FrameRate *utils::FrameRate::framerateInstance = nullptr;

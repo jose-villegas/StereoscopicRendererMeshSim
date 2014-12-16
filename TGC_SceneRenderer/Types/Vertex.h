@@ -1,6 +1,6 @@
 #pragma once
-#include "GLM\glm.hpp"
-namespace Types {
+#include "GLM/glm.hpp"
+namespace types {
     class Vertex {
         public:
             glm::vec3 position;

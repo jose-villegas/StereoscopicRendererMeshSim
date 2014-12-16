@@ -1,9 +1,9 @@
 #include "Time.h"
-using namespace Utils;
+using namespace utils;
 
-Time *Utils::Time::timeInstance = nullptr;
+Time *utils::Time::timeInstance = nullptr;
 
-Time *Utils::Time::Instance()
+Time *utils::Time::Instance()
 {
     if (!timeInstance) {
         timeInstance = new Time();
@@ -12,7 +12,7 @@ Time *Utils::Time::Instance()
     return timeInstance;
 }
 
-Utils::Time::Time(void)
+utils::Time::Time(void)
 {
     this->_deltaTime = 0;
     this->_totalTime = 0;

@@ -1,11 +1,11 @@
 #include "Renderer.h"
-using namespace Core;
+using namespace core;
 
 #define DRAWTEST
 #ifdef DRAWTEST
-Types::ShaderProgram *shProgram;
-Scene::Mesh *testMesh;
-Scene::Camera *cam;
+types::ShaderProgram *shProgram;
+scene::Mesh *testMesh;
+scene::Camera *cam;
 glm::mat4 MVP;
 #endif // DRAW_TEST_TRIANGLE
 
@@ -13,30 +13,32 @@ Renderer::Renderer(void)
 {
 }
 
-bool Core::Renderer::load()
+bool core::Renderer::load()
 {
     return (bool)ogl_LoadFunctions();
 }
 
-void Core::Renderer::setup()
+void core::Renderer::setup()
 {
     // Get Tools / Collections Instances
-    this->frameRate = Utils::FrameRate::Instance();
-    this->time = Utils::Time::Instance();
-    this->_texCollection = ECollections::Textures::Instance();
+    this->frameRate = utils::FrameRate::Instance();
+    this->time = utils::Time::Instance();
+    this->_texCollection = collections::Textures::Instance();
+    // Load Misc Resources
+    ResourcesLoader::loadDefaultTexture(_texCollection);
     // Setup OpenGL Flags
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
     // Triangle Setup
 #ifdef DRAWTEST
-    testMesh = new Scene::Mesh();
-    testMesh->loadMesh("../TGC_SceneRenderer/Resources/DefaultModels/Cube/cube.obj");
+    testMesh = new scene::Mesh();
+    testMesh->loadMesh("../TGC_SceneRenderer/resources/models/cube/cube.obj");
     // Shader
-    shProgram = new Types::ShaderProgram();
-    Types::Shader *frag = new Types::Shader(Types::Shader::Fragment);
-    Types::Shader *vert = new Types::Shader(Types::Shader::Vertex);
-    frag->loadFromFile("../TGC_SceneRenderer/Resources/Shaders/default_frag.glsl");
-    vert->loadFromFile("../TGC_SceneRenderer/Resources/Shaders/default_vert.glsl");
+    shProgram = new types::ShaderProgram();
+    types::Shader *frag = new types::Shader(types::Shader::Fragment);
+    types::Shader *vert = new types::Shader(types::Shader::Vertex);
+    frag->loadFromFile("../TGC_SceneRenderer/resources/shaders/default_frag.glsl");
+    vert->loadFromFile("../TGC_SceneRenderer/resources/shaders/default_vert.glsl");
     frag->compile();
     vert->compile();
     shProgram->attachShader(*frag);
@@ -46,12 +48,12 @@ void Core::Renderer::setup()
     shProgram->addUniform("diffuseMap");
     shProgram->addUniform("normalMap");
     // Camera
-    cam = new Scene::Camera();
+    cam = new scene::Camera();
     cam->fieldOfView = 90.0f;
     cam->aspectRatio = 4.0f / 3.0f;
     cam->nearClipping = 0.1f;
     cam->farClipping = 1000.0f;
-    cam->projectionType = Scene::Camera::Perspective;
+    cam->projectionType = scene::Camera::Perspective;
     // Model View Projection Matrix
     glm::mat4 view = cam->getViewMatrix(glm::vec3(0, 0, 0), glm::vec3(0, 0, -1), glm::vec3(0, 1, 0));
     glm::mat4 projection = cam->getProjectionMatrix();
@@ -60,7 +62,7 @@ void Core::Renderer::setup()
 #endif
 }
 
-void Core::Renderer::loop()
+void core::Renderer::loop()
 {
     // Clear the color and depth buffers.
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f) ;

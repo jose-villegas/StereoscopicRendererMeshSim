@@ -1,5 +1,5 @@
 #include "BoundingSphere.h"
-using namespace Bounding::Volumes;
+using namespace bounding::volumes;
 
 BoundingSphere::BoundingSphere(void)
 {

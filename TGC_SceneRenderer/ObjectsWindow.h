@@ -35,7 +35,7 @@ namespace TGC_SceneRenderer {
             }
 
 
-        private: ECollections::SceneObjects *_sceneObjects;
+        private: collections::SceneObjects *_sceneObjects;
         private: System::Windows::Forms::Panel  ^objectsWindowControlPanel;
         private: System::Windows::Forms::MenuStrip  ^createMenu;
         private: System::Windows::Forms::ToolStripMenuItem  ^createToolStripMenuItem;

@@ -1,12 +1,12 @@
 #pragma once
-#include "GL\gl_core_4_4.h"
+#include "GL/gl_core_4_4.h"
 #include <iostream>
 #include <string>
 #include <sstream>
 #include <fstream>
 #include <map>
 
-namespace Types {
+namespace types {
 
     class Shader {
         public:

@@ -24,7 +24,7 @@ OpenGLForm::COpenGL::COpenGL(System::Windows::Forms::Panel ^parentForm, int iPos
     }
 
     // Create Renderer (Core::Renderer is in charge of rendering all scene objects and misc)
-    _oglRender = new Core::Renderer();
+    _oglRender = new core::Renderer();
 
     if (!_oglRender->load()) {
         std::cout << "Failed to initialize OpenGL" << std::endl;
@@ -37,9 +37,9 @@ OpenGLForm::COpenGL::COpenGL(System::Windows::Forms::Panel ^parentForm, int iPos
     // Query Current OGL Context Info
     OGL_INFO_STRING = LibInfo::OGL_INFO_STRING;
     // Other Class Variables Instancing
-    _fmCalc = Utils::FrameRate::Instance();
-    _time = Utils::Time::Instance();
-    _texCollection = ECollections::Textures::Instance();
+    _fmCalc = utils::FrameRate::Instance();
+    _time = utils::Time::Instance();
+    _texCollection = collections::Textures::Instance();
     _calcFramerate = true; // Default Don't
 }
 

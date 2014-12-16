@@ -1,9 +1,9 @@
 #include "Mesh.h"
-using namespace Scene;
+using namespace scene;
 
 Mesh::Mesh(void)
 {
-    _texCollection = ECollections::Textures::Instance();
+    _texCollection = collections::Textures::Instance();
 }
 
 Mesh::~Mesh(void)
@@ -50,7 +50,7 @@ bool Mesh::initFromScene(const aiScene *pScene, const std::string &sFilename)
 void Mesh::initMesh(unsigned int index, const aiMesh *paiMesh)
 {
     _meshEntries[index].materialIndex = paiMesh->mMaterialIndex;
-    std::vector<Types::Vertex> vertices;
+    std::vector<types::Vertex> vertices;
     std::vector<unsigned int> indices;
     const aiVector3D Zero3D(0.0f, 0.0f, 0.0f);
 
@@ -59,7 +59,7 @@ void Mesh::initMesh(unsigned int index, const aiMesh *paiMesh)
         const aiVector3D *pNormal   = &(paiMesh->mNormals[i]);
         const aiVector3D *pTexCoord = paiMesh->HasTextureCoords(0) ? &(paiMesh->mTextureCoords[0][i]) : &Zero3D;
         const aiVector3D *pTangent = &paiMesh->mTangents[i];
-        Types::Vertex v(
+        types::Vertex v(
             glm::vec3(pPos->x, pPos->y, pPos->z),
             glm::vec2(pTexCoord->x, pTexCoord->y),
             glm::vec3(pNormal->x, pNormal->y, pNormal->z),
@@ -127,7 +127,7 @@ bool Mesh::initMaterials(const aiScene *pScene, const std::string &sFilename)
             if (pMaterial->GetTexture(aiTextureType_DIFFUSE, tIndex, &textureFilename) == AI_SUCCESS) {
                 std::string fullPath = dir + slashDir + textureFilename.data;
 
-                if (!_texCollection->loadTexture(fullPath, _texCollection->count(), Types::Texture::Diffuse)) {
+                if (!_texCollection->loadTexture(fullPath, _texCollection->count(), types::Texture::Diffuse)) {
                     bRtrn = false; currentMaterial->textureIndices.push_back(_texCollection->getDefaultTexture());
                 } else {
                     currentMaterial->textureIndices.push_back(_texCollection->count() - 1);
@@ -141,7 +141,7 @@ bool Mesh::initMaterials(const aiScene *pScene, const std::string &sFilename)
             if (pMaterial->GetTexture(aiTextureType_HEIGHT, tIndex, &textureFilename) == AI_SUCCESS) {
                 std::string fullPath = dir + slashDir + textureFilename.data;
 
-                if (!_texCollection->loadTexture(fullPath, _texCollection->count(), Types::Texture::Height)) {
+                if (!_texCollection->loadTexture(fullPath, _texCollection->count(), types::Texture::Height)) {
                     bRtrn = false; currentMaterial->textureIndices.push_back(_texCollection->getDefaultTexture());
                 } else {
                     currentMaterial->textureIndices.push_back(_texCollection->count() - 1);
@@ -155,7 +155,7 @@ bool Mesh::initMaterials(const aiScene *pScene, const std::string &sFilename)
             if (pMaterial->GetTexture(aiTextureType_NORMALS, tIndex, &textureFilename) == AI_SUCCESS) {
                 std::string fullPath = dir + slashDir + textureFilename.data;
 
-                if (!_texCollection->loadTexture(fullPath, _texCollection->count(), Types::Texture::Normals)) {
+                if (!_texCollection->loadTexture(fullPath, _texCollection->count(), types::Texture::Normals)) {
                     bRtrn = false; currentMaterial->textureIndices.push_back(_texCollection->getDefaultTexture());
                 } else {
                     currentMaterial->textureIndices.push_back(_texCollection->count() - 1);
@@ -197,10 +197,10 @@ void Mesh::render() const
 
     for (unsigned int i = 0 ; i < _meshEntries.size() ; i++) {
         glBindBuffer(GL_ARRAY_BUFFER, _meshEntries[i].VB);
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Types::Vertex), 0);						// Vertex Position
-        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Types::Vertex), (const GLvoid *)12);		// Vertex UVS
-        glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Types::Vertex), (const GLvoid *)20);		// Vertex Normal
-        glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Types::Vertex), (const GLvoid *)32);		// Vertex Tangent
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(types::Vertex), 0);						// Vertex Position
+        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(types::Vertex), (const GLvoid *)12);		// Vertex UVS
+        glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(types::Vertex), (const GLvoid *)20);		// Vertex Normal
+        glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(types::Vertex), (const GLvoid *)32);		// Vertex Tangent
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _meshEntries[i].IB);
         const unsigned int materialIndex = _meshEntries[i].materialIndex;
 
@@ -223,12 +223,12 @@ void Mesh::render() const
     glDisableVertexAttribArray(3);
 }
 
-void Mesh::MeshEntry::init(const std::vector<Types::Vertex> &vertices, const std::vector<unsigned int> &indices)
+void Mesh::MeshEntry::init(const std::vector<types::Vertex> &vertices, const std::vector<unsigned int> &indices)
 {
     numIndices = indices.size();
     glGenBuffers(1, &VB);
     glBindBuffer(GL_ARRAY_BUFFER, VB);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(Types::Vertex) * vertices.size(), &vertices[0], GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(types::Vertex) * vertices.size(), &vertices[0], GL_STATIC_DRAW);
     glGenBuffers(1, &IB);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IB);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * numIndices, &indices[0], GL_STATIC_DRAW);
@@ -253,7 +253,7 @@ Mesh::MeshEntry::~MeshEntry()
     }
 }
 
-Scene::Mesh::Material::Material(const unsigned int &index)
+scene::Mesh::Material::Material(const unsigned int &index)
 {
     this->materialIndex = index;
 }

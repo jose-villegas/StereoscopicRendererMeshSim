@@ -1,5 +1,5 @@
 #pragma once
-namespace Utils {
+namespace utils {
 
     class Time {
         private:

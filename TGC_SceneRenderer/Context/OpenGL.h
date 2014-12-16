@@ -1,9 +1,9 @@
 #pragma once
 #include <windows.h>
-#include "../Utils/FrameRate.h"
-#include "../Utils/Time.h"
-#include "../Core/Renderer.h"
-#include "../Collections/Textures.h"
+#include "../utils/FrameRate.h"
+#include "../utils/Time.h"
+#include "../core/Renderer.h"
+#include "../collections/Textures.h"
 #include "LibInfo.h"
 #include "Multisample/arb_multisample.h"
 using namespace System::Windows::Forms;
@@ -28,11 +28,11 @@ namespace OpenGLForm {
             HGLRC _mHGLRC;
             PIXELFORMATDESCRIPTOR *pfd;
             System::Diagnostics::Stopwatch _stopwatch;
-            Utils::Time *_time;
-            Utils::FrameRate *_fmCalc;
-            ECollections::Textures *_texCollection;
+            utils::Time *_time;
+            utils::FrameRate *_fmCalc;
+            collections::Textures *_texCollection;
             System::Boolean _calcFramerate;
-            Core::Renderer *_oglRender;
+            core::Renderer *_oglRender;
             HDC createHandle(System::Windows::Forms::Panel ^parentForm, int iPositionX, int iPositionY, GLsizei iWidth, GLsizei iHeight);
 
         protected:

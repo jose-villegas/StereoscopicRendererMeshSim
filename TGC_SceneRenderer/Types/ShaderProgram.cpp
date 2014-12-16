@@ -1,7 +1,7 @@
 #include "ShaderProgram.h"
-using namespace Types;
+using namespace types;
 
-Types::ShaderProgram::ShaderProgram(void)
+types::ShaderProgram::ShaderProgram(void)
 {
     this->_programID = glCreateProgram();
     this->_shaderCount = 0;
@@ -13,18 +13,18 @@ Types::ShaderProgram::ShaderProgram(void)
     }
 }
 
-Types::ShaderProgram::~ShaderProgram(void)
+types::ShaderProgram::~ShaderProgram(void)
 {
     glDeleteProgram(this->_programID);
 }
 
-void Types::ShaderProgram::attachShader(const Shader &pShader)
+void types::ShaderProgram::attachShader(const Shader &pShader)
 {
     glAttachShader(this->_programID, pShader.getId());
     this->_shaderCount++;
 }
 
-bool Types::ShaderProgram::link() const
+bool types::ShaderProgram::link() const
 {
     if (this->_shaderCount >= 2) {
         // Link Attached Shaders to Program
@@ -45,17 +45,17 @@ bool Types::ShaderProgram::link() const
     return false;
 }
 
-void Types::ShaderProgram::use() const
+void types::ShaderProgram::use() const
 {
     glUseProgram(this->_programID);
 }
 
-void Types::ShaderProgram::disable() const
+void types::ShaderProgram::disable() const
 {
     glUseProgram(0);
 }
 
-GLuint Types::ShaderProgram::getUniform(const std::string &sUniformName) const
+GLuint types::ShaderProgram::getUniform(const std::string &sUniformName) const
 {
     // Find uniform with this name
     std::unordered_map<std::string, GLuint>::const_iterator it = this->_uniformLoc.find(sUniformName);
@@ -67,7 +67,7 @@ GLuint Types::ShaderProgram::getUniform(const std::string &sUniformName) const
     }
 }
 
-GLuint Types::ShaderProgram::addUniform(const std::string &sUniformName)
+GLuint types::ShaderProgram::addUniform(const std::string &sUniformName)
 {
     // Try to obtain uniform location
     GLint nUniformLoc = glGetUniformLocation(this->_programID, sUniformName.c_str());
@@ -84,92 +84,92 @@ GLuint Types::ShaderProgram::addUniform(const std::string &sUniformName)
     return nUniformLoc;
 }
 
-void Types::ShaderProgram::setUniform(unsigned int unfrLoc, const float &value0) const
+void types::ShaderProgram::setUniform(unsigned int unfrLoc, const float &value0) const
 {
     glUniform1f(unfrLoc, value0);
 }
 
-void Types::ShaderProgram::setUniform(unsigned int unfrLoc, const int &value0) const
+void types::ShaderProgram::setUniform(unsigned int unfrLoc, const int &value0) const
 {
     glUniform1i(unfrLoc, value0);
 }
 
-void Types::ShaderProgram::setUniform(unsigned int unfrLoc, const unsigned int &value0) const
+void types::ShaderProgram::setUniform(unsigned int unfrLoc, const unsigned int &value0) const
 {
     glUniform1ui(unfrLoc, value0);
 }
 
-void Types::ShaderProgram::setUniform(unsigned int unfrLoc, const glm::mat4 &value0) const
+void types::ShaderProgram::setUniform(unsigned int unfrLoc, const glm::mat4 &value0) const
 {
     glUniformMatrix4fv(unfrLoc, 1, GL_FALSE, glm::value_ptr(value0));
 }
 
-void Types::ShaderProgram::setUniform(unsigned int unfrLoc, const glm::mat3 &value0) const
+void types::ShaderProgram::setUniform(unsigned int unfrLoc, const glm::mat3 &value0) const
 {
     glUniformMatrix3fv(unfrLoc, 1, GL_FALSE, glm::value_ptr(value0));
 }
 
-void Types::ShaderProgram::setUniform(unsigned int unfrLoc, const glm::mat2 &value0) const
+void types::ShaderProgram::setUniform(unsigned int unfrLoc, const glm::mat2 &value0) const
 {
     glUniformMatrix2fv(unfrLoc, 1, GL_FALSE, glm::value_ptr(value0));
 }
 
-void Types::ShaderProgram::setUniform(unsigned int unfrLoc, const glm::vec4 &value0) const
+void types::ShaderProgram::setUniform(unsigned int unfrLoc, const glm::vec4 &value0) const
 {
     glUniform4fv(unfrLoc, 1, glm::value_ptr(value0));
 }
 
-void Types::ShaderProgram::setUniform(unsigned int unfrLoc, const glm::vec3 &value0) const
+void types::ShaderProgram::setUniform(unsigned int unfrLoc, const glm::vec3 &value0) const
 {
     glUniform3fv(unfrLoc, 1, glm::value_ptr(value0));
 }
 
-void Types::ShaderProgram::setUniform(unsigned int unfrLoc, const glm::vec2 &value0) const
+void types::ShaderProgram::setUniform(unsigned int unfrLoc, const glm::vec2 &value0) const
 {
     glUniform2fv(unfrLoc, 1, glm::value_ptr(value0));
 }
 
-void Types::ShaderProgram::setUniform(unsigned int unfrLoc, const float &value0, const float &value1) const
+void types::ShaderProgram::setUniform(unsigned int unfrLoc, const float &value0, const float &value1) const
 {
     glUniform2f(unfrLoc, value0, value1);
 }
 
-void Types::ShaderProgram::setUniform(unsigned int unfrLoc, const float &value0, const float &value1, const float &value2) const
+void types::ShaderProgram::setUniform(unsigned int unfrLoc, const float &value0, const float &value1, const float &value2) const
 {
     glUniform3f(unfrLoc, value0, value1, value2);
 }
 
-void Types::ShaderProgram::setUniform(unsigned int unfrLoc, const float &value0, const float &value1, const float &value2, const float &value3) const
+void types::ShaderProgram::setUniform(unsigned int unfrLoc, const float &value0, const float &value1, const float &value2, const float &value3) const
 {
     glUniform4f(unfrLoc, value0, value1, value2, value3);
 }
 
-void Types::ShaderProgram::setUniform(unsigned int unfrLoc, const int &value0, const int &value1) const
+void types::ShaderProgram::setUniform(unsigned int unfrLoc, const int &value0, const int &value1) const
 {
     glUniform2i(unfrLoc, value0, value1);
 }
 
-void Types::ShaderProgram::setUniform(unsigned int unfrLoc, const int &value0, const int &value1, const int &value2) const
+void types::ShaderProgram::setUniform(unsigned int unfrLoc, const int &value0, const int &value1, const int &value2) const
 {
     glUniform3i(unfrLoc, value0, value1, value2);
 }
 
-void Types::ShaderProgram::setUniform(unsigned int unfrLoc, const int &value0, const int &value1, const int &value2, const int &value3) const
+void types::ShaderProgram::setUniform(unsigned int unfrLoc, const int &value0, const int &value1, const int &value2, const int &value3) const
 {
     glUniform4i(unfrLoc, value0, value1, value2, value3);
 }
 
-void Types::ShaderProgram::setUniform(unsigned int unfrLoc, const unsigned int &value0, const unsigned int &value1) const
+void types::ShaderProgram::setUniform(unsigned int unfrLoc, const unsigned int &value0, const unsigned int &value1) const
 {
     glUniform2ui(unfrLoc, value0, value1);
 }
 
-void Types::ShaderProgram::setUniform(unsigned int unfrLoc, const unsigned int &value0, const unsigned int &value1, const unsigned int &value2) const
+void types::ShaderProgram::setUniform(unsigned int unfrLoc, const unsigned int &value0, const unsigned int &value1, const unsigned int &value2) const
 {
     glUniform3ui(unfrLoc, value0, value1, value2);
 }
 
-void Types::ShaderProgram::setUniform(unsigned int unfrLoc, const unsigned int &value0, const unsigned int &value1, const unsigned int &value2, const unsigned int &value3) const
+void types::ShaderProgram::setUniform(unsigned int unfrLoc, const unsigned int &value0, const unsigned int &value1, const unsigned int &value2, const unsigned int &value3) const
 {
     glUniform4ui(unfrLoc, value0, value1, value2, value3);
 }

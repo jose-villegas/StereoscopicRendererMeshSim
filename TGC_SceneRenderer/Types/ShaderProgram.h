@@ -1,10 +1,10 @@
 #pragma once
+#include "glm/glm.hpp"
+#include "glm/gtc/type_ptr.hpp"
 #include "Shader.h"
 #include <unordered_map>
 #include <string>
-#include "glm\glm.hpp"
-#include "glm\gtc\type_ptr.hpp"
-namespace Types {
+namespace types {
 
     class ShaderProgram {
         private:
@@ -64,7 +64,7 @@ namespace Types {
     };
 
     template<typename T>
-    void Types::ShaderProgram::setUniform(const std::string &sUniformName, T &&value0) const
+    void types::ShaderProgram::setUniform(const std::string &sUniformName, T &&value0) const
     {
         GLint unfrLoc = getUniform(sUniformName);
 
@@ -74,7 +74,7 @@ namespace Types {
     }
 
     template<typename T>
-    void Types::ShaderProgram::setUniform(const std::string &sUniformName, T &&value0, T &&value1) const
+    void types::ShaderProgram::setUniform(const std::string &sUniformName, T &&value0, T &&value1) const
     {
         GLint unfrLoc = getUniform(sUniformName);
 
@@ -84,7 +84,7 @@ namespace Types {
     }
 
     template<typename T>
-    void Types::ShaderProgram::setUniform(const std::string &sUniformName, T &&value0, T &&value1, T &&value2) const
+    void types::ShaderProgram::setUniform(const std::string &sUniformName, T &&value0, T &&value1, T &&value2) const
     {
         GLint unfrLoc = getUniform(sUniformName);
 
@@ -94,7 +94,7 @@ namespace Types {
     }
 
     template<typename T>
-    void Types::ShaderProgram::setUniform(const std::string &sUniformName, T &&value0, T &&value1, T &&value2, T &&value3) const
+    void types::ShaderProgram::setUniform(const std::string &sUniformName, T &&value0, T &&value1, T &&value2, T &&value3) const
     {
         GLint unfrLoc = getUniform(sUniformName);
 

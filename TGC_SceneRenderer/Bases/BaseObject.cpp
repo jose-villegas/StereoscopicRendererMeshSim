@@ -1,12 +1,12 @@
 #include "BaseObject.h"
-using namespace Bases;
+using namespace bases;
 
 BaseObject::BaseObject(void)
 {
     objectName = "SceneObject";
 }
 
-Bases::BaseObject::BaseObject(const std::string &sObjectName)
+bases::BaseObject::BaseObject(const std::string &sObjectName)
 {
     this->objectName = objectName;
 }

@@ -1,26 +1,26 @@
 #include "Texture.h"
 #include <iostream>
-using namespace Types;
+using namespace types;
 
-Types::Texture::Texture(const std::string &sFilename, const unsigned int &texID, const TextureType &tType)
+types::Texture::Texture(const std::string &sFilename, const unsigned int &texID, const TextureType &tType)
 {
     this->sFilename = sFilename;
     this->texID = texID;
     this->tType = tType;
 }
 
-Types::Texture::Texture(const unsigned int &texID, const TextureType &tType)
+types::Texture::Texture(const unsigned int &texID, const TextureType &tType)
 {
     this->texID = texID;
     this->tType = tType;
 }
 
-bool Types::Texture::load()
+bool types::Texture::load()
 {
     return load(this->sFilename);
 }
 
-bool Types::Texture::load(const std::string &sFilename)
+bool types::Texture::load(const std::string &sFilename)
 {
     //check the file signature and deduce its format
     FREE_IMAGE_FORMAT fif = FreeImage_GetFileType(sFilename.c_str(), 0);
@@ -48,26 +48,27 @@ bool Types::Texture::load(const std::string &sFilename)
         return false;
     }
 
-    //retrieve the image data
+    // Convert to 32 for unified texture BPP
+    FreeImage_ConvertTo32Bits(dib);
+    // Retrieve the image raw data
     BYTE *bits = FreeImage_GetBits(dib);
     //get the image width and height
     tWidth = FreeImage_GetWidth(dib);
     tHeight = FreeImage_GetHeight(dib);
     tBitsPerPixel = FreeImage_GetBPP(dib);
 
-    //if this somehow one of these failed (they shouldn't), return failure
+    // If this somehow one of these failed (they shouldn't), return failure
     if ((tBitsPerPixel == 0) || (tHeight == 0) || (tWidth == 0)) {
         FreeImage_Unload(dib);
         return false;
     }
 
     // Check Image Bit Density
-    imageFormat = tBitsPerPixel == 32 ? GL_BGRA : tBitsPerPixel == 24 ? GL_BGR : tBitsPerPixel == 8 ? GL_RG : 0;
-    internalFormat = tBitsPerPixel == 32 ? GL_BGRA : tBitsPerPixel == 24 ? GL_RGB : GL_DEPTH_COMPONENT;
+    GLuint imageFormat = tBitsPerPixel == 32 ? GL_BGRA : tBitsPerPixel == 24 ? GL_BGR : tBitsPerPixel == 8 ? GL_RG : 0;
     glGenTextures(1, &oglTexID);
     glBindTexture(GL_TEXTURE_2D, oglTexID);											// bind to the new texture ID
     // store the texture data for OpenGL use
-    glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, tWidth, tHeight, 0, imageFormat, GL_UNSIGNED_BYTE, bits);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, tWidth, tHeight, 0, imageFormat, GL_UNSIGNED_BYTE, bits);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glBindTexture(GL_TEXTURE_2D, 0);
@@ -76,7 +77,7 @@ bool Types::Texture::load(const std::string &sFilename)
     return true;
 }
 
-void Types::Texture::unload() const
+void types::Texture::unload() const
 {
     glDeleteTextures(1, &oglTexID);
 }

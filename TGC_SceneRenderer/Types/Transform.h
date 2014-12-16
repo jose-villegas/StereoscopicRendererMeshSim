@@ -1,8 +1,8 @@
 #pragma once
-#include "GLM\glm.hpp"
-#include "GLM\gtx\transform.hpp"
-#include "GLM\gtc\quaternion.hpp"
-namespace Types {
+#include "GLM/glm.hpp"
+#include "GLM/gtx/transform.hpp"
+#include "GLM/gtc/quaternion.hpp"
+namespace types {
 
     class Transform {
         public:

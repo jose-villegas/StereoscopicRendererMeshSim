@@ -1,13 +1,14 @@
 #pragma once
-#include "..\Types\ShaderProgram.h"
-#include "..\Scene\Camera.h"
-#include "..\Utils\FrameRate.h"
-#include "..\Utils\Time.h"
-#include "..\Scene\Mesh.h"
-#include "..\Collections\Textures.h"
-#include "glm\gtx\transform.hpp"
+#include "../types/ShaderProgram.h"
+#include "../scene/Camera.h"
+#include "../utils/FrameRate.h"
+#include "../utils/Time.h"
+#include "../scene/Mesh.h"
+#include "../collections/Textures.h"
+#include "glm/gtx/transform.hpp"
+#include "ResourcesLoader.h"
 
-namespace Core {
+namespace core {
 
     class Renderer {
         public:
@@ -16,9 +17,9 @@ namespace Core {
             void setup();
             void loop();
         private:
-            Utils::FrameRate *frameRate;
-            Utils::Time *time;
-            ECollections::Textures *_texCollection;
+            utils::FrameRate *frameRate;
+            utils::Time *time;
+            collections::Textures *_texCollection;
     };
 }
 

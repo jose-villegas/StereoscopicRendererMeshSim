@@ -1,7 +1,7 @@
 #pragma once
-#include "../Types/Vertex.h"
-#include "../Bases/BaseComponent.h"
-#include "../Collections/Textures.h"
+#include "../types/Vertex.h"
+#include "../bases/BaseComponent.h"
+#include "../collections/Textures.h"
 #include "Assimp/Importer.hpp"
 #include "Assimp/scene.h"
 #include "Assimp/postprocess.h"
@@ -10,9 +10,9 @@
 #include <iostream>
 #define INVALID_MATERIAL 0xFFFFFFFF
 #define INVALID_VALUE 0xFFFFFFFF
-namespace Scene {
+namespace scene {
 
-    class Mesh : public Bases::BaseComponent {
+    class Mesh : public bases::BaseComponent {
         public:
             Mesh(void);
             ~Mesh(void);
@@ -33,7 +33,7 @@ namespace Scene {
                 unsigned int materialIndex;
                 MeshEntry();
                 ~MeshEntry();
-                void init(const std::vector<Types::Vertex> &vertices, const std::vector<unsigned int> &indices);
+                void init(const std::vector<types::Vertex> &vertices, const std::vector<unsigned int> &indices);
             };
 
             struct Material {
@@ -45,6 +45,7 @@ namespace Scene {
             std::vector<MeshEntry> _meshEntries;
             std::vector<unsigned int> _sceneTextures;
             std::vector<Material *> _sceneMaterials;
-            ECollections::Textures *_texCollection;
+            // Engine Textures Collection
+            collections::Textures *_texCollection;
     };
 }

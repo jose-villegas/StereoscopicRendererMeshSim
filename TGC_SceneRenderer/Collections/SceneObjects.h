@@ -1,9 +1,9 @@
 #pragma once
-#include "..\Scene\SceneObject.h"
-#include "..\Scene\Camera.h"
-#include "..\Scene\Light.h"
+#include "../scene/SceneObject.h"
+#include "../scene/Camera.h"
+#include "../scene/Light.h"
 #include <unordered_map>
-namespace ECollections {
+namespace collections {
 
     class SceneObjects {
         private:
@@ -15,7 +15,7 @@ namespace ECollections {
             void remove(const unsigned int &objectID);
             // Default Scene Objects
             void addCamera();
-            void addLight(Scene::Light::LightType lightType);
+            void addLight(scene::Light::LightType lightType);
             void addModel(const std::string &sModelName);
             unsigned int count();
             SceneObjects(void);
@@ -24,7 +24,7 @@ namespace ECollections {
         private:
             // Unique Static Instance
             static SceneObjects *_eInstance;
-            std::unordered_map<unsigned int, Scene::SceneObject *> _sceneInstancedObjects;
+            std::unordered_map<unsigned int, scene::SceneObject *> _sceneInstancedObjects;
     };
 
 }

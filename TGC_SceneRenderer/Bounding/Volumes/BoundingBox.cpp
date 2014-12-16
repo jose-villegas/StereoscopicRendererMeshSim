@@ -1,5 +1,5 @@
 #include "BoundingBox.h"
-using namespace Bounding::Volumes;
+using namespace bounding::volumes;
 
 BoundingBox::BoundingBox(void)
 {

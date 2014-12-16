@@ -93,6 +93,15 @@
     <ClCompile Include="Utils\Time.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Types\Material.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\ResourcesLoader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Collections\stored\Shaders.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -176,6 +185,15 @@
     <ClInclude Include="Utils\Time.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Types\Material.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\ResourcesLoader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Collections\stored\Shaders.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="app.rc">
@@ -194,15 +212,6 @@
     <EmbeddedResource Include="MainWindow.resX">
       <Filter>Resource Files</Filter>
     </EmbeddedResource>
-    <EmbeddedResource Include="ConsoleWindow.resx">
-      <Filter>Resource Files</Filter>
-    </EmbeddedResource>
-    <EmbeddedResource Include="AssetBoxControl.resx">
-      <Filter>Resource Files</Filter>
-    </EmbeddedResource>
-    <EmbeddedResource Include="AssetsWindow.resx">
-      <Filter>Resource Files</Filter>
-    </EmbeddedResource>
     <EmbeddedResource Include="ObjectsWindow.resx">
       <Filter>Resource Files</Filter>
     </EmbeddedResource>
@@ -210,5 +219,7 @@
   <ItemGroup>
     <None Include="Resources\Shaders\default_vert.glsl" />
     <None Include="Resources\Shaders\default_frag.glsl" />
+    <None Include="Resources\Shaders\diffuse.vert" />
+    <None Include="Resources\Shaders\diffuse.frag" />
   </ItemGroup>
 </Project>

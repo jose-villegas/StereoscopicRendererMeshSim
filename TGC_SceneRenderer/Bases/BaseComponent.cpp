@@ -1,5 +1,5 @@
 #include "BaseComponent.h"
-using namespace Bases;
+using namespace bases;
 
 BaseComponent::BaseComponent(void)
 {

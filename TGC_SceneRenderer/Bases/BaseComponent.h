@@ -1,5 +1,5 @@
 #pragma once
-namespace Bases {
+namespace bases {
 
     class BaseComponent {
         public:

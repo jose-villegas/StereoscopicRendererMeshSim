@@ -1,6 +1,6 @@
 #pragma once
-namespace Bounding {
-    namespace Volumes {
+namespace bounding {
+    namespace volumes {
 
         class BoundingBox {
             public:

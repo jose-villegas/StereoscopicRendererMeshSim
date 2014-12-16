@@ -13,7 +13,7 @@ namespace TGC_SceneRenderer {
     using namespace System::Data;
     using namespace System::Drawing;
     using namespace OpenGLForm;
-    using namespace Utils;
+    using namespace utils;
 
     /// <summary>
     /// Summary for Form1
@@ -415,7 +415,7 @@ namespace TGC_SceneRenderer {
                 System::Windows::Forms::DialogResult result = assetImportFileDialog->ShowDialog();
 
                 if (result != System::Windows::Forms::DialogResult::Cancel) {
-                    Scene::Mesh *nMesh = new Scene::Mesh();
+                    scene::Mesh *nMesh = new scene::Mesh();
                     msclr::interop::marshal_context context;
                     std::string standardString = context.marshal_as<std::string>(assetImportFileDialog->FileName);
 

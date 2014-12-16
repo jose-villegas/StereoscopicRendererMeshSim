@@ -1,13 +1,13 @@
 #pragma once
-#include "..\Types\Transform.h"
+#include "../types/Transform.h"
 #include <string>
-namespace Bases {
+namespace bases {
 
     class BaseObject {
         public:
             bool active;
             std::string objectName;
-            Types::Transform transform;
+            types::Transform transform;
             BaseObject(void);
             BaseObject(const std::string &sObjectName);
     };

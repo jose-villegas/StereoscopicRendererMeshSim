@@ -1,9 +1,9 @@
 #pragma once
-#include "GL\gl_core_4_4.h"
-#include "assimp\material.h"
-#include "FreeImage\FreeImage.h"
+#include "GL/gl_core_4_4.h"
+#include "assimp/material.h"
+#include "FreeImage/FreeImage.h"
 #include <string>
-namespace Types {
+namespace types {
     class Texture {
         public:
 
@@ -40,8 +40,6 @@ namespace Types {
             unsigned int tBitsPerPixel;
             unsigned int oglTexID;
             unsigned int texID;
-            unsigned int internalFormat;
-            unsigned int imageFormat;
             TextureType tType;
             std::string sFilename;
     };

@@ -1,5 +1,5 @@
 #include "SceneObjects.h"
-using namespace ECollections;
+using namespace collections;
 
 SceneObjects::SceneObjects(void)
 {
@@ -18,13 +18,13 @@ SceneObjects *SceneObjects::Instance()
     return _eInstance;
 }
 
-void ECollections::SceneObjects::add(const std::string &sObjectName)
+void collections::SceneObjects::add(const std::string &sObjectName)
 {
     objectsIndex++;
-    this->_sceneInstancedObjects[objectsIndex] = new Scene::SceneObject(objectsIndex, sObjectName);
+    this->_sceneInstancedObjects[objectsIndex] = new scene::SceneObject(objectsIndex, sObjectName);
 }
 
-void ECollections::SceneObjects::remove(const unsigned int &objectID)
+void collections::SceneObjects::remove(const unsigned int &objectID)
 {
     // Cancel if a object with this ID doesn't exist
     if (this->_sceneInstancedObjects.find(objectID) == this->_sceneInstancedObjects.end()) { return; }
@@ -33,30 +33,30 @@ void ECollections::SceneObjects::remove(const unsigned int &objectID)
     this->_sceneInstancedObjects.erase(objectID);
 }
 
-void ECollections::SceneObjects::addCamera()
+void collections::SceneObjects::addCamera()
 {
     objectsIndex++;
-    Scene::SceneObject *newObject = new Scene::SceneObject(objectsIndex);
-    Scene::Camera *newCamera = new Scene::Camera();
+    scene::SceneObject *newObject = new scene::SceneObject(objectsIndex);
+    scene::Camera *newCamera = new scene::Camera();
     newObject->addComponent(newCamera);
     this->_sceneInstancedObjects[objectsIndex] = newObject;
 }
 
-void ECollections::SceneObjects::addLight(Scene::Light::LightType lightType)
+void collections::SceneObjects::addLight(scene::Light::LightType lightType)
 {
 }
 
-void ECollections::SceneObjects::addModel(const std::string &sModelName)
+void collections::SceneObjects::addModel(const std::string &sModelName)
 {
 }
 
-unsigned int ECollections::SceneObjects::count()
+unsigned int collections::SceneObjects::count()
 {
     return this->_sceneInstancedObjects.size();
 }
 
-unsigned int ECollections::SceneObjects::objectsIndex = 0;
+unsigned int collections::SceneObjects::objectsIndex = 0;
 
-SceneObjects *ECollections::SceneObjects::_eInstance = nullptr;
+SceneObjects *collections::SceneObjects::_eInstance = nullptr;
 
 

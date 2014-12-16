@@ -1,13 +1,13 @@
 #include "Shader.h"
-using namespace Types;
+using namespace types;
 
-Types::Shader::Shader(const ShaderType shaderType)
+types::Shader::Shader(const ShaderType shaderType)
 {
     this->_type = shaderType;
     this->_id = glCreateShader(shaderType);
 }
 
-bool Types::Shader::loadFromString(const std::string &sSource)
+bool types::Shader::loadFromString(const std::string &sSource)
 {
     if (sSource.empty()) { return false; }
 
@@ -20,7 +20,7 @@ bool Types::Shader::loadFromString(const std::string &sSource)
     return true;
 }
 
-bool Types::Shader::loadFromFile(const std::string &sFilename)
+bool types::Shader::loadFromFile(const std::string &sFilename)
 {
     std::ifstream file(sFilename, std::ifstream::in);
 
@@ -38,13 +38,13 @@ bool Types::Shader::loadFromFile(const std::string &sFilename)
     return loadFromString(sourceSS.str());
 }
 
-bool Types::Shader::compile()
+bool types::Shader::compile()
 {
     glCompileShader(_id);
     return compilationCheck();
 }
 
-bool Types::Shader::compilationCheck()
+bool types::Shader::compilationCheck()
 {
     GLint shaderStatus;
     glGetShaderiv(_id, GL_COMPILE_STATUS, &shaderStatus);
@@ -68,26 +68,26 @@ bool Types::Shader::compilationCheck()
     }
 }
 
-std::string Types::Shader::getShaderTypeString()
+std::string types::Shader::getShaderTypeString()
 {
     switch (_type) {
-        case Types::Shader::Vertex:
+        case types::Shader::Vertex:
             return "Vertex shader";
             break;
 
-        case Types::Shader::Fragment:
+        case types::Shader::Fragment:
             return "Fragment shader";
             break;
 
-        case Types::Shader::Geometry:
+        case types::Shader::Geometry:
             return "Geometry shader";
             break;
 
-        case Types::Shader::TesselationControl:
+        case types::Shader::TesselationControl:
             return "Tesselation control shader";
             break;
 
-        case Types::Shader::TesselationEvaluation:
+        case types::Shader::TesselationEvaluation:
             return "Tesselation evaluation shader";
             break;
 
