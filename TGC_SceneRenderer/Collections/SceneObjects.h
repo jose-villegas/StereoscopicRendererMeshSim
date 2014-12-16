@@ -1,19 +1,30 @@
 #pragma once
+#include "..\Scene\SceneObject.h"
+#include "..\Scene\Camera.h"
+#include "..\Scene\Light.h"
+#include <unordered_map>
 namespace ECollections {
 
-    ref class SceneObjects {
+    class SceneObjects {
+        private:
+            static unsigned int objectsIndex;
         public:
             // Creates Unique Static Instace
-            static SceneObjects ^Instance();
+            static SceneObjects *Instance();
+            void add(const std::string &sObjectName);
+            void remove(const unsigned int &objectID);
+            // Default Scene Objects
+            void addCamera();
+            void addLight(Scene::Light::LightType lightType);
+            void addModel(const std::string &sModelName);
+            unsigned int count();
             SceneObjects(void);
             ~SceneObjects();
-            // Binding List for ObjectsWindow
-            System::ComponentModel::BindingList<System::String ^> ^objectsWindowBindingList;
 
         private:
             // Unique Static Instance
-            static SceneObjects ^_eInstance;
-            System::Collections::Hashtable ^_sceneInstancedObjects;
+            static SceneObjects *_eInstance;
+            std::unordered_map<unsigned int, Scene::SceneObject *> _sceneInstancedObjects;
     };
 
 }

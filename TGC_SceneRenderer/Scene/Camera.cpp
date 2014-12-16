@@ -3,6 +3,12 @@ using namespace Scene;
 
 Camera::Camera(void)
 {
+    this->projectionType = Perspective;
+    this->farClipping = 100.0f;
+    this->nearClipping = 0.1f;
+    this->fieldOfView = 60.0f;
+    this->aspectRatio = 4.0f / 3.0f;
+    this->viewPortRect = glm::vec4(-1.0f, 1.0f, -1.0f, 1.0f);
 }
 
 glm::mat4 Scene::Camera::getViewMatrix(const glm::vec3 &cameraPosition, const glm::vec3 &cameraTarget, const glm::vec3 &vectorUp) const
