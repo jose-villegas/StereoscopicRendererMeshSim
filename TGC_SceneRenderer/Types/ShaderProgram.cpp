@@ -68,6 +68,18 @@ GLuint types::ShaderProgram::getUniform(const std::string &sUniformName) const
     }
 }
 
+GLubyte *types::ShaderProgram::getUniformBlock(const std::string &sUniformBlockName) const
+{
+    // Find uniform with this name
+    std::unordered_map<std::string, GLubyte *>::const_iterator it = this->_uniformBlocks.find(sUniformBlockName);
+
+    if (it != _uniformBlocks.end()) {
+        return it->second;
+    } else {
+        return nullptr;
+    }
+}
+
 GLuint types::ShaderProgram::addUniform(const std::string &sUniformName)
 {
     // Try to obtain uniform location
@@ -83,6 +95,31 @@ GLuint types::ShaderProgram::addUniform(const std::string &sUniformName)
     this->_uniformLoc[sUniformName] = nUniformLoc;
     std::cout << "ShaderProgram(" << this << "): " << "Uniform (" << sUniformName << ") bound to location: " << std::to_string(nUniformLoc) << std::endl;
     return nUniformLoc;
+}
+
+unsigned int types::ShaderProgram::addUniformBlock(const std::string &sUniformBlockName)
+{
+    // Query block index
+    GLuint blockIndex = glGetUniformBlockIndex(this->_programID, sUniformBlockName.c_str());
+
+    // No block uniform with this name
+    if (blockIndex == -1) { return -1; }
+
+    // Query block uniform block size
+    GLint blockSize;
+    glGetActiveUniformBlockiv(this->_programID, blockIndex, GL_UNIFORM_BLOCK_DATA_SIZE, &blockSize);
+    GLubyte *blockBuffer = (GLubyte *)malloc(blockSize);
+    // Store pointer to block buffer in uniformBlocks map
+    this->_uniformBlocks[sUniformBlockName] = blockBuffer;
+    // Create Buffer Object
+    GLuint UB;
+    glGenBuffers(1, &UB);
+    glBindBuffer(GL_UNIFORM_BUFFER, UB);
+    glBufferData(GL_UNIFORM_BUFFER, blockSize, blockBuffer, GL_DYNAMIC_DRAW);
+    // Bind the buffer
+    glBindBufferBase(GL_UNIFORM_BUFFER, 1, UB);
+    // Return uniform buffer id
+    return UB;
 }
 
 void types::ShaderProgram::setUniform(unsigned int unfrLoc, const float &value0) const

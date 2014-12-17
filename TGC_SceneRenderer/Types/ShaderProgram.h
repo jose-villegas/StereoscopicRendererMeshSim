@@ -11,6 +11,7 @@ namespace types {
             unsigned int _programID;
             unsigned int _shaderCount;
             std::unordered_map<std::string, unsigned int> _uniformLoc;
+            std::unordered_map<std::string, GLubyte *> _uniformBlocks;
             std::vector<Shader *> _attachedShaders;
         public:
             ShaderProgram(void);
@@ -20,7 +21,22 @@ namespace types {
             void use() const;
             void disable() const;
             unsigned int getUniform(const std::string &sUniformName) const;
+            GLubyte *getUniformBlock(const std::string &sUniformBlockName) const;
             unsigned int addUniform(const std::string &sUniformName);
+            unsigned int addUniformBlock(const std::string &sUniformBlockName);
+
+            /*
+             * Method:    setUniformBlock
+             * FullName:  types::ShaderProgram::setUniformBlock
+             * Access:    public
+             * Returns:   void
+             * Parameter: const std::string & sUniformBlockName
+             * Parameter: const char * names[]
+             * Parameter: const unsigned int & namesCount
+             * Parameter: T & value
+             * Parameter: const size_t & valueSize
+             */
+            template<typename T> void setUniformBlock(const std::string &sUniformBlockName, const char *names[], const unsigned int &namesCount, T &value, const size_t &valueSize) const;
             /*
              * Validates the uniform name and location
              * and forwards the rvalue to a specific
@@ -63,6 +79,27 @@ namespace types {
             void setUniform(unsigned int unfrLoc, const glm::vec3 &value0) const;
             void setUniform(unsigned int unfrLoc, const glm::vec2 &value0) const;
     };
+
+    template<typename T>
+    void types::ShaderProgram::setUniformBlock(const std::string &sUniformBlockName, const char *names[], const unsigned int &namesCount, T &value, const size_t &valueSize) const
+    {
+        // Get uniform block buffer pointer
+        GLubyte *pBlockBuffer = this->getUniformBlock(sUniformBlockName);
+
+        if (!pBlockBuffer) { return; }
+
+        // Gets index positions and offsets
+        GLuint indices[namesCount];
+        glGetUniformIndices(this->_programID, namesCount, names, indices);
+        GLuint offset[namesCount];
+        glGetActiveUniformsiv(this->_programID, namesCount, indices, GL_UNIFORM_OFFSET, offset);
+
+        // Copy values to the uniform buffer locations
+        for (unsigned int i = 0; i < namesCount; i++) {
+            memcpy(pBlockBuffer + offset[i], T, valueSize);
+        }
+    }
+
 
     template<typename T>
     void types::ShaderProgram::setUniform(const std::string &sUniformName, T &&value0) const

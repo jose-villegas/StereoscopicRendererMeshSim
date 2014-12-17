@@ -5,32 +5,44 @@ void collections::stored::Shaders::loadShaders()
 {
     _shaders.resize(DefaultShaders::Count);
     // Creating diffuse shader program
-    types::ShaderProgram *diffuseShader = new types::ShaderProgram();
+    types::ShaderProgram *phongShading = new types::ShaderProgram();
     types::Shader *vertex = new types::Shader(types::Shader::Vertex, "../TGC_SceneRenderer/resources/shaders/diffuse.vert");
     types::Shader *fragment = new types::Shader(types::Shader::Fragment, "../TGC_SceneRenderer/resources/shaders/diffuse.frag");
     vertex->compile();
     fragment->compile();
-    diffuseShader->attachShader(vertex);
-    diffuseShader->attachShader(fragment);
-    diffuseShader->link();
+    phongShading->attachShader(vertex);
+    phongShading->attachShader(fragment);
+    phongShading->link();
     // Elemental Matrices Params
-    diffuseShader->addUniform("inputMatrices.modelViewProjection");
-    diffuseShader->addUniform("inputMatrices.modelView");
-    diffuseShader->addUniform("inputMatrices.model");
-    diffuseShader->addUniform("inputMatrices.view");
-    diffuseShader->addUniform("inputMatrices.projection");
-    // Lights Params
-    diffuseShader->addUniform("light.position");
-    diffuseShader->addUniform("light.color");
-    diffuseShader->addUniform("light.intensity");
-    diffuseShader->addUniform("light.attenuation");
-    diffuseShader->addUniform("light.direction");
-    diffuseShader->addUniform("light.innerConeAngle");
-    diffuseShader->addUniform("light.outerConeAngle");
-    diffuseShader->addUniform("light.lightType");
+    phongShading->addUniform("inputMatrices.modelViewProjection");
+    phongShading->addUniform("inputMatrices.modelView");
+    phongShading->addUniform("inputMatrices.model");
+    phongShading->addUniform("inputMatrices.view");
+    phongShading->addUniform("inputMatrices.projection");
+    phongShading->addUniform("inputMatrices.normal");
+    // Material Params
+    phongShading->addUniform("material.ka");
+    phongShading->addUniform("material.kd");
+    phongShading->addUniform("material.ks");
+    phongShading->addUniform("material.shininess");
     // Texture Maps
-    diffuseShader->addUniform("diffuseMap");
-    _shaders[Diffuse] = diffuseShader;
+    phongShading->addUniform("diffuseMap");
+    // Control Vars
+    phongShading->addUniform("lightsCount");
+
+    // Lights Params
+    for (int i = 0; i < MAX_NUM_LIGHTS; i++) {
+        phongShading->addUniform("light[" + std::to_string(i) + "].position");
+        phongShading->addUniform("light[" + std::to_string(i) + "].color");
+        phongShading->addUniform("light[" + std::to_string(i) + "].intensity");
+        phongShading->addUniform("light[" + std::to_string(i) + "].attenuation");
+        phongShading->addUniform("light[" + std::to_string(i) + "].direction");
+        phongShading->addUniform("light[" + std::to_string(i) + "].innerConeAngle");
+        phongShading->addUniform("light[" + std::to_string(i) + "].outerConeAngle");
+        phongShading->addUniform("light[" + std::to_string(i) + "].lightType");
+    }
+
+    _shaders[PhongShading] = phongShading;
 }
 
 types::ShaderProgram *collections::stored::Shaders::getDefaultShader(const DefaultShaders &value)

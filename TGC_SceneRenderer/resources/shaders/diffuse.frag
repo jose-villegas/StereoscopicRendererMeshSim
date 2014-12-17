@@ -1,7 +1,11 @@
 #version 440 core
 // Rendering Params Constants
 const int MAX_NUM_LIGHTS = 4;
-// Uniforms
+// Input data
+in vec2 texCoord;
+in vec3 normal;
+in vec3 position;
+// Structures 
 struct Matrix
 {
 	mat4 modelViewProjection;
@@ -9,6 +13,7 @@ struct Matrix
 	mat4 model;
 	mat4 view;
 	mat4 projection;
+	mat3 normal;
 };
 struct Light 
 {	
@@ -23,16 +28,58 @@ struct Light
 	// Control parameters
 	int lightType;
 };
+struct Material {
+	vec3 ka;
+	vec3 kd;
+	vec3 ks;
+	float shininess;
+};
 // Uniforms
 uniform sampler2D diffuseMap;
+uniform int lightsCount;
 uniform Matrix inputMatrices;
-uniform Light light;
-// Input data
-
+uniform Material material;
+uniform Light light[MAX_NUM_LIGHTS];
 // Output fragment data
-out vec4 fragColor;
+layout (location = 0) out vec4 fragColor;
+
+void phong(vec3 pos, vec3 norm, out vec3 ambient, out vec3 diffuse, out vec3 specular, Light pLight)
+{
+	vec3 normal = normalize(norm);
+	vec3 lightVector = pLight.position - pos;
+	float lightDistance = length(lightVector);
+	vec3 lightDirection = normalize(lightVector);
+	float lambertTerm = max(dot(normal, lightDirection), 0.0);
+
+	ambient = pLight.intensity * pLight.color * material.ka;
+	diffuse = specular = vec3(0.0f);
+
+	if(lambertTerm > 0.0f)
+	{
+		diffuse = material.kd * pLight.intensity * pLight.color * lambertTerm;
+		vec3 viewDirection = normalize(-pos);
+		vec3 reflectDirection = reflect(-lightDirection, normal);
+		float specAngle = max(dot(reflectDirection, viewDirection), 0.0f);
+		specular =  material.ks * pLight.intensity * pLight.color + pow(specAngle, material.shininess);
+	}
+}
 
 void main()
 {
-	fragColor = vec4(1.0f);
+	vec3 ambientPerLight, diffusePerLight, specularPerLight;
+	vec3 ambientTotal, diffuseTotal, specularTotal;
+	vec4 texColor = texture(diffuseMap, texCoord);
+	// Set Initial Value
+	ambientTotal = diffuseTotal = specularTotal = vec3(0.0f);
+
+	for(int i = 0; i < lightsCount; i++) {
+		ambientPerLight = diffusePerLight = specularPerLight = vec3(0.0f);
+		phong(position, normal, ambientPerLight, diffusePerLight, specularPerLight, light[i]);
+		// Acumulate per light
+		ambientTotal += ambientPerLight;
+		diffuseTotal += diffusePerLight;
+		specularTotal += specularPerLight;
+	}
+
+	fragColor = vec4(ambientTotal + diffuseTotal + specularTotal, 1.0f) * texColor;
 }
