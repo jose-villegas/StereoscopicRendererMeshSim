@@ -21,6 +21,30 @@ namespace types {
             Shader(const ShaderType &shaderType, const std::string &source, const bool &loadFromFile = true);
             bool loadFromString(const std::string &sSource);
             bool loadFromFile(const std::string &sFilename);
+            /*
+             * Concatenates the string data at the end of
+             * the specified token to  the shader source code
+             * Method:    loadFromString
+             * FullName:  types::Shader::loadFromString
+             * Access:    public
+             * Returns:   bool
+             * Parameter: const std::string & sSource
+             * Parameter: const std::string & token
+             * Parameter: const std::string data
+             */
+            bool loadFromString(std::string &sSource, const std::string &token, const std::string &data);
+            /*
+            * Concatenates the string data at the end of
+            * the specified token to  the shader source code
+            * Method:    loadFromString
+            * FullName:  types::Shader::loadFromString
+            * Access:    public
+            * Returns:   bool
+            * Parameter: const std::string & sFilename
+            * Parameter: const std::string & token
+            * Parameter: const std::string data
+            */
+            bool loadFromFile(const std::string &sFilename, const std::string &token, const std::string &data);
             bool compile();
             GLuint getId() const { return _id; }
         private:

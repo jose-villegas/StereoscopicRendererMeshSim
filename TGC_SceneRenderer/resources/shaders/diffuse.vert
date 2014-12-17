@@ -1,6 +1,6 @@
 #version 440 core
 // Rendering Params Constants
-const int MAX_NUM_LIGHTS = 4;
+//--include Constrains
 // Structures 
 struct Matrix
 {
@@ -35,7 +35,7 @@ uniform sampler2D diffuseMap;
 uniform int lightsCount;
 uniform Matrix inputMatrices;
 uniform Material material;
-uniform Light light[MAX_NUM_LIGHTS];
+uniform Light light[MAX_LIGHTS];
 // Input vertex data
 layout(location = 0) in vec3 vertexPosition;
 layout(location = 1) in vec2 vertexTexCoords;

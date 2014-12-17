@@ -6,6 +6,9 @@
 namespace scene {
 
     class Light : public bases::BaseComponent {
+        private:
+            unsigned int _uniformLocations;
+            Light(const Light &light);
         public:
 
             enum LightType {

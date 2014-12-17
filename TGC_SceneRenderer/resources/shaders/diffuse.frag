@@ -1,11 +1,8 @@
 #version 440 core
 // Rendering Params Constants
-const int MAX_NUM_LIGHTS = 4;
-// Input data
-in vec2 texCoord;
-in vec3 normal;
-in vec3 position;
-// Structures 
+//--include Constrains
+// Structures
+//--include Structures
 struct Matrix
 {
 	mat4 modelViewProjection;
@@ -34,12 +31,16 @@ struct Material {
 	vec3 ks;
 	float shininess;
 };
+// Input data
+in vec2 texCoord;
+in vec3 normal;
+in vec3 position;
 // Uniforms
 uniform sampler2D diffuseMap;
 uniform int lightsCount;
 uniform Matrix inputMatrices;
 uniform Material material;
-uniform Light light[MAX_NUM_LIGHTS];
+uniform Light light[MAX_LIGHTS];
 // Output fragment data
 layout (location = 0) out vec4 fragColor;
 

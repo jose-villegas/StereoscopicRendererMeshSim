@@ -24,7 +24,7 @@ OpenGLForm::COpenGL::COpenGL(System::Windows::Forms::Panel ^parentForm, int iPos
     }
 
     // Create Renderer (Core::Renderer is in charge of rendering all scene objects and misc)
-    _oglRender = new core::Renderer();
+    _oglRender = core::Renderer::Instance();
 
     if (!_oglRender->load()) {
         std::cout << "Failed to initialize OpenGL" << std::endl;

@@ -14,6 +14,13 @@ Renderer::Renderer(void)
 {
 }
 
+Renderer *core::Renderer::Instance()
+{
+    if (!_rdInstance) { _rdInstance = new Renderer(); }
+
+    return _rdInstance;
+}
+
 bool core::Renderer::load()
 {
     return (bool)ogl_LoadFunctions();
@@ -80,3 +87,5 @@ void core::Renderer::loop()
     // shProgram->setUniform("diffuseMap", 0);
     testMesh->render();
 }
+
+Renderer *core::Renderer::_rdInstance = nullptr;

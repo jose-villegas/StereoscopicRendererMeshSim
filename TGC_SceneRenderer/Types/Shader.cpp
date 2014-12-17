@@ -24,7 +24,25 @@ bool types::Shader::loadFromString(const std::string &sSource)
     glShaderSource(_id, 1, &source, NULL);
     // Successful shader file load
     std::cout << "Shader(" << this << "): " << getShaderTypeString() << " file " << _shaderName << " loaded successfully" << std::endl;
+    std::cout << std::endl << sSource << std::endl;
     return true;
+}
+
+bool types::Shader::loadFromString(std::string &sSource, const std::string &token, const std::string &data)
+{
+    // Find token at source code
+    size_t glslTokenIndex = sSource.find(token);
+
+    if (glslTokenIndex == std::string::npos) {
+        std::cout << "Shader(" << this << "): " << "Token " << token << " not found in" << getShaderTypeString() << " source code" << std::endl;
+        return loadFromString(sSource);
+    }
+
+    // Insert after token
+    sSource.insert(glslTokenIndex + token.size(), data);
+    std::cout << "Shader(" << this << "): " << getShaderTypeString() << " data modified \n " << data << "\ninserted at token " << token << std::endl;
+    // Load normally
+    loadFromString(sSource);
 }
 
 bool types::Shader::loadFromFile(const std::string &sFilename)
@@ -43,6 +61,24 @@ bool types::Shader::loadFromFile(const std::string &sFilename)
     _shaderName = sFilename;
     // Load Source and Associate with this shader ID
     return loadFromString(sourceSS.str());
+}
+
+bool types::Shader::loadFromFile(const std::string &sFilename, const std::string &token, const std::string &data)
+{
+    std::ifstream file(sFilename, std::ifstream::in);
+
+    if (!file.good()) {
+        std::cout << "Shader(" << this << "): " << "Error Opening " << getShaderTypeString() << " file: " << sFilename << std::endl;
+        return false;
+    }
+
+    std::stringstream sourceSS;
+    // Dump File Content into stream buffer
+    sourceSS << file.rdbuf();
+    file.close();
+    _shaderName = sFilename;
+    // Load Source and Associate with this shader ID
+    return loadFromString(sourceSS.str(), token, data);
 }
 
 bool types::Shader::compile()

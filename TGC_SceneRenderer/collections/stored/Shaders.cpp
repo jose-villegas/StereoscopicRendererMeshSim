@@ -6,8 +6,10 @@ void collections::stored::Shaders::loadShaders()
     _shaders.resize(DefaultShaders::Count);
     // Creating diffuse shader program
     types::ShaderProgram *phongShading = new types::ShaderProgram();
-    types::Shader *vertex = new types::Shader(types::Shader::Vertex, "../TGC_SceneRenderer/resources/shaders/diffuse.vert");
-    types::Shader *fragment = new types::Shader(types::Shader::Fragment, "../TGC_SceneRenderer/resources/shaders/diffuse.frag");
+    types::Shader *vertex = new types::Shader(types::Shader::Vertex);
+    types::Shader *fragment = new types::Shader(types::Shader::Fragment);
+    vertex->loadFromFile("../TGC_SceneRenderer/resources/shaders/diffuse.vert", "--include Constrains", core::Constrains::ToGLSL());
+    fragment->loadFromFile("../TGC_SceneRenderer/resources/shaders/diffuse.frag", "--include Constrains", core::Constrains::ToGLSL());
     vertex->compile();
     fragment->compile();
     phongShading->attachShader(vertex);

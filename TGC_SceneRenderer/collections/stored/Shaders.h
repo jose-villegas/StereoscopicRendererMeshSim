@@ -1,5 +1,6 @@
 #pragma once
 #include "..\types\ShaderProgram.h"
+#include "..\core\Constrains.h"
 namespace collections {
     namespace stored {
 #define MAX_NUM_LIGHTS 4
