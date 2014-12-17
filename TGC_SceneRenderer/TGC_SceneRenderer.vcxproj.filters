@@ -217,9 +217,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Shaders\default_vert.glsl" />
-    <None Include="Resources\Shaders\default_frag.glsl" />
-    <None Include="Resources\Shaders\diffuse.vert" />
     <None Include="Resources\Shaders\diffuse.frag" />
+    <None Include="Resources\Shaders\diffuse.vert" />
+    <None Include="resources\Shaders\bumped_diffuse.frag" />
+    <None Include="resources\Shaders\bumped_diffuse.vert" />
   </ItemGroup>
 </Project>

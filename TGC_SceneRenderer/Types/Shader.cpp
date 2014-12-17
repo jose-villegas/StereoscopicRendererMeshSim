@@ -1,10 +1,17 @@
 #include "Shader.h"
 using namespace types;
 
-types::Shader::Shader(const ShaderType shaderType)
+types::Shader::Shader(const ShaderType &shaderType)
 {
     this->_type = shaderType;
     this->_id = glCreateShader(shaderType);
+}
+
+types::Shader::Shader(const ShaderType &shaderType, const std::string &source, const bool &loadFromFile /*= true*/)
+{
+    this->_type = shaderType;
+    this->_id = glCreateShader(shaderType);
+    loadFromFile ? this->loadFromFile(source) : this->loadFromString(source);
 }
 
 bool types::Shader::loadFromString(const std::string &sSource)

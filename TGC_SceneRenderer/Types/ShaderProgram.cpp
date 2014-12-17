@@ -18,9 +18,10 @@ types::ShaderProgram::~ShaderProgram(void)
     glDeleteProgram(this->_programID);
 }
 
-void types::ShaderProgram::attachShader(const Shader &pShader)
+void types::ShaderProgram::attachShader(Shader *pShader)
 {
-    glAttachShader(this->_programID, pShader.getId());
+    glAttachShader(this->_programID, pShader->getId());
+    _attachedShaders.push_back(pShader);
     this->_shaderCount++;
 }
 

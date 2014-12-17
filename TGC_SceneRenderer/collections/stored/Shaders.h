@@ -6,8 +6,6 @@ namespace collections {
         class Shaders {
             private:
                 static std::vector<types::ShaderProgram *> _shaders;
-            protected:
-                Shaders(void);
             public:
 
                 enum DefaultShaders {
@@ -17,7 +15,7 @@ namespace collections {
                 };
 
                 static void loadShaders();
-                types::ShaderProgram *getDefaultShader(const DefaultShaders &value);
+                static types::ShaderProgram *getDefaultShader(const DefaultShaders &value);
         };
     }
 }

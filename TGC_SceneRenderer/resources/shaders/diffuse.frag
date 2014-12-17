@@ -1,17 +1,38 @@
 #version 440 core
-
-uniform mat4 MVP;
-uniform sampler2D normalMap;
+// Rendering Params Constants
+const int MAX_NUM_LIGHTS = 4;
+// Uniforms
+struct Matrix
+{
+	mat4 modelViewProjection;
+	mat4 modelView;
+	mat4 model;
+	mat4 view;
+	mat4 projection;
+};
+struct Light 
+{	
+	vec3 position;
+	vec3 color;
+	float intensity;
+	float attenuation;
+	// Spot Light - Directional
+	vec3 direction;
+	float innerConeAngle;
+	float outerConeAngle;
+	// Control parameters
+	int lightType;
+};
+// Uniforms
 uniform sampler2D diffuseMap;
-// Input vertex data, different for all executions of this shader.
-layout(location = 0) in vec3 vertexPositionModelSpace;
-layout(location = 1) in vec2 vertexUV;
-out vec2 UV;
+uniform Matrix inputMatrices;
+uniform Light light;
+// Input data
+
+// Output fragment data
+out vec4 fragColor;
 
 void main()
 {
-    // Output position of the vertex, in clip space : MVP * position
-    vec4 v = vec4(vertexPositionModelSpace, 1); // Transform an homogeneous 4D vector
-    UV = vertexUV;
-    gl_Position = MVP * v;
+	fragColor = vec4(1.0f);
 }

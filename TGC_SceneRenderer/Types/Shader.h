@@ -17,7 +17,8 @@ namespace types {
                 TesselationControl = GL_TESS_CONTROL_SHADER,
                 TesselationEvaluation = GL_TESS_EVALUATION_SHADER
             };
-            Shader(const ShaderType shaderType);
+            Shader(const ShaderType &shaderType);
+            Shader(const ShaderType &shaderType, const std::string &source, const bool &loadFromFile = true);
             bool loadFromString(const std::string &sSource);
             bool loadFromFile(const std::string &sFilename);
             bool compile();

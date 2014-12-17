@@ -11,10 +11,11 @@ namespace types {
             unsigned int _programID;
             unsigned int _shaderCount;
             std::unordered_map<std::string, unsigned int> _uniformLoc;
+            std::vector<Shader *> _attachedShaders;
         public:
             ShaderProgram(void);
             ~ShaderProgram(void);
-            void attachShader(const Shader &pShader);
+            void attachShader(Shader *pShader);
             bool link() const;
             void use() const;
             void disable() const;

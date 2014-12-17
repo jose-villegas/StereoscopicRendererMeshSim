@@ -14,9 +14,8 @@ namespace scene {
                 Point
             };
 
-            glm::vec3 specular;
-            glm::vec3 diffuse;
-            glm::vec3 attenuation;
+            glm::vec3 color;
+            float attenuation;
             float intensity;
             // Spot Light Params
             float innerConeAngle;
