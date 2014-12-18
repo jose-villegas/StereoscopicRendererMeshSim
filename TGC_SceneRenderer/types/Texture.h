@@ -29,11 +29,20 @@ namespace types {
             bool load();
             bool load(const std::string &sFilename);
             void unload() const;
-            unsigned int getWidth() { return this->tWidth; };
-            unsigned int getHeight() { return this->tHeight; };
-            unsigned int getOGLTexID() { return this->oglTexID; };
-            unsigned int geTexID() { return this->texID; };
+
+            unsigned int getWidth()    const { return this->tWidth;   };
+            unsigned int getHeight()   const { return this->tHeight;  };
+            unsigned int getOGLTexID() const { return this->oglTexID; };
+            unsigned int geTexID()     const { return this->texID;    };
+            unsigned int getType()     const { return this->tType;    };
+
             std::string getFilename() { return this->sFilename; };
+
+            friend bool operator <(const Texture &lhs, const Texture &rhs)
+            {
+                return lhs.tType > rhs.tType;
+            }
+
         private:
             unsigned int tWidth;
             unsigned int tHeight;

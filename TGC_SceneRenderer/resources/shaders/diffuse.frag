@@ -13,43 +13,44 @@ uniform Light light[MAX_LIGHTS];
 // Output fragment data
 layout (location = 0) out vec4 fragColor;
 
-void phong(vec3 pos, vec3 norm, out vec3 ambient, out vec3 diffuse, out vec3 specular, Light pLight)
+void phong(vec3 pos, vec3 norm, out vec3 ambient, out vec3 diffuse, out vec3 specular)
 {
 	vec3 normal = normalize(norm);
-	vec3 lightVector = pLight.position - pos;
-	float lightDistance = length(lightVector);
-	vec3 lightDirection = normalize(lightVector);
-	float lambertTerm = max(dot(normal, lightDirection), 0.0);
-
-	ambient = pLight.intensity * pLight.color * material.ka;
-	diffuse = specular = vec3(0.0f);
-
-	if(lambertTerm > 0.0f)
-	{
-		diffuse = material.kd * pLight.intensity * pLight.color * lambertTerm;
-		vec3 viewDirection = normalize(-pos);
-		vec3 reflectDirection = reflect(-lightDirection, normal);
-		float specAngle = max(dot(reflectDirection, viewDirection), 0.0f);
-		specular =  material.ks * pLight.intensity * pLight.color + pow(specAngle, material.shininess);
-	}
+	vec3 lightDirection = normalize(light[0].position - pos);
+	vec3 viewDirection = normalize(-pos);
+	vec3 reflectDirection = normalize(reflect(lightDirection, normal));
+	// Calc Ambient
+	ambient = material.ambient;
 }
 
 void main()
 {
-	vec3 ambientPerLight, diffusePerLight, specularPerLight;
-	vec3 ambientTotal, diffuseTotal, specularTotal;
-	vec4 texColor = texture(diffuseMap, texCoord);
-	// Set Initial Value
-	ambientTotal = diffuseTotal = specularTotal = vec3(0.0f);
+	vec3 normal = normalize(normal);
+	vec4 surfaceColor = texture(diffuseMap, texCoord);
+	vec3 lightDirection = normalize(light[0].position - position);
+	vec3 viewDirection = normalize(-position); // Camera position at vec3(0)
 
-	for(int i = 0; i < lightsCount; i++) {
-		ambientPerLight = diffusePerLight = specularPerLight = vec3(0.0f);
-		phong(position, normal, ambientPerLight, diffusePerLight, specularPerLight, light[i]);
-		// Acumulate per light
-		ambientTotal += ambientPerLight;
-		diffuseTotal += diffusePerLight;
-		specularTotal += specularPerLight;
+	// Calculate Ambient
+	vec3 ambient = material.ambient + light[0].color * light[0].intensity * surfaceColor.rgb;
+
+	// Diffuse
+	float diffuseCoefficient = max(0.0f, dot(normal, lightDirection));
+	vec3 diffuse = diffuseCoefficient * surfaceColor.rgb * material.diffuse * light[0].color * light[0].intensity;
+
+	// Specular
+	float specularCoefficient = 0.0;
+	if(diffuseCoefficient > 0.0) {
+		vec3 reflectDirection = normalize(reflect(-lightDirection, normal));
+		specularCoefficient = pow(max(0.0, dot(viewDirection, reflectDirection)), material.shininess);
 	}
+	vec3 specular = specularCoefficient * material.specular * light[0].color * light[0].intensity;
 
-	fragColor = vec4(ambientTotal + diffuseTotal + specularTotal, 1.0f) * texColor;
+	// Attenuation 
+	float distanceToLight = length(lightDirection);
+	float attenuation = 1.0 / (1.0 + light[0].attenuation * pow(distanceToLight, 2));
+
+	// Final Color
+	vec3 fColor = ambient + attenuation * (diffuse + specular);
+
+	fragColor = vec4(fColor, surfaceColor.a);
 }

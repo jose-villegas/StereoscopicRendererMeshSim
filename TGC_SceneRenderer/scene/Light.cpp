@@ -9,7 +9,6 @@ Light::Light(void)
     this->innerConeAngle = 180;
     this->outerConeAngle = 180;
     this->lightType      = Point;
-    uniformsSet          = false;
 
     // Resize ShaderLink data vector for this structure
     for (int i = 0; i < core::ShadersData::Structures::LIGHT_MEMBER_COUNT; i++) {
@@ -18,42 +17,40 @@ Light::Light(void)
     }
 }
 
-void scene::Light::setUniforms(types::ShaderProgram *sh)
+void scene::Light::setUniforms(types::ShaderProgram *shp)
 {
-    if (!uniformsSet) { return; }
-
     for (unsigned int i = 0; i < uniformData.size(); i++) {
         switch (i) {
             case 0:
-                sh->setUniform(uniformData[i].uniformLocation, this->transform->position);
+                shp->setUniform(uniformData[i].uniformLocation, this->transform->position);
                 break;
 
             case 1:
-                sh->setUniform(uniformData[i].uniformLocation, glm::normalize(glm::vec3(0.0, -1.0, 0.0) * glm::mat3_cast(this->transform->rotation)));
+                shp->setUniform(uniformData[i].uniformLocation, glm::normalize(glm::vec3(0.0, -1.0, 0.0) * glm::mat3_cast(this->transform->rotation)));
                 break;
 
             case 2:
-                sh->setUniform(uniformData[i].uniformLocation, this->color);
+                shp->setUniform(uniformData[i].uniformLocation, this->color);
                 break;
 
             case 3:
-                sh->setUniform(uniformData[i].uniformLocation, this->intensity);
+                shp->setUniform(uniformData[i].uniformLocation, this->intensity);
                 break;
 
             case 4:
-                sh->setUniform(uniformData[i].uniformLocation, this->attenuation);
+                shp->setUniform(uniformData[i].uniformLocation, this->attenuation);
                 break;
 
             case 5:
-                sh->setUniform(uniformData[i].uniformLocation, this->innerConeAngle);
+                shp->setUniform(uniformData[i].uniformLocation, this->innerConeAngle);
                 break;
 
             case 6:
-                sh->setUniform(uniformData[i].uniformLocation, this->outerConeAngle);
+                shp->setUniform(uniformData[i].uniformLocation, this->outerConeAngle);
                 break;
 
             case 7:
-                sh->setUniform(uniformData[i].uniformLocation, this->lightType);
+                shp->setUniform(uniformData[i].uniformLocation, this->lightType);
                 break;
 
             default:

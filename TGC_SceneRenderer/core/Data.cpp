@@ -13,9 +13,9 @@ const char *core::ShadersData::Structures::LIGHT_MEMBER_NAMES[] = {
 };
 
 const char *core::ShadersData::Structures::MATERIAL_MEMBER_NAMES[] = {
-    "ka"
-    "kd"
-    "ks"
+    "ambient"
+    "diffuse"
+    "specular"
     "shininess"
 };
 
@@ -40,9 +40,9 @@ void core::ShadersData::AttachShaderData(types::ShaderProgram *shp)
     shp->addUniform("inputMatrices.projection");
     shp->addUniform("inputMatrices.normal");
     // Material Params
-    shp->addUniform("material.ka");
-    shp->addUniform("material.kd");
-    shp->addUniform("material.ks");
+    shp->addUniform("material.ambient");
+    shp->addUniform("material.diffuse");
+    shp->addUniform("material.specular");
     shp->addUniform("material.shininess");
 
     // Lights Params

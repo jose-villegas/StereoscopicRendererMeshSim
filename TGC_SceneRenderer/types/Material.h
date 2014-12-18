@@ -3,21 +3,17 @@
 #include "../core/Data.h"
 #include "Texture.h"
 #include "ShaderProgram.h"
-#include <vector>
+#include <set>
 namespace types {
 
     class Material : public bases::ShaderLink {
-        public:
-            // Supported Material Shaders
-            enum MaterialType {
-                Diffuse,
-                BumpedDiffuse
-            };
-
         private:
-            std::vector<Texture *> _textures;
+            struct TexturePtrComp {
+                bool operator()(const Texture *lhs, const Texture *rhs) const  { return lhs->getType() < rhs->getType(); }
+            };
+            // Ordered Textures by type check Texture.h
+            std::set<Texture *, TexturePtrComp> _textures;
             ShaderProgram *_matShader;
-            MaterialType _matType;
             Material(const Material &mat);
 
         public:
@@ -28,8 +24,9 @@ namespace types {
             float shininess;
 
             void addTexture(Texture *tex);
+            void addTexture(Texture *tex[], const unsigned int texCount);
             void setShaderProgram(ShaderProgram *shp);
-            void setMaterialType();
+            void setUniforms(types::ShaderProgram *shp);
     };
 }
 

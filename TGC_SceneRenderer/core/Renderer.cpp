@@ -55,7 +55,7 @@ void core::Renderer::setup()
     // Model View Projection Matrix
     view = cam->getViewMatrix(glm::vec3(0, 0, 0), glm::vec3(0, 0, -1), glm::vec3(0, 1, 0));
     projection = cam->getProjectionMatrix();
-    model = glm::translate(glm::mat4(1.0), glm::vec3(0.0, 0.0, -10.0f));
+    model = glm::translate(glm::mat4(1.0), glm::vec3(0.0, 0.0, -15.0f));
     modelView = view * model;
     modelViewProjection = projection * modelView;
 }
@@ -69,7 +69,7 @@ void core::Renderer::loop()
     shProgram->use();
     view = cam->getViewMatrix(glm::vec3(0, 0, 0), glm::vec3(0, 0, -1), glm::vec3(0, 1, 0));
     projection = cam->getProjectionMatrix();
-    model = glm::translate(glm::mat4(1.0), glm::vec3(0.0, 0.0, -15.0f)) * glm::rotate<float>(time->totalTime() * 30.0f, glm::vec3(0.30, 0.60, 0.90));
+    model = glm::translate(glm::mat4(1.0), glm::vec3(0.0, 0.0, -15.0f)) * glm::rotate<float>(time->totalTime() * 15.0f, glm::vec3(0.30, 0.60, 0.90));
     modelView = view * model;
     modelViewProjection = projection * modelView;
     normalMatrix = glm::inverseTranspose(glm::mat3(modelView)); // Remember to just use modelview if orthographic
@@ -78,15 +78,15 @@ void core::Renderer::loop()
     shProgram->setUniform("inputMatrices.modelView", modelView);
     shProgram->setUniform("inputMatrices.normal", normalMatrix);
     shProgram->setUniform("light[0].color", glm::vec3(1.0, 1.0, 1.0));
-    shProgram->setUniform("light[0].position", glm::vec3(glm::cos(time->totalTime()) * 5.0, 0.0, -5.0));
+    shProgram->setUniform("light[0].position", glm::vec3(0.0, 0.0, -5.0));
     shProgram->setUniform("light[0].intensity", 1.0f);
     shProgram->setUniform("light[0].attenuation", 1.0f);
-    shProgram->setUniform("material.ks", glm::vec3(0.9, 0.9, 0.9));
-    shProgram->setUniform("material.kd", glm::vec3(0.9, 0.9, 0.9));
-    shProgram->setUniform("material.ka", glm::vec3(0.1, 0.1, 0.1));
+    shProgram->setUniform("material.specular", glm::vec3(0.9, 0.9, 0.9));
+    shProgram->setUniform("material.diffuse", glm::vec3(0.9, 0.9, 0.9));
+    shProgram->setUniform("material.ambient", glm::vec3(0.1, 0.1, 0.1));
     shProgram->setUniform("material.shininess", 16.0f);
     shProgram->setUniform("lightsCount", 1);
-    // shProgram->setUniform("diffuseMap", 0);
+    shProgram->setUniform("diffuseMap", 0);
     testMesh->render();
 }
 

@@ -32,8 +32,8 @@ namespace scene {
             float innerConeAngle;
             float outerConeAngle;
             LightType lightType;
-            bool uniformsSet;
-            void setUniforms(types::ShaderProgram *sh);
+
+            void setUniforms(types::ShaderProgram *shp);
     };
 }
 

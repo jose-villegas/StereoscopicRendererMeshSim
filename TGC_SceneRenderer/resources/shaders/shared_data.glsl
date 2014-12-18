@@ -23,8 +23,8 @@ struct Light {
 };
 
 struct Material {
-    vec3 ka;
-    vec3 kd;
-    vec3 ks;
+    vec3 ambient;
+    vec3 diffuse;
+    vec3 specular;
     float shininess;
 };
