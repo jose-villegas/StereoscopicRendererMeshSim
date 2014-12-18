@@ -29,7 +29,6 @@ namespace types {
              * Method:    setUniformBlock
              * FullName:  types::ShaderProgram::setUniformBlock
              * Access:    public
-             * Returns:   void
              * Parameter: const std::string & sUniformBlockName
              * Parameter: const char * names[]
              * Parameter: const unsigned int & namesCount

@@ -6,7 +6,7 @@ namespace types {
 
     class Material {
         public:
-
+            Material(void);
             // Supported Material Shaders
             enum MaterialType {
                 Diffuse,
@@ -16,7 +16,7 @@ namespace types {
             glm::vec3 ambient;
             glm::vec3 diffuse;
             glm::vec3 specular;
-            Material(void);
+
         private:
             std::vector<Texture *> _textures;
             ShaderProgram *_matShader;

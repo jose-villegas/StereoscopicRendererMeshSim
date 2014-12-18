@@ -1,5 +1,6 @@
 #pragma once
 #include "../bases/BaseComponent.h"
+#include "../bases/ShaderLink.h"
 #include "glm/detail/type_mat.hpp"
 #include "glm/detail/type_vec.hpp"
 #include "glm/gtc/matrix_transform.hpp"
@@ -11,11 +12,9 @@
 
 namespace scene {
 
-    class Light : public bases::BaseComponent {
+    class Light : public bases::BaseComponent, public bases::ShaderLink {
         private:
-            // Check shared_data.glsl for values order
-            std::vector< unsigned int> _uniformLoc;
-            Light(const Light &light);
+            Light(const Light &lght);
         public:
             Light(void);
 
@@ -33,8 +32,6 @@ namespace scene {
             float outerConeAngle;
             LightType lightType;
             bool uniformsSet;
-            void saveUniformLocations(const unsigned int locations[GLSL_LIGHT_MEMBER_COUNT]);
-            void saveUniformLocations(const std::string names[GLSL_LIGHT_MEMBER_COUNT], const unsigned int locations[GLSL_LIGHT_MEMBER_COUNT]);
             void setUniforms(types::ShaderProgram *sh);
     };
 }

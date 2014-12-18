@@ -103,6 +103,7 @@
     <ClCompile Include="Core\ResourcesLoader.cpp" />
     <ClCompile Include="Collections\stored\Shaders.cpp" />
     <ClCompile Include="core\Matrices.cpp" />
+    <ClCompile Include="bases\ShaderLink.cpp" />
     <ClCompile Include="Types\Material.cpp" />
     <ClCompile Include="ObjectsWindow.cpp" />
     <ClCompile Include="Collections\SceneObjects.cpp" />
@@ -136,6 +137,7 @@
     <ClInclude Include="Core\ResourcesLoader.h" />
     <ClInclude Include="Collections\stored\Shaders.h" />
     <ClInclude Include="core\Matrices.h" />
+    <ClInclude Include="bases\ShaderLink.h" />
     <ClInclude Include="Types\Material.h" />
     <ClInclude Include="ObjectsWindow.h">
       <FileType>CppForm</FileType>
