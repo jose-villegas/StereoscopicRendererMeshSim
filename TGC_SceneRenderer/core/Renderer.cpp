@@ -36,19 +36,21 @@ void core::Renderer::setup()
     ResourcesLoader::loadDefaultTexture(_texCollection);
     ResourcesLoader::loadStoredShaders();
     // Setup OpenGL Flags
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_BACK);
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
     // Testing
     testMesh = new scene::Mesh();
     testMesh->loadMesh("../TGC_SceneRenderer/resources/models/cube/cube.obj");
     // Shader
-    shProgram = collections::stored::Shaders::getDefaultShader(collections::stored::Shaders::PhongShading);
+    shProgram = collections::stored::Shaders::getDefaultShader(core::AvailableShaders::Diffuse);
     // Camera
     cam = new scene::Camera();
-    cam->fieldOfView = 90.0f;
-    cam->aspectRatio = 4.0f / 3.0f;
+    cam->fieldOfView  = 90.0f;
+    cam->aspectRatio  = 4.0f / 3.0f;
     cam->nearClipping = 0.1f;
-    cam->farClipping = 100.0f;
+    cam->farClipping  = 100.0f;
     cam->projectionType = scene::Camera::Perspective;
     // Model View Projection Matrix
     view = cam->getViewMatrix(glm::vec3(0, 0, 0), glm::vec3(0, 0, -1), glm::vec3(0, 1, 0));
@@ -67,7 +69,7 @@ void core::Renderer::loop()
     shProgram->use();
     view = cam->getViewMatrix(glm::vec3(0, 0, 0), glm::vec3(0, 0, -1), glm::vec3(0, 1, 0));
     projection = cam->getProjectionMatrix();
-    model = glm::translate(glm::mat4(1.0), glm::vec3(0.0, 0.0, -15.0f))/* * glm::rotate<float>(time->totalTime() * 75.0f, glm::vec3(0.0, 1.0, 0.0))*/;
+    model = glm::translate(glm::mat4(1.0), glm::vec3(0.0, 0.0, -15.0f)) * glm::rotate<float>(time->totalTime() * 30.0f, glm::vec3(0.30, 0.60, 0.90));
     modelView = view * model;
     modelViewProjection = projection * modelView;
     normalMatrix = glm::inverseTranspose(glm::mat3(modelView)); // Remember to just use modelview if orthographic
@@ -76,8 +78,8 @@ void core::Renderer::loop()
     shProgram->setUniform("inputMatrices.modelView", modelView);
     shProgram->setUniform("inputMatrices.normal", normalMatrix);
     shProgram->setUniform("light[0].color", glm::vec3(1.0, 1.0, 1.0));
-    shProgram->setUniform("light[0].position", glm::vec3(glm::cos(time->totalTime()) * 5.0, 0.0, -10.0));
-    shProgram->setUniform("light[0].intensity", 0.5f);
+    shProgram->setUniform("light[0].position", glm::vec3(glm::cos(time->totalTime()) * 5.0, 0.0, -5.0));
+    shProgram->setUniform("light[0].intensity", 1.0f);
     shProgram->setUniform("light[0].attenuation", 1.0f);
     shProgram->setUniform("material.ks", glm::vec3(0.9, 0.9, 0.9));
     shProgram->setUniform("material.kd", glm::vec3(0.9, 0.9, 0.9));

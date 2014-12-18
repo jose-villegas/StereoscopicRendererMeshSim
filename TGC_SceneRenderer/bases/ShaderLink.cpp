@@ -35,6 +35,6 @@ bases::ShaderLink::ShaderLink(void)
 bases::ShaderLink::LinkData::LinkData(std::string name, unsigned int loc, unsigned int index)
 {
     this->uniformLocation = loc;
-    this->uniformName = name;
-    this->variableIndex = index;
+    this->uniformName     = name;
+    this->variableIndex   = index;
 }

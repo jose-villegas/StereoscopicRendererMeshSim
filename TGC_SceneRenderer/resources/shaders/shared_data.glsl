@@ -1,5 +1,5 @@
 // Rendering Constrains
-const int MAX_LIGHTS = 4;
+const int MAX_LIGHTS = 8;
 
 // Shared Structures
 struct Matrix {
@@ -13,15 +13,13 @@ struct Matrix {
 
 struct Light {
     vec3 position;
-    vec3 direction; // For Directional
+    vec3 direction;       // For Directional and Spot Light
     vec3 color;
     float intensity;
     float attenuation;
-    // Spot Light
-    float innerConeAngle;
-    float outerConeAngle;
-    // Control parameters
-    int lightType;
+    float innerConeAngle; // Spot Light
+    float outerConeAngle; // Spot Light
+    int lightType;	      // Control parameters
 };
 
 struct Material {

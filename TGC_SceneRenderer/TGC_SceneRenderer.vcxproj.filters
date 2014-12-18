@@ -102,13 +102,13 @@
     <ClCompile Include="Collections\stored\Shaders.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="core\Constrains.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="core\Matrices.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="bases\ShaderLink.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="core\Data.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -203,13 +203,13 @@
     <ClInclude Include="Collections\stored\Shaders.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="core\Constrains.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="core\Matrices.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="bases\ShaderLink.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="core\Data.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

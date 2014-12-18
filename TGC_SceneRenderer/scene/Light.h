@@ -1,6 +1,7 @@
 #pragma once
 #include "../bases/BaseComponent.h"
 #include "../bases/ShaderLink.h"
+#include "../core/Data.h"
 #include "glm/detail/type_mat.hpp"
 #include "glm/detail/type_vec.hpp"
 #include "glm/gtc/matrix_transform.hpp"
