@@ -7,6 +7,7 @@ namespace scene {
 
     class Camera : public bases::BaseComponent {
         public:
+            Camera(void);
 
             enum TypeProjection {
                 Orthographic,
@@ -19,7 +20,7 @@ namespace scene {
             float aspectRatio;
             glm::vec4 viewPortRect;
             TypeProjection projectionType;
-            Camera(void);
+
             glm::mat4 getViewMatrix(const glm::vec3 &cameraPosition, const glm::vec3 &cameraTarget, const glm::vec3 &vectorUp) const;
             glm::mat4 getProjectionMatrix() const;
             glm::mat4 getProjectionMatrixFrustum() const;

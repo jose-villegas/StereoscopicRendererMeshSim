@@ -8,8 +8,9 @@ void collections::stored::Shaders::loadShaders()
     types::ShaderProgram *phongShading = new types::ShaderProgram();
     types::Shader *vertex = new types::Shader(types::Shader::Vertex);
     types::Shader *fragment = new types::Shader(types::Shader::Fragment);
-    vertex->loadFromFile("../TGC_SceneRenderer/resources/shaders/diffuse.vert", "--include Constrains", core::Constrains::ToGLSL());
-    fragment->loadFromFile("../TGC_SceneRenderer/resources/shaders/diffuse.frag", "--include Constrains", core::Constrains::ToGLSL());
+    std::string shared_data = types::Shader::fileToString("../TGC_SceneRenderer/resources/shaders/shared_data.glsl");
+    vertex->loadFromFile("../TGC_SceneRenderer/resources/shaders/diffuse.vert", "--include shared_data.glsl", shared_data);
+    fragment->loadFromFile("../TGC_SceneRenderer/resources/shaders/diffuse.frag", "--include shared_data.glsl", shared_data);
     vertex->compile();
     fragment->compile();
     phongShading->attachShader(vertex);

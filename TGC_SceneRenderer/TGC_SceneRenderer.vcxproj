@@ -183,6 +183,7 @@
     <None Include="resources\Shaders\bumped_diffuse.vert" />
     <None Include="Resources\Shaders\diffuse.vert" />
     <None Include="Resources\Shaders\diffuse.frag" />
+    <None Include="resources\shaders\shared_data.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

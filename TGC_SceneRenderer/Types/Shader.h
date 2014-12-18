@@ -45,6 +45,8 @@ namespace types {
             * Parameter: const std::string data
             */
             bool loadFromFile(const std::string &sFilename, const std::string &token, const std::string &data);
+            // Converts a file to a string
+            static const std::string fileToString(const std::string &sFilename);
             bool compile();
             GLuint getId() const { return _id; }
         private:

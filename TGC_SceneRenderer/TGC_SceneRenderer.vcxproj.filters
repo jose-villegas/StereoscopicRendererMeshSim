@@ -233,5 +233,6 @@
     <None Include="Resources\Shaders\diffuse.vert" />
     <None Include="resources\Shaders\bumped_diffuse.frag" />
     <None Include="resources\Shaders\bumped_diffuse.vert" />
+    <None Include="resources\shaders\shared_data.glsl" />
   </ItemGroup>
 </Project>

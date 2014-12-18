@@ -3,7 +3,7 @@ namespace utils {
 
     class Time {
         private:
-#define SMOOTH_STEP 0.6
+#define SMOOTH_STEP 0.7
             double _deltaTime;
             double _totalTime;
             static Time *timeInstance;

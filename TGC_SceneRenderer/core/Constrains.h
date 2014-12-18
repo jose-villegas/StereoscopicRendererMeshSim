@@ -6,9 +6,7 @@ namespace core {
         public:
             static const int MAX_LIGHTS = 4;
             /*
-             * Parses de class variables to GLSL
-             * defines so they are shared between
-             * all shaders
+             * Parses de class variables to GLSL data
              * Method:    toGLSL
              * FullName:  core::Constrains::toGLSL
              * Access:    public static

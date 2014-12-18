@@ -24,7 +24,7 @@ bool types::Shader::loadFromString(const std::string &sSource)
     glShaderSource(_id, 1, &source, NULL);
     // Successful shader file load
     std::cout << "Shader(" << this << "): " << getShaderTypeString() << " file " << _shaderName << " loaded successfully" << std::endl;
-    std::cout << std::endl << sSource << std::endl;
+    // std::cout << std::endl << sSource << std::endl;
     return true;
 }
 
@@ -47,39 +47,51 @@ bool types::Shader::loadFromString(std::string &sSource, const std::string &toke
 
 bool types::Shader::loadFromFile(const std::string &sFilename)
 {
-    std::ifstream file(sFilename, std::ifstream::in);
+    // Convert the file to a string
+    std::string source = fileToString(sFilename);
 
-    if (!file.good()) {
+    if (source.empty()) {
         std::cout << "Shader(" << this << "): " << "Error Opening " << getShaderTypeString() << " file: " << sFilename << std::endl;
         return false;
     }
 
-    std::stringstream sourceSS;
-    // Dump File Content into stream buffer
-    sourceSS << file.rdbuf();
-    file.close();
     _shaderName = sFilename;
     // Load Source and Associate with this shader ID
-    return loadFromString(sourceSS.str());
+    return loadFromString(source);
 }
 
 bool types::Shader::loadFromFile(const std::string &sFilename, const std::string &token, const std::string &data)
 {
+    // Convert the file to a string
+    std::string source = fileToString(sFilename);
+
+    if (source.empty()) {
+        std::cout << "Shader(" << this << "): " << "Error Opening " << getShaderTypeString() << " file: " << sFilename << std::endl;
+        return false;
+    }
+
+    _shaderName = sFilename;
+    // Load Source and Associate with this shader ID
+    return loadFromString(source, token, data);
+}
+
+
+const std::string types::Shader::fileToString(const std::string &sFilename)
+{
     std::ifstream file(sFilename, std::ifstream::in);
 
     if (!file.good()) {
-        std::cout << "Shader(" << this << "): " << "Error Opening " << getShaderTypeString() << " file: " << sFilename << std::endl;
-        return false;
+        return std::string();
     }
 
     std::stringstream sourceSS;
     // Dump File Content into stream buffer
     sourceSS << file.rdbuf();
     file.close();
-    _shaderName = sFilename;
-    // Load Source and Associate with this shader ID
-    return loadFromString(sourceSS.str(), token, data);
+    // Return casted data
+    return sourceSS.str();
 }
+
 
 bool types::Shader::compile()
 {
@@ -138,5 +150,3 @@ std::string types::Shader::getShaderTypeString()
             break;
     }
 }
-
-
