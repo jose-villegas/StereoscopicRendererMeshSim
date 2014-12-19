@@ -87,6 +87,12 @@ void core::Renderer::loop()
     shProgram->setUniform("material.shininess", 16.0f);
     shProgram->setUniform("lightsCount", 1);
     shProgram->setUniform("diffuseMap", 0);
+    // Query for the offsets of each block variable
+    const GLchar *names[] = {
+        "input.matrices.modelViewProjection", "input.matrices.modelView",
+        "input.matrices.model", "input.matrices.view",
+        "input.matrices.projection", "input.matrices.normal"
+    };
     testMesh->render();
 }
 

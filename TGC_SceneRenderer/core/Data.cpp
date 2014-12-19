@@ -71,4 +71,6 @@ void core::ShadersData::AddShaderData(types::ShaderProgram *shp)
         shp->addUniform("light[" + std::to_string(i) + "].outerConeAngle");
         shp->addUniform("light[" + std::to_string(i) + "].lightType");
     }
+
+    shp->addUniformBlock("input");
 }

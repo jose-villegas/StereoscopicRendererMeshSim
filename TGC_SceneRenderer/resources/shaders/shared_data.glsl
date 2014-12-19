@@ -28,3 +28,7 @@ struct Material {
     vec3 specular;
     float shininess;
 };
+
+layout ( std140 ) uniform input {
+    Matrix matrices;
+};

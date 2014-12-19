@@ -15,6 +15,8 @@ namespace core {
             glm::mat4 modelView;
             glm::mat3 normal;
             Matrices(void);
+
+
     };
 }
 
