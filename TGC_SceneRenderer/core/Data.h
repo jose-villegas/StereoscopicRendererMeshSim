@@ -1,4 +1,5 @@
 #pragma once
+#include "assimp\material.h"
 #include "..\Types\ShaderProgram.h"
 namespace core {
     // Use shared_data.glsl for reference
@@ -16,8 +17,28 @@ namespace core {
                 static const char *MATERIAL_MEMBER_NAMES[];
                 static const char *MATRIX_MEMBER_NAMES[];
             };
+
+            struct Samplers2D {
+                enum TextureType {
+                    None         = aiTextureType_NONE,
+                    Diffuse      = aiTextureType_DIFFUSE,
+                    Specular     = aiTextureType_SPECULAR,
+                    Ambient      = aiTextureType_AMBIENT,
+                    Emissive     = aiTextureType_EMISSIVE,
+                    Height       = aiTextureType_HEIGHT,
+                    Normals      = aiTextureType_NORMALS,
+                    Shininess    = aiTextureType_SHININESS,
+                    Ocapacity    = aiTextureType_OPACITY,
+                    Displacement = aiTextureType_DISPLACEMENT,
+                    Lightmap     = aiTextureType_LIGHTMAP,
+                    Reflection   = aiTextureType_REFLECTION
+                };
+                // Ordered by TextureType
+                static const char *NAMES[];
+            };
+
             // Attachs predefined uniforms to the shader program
-            static void AttachShaderData(types::ShaderProgram *shp);
+            static void AddShaderData(types::ShaderProgram *shp);
     };
 
     class AvailableShaders {

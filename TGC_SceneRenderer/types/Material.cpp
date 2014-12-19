@@ -39,6 +39,8 @@ void types::Material::setShaderProgram(ShaderProgram *shp)
 
 void types::Material::setUniforms(types::ShaderProgram *shp)
 {
+    if (!shp) { return; }
+
     for (int i = 0; i < core::ShadersData::Structures::MATERIAL_MEMBER_COUNT; i++) {
         switch (i) {
             case 0:
@@ -57,5 +59,36 @@ void types::Material::setUniforms(types::ShaderProgram *shp)
                 shp->setUniform(uniformData[i].uniformLocation, this->shininess);
                 break;
         }
+    }
+}
+
+void types::Material::setUniforms()
+{
+    setUniforms(this->_matShader);
+}
+
+void types::Material::bindTextures() const
+{
+    // Bind textures in reverse type order
+    for (auto it = this->_textures.rbegin(); it != this->_textures.rend(); it++) {
+        ((Texture *)*it)->bind();
+    }
+}
+
+void types::Material::guessMaterialShader()
+{
+}
+
+void types::Material::setTexturesUniforms()
+{
+    setTexturesUniforms(this->_matShader);
+}
+
+void types::Material::setTexturesUniforms(types::ShaderProgram *shp)
+{
+    for (auto it = this->_textures.begin(); it != this->_textures.end(); it++) {
+        unsigned int texID = ((Texture *)*it)->geTexID();
+        unsigned int texType = ((Texture *)*it)->getType();
+        shp->setUniform(core::ShadersData::Samplers2D::NAMES[texType], texID);
     }
 }

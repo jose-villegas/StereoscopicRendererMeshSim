@@ -19,7 +19,7 @@ void collections::stored::Shaders::loadShaders()
     // Texture Maps
     shp->addUniform("diffuseMap");
     // Control Vars
-    core::ShadersData::AttachShaderData(shp);
+    core::ShadersData::AddShaderData(shp);
     _shaders[core::AvailableShaders::Shaders::Diffuse] = shp;
 }
 

@@ -1,10 +1,12 @@
 #pragma once
+#include "../bases/ShaderLink.h"
 #include "glm/detail/type_mat.hpp"
 #include "glm/gtx/transform.hpp"
 #include "glm/gtc/matrix_inverse.hpp"
+
 namespace core {
     // Elemental Matrices
-    class Matrices {
+    class Matrices : public bases::ShaderLink {
         public:
             glm::mat4 model;
             glm::mat4 view;

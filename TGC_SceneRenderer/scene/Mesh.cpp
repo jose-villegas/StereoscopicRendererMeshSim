@@ -35,7 +35,6 @@ bool Mesh::loadMesh(const std::string &sFileName)
 bool Mesh::initFromScene(const aiScene *pScene, const std::string &sFilename)
 {
     _meshEntries.resize(pScene->mNumMeshes);
-    _sceneMaterials.resize(pScene->mNumMaterials);
 
     // Initialize the meshes in the scene one by one
     for (unsigned int i = 0 ; i < _meshEntries.size() ; i++) {
@@ -58,7 +57,7 @@ void Mesh::initMesh(unsigned int index, const aiMesh *paiMesh)
         const aiVector3D *pPos      = &(paiMesh->mVertices[i]);
         const aiVector3D *pNormal   = &(paiMesh->mNormals[i]);
         const aiVector3D *pTexCoord = paiMesh->HasTextureCoords(0) ? &(paiMesh->mTextureCoords[0][i]) : &Zero3D;
-        const aiVector3D *pTangent = &paiMesh->mTangents[i];
+        const aiVector3D *pTangent =  paiMesh->HasTangentsAndBitangents() ? &paiMesh->mTangents[i] : &Zero3D;
         types::Vertex v(
             glm::vec3(pPos->x, pPos->y, pPos->z),
             glm::vec2(pTexCoord->x, pTexCoord->y),
@@ -107,19 +106,19 @@ bool Mesh::initMaterials(const aiScene *pScene, const std::string &sFilename)
     // Initialize the materials
     for (unsigned int i = 0 ; i < pScene->mNumMaterials ; i++) {
         const aiMaterial *pMaterial = pScene->mMaterials[i];
-        Material *currentMaterial = new Material(i);
+        types::Material *currentMat = new types::Material();
         // Get Texture Count
-        int diffuseTextureCount = pMaterial->GetTextureCount(aiTextureType_DIFFUSE);
-        int specularTextureCount = pMaterial->GetTextureCount(aiTextureType_SPECULAR);
-        int ambientextureCount = pMaterial->GetTextureCount(aiTextureType_AMBIENT);
-        int emissiveTextureCount = pMaterial->GetTextureCount(aiTextureType_EMISSIVE);
-        int heightTextureCount = pMaterial->GetTextureCount(aiTextureType_HEIGHT);
-        int normalTextureCount = pMaterial->GetTextureCount(aiTextureType_NORMALS);
-        int shininessTextureCount = pMaterial->GetTextureCount(aiTextureType_SHININESS);
-        int ocapacityTextureCount = pMaterial->GetTextureCount(aiTextureType_OPACITY);
+        int diffuseTextureCount      = pMaterial->GetTextureCount(aiTextureType_DIFFUSE);
+        int specularTextureCount     = pMaterial->GetTextureCount(aiTextureType_SPECULAR);
+        int ambientextureCount       = pMaterial->GetTextureCount(aiTextureType_AMBIENT);
+        int emissiveTextureCount     = pMaterial->GetTextureCount(aiTextureType_EMISSIVE);
+        int heightTextureCount       = pMaterial->GetTextureCount(aiTextureType_HEIGHT);
+        int normalTextureCount       = pMaterial->GetTextureCount(aiTextureType_NORMALS);
+        int shininessTextureCount    = pMaterial->GetTextureCount(aiTextureType_SHININESS);
+        int ocapacityTextureCount    = pMaterial->GetTextureCount(aiTextureType_OPACITY);
         int displacementTextureCount = pMaterial->GetTextureCount(aiTextureType_DISPLACEMENT);
-        int lightmapTextureCount = pMaterial->GetTextureCount(aiTextureType_LIGHTMAP);
-        int reflectionTextureCount = pMaterial->GetTextureCount(aiTextureType_REFLECTION);
+        int lightmapTextureCount     = pMaterial->GetTextureCount(aiTextureType_LIGHTMAP);
+        int reflectionTextureCount   = pMaterial->GetTextureCount(aiTextureType_REFLECTION);
 
         for (int tIndex = 0; tIndex < diffuseTextureCount; tIndex++) {
             aiString textureFilename;
@@ -128,9 +127,10 @@ bool Mesh::initMaterials(const aiScene *pScene, const std::string &sFilename)
                 std::string fullPath = dir + slashDir + textureFilename.data;
 
                 if (!_texCollection->loadTexture(fullPath, _texCollection->count(), types::Texture::Diffuse)) {
-                    bRtrn = false; currentMaterial->textureIndices.push_back(_texCollection->getDefaultTexture());
+                    bRtrn = false;
+                    currentMat->addTexture(_texCollection->getDefaultTexture());
                 } else {
-                    currentMaterial->textureIndices.push_back(_texCollection->count() - 1);
+                    currentMat->addTexture(_texCollection->getTexture(_texCollection->count() - 1));
                 }
             }
         }
@@ -142,9 +142,10 @@ bool Mesh::initMaterials(const aiScene *pScene, const std::string &sFilename)
                 std::string fullPath = dir + slashDir + textureFilename.data;
 
                 if (!_texCollection->loadTexture(fullPath, _texCollection->count(), types::Texture::Height)) {
-                    bRtrn = false; currentMaterial->textureIndices.push_back(_texCollection->getDefaultTexture());
+                    bRtrn = false;
+                    currentMat->addTexture(_texCollection->getDefaultTexture());
                 } else {
-                    currentMaterial->textureIndices.push_back(_texCollection->count() - 1);
+                    currentMat->addTexture(_texCollection->getTexture(_texCollection->count() - 1));
                 }
             }
         }
@@ -156,23 +157,33 @@ bool Mesh::initMaterials(const aiScene *pScene, const std::string &sFilename)
                 std::string fullPath = dir + slashDir + textureFilename.data;
 
                 if (!_texCollection->loadTexture(fullPath, _texCollection->count(), types::Texture::Normals)) {
-                    bRtrn = false; currentMaterial->textureIndices.push_back(_texCollection->getDefaultTexture());
+                    bRtrn = false;
+                    currentMat->addTexture(_texCollection->getDefaultTexture());
                 } else {
-                    currentMaterial->textureIndices.push_back(_texCollection->count() - 1);
+                    currentMat->addTexture(_texCollection->getTexture(_texCollection->count() - 1));
                 }
             }
         }
 
-        // Save Texture Values for whole scene
-        std::vector<unsigned int>::iterator it;
+        if (currentMat->textureCount() == 0) { currentMat->addTexture(_texCollection->getDefaultTexture()); }
 
-        for (it = currentMaterial->textureIndices.begin(); it != currentMaterial->textureIndices.end(); it++) {
-            _sceneTextures.push_back(*it);
-        }
-
-        if (currentMaterial->textureIndices.empty()) { currentMaterial->textureIndices.push_back(_texCollection->getDefaultTexture()); }
-
-        _sceneMaterials[i] = currentMaterial;
+        // Material Properties
+        aiColor4D ambient(0.0f, 0.0f, 0.0f, 0.0f);
+        aiColor4D diffuse(0.0f, 0.0f, 0.0f, 0.0f);
+        aiColor4D specular(0.0f, 0.0f, 0.0f, 0.0f);
+        int shadingModel = 0;
+        float shininess = 0;
+        aiGetMaterialColor(pMaterial, AI_MATKEY_COLOR_AMBIENT, &ambient);
+        aiGetMaterialColor(pMaterial, AI_MATKEY_COLOR_DIFFUSE, &diffuse);
+        aiGetMaterialColor(pMaterial, AI_MATKEY_COLOR_SPECULAR, &specular);
+        aiGetMaterialFloat(pMaterial, AI_MATKEY_SHININESS, &shininess);
+        aiGetMaterialInteger(pMaterial, AI_MATKEY_SHADING_MODEL, &shadingModel);
+        // Save properties to current material
+        currentMat->ambient = glm::vec3(ambient.r, ambient.g, ambient.b);
+        currentMat->diffuse = glm::vec3(diffuse.r, diffuse.g, diffuse.b);
+        currentMat->specular = glm::vec3(specular.r, specular.g, specular.b);
+        // Save current mat to mesh materials
+        _materials.push_back(currentMat);
     }
 
     return bRtrn;
@@ -180,12 +191,7 @@ bool Mesh::initMaterials(const aiScene *pScene, const std::string &sFilename)
 
 void Mesh::clear()
 {
-    for (unsigned int i = 0; i < _sceneMaterials.size(); i++) {
-        delete _sceneMaterials[i];
-    }
-
-    _sceneMaterials.clear();
-    _sceneTextures.clear();
+    _materials.clear();
 }
 
 void Mesh::render() const
@@ -203,17 +209,9 @@ void Mesh::render() const
         glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(types::Vertex), (const GLvoid *)32);		// Vertex Tangent
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _meshEntries[i].IB);
         const unsigned int materialIndex = _meshEntries[i].materialIndex;
-
-        /*
-        if (materialIndex < _sceneTextures.size() && _sceneTextures[materialIndex]) {
-            _texCollection->bindTexture(_sceneTextures[materialIndex]);
-        }
-        */
-
-        for (int texIndex = _sceneMaterials[materialIndex]->textureIndices.size() - 1; texIndex >= 0 ; texIndex--) {
-            _texCollection->bindTexture(_sceneMaterials[materialIndex]->textureIndices[texIndex]);
-        }
-
+        // Binds the mesh material textures for shader use
+        this->_materials[materialIndex]->bindTextures();
+        // Draw mesh
         glDrawElements(GL_TRIANGLES, _meshEntries[i].numIndices, GL_UNSIGNED_INT, 0);
     }
 
@@ -251,9 +249,4 @@ Mesh::MeshEntry::~MeshEntry()
     if (IB != INVALID_VALUE) {
         glDeleteBuffers(1, &IB);
     }
-}
-
-scene::Mesh::Material::Material(const unsigned int &index)
-{
-    this->materialIndex = index;
 }

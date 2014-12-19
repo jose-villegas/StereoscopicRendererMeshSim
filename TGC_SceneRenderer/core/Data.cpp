@@ -28,7 +28,22 @@ const char *core::ShadersData::Structures::MATRIX_MEMBER_NAMES[] = {
     "normal"
 };
 
-void core::ShadersData::AttachShaderData(types::ShaderProgram *shp)
+const char *core::ShadersData::Samplers2D::NAMES[] = {
+    "noneMap"
+    "diffuseMap"
+    "specularMap"
+    "ambientMap"
+    "emissiveMap"
+    "heightMap"
+    "normalsMap"
+    "shininessMap"
+    "opacityMap"
+    "displacementMap"
+    "lightmapMap"
+    "reflectionMap"
+};
+
+void core::ShadersData::AddShaderData(types::ShaderProgram *shp)
 {
     // Control Vars
     shp->addUniform("lightsCount");

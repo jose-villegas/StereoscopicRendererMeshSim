@@ -13,17 +13,22 @@ namespace collections {
     class Textures {
         public:
             virtual ~Textures();
-            // Creates Unique Static Instance
+            // creates Unique Static Instance
             static Textures *Instance();
-            // Loads a new texture
+            // loads a new texture
             bool loadTexture(const std::string &sFilename, const unsigned int texID, types::Texture::TextureType textureType);
-            // Loads a new texture with unique texID (slower)
+            // loads a new texture with unique texID (slower)
             bool loadTexture(const std::string &sFilename, types::Texture::TextureType textureType);
-            bool unloadTexture(const unsigned int &texID);							// frees memory reserved for texID texture
-            bool bindTexture(const unsigned int &texID);							// sets texID texture as the current active texture
-            void unloadAllTextures();												// frees memory reserved for all the textures
-            unsigned int count(void) const;											// Amount of textures loaded
-            unsigned int getDefaultTexture() const { return DEFAULT_TEXTURE_ID; }	// Return default texture's texID, white texture
+            // frees memory reserved for texID texture
+            bool unloadTexture(const unsigned int &texID);
+            // sets texID texture as the current active texture
+            bool bindTexture(const unsigned int &texID);
+            // frees memory reserved for all the textures
+            void unloadAllTextures();
+            // amount of textures loaded
+            unsigned int count(void) const;
+            // return default texture's texID, white default texture
+            types::Texture *getDefaultTexture() { return getTexture(DEFAULT_TEXTURE_ID); }
             types::Texture *getTexture(const unsigned &texID);
 
         protected:
