@@ -80,11 +80,11 @@ void core::Renderer::loop()
     shProgram->setUniform("light[0].color", glm::vec3(1.0, 1.0, 1.0));
     shProgram->setUniform("light[0].position", glm::vec3(0.0, 0.0, -3.0));
     shProgram->setUniform("light[0].intensity", 0.5f);
-    shProgram->setUniform("light[0].attenuation", 1.0f);
+    shProgram->setUniform("light[0].attenuation", 2.0f);
     shProgram->setUniform("material.specular", glm::vec3(0.5, 0.5, 0.5));
     shProgram->setUniform("material.diffuse", glm::vec3(0.7, 0.7, 0.7));
     shProgram->setUniform("material.ambient", glm::vec3(0.1, 0.1, 0.1));
-    shProgram->setUniform("material.shininess", 1.0f);
+    shProgram->setUniform("material.shininess", 20.0f);
     shProgram->setUniform("lightsCount", 1);
     // Query for the offsets of each block variable
     const GLchar *names[] = {
@@ -95,7 +95,7 @@ void core::Renderer::loop()
     types::ShaderProgram::UniformBlock *uniformBlock =  shProgram->getUniformBlock("input");
     GLuint *indices = new GLuint[6];
     GLint *offset = new GLint[6];
-    glBindBuffer(GL_UNIFORM_BUFFER, uniformBlock->UB);
+    shProgram->bindUniformBlock("input");
     shProgram->getUniformBlockIndexAndOffset("input", names, &indices, &offset, 6);
     memcpy(uniformBlock->dataPointer + offset[0], glm::value_ptr(modelViewProjection), sizeof(glm::mat4));
     memcpy(uniformBlock->dataPointer + offset[1], glm::value_ptr(modelView), sizeof(glm::mat4));
@@ -103,8 +103,7 @@ void core::Renderer::loop()
     memcpy(uniformBlock->dataPointer + offset[3], glm::value_ptr(view), sizeof(glm::mat4));
     memcpy(uniformBlock->dataPointer + offset[4], glm::value_ptr(projection), sizeof(glm::mat4));
     memcpy(uniformBlock->dataPointer + offset[5], glm::value_ptr(normalMatrix), sizeof(glm::mat4));
-    glBufferData(GL_UNIFORM_BUFFER, uniformBlock->blockSize, uniformBlock->dataPointer, GL_DYNAMIC_DRAW);
-    glBindBuffer(GL_UNIFORM_BUFFER, 0);
+    shProgram->updateUniformBlockBufferData("input");
     testMesh->render();
 }
 

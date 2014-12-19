@@ -16,6 +16,8 @@ namespace core {
                 static const char *LIGHT_MEMBER_NAMES[];
                 static const char *MATERIAL_MEMBER_NAMES[];
                 static const char *MATRIX_MEMBER_NAMES[];
+                static const char *MATRIX_UNIFORMBLOCK_NAME;
+                static const char *MATRIX_UNIFORMBLOCK_INSTANCE_NAME;
             };
 
             struct Samplers2D {

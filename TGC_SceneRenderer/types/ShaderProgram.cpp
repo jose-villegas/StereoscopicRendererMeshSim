@@ -232,9 +232,49 @@ void types::ShaderProgram::getUniformBlockIndexAndOffset(const std::string &unif
     // No uniform block with this name
     if (!this->getUniformBlock(uniformBlockName)) { return; }
 
+    // Reserve memory in case
+    if (!outIndices) { *outIndices = new GLuint[count]; }
+
+    if (!outOffset) { *outOffset = new GLint[count]; }
+
     // Get Uniform Memory Location
     glGetUniformIndices(this->_programID, count, names, (*outIndices));
     glGetActiveUniformsiv(this->_programID, count, (*outIndices), GL_UNIFORM_OFFSET, (*outOffset));
+}
+
+void types::ShaderProgram::bindUniformBlock(const std::string &sUniformBlockName) const
+{
+    types::ShaderProgram::UniformBlock *uniformBlockInfo = this->getUniformBlock(sUniformBlockName);
+
+    // No uniform block with this name
+    if (!uniformBlockInfo) { return; }
+
+    glBindBuffer(GL_UNIFORM_BUFFER, uniformBlockInfo->UB);
+}
+
+void types::ShaderProgram::updateUniformBlockBufferData(const std::string &sUniformBlockName) const
+{
+    types::ShaderProgram::UniformBlock *uniformBlockInfo = this->getUniformBlock(sUniformBlockName);
+
+    // No uniform block with this name
+    if (!uniformBlockInfo) { return; }
+
+    glBufferData(GL_UNIFORM_BUFFER, uniformBlockInfo->blockSize, uniformBlockInfo->dataPointer, GL_DYNAMIC_DRAW);
+}
+
+void types::ShaderProgram::setUniformBlockInfoIndexAndOffset(const std::string &uniformBlockName, UniformBlock *outUBF, const char *names[], const unsigned int &count) const
+{
+    // No uniform block with this name
+    if (!this->getUniformBlock(uniformBlockName)) { return; }
+
+    // Reserve memory in case
+    if (!outUBF->indices) { outUBF->indices = new GLuint[count]; }
+
+    if (!outUBF->offset) { outUBF->offset = new GLint[count]; }
+
+    // Get Uniform Memory Location
+    glGetUniformIndices(this->_programID, count, names, outUBF->indices);
+    glGetActiveUniformsiv(this->_programID, count, outUBF->indices, GL_UNIFORM_OFFSET, outUBF->offset);
 }
 
 types::ShaderProgram::UniformBlock::UniformBlock(const std::string &uniformBlockName, GLubyte *dataPointer, GLint blockSize, GLuint UB)

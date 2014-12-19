@@ -14,7 +14,8 @@ namespace types {
                 GLubyte *dataPointer;
                 GLint blockSize;
                 GLuint UB;
-
+                GLuint *indices;
+                GLint *offset;
                 UniformBlock(const std::string &uniformBlockName, GLubyte *dataPointer, GLint blockSize, GLuint UB);
             };
         private:
@@ -37,6 +38,9 @@ namespace types {
             unsigned int addUniformBlock(const std::string &sUniformBlockName);
             UniformBlock *getUniformBlock(const std::string &sUniformBlockName) const;
             void getUniformBlockIndexAndOffset(const std::string &uniformBlockName, const char *names[], GLuint *outIndices[], GLint *outOffset[], const unsigned int &count) const;
+            void setUniformBlockInfoIndexAndOffset(const std::string &uniformBlockName, UniformBlock *outUBF, const char *names[], const unsigned int &count) const;
+            void bindUniformBlock(const std::string &sUniformBlockName) const;
+            void updateUniformBlockBufferData(const std::string &sUniformBlockName) const;
 
             /*
              * Validates the uniform name and location

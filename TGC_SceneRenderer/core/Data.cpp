@@ -28,6 +28,9 @@ const char *core::ShadersData::Structures::MATRIX_MEMBER_NAMES[] = {
     "normal"
 };
 
+const char *core::ShadersData::Structures::MATRIX_UNIFORMBLOCK_NAME = "input";
+const char *core::ShadersData::Structures::MATRIX_UNIFORMBLOCK_INSTANCE_NAME = "inputMatrices";
+
 const char *core::ShadersData::Samplers2D::NAMES[] = {
     "noneMap"
     "diffuseMap"
@@ -45,16 +48,8 @@ const char *core::ShadersData::Samplers2D::NAMES[] = {
 
 void core::ShadersData::AddShaderData(types::ShaderProgram *shp)
 {
-    shp->addUniformBlock("input");
-    // Control Vars
-    shp->addUniform("lightsCount");
-    //// Elemental Matrices Params
-    //shp->addUniform("inputMatrices.modelViewProjection");
-    //shp->addUniform("inputMatrices.modelView");
-    //shp->addUniform("inputMatrices.model");
-    //shp->addUniform("inputMatrices.view");
-    //shp->addUniform("inputMatrices.projection");
-    //shp->addUniform("inputMatrices.normal");
+    // Elemental matrices uniform block
+    shp->addUniformBlock(core::ShadersData::Structures::MATRIX_UNIFORMBLOCK_NAME);
     // Material Params
     shp->addUniform("material.ambient");
     shp->addUniform("material.diffuse");
@@ -72,4 +67,7 @@ void core::ShadersData::AddShaderData(types::ShaderProgram *shp)
         shp->addUniform("light[" + std::to_string(i) + "].outerConeAngle");
         shp->addUniform("light[" + std::to_string(i) + "].lightType");
     }
+
+    // Control Vars
+    shp->addUniform("lightsCount");
 }
