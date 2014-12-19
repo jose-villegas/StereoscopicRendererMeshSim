@@ -4,13 +4,22 @@
 #include "Shader.h"
 #include <unordered_map>
 #include <string>
-#include <memory>
+#include <utility>
 namespace types {
 
     class ShaderProgram {
+        public:
+            struct UniformBlock {
+                std::string uniformBlockName;
+                GLubyte *dataPointer;
+                GLint blockSize;
+                GLuint UB;
+
+                UniformBlock(const std::string &uniformBlockName, GLubyte *dataPointer, GLint blockSize, GLuint UB);
+            };
         private:
-            // stores uniform blocks shared between all shader programs
-            static std::unordered_map<std::string, GLubyte *> _uniformBlocks;
+            // stores uniform blocks shared between all shader programs, name - (bufferObject, UBO ID)
+            static std::unordered_map<std::string, UniformBlock *> _uniformBlocks;
 
             unsigned int _programID;
             unsigned int _shaderCount;
@@ -26,8 +35,8 @@ namespace types {
             unsigned int addUniform(const std::string &sUniformName);
             unsigned int getUniform(const std::string &sUniformName) const;
             unsigned int addUniformBlock(const std::string &sUniformBlockName);
-            GLubyte *getUniformBlock(const std::string &sUniformBlockName) const;
-            void getUniformBlockIndexAndOffset(const std::string &uniformBlockName, const char *names[], GLuint *outIndices, GLint *outOffset) const;
+            UniformBlock *getUniformBlock(const std::string &sUniformBlockName) const;
+            void getUniformBlockIndexAndOffset(const std::string &uniformBlockName, const char *names[], GLuint *outIndices[], GLint *outOffset[], const unsigned int &count) const;
 
             /*
              * Validates the uniform name and location

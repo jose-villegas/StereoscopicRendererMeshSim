@@ -2,8 +2,6 @@
 //--include shared_data.glsl
 // Uniforms
 uniform sampler2D diffuseMap;
-uniform int lightsCount;
-uniform Matrix inputMatrices;
 uniform Material material;
 uniform Light light[MAX_LIGHTS];
 // Input vertex data
@@ -20,7 +18,7 @@ void main()
 	vec4 vertexPos = vec4(vertexPosition, 1.0f);
 
 	texCoord = vertexTexCoords;
-	normal = normalize(inputMatrices.normal * vertexNormal);
+	normal = normalize((inputMatrices.normal * vec4(vertexNormal, 0.0f)).xyz);
 	position = vec3(inputMatrices.modelView * vertexPos);
 
 	gl_Position = inputMatrices.modelViewProjection * vertexPos;

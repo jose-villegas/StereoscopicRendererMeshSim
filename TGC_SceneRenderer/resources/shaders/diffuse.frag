@@ -6,8 +6,6 @@ in vec3 normal;
 in vec3 position;
 // Uniforms
 uniform sampler2D diffuseMap;
-uniform int lightsCount;
-uniform Matrix inputMatrices;
 uniform Material material;
 uniform Light light[MAX_LIGHTS];
 // Output fragment data

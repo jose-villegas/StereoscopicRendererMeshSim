@@ -11,6 +11,7 @@ namespace bases {
             ShaderLink(const ShaderLink &cpy);
         protected:
             ShaderLink(void);
+
             struct LinkData {
                 LinkData(std::string name, unsigned int loc, unsigned int index);
                 std::string uniformName;

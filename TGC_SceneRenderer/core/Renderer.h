@@ -7,10 +7,11 @@
 #include "../types/ShaderProgram.h"
 #include "../utils/FrameRate.h"
 #include "../utils/Time.h"
-#include "Data.h"
 #include "glm/gtx/transform.hpp"
 #include "glm/gtc/matrix_inverse.hpp"
 #include "ResourcesLoader.h"
+#include "Matrices.h"
+#include "Data.h"
 
 namespace core {
 
@@ -23,6 +24,7 @@ namespace core {
         private:
             Renderer(void);
             Renderer(const Renderer &cpy);
+            static Matrices _elementalMatrices;
             static Renderer *_rdInstance;
             utils::FrameRate *frameRate;
             utils::Time *time;

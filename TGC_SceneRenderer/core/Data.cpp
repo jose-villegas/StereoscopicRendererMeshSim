@@ -45,15 +45,16 @@ const char *core::ShadersData::Samplers2D::NAMES[] = {
 
 void core::ShadersData::AddShaderData(types::ShaderProgram *shp)
 {
+    shp->addUniformBlock("input");
     // Control Vars
     shp->addUniform("lightsCount");
-    // Elemental Matrices Params
-    shp->addUniform("inputMatrices.modelViewProjection");
-    shp->addUniform("inputMatrices.modelView");
-    shp->addUniform("inputMatrices.model");
-    shp->addUniform("inputMatrices.view");
-    shp->addUniform("inputMatrices.projection");
-    shp->addUniform("inputMatrices.normal");
+    //// Elemental Matrices Params
+    //shp->addUniform("inputMatrices.modelViewProjection");
+    //shp->addUniform("inputMatrices.modelView");
+    //shp->addUniform("inputMatrices.model");
+    //shp->addUniform("inputMatrices.view");
+    //shp->addUniform("inputMatrices.projection");
+    //shp->addUniform("inputMatrices.normal");
     // Material Params
     shp->addUniform("material.ambient");
     shp->addUniform("material.diffuse");
@@ -71,6 +72,4 @@ void core::ShadersData::AddShaderData(types::ShaderProgram *shp)
         shp->addUniform("light[" + std::to_string(i) + "].outerConeAngle");
         shp->addUniform("light[" + std::to_string(i) + "].lightType");
     }
-
-    shp->addUniformBlock("input");
 }

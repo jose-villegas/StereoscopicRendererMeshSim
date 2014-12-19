@@ -16,10 +16,10 @@ void collections::stored::Shaders::loadShaders()
     shp->attachShader(vertex);
     shp->attachShader(fragment);
     shp->link();
-    // Texture Maps
-    shp->addUniform("diffuseMap");
     // Control Vars
     core::ShadersData::AddShaderData(shp);
+    // Texture Maps
+    shp->addUniform("diffuseMap");
     _shaders[core::AvailableShaders::Shaders::Diffuse] = shp;
 }
 

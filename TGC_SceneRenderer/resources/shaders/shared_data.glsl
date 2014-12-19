@@ -1,16 +1,18 @@
-// Rendering Constrains
-const int MAX_LIGHTS = 8;
 
-// Shared Structures
-struct Matrix {
+// Shared Uniform Block
+layout ( std140 ) uniform input {
     mat4 modelViewProjection;
     mat4 modelView;
     mat4 model;
     mat4 view;
     mat4 projection;
-    mat3 normal;
-};
+    mat4 normal;
+} inputMatrices;
 
+// Rendering Constrains
+const int MAX_LIGHTS = 8;
+
+// Shared Structures
 struct Light {
     vec3 position;
     vec3 direction;       // For Directional and Spot Light
@@ -29,6 +31,4 @@ struct Material {
     float shininess;
 };
 
-layout ( std140 ) uniform input {
-    Matrix matrices;
-};
+uniform int lightsCount;
