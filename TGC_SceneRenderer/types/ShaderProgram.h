@@ -37,7 +37,7 @@ namespace types {
             void disable() const;
             unsigned int addUniform(const std::string &sUniformName);
             unsigned int getUniform(const std::string &sUniformName) const;
-            unsigned int addUniformBlock(const std::string &sUniformBlockName);
+            unsigned int addUniformBlock(const std::string &sUniformBlockName, const unsigned int &bindingPoint);
             UniformBlock *getUniformBlock(const std::string &sUniformBlockName) const;
             void getUniformBlockIndexAndOffset(const std::string &uniformBlockName, const char *names[], GLuint *outIndices[], GLint *outOffset[], const unsigned int &count) const;
             void setUniformBlockInfoIndexAndOffset(const std::string &uniformBlockName, UniformBlock *outUBF, const char *names[], const unsigned int &count) const;

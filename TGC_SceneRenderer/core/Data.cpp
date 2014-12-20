@@ -78,7 +78,7 @@ GLchar **core::ShadersData::Structures::LIGHTSOURCE_MEMBER_NAMES = CONSTRUCT_LIG
 void core::ShadersData::AddShaderData(types::ShaderProgram *shp)
 {
     // Elemental matrices uniform block
-    shp->addUniformBlock(core::ShadersData::Structures::UNIFORM_BLOCK_MATRICES_NAME);
+    shp->addUniformBlock(core::ShadersData::Structures::UNIFORM_BLOCK_MATRICES_NAME, 0);
     // Material Params
     shp->addUniform("material.ambient");
     shp->addUniform("material.diffuse");

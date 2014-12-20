@@ -103,7 +103,7 @@ GLuint types::ShaderProgram::addUniform(const std::string &sUniformName)
     return nUniformLoc;
 }
 
-unsigned int types::ShaderProgram::addUniformBlock(const std::string &sUniformBlockName)
+unsigned int types::ShaderProgram::addUniformBlock(const std::string &sUniformBlockName, const unsigned int &bindingPoint)
 {
     auto it  = this->_uniformBlocks.find(sUniformBlockName);
 
@@ -132,10 +132,10 @@ unsigned int types::ShaderProgram::addUniformBlock(const std::string &sUniformBl
     glBindBuffer(GL_UNIFORM_BUFFER, UB);
     glBufferData(GL_UNIFORM_BUFFER, blockSize, blockBuffer, GL_DYNAMIC_DRAW);
     // Bind the buffer
-    glBindBufferBase(GL_UNIFORM_BUFFER, 1, UB);
+    glBindBufferBase(GL_UNIFORM_BUFFER, bindingPoint, UB);
     // Return uniform buffer id
     std::cout << "ShaderProgram(" << this << "): " << "Uniform block (" << sUniformBlockName << ") saved successfully" << std::endl;
-    glUniformBlockBinding(this->_programID, blockIndex, 1);
+    glUniformBlockBinding(this->_programID, blockIndex, bindingPoint);
     // Store pointer to uniform block struct in uniformBlocks map
     this->_uniformBlocks[sUniformBlockName] = new UniformBlock(sUniformBlockName, blockBuffer, blockSize, UB);
     // Return Success
@@ -260,6 +260,7 @@ void types::ShaderProgram::updateUniformBlockBufferData(const std::string &sUnif
     if (uniformBlockInfo == nullptr) { return; }
 
     glBufferData(GL_UNIFORM_BUFFER, uniformBlockInfo->blockSize, uniformBlockInfo->dataPointer, GL_DYNAMIC_DRAW);
+    glBindBuffer(GL_UNIFORM_BUFFER, 0);
 }
 
 void types::ShaderProgram::setUniformBlockInfoIndexAndOffset(const std::string &uniformBlockName, UniformBlock *outUBF, const char *names[], const unsigned int &count) const

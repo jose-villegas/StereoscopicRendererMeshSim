@@ -21,7 +21,12 @@ struct Material {
     float shininess;
 };
 
-// Shared Uniform Block
+// Shared Uniform Blocks
+layout ( std140 ) uniform sharedLights {
+    Light source[MAX_LIGHTS];
+    uint count;
+} light;
+
 layout ( std140 ) uniform sharedMatrices {
     mat4 modelViewProjection;
     mat4 modelView;
@@ -30,9 +35,3 @@ layout ( std140 ) uniform sharedMatrices {
     mat4 projection;
     mat4 normal;
 } matrix;
-
-layout ( std140 ) uniform sharedLights {
-    Light source[MAX_LIGHTS];
-    uint count;
-} light;
-
