@@ -49,6 +49,7 @@ namespace types {
             static const std::string fileToString(const std::string &sFilename);
             bool compile();
             GLuint getId() const { return _id; }
+            types::Shader::ShaderType getType() const { return _type; }
         private:
             GLuint _id;
             ShaderType _type;

@@ -4,18 +4,20 @@ using namespace core;
 Matrices::Matrices(void)
 {
     view = modelView = model = modelViewProjection = projection = normal = glm::mat4(1.0f);
+    this->_uniformBlockInfo = nullptr;
+    this->_utilitySHP = nullptr;
 }
 
 void core::Matrices::setUniforms(types::ShaderProgram *shp)
 {
-    types::ShaderProgram::UniformBlock *uniformBlock =  shp->getUniformBlock(ShadersData::Structures::MATRIX_UNIFORMBLOCK_NAME);
+    types::ShaderProgram::UniformBlock *uniformBlock =  shp->getUniformBlock(ShadersData::Structures::UNIFORM_BLOCK_MATRICES_NAME);
     GLuint *indices = new GLuint[ShadersData::Structures::MATRIX_MEMBER_COUNT];
     GLint *offset = new GLint[ShadersData::Structures::MATRIX_MEMBER_COUNT];
     // bind the uniform block as current
-    shp->bindUniformBlock(ShadersData::Structures::MATRIX_UNIFORMBLOCK_NAME);
+    shp->bindUniformBlock(ShadersData::Structures::UNIFORM_BLOCK_MATRICES_NAME);
     // get the offsets and indices based on the uniform block member names
     shp->getUniformBlockIndexAndOffset(
-        ShadersData::Structures::MATRIX_UNIFORMBLOCK_NAME,
+        ShadersData::Structures::UNIFORM_BLOCK_MATRICES_NAME,
         ShadersData::Structures::MATRIX_MEMBER_NAMES, &indices, &offset,
         ShadersData::Structures::MATRIX_MEMBER_COUNT
     );
@@ -27,38 +29,27 @@ void core::Matrices::setUniforms(types::ShaderProgram *shp)
     memcpy(uniformBlock->dataPointer + offset[4], glm::value_ptr(this->projection), sizeof(glm::mat4));
     memcpy(uniformBlock->dataPointer + offset[5], glm::value_ptr(this->normal), sizeof(glm::mat4));
     // Update buffer data
-    shp->updateUniformBlockBufferData(ShadersData::Structures::MATRIX_UNIFORMBLOCK_NAME);
+    shp->updateUniformBlockBufferData(ShadersData::Structures::UNIFORM_BLOCK_MATRICES_NAME);
     // Delete reserved data
-    delete indices;
-    delete offset;
+    delete[] indices;
+    delete[] offset;
 }
 
 void core::Matrices::setUniforms()
 {
     if (!this->_uniformBlockInfo) { return; }
 
-    GLuint *indices = new GLuint[ShadersData::Structures::MATRIX_MEMBER_COUNT];
-    GLint *offset = new GLint[ShadersData::Structures::MATRIX_MEMBER_COUNT];
     // bind the uniform block as current
-    this->utilitySHP.bindUniformBlock(ShadersData::Structures::MATRIX_UNIFORMBLOCK_NAME);
-    // get the offsets and indices based on the uniform block member names
-    this->utilitySHP.getUniformBlockIndexAndOffset(
-        ShadersData::Structures::MATRIX_UNIFORMBLOCK_NAME,
-        ShadersData::Structures::MATRIX_MEMBER_NAMES, &indices, &offset,
-        ShadersData::Structures::MATRIX_MEMBER_COUNT
-    );
+    this->_utilitySHP->bindUniformBlock(ShadersData::Structures::UNIFORM_BLOCK_MATRICES_NAME);
     // Copy values to buffer object memory addresses
-    memcpy(this->_uniformBlockInfo->dataPointer + offset[0], glm::value_ptr(this->modelViewProjection), sizeof(glm::mat4));
-    memcpy(this->_uniformBlockInfo->dataPointer + offset[1], glm::value_ptr(this->modelView), sizeof(glm::mat4));
-    memcpy(this->_uniformBlockInfo->dataPointer + offset[2], glm::value_ptr(this->model), sizeof(glm::mat4));
-    memcpy(this->_uniformBlockInfo->dataPointer + offset[3], glm::value_ptr(this->view), sizeof(glm::mat4));
-    memcpy(this->_uniformBlockInfo->dataPointer + offset[4], glm::value_ptr(this->projection), sizeof(glm::mat4));
-    memcpy(this->_uniformBlockInfo->dataPointer + offset[5], glm::value_ptr(this->normal), sizeof(glm::mat4));
+    memcpy(this->_uniformBlockInfo->dataPointer + this->_uniformBlockInfo->offset[0], glm::value_ptr(this->modelViewProjection), sizeof(glm::mat4));
+    memcpy(this->_uniformBlockInfo->dataPointer + this->_uniformBlockInfo->offset[1], glm::value_ptr(this->modelView), sizeof(glm::mat4));
+    memcpy(this->_uniformBlockInfo->dataPointer + this->_uniformBlockInfo->offset[2], glm::value_ptr(this->model), sizeof(glm::mat4));
+    memcpy(this->_uniformBlockInfo->dataPointer + this->_uniformBlockInfo->offset[3], glm::value_ptr(this->view), sizeof(glm::mat4));
+    memcpy(this->_uniformBlockInfo->dataPointer + this->_uniformBlockInfo->offset[4], glm::value_ptr(this->projection), sizeof(glm::mat4));
+    memcpy(this->_uniformBlockInfo->dataPointer + this->_uniformBlockInfo->offset[5], glm::value_ptr(this->normal), sizeof(glm::mat4));
     // Update buffer data
-    this->utilitySHP.updateUniformBlockBufferData(ShadersData::Structures::MATRIX_UNIFORMBLOCK_NAME);
-    // Delete reserved data
-    delete indices;
-    delete offset;
+    this->_utilitySHP->updateUniformBlockBufferData(ShadersData::Structures::UNIFORM_BLOCK_MATRICES_NAME);
 }
 
 void core::Matrices::calculateMatrices()
@@ -83,12 +74,27 @@ void core::Matrices::setProjectionMatrix(const glm::mat4 &value)
     this->projection = value;
 }
 
-void core::Matrices::setUniformBlockInfo(types::ShaderProgram::UniformBlock *uniformBlockInfo)
+void core::Matrices::setUniformBlockInfo()
 {
-    this->_uniformBlockInfo = uniformBlockInfo;
+    this->_utilitySHP = collections::stored::Shaders::getDefaultShader(core::AvailableShaders::Diffuse);
+    this->_uniformBlockInfo = this->_utilitySHP->getUniformBlock(ShadersData::Structures::UNIFORM_BLOCK_MATRICES_NAME);
+
+    // if uniform block info is null cancel
+    if (this->_uniformBlockInfo == nullptr) { return; }
+
+    // Reserve memory for indices and offsets
+    this->_uniformBlockInfo->indices = new GLuint[ShadersData::Structures::MATRIX_MEMBER_COUNT];
+    this->_uniformBlockInfo->offset = new GLint[ShadersData::Structures::MATRIX_MEMBER_COUNT];
+    // set the uniform block info indices and offsets
+    this->_utilitySHP->setUniformBlockInfoIndexAndOffset(
+        core::ShadersData::Structures::UNIFORM_BLOCK_MATRICES_NAME,
+        this->_uniformBlockInfo,
+        core::ShadersData::Structures::MATRIX_MEMBER_NAMES,
+        core::ShadersData::Structures::MATRIX_MEMBER_COUNT
+    );
 }
 
-void core::Matrices::setUniformBlockInfoIndicesAndOffsets()
+core::Matrices::~Matrices()
 {
-    if (!this->_uniformBlockInfo) { return; }
+    delete _uniformBlockInfo;
 }

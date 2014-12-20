@@ -7,12 +7,21 @@ types::Texture::Texture(const std::string &sFilename, const unsigned int &texID,
     this->sFilename = sFilename;
     this->texID = texID;
     this->tType = tType;
+    this->tBitsPerPixel = 0;
+    this->tWidth = 0;
+    this->tHeight = 0;
+    this->oglTexID = -1;
 }
 
 types::Texture::Texture(const unsigned int &texID, const TextureType &tType)
 {
+    this->sFilename = "Texture";
     this->texID = texID;
     this->tType = tType;
+    this->tBitsPerPixel = 0;
+    this->tWidth = 0;
+    this->tHeight = 0;
+    this->oglTexID = -1;
 }
 
 bool types::Texture::load()
@@ -74,6 +83,7 @@ bool types::Texture::load(const std::string &sFilename)
     glBindTexture(GL_TEXTURE_2D, 0);
     // Free FreeImage's copy of the data
     FreeImage_Unload(dib);
+    this->sFilename = sFilename;
     return true;
 }
 

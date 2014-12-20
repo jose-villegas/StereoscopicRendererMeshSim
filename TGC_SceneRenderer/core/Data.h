@@ -13,11 +13,12 @@ namespace core {
                 static const int LIGHT_MEMBER_COUNT = 8;
                 static const int MATERIAL_MEMBER_COUNT = 4;
                 static const int MATRIX_MEMBER_COUNT = 6;
-                static const char *LIGHT_MEMBER_NAMES[];
-                static const char *MATERIAL_MEMBER_NAMES[];
-                static const char *MATRIX_MEMBER_NAMES[];
-                static const char *MATRIX_UNIFORMBLOCK_NAME;
-                static const char *MATRIX_UNIFORMBLOCK_INSTANCE_NAME;
+                static const GLchar *LIGHT_MEMBER_NAMES[];
+                static const GLchar *MATERIAL_MEMBER_NAMES[];
+                static const GLchar *MATRIX_MEMBER_NAMES[];
+                static const char *UNIFORM_BLOCK_MATRICES_NAME;
+                static const char *UNIFORM_BLOCK_MATRICES_INSTANCE;
+                static GLchar **LIGHTSOURCE_MEMBER_NAMES;
             };
 
             struct Samplers2D {

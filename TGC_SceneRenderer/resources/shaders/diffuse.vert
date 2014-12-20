@@ -3,7 +3,7 @@
 // Uniforms
 uniform sampler2D diffuseMap;
 uniform Material material;
-uniform Light light[MAX_LIGHTS];
+//uniform Light light[MAX_LIGHTS];
 // Input vertex data
 layout(location = 0) in vec3 vertexPosition;
 layout(location = 1) in vec2 vertexTexCoords;
@@ -18,8 +18,8 @@ void main()
 	vec4 vertexPos = vec4(vertexPosition, 1.0f);
 
 	texCoord = vertexTexCoords;
-	normal = normalize((inputMatrices.normal * vec4(vertexNormal, 0.0f)).xyz);
-	position = vec3(inputMatrices.modelView * vertexPos);
+	normal = normalize((matrix.normal * vec4(vertexNormal, 0.0f)).xyz);
+	position = vec3(matrix.modelView * vertexPos);
 
-	gl_Position = inputMatrices.modelViewProjection * vertexPos;
+	gl_Position = matrix.modelViewProjection * vertexPos;
 }

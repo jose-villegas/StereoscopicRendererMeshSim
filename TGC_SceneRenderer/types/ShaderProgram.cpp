@@ -4,8 +4,9 @@ using namespace types;
 
 types::ShaderProgram::ShaderProgram(void)
 {
-    this->_programID = glCreateProgram();
-    this->_shaderCount = 0;
+    this->_programID           = glCreateProgram();
+    this->_fragmentShaderCount = 0;
+    this->_vertexShaderCount   = 0;
 
     if (this->_programID <= 0) {
         std::cout << "ShaderProgram(" << this << "): " << "Error Creating Shader Program" << std::endl;
@@ -23,12 +24,16 @@ void types::ShaderProgram::attachShader(Shader *pShader)
 {
     glAttachShader(this->_programID, pShader->getId());
     _attachedShaders.push_back(pShader);
-    this->_shaderCount++;
+
+    if (pShader->getType() == Shader::Fragment) { this->_fragmentShaderCount++; }
+
+    if (pShader->getType() == Shader::Vertex) { this->_vertexShaderCount++; }
 }
 
 bool types::ShaderProgram::link() const
 {
-    if (this->_shaderCount >= 2) {
+    // Needs at least one fragment shader and one vertex shader to link the program
+    if (this->_fragmentShaderCount >= 1 && this->_vertexShaderCount >= 1) {
         // Link Attached Shaders to Program
         glLinkProgram(this->_programID);
         // Check Linking Status
@@ -230,12 +235,7 @@ void types::ShaderProgram::setUniform(unsigned int uniformLocation, const unsign
 void types::ShaderProgram::getUniformBlockIndexAndOffset(const std::string &uniformBlockName, const char *names[], GLuint *outIndices[], GLint *outOffset[], const unsigned int &count) const
 {
     // No uniform block with this name
-    if (!this->getUniformBlock(uniformBlockName)) { return; }
-
-    // Reserve memory in case
-    if (!outIndices) { *outIndices = new GLuint[count]; }
-
-    if (!outOffset) { *outOffset = new GLint[count]; }
+    if (this->getUniformBlock(uniformBlockName) == nullptr) { return; }
 
     // Get Uniform Memory Location
     glGetUniformIndices(this->_programID, count, names, (*outIndices));
@@ -247,7 +247,7 @@ void types::ShaderProgram::bindUniformBlock(const std::string &sUniformBlockName
     types::ShaderProgram::UniformBlock *uniformBlockInfo = this->getUniformBlock(sUniformBlockName);
 
     // No uniform block with this name
-    if (!uniformBlockInfo) { return; }
+    if (uniformBlockInfo == nullptr) { return; }
 
     glBindBuffer(GL_UNIFORM_BUFFER, uniformBlockInfo->UB);
 }
@@ -257,7 +257,7 @@ void types::ShaderProgram::updateUniformBlockBufferData(const std::string &sUnif
     types::ShaderProgram::UniformBlock *uniformBlockInfo = this->getUniformBlock(sUniformBlockName);
 
     // No uniform block with this name
-    if (!uniformBlockInfo) { return; }
+    if (uniformBlockInfo == nullptr) { return; }
 
     glBufferData(GL_UNIFORM_BUFFER, uniformBlockInfo->blockSize, uniformBlockInfo->dataPointer, GL_DYNAMIC_DRAW);
 }
@@ -265,12 +265,7 @@ void types::ShaderProgram::updateUniformBlockBufferData(const std::string &sUnif
 void types::ShaderProgram::setUniformBlockInfoIndexAndOffset(const std::string &uniformBlockName, UniformBlock *outUBF, const char *names[], const unsigned int &count) const
 {
     // No uniform block with this name
-    if (!this->getUniformBlock(uniformBlockName)) { return; }
-
-    // Reserve memory in case
-    if (!outUBF->indices) { outUBF->indices = new GLuint[count]; }
-
-    if (!outUBF->offset) { outUBF->offset = new GLint[count]; }
+    if (this->getUniformBlock(uniformBlockName) == nullptr) { return; }
 
     // Get Uniform Memory Location
     glGetUniformIndices(this->_programID, count, names, outUBF->indices);
@@ -283,6 +278,14 @@ types::ShaderProgram::UniformBlock::UniformBlock(const std::string &uniformBlock
     this->dataPointer = dataPointer;
     this->blockSize = blockSize;
     this->UB = UB;
+    this->indices = nullptr;
+    this->offset = nullptr;
+}
+
+types::ShaderProgram::UniformBlock::~UniformBlock()
+{
+    delete[] this->indices;
+    delete[] this->offset;
 }
 
 std::unordered_map<std::string, types::ShaderProgram::UniformBlock *> types::ShaderProgram::_uniformBlocks;

@@ -6,6 +6,7 @@ Material::Material(void)
 {
     ambient = diffuse = specular = glm::vec3(0.0f);
     this->shininess = 1.0f;
+    this->_matShader = nullptr;
 
     // resize ShaderLink data vector for this structure
     for (int i = 0; i < core::ShadersData::Structures::MATERIAL_MEMBER_COUNT; i++) {

@@ -1,16 +1,6 @@
 
-// Shared Uniform Block
-layout ( std140 ) uniform input {
-    mat4 modelViewProjection;
-    mat4 modelView;
-    mat4 model;
-    mat4 view;
-    mat4 projection;
-    mat4 normal;
-} inputMatrices;
-
 // Rendering Constrains
-const int MAX_LIGHTS = 8;
+const uint MAX_LIGHTS = 8;
 
 // Shared Structures
 struct Light {
@@ -31,4 +21,18 @@ struct Material {
     float shininess;
 };
 
-uniform int lightsCount;
+// Shared Uniform Block
+layout ( std140 ) uniform sharedMatrices {
+    mat4 modelViewProjection;
+    mat4 modelView;
+    mat4 model;
+    mat4 view;
+    mat4 projection;
+    mat4 normal;
+} matrix;
+
+layout ( std140 ) uniform sharedLights {
+    Light source[MAX_LIGHTS];
+    uint count;
+} light;
+

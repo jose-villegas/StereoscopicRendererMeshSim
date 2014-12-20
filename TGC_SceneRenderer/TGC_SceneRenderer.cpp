@@ -12,9 +12,12 @@ int main(array<System::String ^> ^args)
     Application::SetCompatibleTextRenderingDefault(false);
     // Create a Console for the Program and redirect stdout to it
     AllocConsole();
-    freopen("CONOUT$", "w", stdout);
+    FILE *stfOutStream = freopen("CONOUT$", "w", stdout);
     // Create the main window and run it
     MainWindow ^mnWindow = gcnew MainWindow();
     Application::Run(mnWindow);
+    // Close stream
+    fclose(stdout);
+    // Exist success
     return 0;
 }

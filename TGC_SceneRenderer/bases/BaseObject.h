@@ -7,7 +7,7 @@ namespace bases {
         public:
             bool active;
             std::string objectName;
-            types::Transform *transform;
+            types::Transform transform;
             BaseObject(void);
             BaseObject(const std::string &sObjectName);
     };

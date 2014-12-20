@@ -22,11 +22,11 @@ void scene::Light::setUniforms(types::ShaderProgram *shp)
     for (unsigned int i = 0; i < uniformData.size(); i++) {
         switch (i) {
             case 0:
-                shp->setUniform(uniformData[i].uniformLocation, this->transform->position);
+                shp->setUniform(uniformData[i].uniformLocation, this->transform.position);
                 break;
 
             case 1:
-                shp->setUniform(uniformData[i].uniformLocation, glm::normalize(glm::vec3(0.0, -1.0, 0.0) * glm::mat3_cast(this->transform->rotation)));
+                shp->setUniform(uniformData[i].uniformLocation, glm::normalize(glm::vec3(0.0, -1.0, 0.0) * glm::mat3_cast(this->transform.rotation)));
                 break;
 
             case 2:

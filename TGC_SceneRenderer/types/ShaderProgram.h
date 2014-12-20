@@ -17,13 +17,15 @@ namespace types {
                 GLuint *indices;
                 GLint *offset;
                 UniformBlock(const std::string &uniformBlockName, GLubyte *dataPointer, GLint blockSize, GLuint UB);
+                ~UniformBlock();
             };
         private:
-            // stores uniform blocks shared between all shader programs, name - (bufferObject, UBO ID)
+            // stores uniform blocks shared between all shader programs
             static std::unordered_map<std::string, UniformBlock *> _uniformBlocks;
 
             unsigned int _programID;
-            unsigned int _shaderCount;
+            unsigned int _fragmentShaderCount;
+            unsigned int _vertexShaderCount;
             std::unordered_map<std::string, unsigned int> _uniformLoc;
             std::vector<Shader *> _attachedShaders;
         public:

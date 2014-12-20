@@ -24,8 +24,8 @@ namespace core {
         private:
             Renderer(void);
             Renderer(const Renderer &cpy);
-            static Matrices _elementalMatrices;
             static Renderer *_rdInstance;
+            Matrices *_elementalMatrices;
             utils::FrameRate *frameRate;
             utils::Time *time;
             collections::Textures *_texCollection;
