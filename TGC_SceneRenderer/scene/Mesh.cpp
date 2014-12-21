@@ -58,11 +58,13 @@ void Mesh::initMesh(unsigned int index, const aiMesh *paiMesh)
         const aiVector3D *pNormal   = &(paiMesh->mNormals[i]);
         const aiVector3D *pTexCoord = paiMesh->HasTextureCoords(0) ? &(paiMesh->mTextureCoords[0][i]) : &Zero3D;
         const aiVector3D *pTangent =  paiMesh->HasTangentsAndBitangents() ? &paiMesh->mTangents[i] : &Zero3D;
+        const aiVector3D *pBitangent =  paiMesh->HasTangentsAndBitangents() ? &paiMesh->mBitangents[i] : &Zero3D;
         types::Vertex v(
             glm::vec3(pPos->x, pPos->y, pPos->z),
             glm::vec2(pTexCoord->x, pTexCoord->y),
             glm::vec3(pNormal->x, pNormal->y, pNormal->z),
-            glm::vec3(pTangent->x, pTangent->y, pTangent->z)
+            glm::vec3(pTangent->x, pTangent->y, pTangent->z),
+            glm::vec3(pBitangent->x, pBitangent->y, pBitangent->z)
         );
         vertices.push_back(v);
     }
@@ -202,17 +204,19 @@ void Mesh::render() const
     glEnableVertexAttribArray(1);
     glEnableVertexAttribArray(2);
     glEnableVertexAttribArray(3);
+    glEnableVertexAttribArray(4);
 
     for (unsigned int i = 0 ; i < _meshEntries.size() ; i++) {
         glBindBuffer(GL_ARRAY_BUFFER, _meshEntries[i].VB);
         glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(types::Vertex), 0);						// Vertex Position
         glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(types::Vertex), (const GLvoid *)12);		// Vertex UVS
-        glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(types::Vertex), (const GLvoid *)20);		// Vertex Normal
-        glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(types::Vertex), (const GLvoid *)32);		// Vertex Tangent
+        glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(types::Vertex), (const GLvoid *)20);		// Vertex Normals
+        glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(types::Vertex), (const GLvoid *)32);		// Vertex Tangents
+        glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(types::Vertex), (const GLvoid *)44);		// Vertex BiTangets
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _meshEntries[i].IB);
         const unsigned int materialIndex = _meshEntries[i].materialIndex;
-        // Binds the mesh material textures for shader use and
-        // set shaders material uniforms
+        // Binds the mesh material textures for shader use and set shaders material
+        // uniforms, the material shadeprogram has to be set for the uniforms
         this->_materials[materialIndex]->bindTextures();
         this->_materials[materialIndex]->setUniforms();
         // Draw mesh
@@ -223,6 +227,7 @@ void Mesh::render() const
     glDisableVertexAttribArray(1);
     glDisableVertexAttribArray(2);
     glDisableVertexAttribArray(3);
+    glDisableVertexAttribArray(4);
 }
 
 void Mesh::MeshEntry::init(const std::vector<types::Vertex> &vertices, const std::vector<unsigned int> &indices)

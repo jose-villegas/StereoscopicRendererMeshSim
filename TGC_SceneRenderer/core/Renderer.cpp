@@ -61,18 +61,10 @@ void core::Renderer::setup()
     model = glm::translate(glm::mat4(1.0), glm::vec3(0.0, 0.0, -5.0f));
     modelView = view * model;
     modelViewProjection = projection * modelView;
-    // set elemental  matrices data info
+    // set elemental  matrices data info ubo
     this->_elementalMatrices->setShaderProgram(shProgram);
     this->_elementalMatrices->setUniformBlockInfo();
-    // Testing light UBO
-    //unfrBlockInfo = shProgram->getUniformBlock("sharedLights");
-    //unfrBlockInfo->indices = new GLuint[Data::UniformBlocks::SHAREDLIGHTS_COMPLETE_COUNT];
-    //unfrBlockInfo->offset = new GLint[Data::UniformBlocks::SHAREDLIGHTS_COMPLETE_COUNT];
-    //shProgram->setUniformBlockInfoIndexAndOffset(
-    //    "sharedLights", unfrBlockInfo,
-    //    (const char **)Data::UniformBlocks::SHAREDLIGHTS_COMPLETE_NAMES,
-    //    Data::UniformBlocks::SHAREDLIGHTS_COMPLETE_COUNT
-    //);
+    // light UBO
     this->_lights->createLight();
     this->_lights->createLight();
     this->_lights->setShaderProgram(shProgram);
