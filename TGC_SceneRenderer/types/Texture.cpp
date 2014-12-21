@@ -4,24 +4,24 @@ using namespace types;
 
 types::Texture::Texture(const std::string &sFilename, const unsigned int &texId, const TextureType &tType)
 {
-    this->sFilename = sFilename;
-    this->texId = texId;
-    this->tType = tType;
+    this->sFilename     = sFilename;
+    this->texId         = texId;
+    this->tType         = tType;
     this->tBitsPerPixel = 0;
-    this->tWidth = 0;
-    this->tHeight = 0;
-    this->oglTexId = -1;
+    this->tWidth        = 0;
+    this->tHeight       = 0;
+    this->oglTexId      = -1;
 }
 
 types::Texture::Texture(const unsigned int &texId, const TextureType &tType)
 {
-    this->sFilename = "Texture";
-    this->texId = texId;
-    this->tType = tType;
+    this->sFilename     = "Texture";
+    this->texId         = texId;
+    this->tType         = tType;
     this->tBitsPerPixel = 0;
-    this->tWidth = 0;
-    this->tHeight = 0;
-    this->oglTexId = -1;
+    this->tWidth        = 0;
+    this->tHeight       = 0;
+    this->oglTexId      = -1;
 }
 
 bool types::Texture::load()
@@ -73,7 +73,10 @@ bool types::Texture::load(const std::string &sFilename)
     }
 
     // Check Image Bit Density
-    GLuint imageFormat = tBitsPerPixel == 32 ? GL_BGRA : tBitsPerPixel == 24 ? GL_BGR : tBitsPerPixel == 8 ? GL_RG : 0;
+    GLuint imageFormat = tBitsPerPixel == 32 ? GL_BGRA :
+                         tBitsPerPixel == 24 ? GL_BGR  :
+                         tBitsPerPixel == 16 ? GL_RG   :
+                         tBitsPerPixel ==  8 ? GL_RED  : 0;
     glGenTextures(1, &oglTexId);
     glBindTexture(GL_TEXTURE_2D, oglTexId);											// bind to the new texture ID
     // store the texture data for OpenGL use

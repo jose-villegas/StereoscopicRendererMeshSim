@@ -4,6 +4,7 @@ using namespace core;
 // Testing
 types::ShaderProgram *shProgram;
 scene::Mesh *testMesh;
+scene::Mesh *testMesh2;
 scene::Camera *cam;
 glm::mat4 modelViewProjection, view, projection, model;
 glm::mat4 modelView;
@@ -45,22 +46,15 @@ void core::Renderer::setup()
     this->_elementalMatrices = new Matrices();
     // Testing
     testMesh = new scene::Mesh();
+    testMesh2 = new scene::Mesh();
     testMesh->loadMesh("../TGC_SceneRenderer/resources/models/cube/cube.obj");
+    testMesh2->loadMesh("../TGC_SceneRenderer/resources/models/torus/torus.obj");
     // Shader
     shProgram = collections::stored::Shaders::getDefaultShader(core::AvailableShaders::Diffuse);
     // Camera
     cam = new scene::Camera();
-    cam->fieldOfView  = 90.0f;
-    cam->aspectRatio  = 4.0f / 3.0f;
-    cam->nearClipping = 0.1f;
-    cam->farClipping  = 100.0f;
     cam->projectionType = scene::Camera::Perspective;
-    // Model View Projection Matrix
-    view = cam->getViewMatrix(glm::vec3(0, 0, 0), glm::vec3(0, 0, -1), glm::vec3(0, 1, 0));
-    projection = cam->getProjectionMatrix();
-    model = glm::translate(glm::mat4(1.0), glm::vec3(0.0, 0.0, -5.0f));
-    modelView = view * model;
-    modelViewProjection = projection * modelView;
+    cam->setProjection(4.0f / 3.0f, 90.f, 0.1f, 100.f);
     // set elemental  matrices data info ubo
     this->_elementalMatrices->setShaderProgram(shProgram);
     this->_elementalMatrices->setUniformBlockInfo();
@@ -85,7 +79,7 @@ void core::Renderer::loop()
     // Testing
     shProgram->use();
     view = cam->getViewMatrix(glm::vec3(0, 0, 0), glm::vec3(0, 0, -1), glm::vec3(0, 1, 0));
-    projection = cam->getProjectionMatrix();
+    projection = cam->getProjectionTypeMatrix();
     model = glm::translate(glm::mat4(1.0), glm::vec3(0.0, 0.0, -15.0f)) *
             glm::rotate<float>(_time->totalTime() * 15.0f, glm::vec3(1, 0, 0)) *
             glm::rotate<float>(_time->totalTime() * 30.0f, glm::vec3(0, 1, 0)) *
@@ -100,6 +94,14 @@ void core::Renderer::loop()
     // Light UBO set
     this->_lights->setUniformBlock();
     testMesh->render();
+    model = glm::translate(glm::mat4(1.0), glm::vec3(4.0, 0.0, -5.0f)) *
+            glm::rotate<float>(_time->totalTime() * 5.0f, glm::vec3(1, 0, 0)) *
+            glm::rotate<float>(_time->totalTime() * 15.0f, glm::vec3(0, 1, 0)) *
+            glm::rotate<float>(_time->totalTime() * 30.0f, glm::vec3(0, 0, 1));
+    _elementalMatrices->setModelMatrix(model);
+    _elementalMatrices->calculateMatrices();
+    _elementalMatrices->setUniformBlock();
+    testMesh2->render();
 }
 
 Renderer *core::Renderer::_rdInstance = nullptr;
