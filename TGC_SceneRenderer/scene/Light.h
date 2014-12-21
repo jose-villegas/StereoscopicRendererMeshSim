@@ -13,7 +13,7 @@
 
 namespace scene {
 
-    class Light : public bases::BaseComponent, public bases::ShaderLink {
+    class Light : public bases::BaseComponent {
         private:
             Light(const Light &lght);
         public:
@@ -32,8 +32,6 @@ namespace scene {
             float innerConeAngle;
             float outerConeAngle;
             LightType lightType;
-
-            void setUniforms(types::ShaderProgram *shp);
     };
 }
 

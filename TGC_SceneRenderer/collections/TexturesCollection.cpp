@@ -20,7 +20,7 @@ TexturesCollection::~TexturesCollection()
     unloadAllTextures();
 }
 
-bool TexturesCollection::loadTexture(const std::string &sFilename, const unsigned int texID, types::Texture::TextureType textureType)
+bool TexturesCollection::addTexture(const std::string &sFilename, const unsigned int texID, types::Texture::TextureType textureType)
 {
     types::Texture *newTex = new types::Texture(sFilename, texID, textureType);
     bool loadingResult = newTex->load();
@@ -44,7 +44,7 @@ bool TexturesCollection::loadTexture(const std::string &sFilename, const unsigne
     return loadingResult;
 }
 
-bool TexturesCollection::loadTexture(const std::string &sFilename, types::Texture::TextureType textureType)
+bool TexturesCollection::addTexture(const std::string &sFilename, types::Texture::TextureType textureType)
 {
     int unique_texID = 1;
 
@@ -56,7 +56,7 @@ bool TexturesCollection::loadTexture(const std::string &sFilename, types::Textur
         }
     }
 
-    return loadTexture(sFilename, unique_texID, textureType);
+    return addTexture(sFilename, unique_texID, textureType);
 }
 
 bool TexturesCollection::unloadTexture(const unsigned int &texID)
@@ -106,7 +106,7 @@ void TexturesCollection::unloadAllTextures()
     textures.clear();
 }
 
-unsigned int TexturesCollection::count(void) const
+unsigned int TexturesCollection::textureCount(void) const
 {
     return this->textures.size();
 }

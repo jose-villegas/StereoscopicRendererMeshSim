@@ -115,7 +115,7 @@ void core::Data::Initialize()
     collections::TexturesCollection::Instance();
     collections::LightsCollection::Instance();
     // Load Default Texture
-    collections::TexturesCollection::Instance()->loadTexture("../TGC_SceneRenderer/resources/default.png", 0, types::Texture::Diffuse);
+    collections::TexturesCollection::Instance()->addTexture("../TGC_SceneRenderer/resources/default.png", 0, types::Texture::Diffuse);
     // Load Engine Shaders
     collections::stored::Shaders::LoadShaders();
     // Tells the class that the relevant data has been already construed and loaded

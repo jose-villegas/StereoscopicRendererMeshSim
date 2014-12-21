@@ -126,11 +126,11 @@ bool Mesh::initMaterials(const aiScene *pScene, const std::string &sFilename)
             if (pMaterial->GetTexture(aiTextureType_DIFFUSE, tIndex, &textureFilename) == AI_SUCCESS) {
                 std::string fullPath = dir + slashDir + textureFilename.data;
 
-                if (!_texCollection->loadTexture(fullPath, _texCollection->count(), types::Texture::Diffuse)) {
+                if (!_texCollection->addTexture(fullPath, _texCollection->textureCount(), types::Texture::Diffuse)) {
                     bRtrn = false;
                     currentMat->addTexture(_texCollection->getDefaultTexture());
                 } else {
-                    currentMat->addTexture(_texCollection->getTexture(_texCollection->count() - 1));
+                    currentMat->addTexture(_texCollection->getTexture(_texCollection->textureCount() - 1));
                 }
             }
         }
@@ -141,11 +141,11 @@ bool Mesh::initMaterials(const aiScene *pScene, const std::string &sFilename)
             if (pMaterial->GetTexture(aiTextureType_HEIGHT, tIndex, &textureFilename) == AI_SUCCESS) {
                 std::string fullPath = dir + slashDir + textureFilename.data;
 
-                if (!_texCollection->loadTexture(fullPath, _texCollection->count(), types::Texture::Height)) {
+                if (!_texCollection->addTexture(fullPath, _texCollection->textureCount(), types::Texture::Height)) {
                     bRtrn = false;
                     currentMat->addTexture(_texCollection->getDefaultTexture());
                 } else {
-                    currentMat->addTexture(_texCollection->getTexture(_texCollection->count() - 1));
+                    currentMat->addTexture(_texCollection->getTexture(_texCollection->textureCount() - 1));
                 }
             }
         }
@@ -156,11 +156,11 @@ bool Mesh::initMaterials(const aiScene *pScene, const std::string &sFilename)
             if (pMaterial->GetTexture(aiTextureType_NORMALS, tIndex, &textureFilename) == AI_SUCCESS) {
                 std::string fullPath = dir + slashDir + textureFilename.data;
 
-                if (!_texCollection->loadTexture(fullPath, _texCollection->count(), types::Texture::Normals)) {
+                if (!_texCollection->addTexture(fullPath, _texCollection->textureCount(), types::Texture::Normals)) {
                     bRtrn = false;
                     currentMat->addTexture(_texCollection->getDefaultTexture());
                 } else {
-                    currentMat->addTexture(_texCollection->getTexture(_texCollection->count() - 1));
+                    currentMat->addTexture(_texCollection->getTexture(_texCollection->textureCount() - 1));
                 }
             }
         }

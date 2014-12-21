@@ -11,6 +11,9 @@ namespace types {
             glm::vec3 scale;
             Transform(void);
             glm::mat4 getModelMatrix();
+            void setPosition(const float &value0, const float &value1, const float &value2);
+            void setRotation(const float &value0, const float &value1, const float &value2);
+            void setScale(const float &value0, const float &value1, const float &value2);
     };
 }
 

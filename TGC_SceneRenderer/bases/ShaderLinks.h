@@ -37,7 +37,10 @@ namespace bases {
     };
 
     class ShaderLinkBlock {
+        private:
+            ShaderLinkBlock(const ShaderLinkBlock &slb);
         protected:
+            ShaderLinkBlock();
             types::ShaderProgram::UniformBlock *_uniformBlockInfo;
             types::ShaderProgram *_sLinkSP;
             // Sets uniform block data, needs uniformBlock info and sLinkSP to be set

@@ -73,3 +73,9 @@ void bases::ShaderLinkBlock::setShaderProgram(types::ShaderProgram *shp)
 {
     this->_sLinkSP = shp;
 }
+
+bases::ShaderLinkBlock::ShaderLinkBlock()
+{
+    this->_sLinkSP = nullptr;
+    this->_uniformBlockInfo = nullptr;
+}
