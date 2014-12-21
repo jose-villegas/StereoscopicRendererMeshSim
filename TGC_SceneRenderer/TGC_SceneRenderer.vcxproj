@@ -100,10 +100,10 @@
     <ClCompile Include="core\Data.cpp" />
     <ClCompile Include="Context\LibInfo.cpp" />
     <ClCompile Include="include\GL\gl_core_4_4.c" />
-    <ClCompile Include="Core\ResourcesLoader.cpp" />
     <ClCompile Include="Collections\stored\Shaders.cpp" />
     <ClCompile Include="core\Matrices.cpp" />
-    <ClCompile Include="bases\ShaderLink.cpp" />
+    <ClCompile Include="bases\ShaderLinks.cpp" />
+    <ClCompile Include="collections\LightsCollection.cpp" />
     <ClCompile Include="Types\Material.cpp" />
     <ClCompile Include="ObjectsWindow.cpp" />
     <ClCompile Include="Collections\SceneObjects.cpp" />
@@ -122,7 +122,7 @@
     <ClCompile Include="Types\Transform.cpp" />
     <ClCompile Include="Types\Texture.cpp" />
     <ClCompile Include="Utils\FrameRate.cpp" />
-    <ClCompile Include="TGC_SceneRenderer.cpp" />
+    <ClCompile Include="Start.cpp" />
     <ClCompile Include="Types\Vertex.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -134,10 +134,10 @@
     <ClInclude Include="include\FreeImage\FreeImage.h" />
     <ClInclude Include="include\GL\gl_core_4_4.h" />
     <ClInclude Include="include\GL\wglext.h" />
-    <ClInclude Include="Core\ResourcesLoader.h" />
     <ClInclude Include="Collections\stored\Shaders.h" />
     <ClInclude Include="core\Matrices.h" />
-    <ClInclude Include="bases\ShaderLink.h" />
+    <ClInclude Include="bases\ShaderLinks.h" />
+    <ClInclude Include="collections\LightsCollection.h" />
     <ClInclude Include="Types\Material.h" />
     <ClInclude Include="ObjectsWindow.h">
       <FileType>CppForm</FileType>

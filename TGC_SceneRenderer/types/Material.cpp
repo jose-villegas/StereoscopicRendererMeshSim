@@ -9,8 +9,8 @@ Material::Material(void)
     this->_matShader = nullptr;
 
     // resize ShaderLink data vector for this structure
-    for (int i = 0; i < core::ShadersData::Structures::MATERIAL_MEMBER_COUNT; i++) {
-        LinkData data(std::string(core::ShadersData::Uniforms::MATERIAL_INSTANCE_NAME) + "." + std::string(core::ShadersData::Structures::MATERIAL_MEMBER_NAMES[i]), -1, i);
+    for (int i = 0; i < core::Data::Structures::MATERIAL_MEMBER_COUNT; i++) {
+        LinkData data(std::string(core::Data::Uniforms::MATERIAL_INSTANCE_NAME) + "." + std::string(core::Data::Structures::MATERIAL_MEMBER_NAMES[i]), -1, i);
         uniformData.push_back(data);
     }
 }
@@ -45,7 +45,7 @@ void types::Material::setUniforms(types::ShaderProgram *shp)
 {
     if (!shp) { return; }
 
-    for (int i = 0; i < core::ShadersData::Structures::MATERIAL_MEMBER_COUNT; i++) {
+    for (int i = 0; i < core::Data::Structures::MATERIAL_MEMBER_COUNT; i++) {
         switch (i) {
             case 0:
                 shp->setUniform(this->uniformData[i].uniformLocation, this->ambient);
@@ -98,6 +98,6 @@ void types::Material::setTexturesUniforms(types::ShaderProgram *shp)
         unsigned int texID = ((Texture *)*it)->geTexId();
         unsigned int texType = ((Texture *)*it)->getType();
         // Set to the texture map shader the current texture assigned ID
-        shp->setUniform(core::ShadersData::Samplers2D::NAMES[texType], texID);
+        shp->setUniform(core::Data::Samplers2D::NAMES[texType], texID);
     }
 }

@@ -1,6 +1,6 @@
 #pragma once
 #include "../bases/BaseComponent.h"
-#include "../bases/ShaderLink.h"
+#include "../bases/ShaderLinks.h"
 #include "../core/Data.h"
 #include "glm/detail/type_mat.hpp"
 #include "glm/detail/type_vec.hpp"

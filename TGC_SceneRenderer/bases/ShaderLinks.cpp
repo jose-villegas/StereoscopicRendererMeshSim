@@ -1,4 +1,4 @@
-#include "ShaderLink.h"
+#include "ShaderLinks.h"
 using namespace bases;
 
 void bases::ShaderLink::saveUniformLocations(std::vector<unsigned int> locations)
@@ -52,4 +52,24 @@ bases::ShaderLink::LinkData::LinkData(std::string name, unsigned int loc, unsign
     this->uniformLocation = loc;
     this->uniformName     = name;
     this->variableIndex   = index;
+}
+
+void bases::ShaderLinkBlock::bindUniformBuffer()
+{
+    if (!this->_uniformBlockInfo) { return; }
+
+    glBindBuffer(GL_UNIFORM_BUFFER, this->_uniformBlockInfo->UB);
+}
+
+void bases::ShaderLinkBlock::updateUniformBufferData()
+{
+    if (!this->_uniformBlockInfo) { return; }
+
+    glBufferData(GL_UNIFORM_BUFFER, this->_uniformBlockInfo->blockSize, this->_uniformBlockInfo->dataPointer, GL_DYNAMIC_DRAW);
+    glBindBuffer(GL_UNIFORM_BUFFER, 0);
+}
+
+void bases::ShaderLinkBlock::setShaderProgram(types::ShaderProgram *shp)
+{
+    this->_sLinkSP = shp;
 }

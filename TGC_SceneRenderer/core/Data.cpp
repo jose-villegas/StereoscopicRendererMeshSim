@@ -1,25 +1,30 @@
 #include "Data.h"
 #include <string>
+#include "..\Utils\Time.h"
+#include "..\Utils\FrameRate.h"
+#include "..\Collections\TexturesCollection.h"
+#include "..\Collections\stored\Shaders.h"
+#include "..\collections\LightsCollection.h"
 using namespace core;
 
-const char *core::ShadersData::UniformBlocks::SHAREDLIGHTS_INSTANCE_NAME = "light";
+const char *core::Data::UniformBlocks::SHAREDLIGHTS_INSTANCE_NAME = "light";
 
-const char *core::ShadersData::UniformBlocks::SHAREDLIGHTS_NAME = "sharedLights";
+const char *core::Data::UniformBlocks::SHAREDLIGHTS_NAME = "sharedLights";
 
-const char *core::ShadersData::UniformBlocks::SHAREDMATRICES_INSTANCE_NAME = "matrix";
+const char *core::Data::UniformBlocks::SHAREDMATRICES_INSTANCE_NAME = "matrix";
 
-const char *core::ShadersData::UniformBlocks::SHAREDMATRICES_NAME = "sharedMatrices";
+const char *core::Data::UniformBlocks::SHAREDMATRICES_NAME = "sharedMatrices";
 
-const char *core::ShadersData::Uniforms::MATERIAL_INSTANCE_NAME = "material";
+const char *core::Data::Uniforms::MATERIAL_INSTANCE_NAME = "material";
 
-GLchar *core::ShadersData::UniformBlocks::SHAREDLIGHTS_COMPLETE_NAMES[SHAREDLIGHTS_COMPLETE_COUNT];
+GLchar *core::Data::UniformBlocks::SHAREDLIGHTS_COMPLETE_NAMES[SHAREDLIGHTS_COMPLETE_COUNT];
 
-const char *core::ShadersData::UniformBlocks::SHAREDLIGHTS_MEMBER_NAMES[] = {
+const char *core::Data::UniformBlocks::SHAREDLIGHTS_MEMBER_NAMES[] = {
     "source",
     "count"
 };
 
-const GLchar *core::ShadersData::UniformBlocks::SHAREDMATRICES_MEMBER_NAMES[] = {
+const GLchar *core::Data::UniformBlocks::SHAREDMATRICES_MEMBER_NAMES[] = {
     "sharedMatrices.modelViewProjection",
     "sharedMatrices.modelView",
     "sharedMatrices.model",
@@ -28,7 +33,7 @@ const GLchar *core::ShadersData::UniformBlocks::SHAREDMATRICES_MEMBER_NAMES[] = 
     "sharedMatrices.normal"
 };
 
-const GLchar *core::ShadersData::Structures::LIGHT_MEMBER_NAMES[] = {
+const GLchar *core::Data::Structures::LIGHT_MEMBER_NAMES[] = {
     "position",
     "direction",
     "color",
@@ -39,14 +44,14 @@ const GLchar *core::ShadersData::Structures::LIGHT_MEMBER_NAMES[] = {
     "lightType"
 };
 
-const GLchar *core::ShadersData::Structures::MATERIAL_MEMBER_NAMES[] = {
+const GLchar *core::Data::Structures::MATERIAL_MEMBER_NAMES[] = {
     "ambient",
     "diffuse",
     "specular",
     "shininess"
 };
 
-const char *core::ShadersData::Samplers2D::NAMES[] = {
+const char *core::Data::Samplers2D::NAMES[] = {
     "noneMap",
     "diffuseMap",
     "specularMap",
@@ -65,12 +70,12 @@ const char *core::AvailableShaders::SHADER_NAMES[] = {
     "Diffuse"
 };
 
-void core::ShadersData::AddShaderData(types::ShaderProgram *shp)
+void core::Data::AddShaderData(types::ShaderProgram *shp)
 {
     // Elemental matrices uniform block
-    shp->addUniformBlock(core::ShadersData::UniformBlocks::SHAREDMATRICES_NAME, 0);
+    shp->addUniformBlock(core::Data::UniformBlocks::SHAREDMATRICES_NAME, 0);
     // Lights uniform block
-    shp->addUniformBlock(core::ShadersData::UniformBlocks::SHAREDLIGHTS_NAME, 1);
+    shp->addUniformBlock(core::Data::UniformBlocks::SHAREDLIGHTS_NAME, 1);
 
     // Material Params
     for (int i = 0; i < Structures::MATERIAL_MEMBER_COUNT; i++) {
@@ -78,7 +83,7 @@ void core::ShadersData::AddShaderData(types::ShaderProgram *shp)
     }
 }
 
-void core::ShadersData::CREATE_SHAREDLIGHTS_COMPLETE_NAMES(char *outNames[])
+void core::Data::CREATE_SHAREDLIGHTS_COMPLETE_NAMES(char *outNames[])
 {
     for (int j = 0; j < Constrains::MAX_LIGHTS; j++) {
         for (int k = 0; k < Structures::LIGHT_MEMBER_COUNT; k++) {
@@ -97,15 +102,24 @@ void core::ShadersData::CREATE_SHAREDLIGHTS_COMPLETE_NAMES(char *outNames[])
     strcpy(outNames[UniformBlocks::SHAREDLIGHTS_COMPLETE_COUNT - 1], current.c_str());
 }
 
-void core::ShadersData::Initialize()
+void core::Data::Initialize()
 {
     // Only on call to this function
     if (dataSet) { return; }
 
     // Set up shared light huge string array of names
     CREATE_SHAREDLIGHTS_COMPLETE_NAMES(UniformBlocks::SHAREDLIGHTS_COMPLETE_NAMES);
-    // Tells the class that the relevant data has been already construed
+    // Instace Singleton Engine Classes
+    utils::Time::Instance();
+    utils::FrameRate::Instance();
+    collections::TexturesCollection::Instance();
+    collections::LightsCollection::Instance();
+    // Load Default Texture
+    collections::TexturesCollection::Instance()->loadTexture("../TGC_SceneRenderer/resources/default.png", 0, types::Texture::Diffuse);
+    // Load Engine Shaders
+    collections::stored::Shaders::LoadShaders();
+    // Tells the class that the relevant data has been already construed and loaded
     dataSet = true;
 }
 
-bool core::ShadersData::dataSet = false;
+bool core::Data::dataSet = false;

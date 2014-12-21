@@ -5,7 +5,7 @@ namespace core {
     // Use shared_data.glsl for reference
     // Stores all the relevant shaders and engine values
     // Inialize() ShadersData for non-const members
-    class ShadersData {
+    class Data {
         private:
             static bool dataSet;
             static void CREATE_SHAREDLIGHTS_COMPLETE_NAMES(char *outNames[]);

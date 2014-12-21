@@ -18,9 +18,6 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="TGC_SceneRenderer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="AssemblyInfo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -93,22 +90,25 @@
     <ClCompile Include="Types\Material.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Core\ResourcesLoader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Collections\stored\Shaders.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="core\Matrices.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="bases\ShaderLink.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="core\Data.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Collections\TexturesCollection.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="collections\LightsCollection.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Start.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="bases\ShaderLinks.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -194,22 +194,22 @@
     <ClInclude Include="Types\Material.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Core\ResourcesLoader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Collections\stored\Shaders.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="core\Matrices.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="bases\ShaderLink.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="core\Data.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Collections\TexturesCollection.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="collections\LightsCollection.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bases\ShaderLinks.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

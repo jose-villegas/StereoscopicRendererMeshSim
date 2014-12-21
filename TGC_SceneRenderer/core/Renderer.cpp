@@ -29,14 +29,12 @@ bool core::Renderer::load()
 
 void core::Renderer::setup()
 {
+    // Initialize Engine Data
+    core::Data::Initialize();
     // Get Tools / Collections Instances
-    this->frameRate = utils::FrameRate::Instance();
-    this->time = utils::Time::Instance();
+    this->frameRate      = utils::FrameRate::Instance();
+    this->time           = utils::Time::Instance();
     this->_texCollection = collections::TexturesCollection::Instance();
-    ShadersData::Initialize();
-    // Load Misc Resources
-    ResourcesLoader::loadDefaultTexture(_texCollection);
-    ResourcesLoader::loadStoredShaders();
     // Setup OpenGL Flags
     glEnable(GL_CULL_FACE);
     glCullFace(GL_BACK);
@@ -44,7 +42,6 @@ void core::Renderer::setup()
     glDepthFunc(GL_LESS);
     // Load member classes
     this->_elementalMatrices = new Matrices();
-    this->_elementalMatrices->setUniformBlockInfo();
     // Testing
     testMesh = new scene::Mesh();
     testMesh->loadMesh("../TGC_SceneRenderer/resources/models/cube/cube.obj");
@@ -63,14 +60,17 @@ void core::Renderer::setup()
     model = glm::translate(glm::mat4(1.0), glm::vec3(0.0, 0.0, -5.0f));
     modelView = view * model;
     modelViewProjection = projection * modelView;
+    // set elemental  matrices data info
+    this->_elementalMatrices->setShaderProgram(shProgram);
+    this->_elementalMatrices->setUniformBlockInfo();
     // Testing light UBO
     unfrBlockInfo = shProgram->getUniformBlock("sharedLights");
-    unfrBlockInfo->indices = new GLuint[ShadersData::UniformBlocks::SHAREDLIGHTS_COMPLETE_COUNT];
-    unfrBlockInfo->offset = new GLint[ShadersData::UniformBlocks::SHAREDLIGHTS_COMPLETE_COUNT];
+    unfrBlockInfo->indices = new GLuint[Data::UniformBlocks::SHAREDLIGHTS_COMPLETE_COUNT];
+    unfrBlockInfo->offset = new GLint[Data::UniformBlocks::SHAREDLIGHTS_COMPLETE_COUNT];
     shProgram->setUniformBlockInfoIndexAndOffset(
         "sharedLights", unfrBlockInfo,
-        (const char **)ShadersData::UniformBlocks::SHAREDLIGHTS_COMPLETE_NAMES,
-        ShadersData::UniformBlocks::SHAREDLIGHTS_COMPLETE_COUNT
+        (const char **)Data::UniformBlocks::SHAREDLIGHTS_COMPLETE_NAMES,
+        Data::UniformBlocks::SHAREDLIGHTS_COMPLETE_COUNT
     );
 }
 
@@ -92,15 +92,15 @@ void core::Renderer::loop()
     _elementalMatrices->setViewMatrix(view);
     _elementalMatrices->setProjectionMatrix(projection);
     _elementalMatrices->calculateMatrices();
-    _elementalMatrices->setUniforms();
+    _elementalMatrices->setUniformBlock();
     // Light UBO
-    shProgram->bindUniformBlock("sharedLights");
+    glBindBuffer(GL_UNIFORM_BUFFER, unfrBlockInfo->UB);
     // Copy values to buffer object memory addresses
-    float intensity = 2.5, attenuation = 3.0, innerConeAngle = 0.0, outerConeAngle = 1.0;
+    float intensity = 5.5, attenuation = 3.0, innerConeAngle = 0.0, outerConeAngle = 1.0;
     int lightType = 1; unsigned int count = 2;
     memcpy(unfrBlockInfo->dataPointer + unfrBlockInfo->offset[0], glm::value_ptr(glm::vec3(6.0, 0.0, -10.0)), sizeof(glm::vec3)); // position
     memcpy(unfrBlockInfo->dataPointer + unfrBlockInfo->offset[1], glm::value_ptr(glm::vec3(0.0, 0.0, -1.0)), sizeof(glm::vec3)); // direction
-    memcpy(unfrBlockInfo->dataPointer + unfrBlockInfo->offset[2], glm::value_ptr(glm::vec3(1.0, 0.0, 0.0)), sizeof(glm::vec3)); // color
+    memcpy(unfrBlockInfo->dataPointer + unfrBlockInfo->offset[2], glm::value_ptr(glm::vec3(0.0, 1.0, 0.0)), sizeof(glm::vec3)); // color
     memcpy(unfrBlockInfo->dataPointer + unfrBlockInfo->offset[3], &intensity, sizeof(float));
     memcpy(unfrBlockInfo->dataPointer + unfrBlockInfo->offset[4], &attenuation, sizeof(float));
     memcpy(unfrBlockInfo->dataPointer + unfrBlockInfo->offset[5], &innerConeAngle, sizeof(float));
@@ -117,7 +117,8 @@ void core::Renderer::loop()
     memcpy(unfrBlockInfo->dataPointer + unfrBlockInfo->offset[15], &lightType, sizeof(int));
     memcpy(unfrBlockInfo->dataPointer + unfrBlockInfo->offset[64], &count, sizeof(unsigned int));
     // Update buffer data
-    shProgram->updateUniformBlockBufferData("sharedLights");
+    glBufferData(GL_UNIFORM_BUFFER, unfrBlockInfo->blockSize, unfrBlockInfo->dataPointer, GL_DYNAMIC_DRAW);
+    glBindBuffer(GL_UNIFORM_BUFFER, 0);
     testMesh->render();
 }
 

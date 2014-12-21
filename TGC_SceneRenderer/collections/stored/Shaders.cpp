@@ -1,7 +1,7 @@
 #include "Shaders.h"
 using namespace collections::stored;
 
-void collections::stored::Shaders::loadShaders()
+void collections::stored::Shaders::LoadShaders()
 {
     _shaders.resize(core::AvailableShaders::Shaders::Count);
     // Creating diffuse shader program
@@ -17,7 +17,7 @@ void collections::stored::Shaders::loadShaders()
     shp->attachShader(fragment);
     shp->link();
     // Control Vars
-    core::ShadersData::AddShaderData(shp);
+    core::Data::AddShaderData(shp);
     // Texture Maps
     shp->addUniform("diffuseMap");
     _shaders[core::AvailableShaders::Shaders::Diffuse] = shp;

@@ -242,27 +242,6 @@ void types::ShaderProgram::getUniformBlockIndexAndOffset(const std::string &unif
     glGetActiveUniformsiv(this->_programID, count, (*outIndices), GL_UNIFORM_OFFSET, (*outOffset));
 }
 
-void types::ShaderProgram::bindUniformBlock(const std::string &sUniformBlockName) const
-{
-    types::ShaderProgram::UniformBlock *uniformBlockInfo = this->getUniformBlock(sUniformBlockName);
-
-    // No uniform block with this name
-    if (uniformBlockInfo == nullptr) { return; }
-
-    glBindBuffer(GL_UNIFORM_BUFFER, uniformBlockInfo->UB);
-}
-
-void types::ShaderProgram::updateUniformBlockBufferData(const std::string &sUniformBlockName) const
-{
-    types::ShaderProgram::UniformBlock *uniformBlockInfo = this->getUniformBlock(sUniformBlockName);
-
-    // No uniform block with this name
-    if (uniformBlockInfo == nullptr) { return; }
-
-    glBufferData(GL_UNIFORM_BUFFER, uniformBlockInfo->blockSize, uniformBlockInfo->dataPointer, GL_DYNAMIC_DRAW);
-    glBindBuffer(GL_UNIFORM_BUFFER, 0);
-}
-
 void types::ShaderProgram::setUniformBlockInfoIndexAndOffset(const std::string &uniformBlockName, UniformBlock *outUBF, const char *names[], const unsigned int &count) const
 {
     // No uniform block with this name

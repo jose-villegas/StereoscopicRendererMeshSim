@@ -11,8 +11,8 @@ Light::Light(void)
     this->lightType      = Point;
 
     // Resize ShaderLink data vector for this structure
-    for (int i = 0; i < core::ShadersData::Structures::LIGHT_MEMBER_COUNT; i++) {
-        LinkData data(core::ShadersData::Structures::LIGHT_MEMBER_NAMES[i], -1, i);
+    for (int i = 0; i < core::Data::Structures::LIGHT_MEMBER_COUNT; i++) {
+        LinkData data(core::Data::Structures::LIGHT_MEMBER_NAMES[i], -1, i);
         uniformData.push_back(data);
     }
 }
