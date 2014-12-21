@@ -1,5 +1,6 @@
 #pragma once
 #include "../collections/TexturesCollection.h"
+#include "../collections/LightsCollection.h"
 #include "../collections/stored/Shaders.h"
 #include "../scene/Camera.h"
 #include "../scene/Mesh.h"
@@ -25,9 +26,10 @@ namespace core {
             Renderer(const Renderer &cpy);
             static Renderer *_rdInstance;
             Matrices *_elementalMatrices;
-            utils::FrameRate *frameRate;
-            utils::Time *time;
-            collections::TexturesCollection *_texCollection;
+            utils::FrameRate *_frameRate;
+            utils::Time *_time;
+            collections::TexturesCollection *_textures;
+            collections::LightsCollection *_lights;
     };
 }
 

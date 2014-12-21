@@ -21,7 +21,8 @@ namespace collections {
 
             scene::Light *createLight();
             void removeLight(const unsigned int &lightIndex);
-            const scene::Light *getLight(const unsigned int &lightIndex);
+            scene::Light *getLight(const unsigned int &lightIndex) const;
+            const unsigned int lightCount() const;
     };
 }
 

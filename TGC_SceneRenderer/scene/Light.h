@@ -32,6 +32,10 @@ namespace scene {
             float innerConeAngle;
             float outerConeAngle;
             LightType lightType;
+            // Values 0.0 - 1.0
+            void setColor(const float &value0, const float &value1, const float &value2);
+            // Values 0 - 255
+            void setColor(const unsigned int &value0, const unsigned int &value1, const unsigned int &value2);
     };
 }
 
