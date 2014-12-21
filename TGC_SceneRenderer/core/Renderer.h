@@ -1,5 +1,5 @@
 #pragma once
-#include "../collections/Textures.h"
+#include "../collections/TexturesCollection.h"
 #include "../collections/stored/Shaders.h"
 #include "../scene/Camera.h"
 #include "../scene/Mesh.h"
@@ -28,7 +28,7 @@ namespace core {
             Matrices *_elementalMatrices;
             utils::FrameRate *frameRate;
             utils::Time *time;
-            collections::Textures *_texCollection;
+            collections::TexturesCollection *_texCollection;
     };
 }
 

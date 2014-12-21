@@ -1,7 +1,7 @@
 #pragma once
 #include "../types/Vertex.h"
 #include "../bases/BaseComponent.h"
-#include "../collections/Textures.h"
+#include "../collections/TexturesCollection.h"
 #include "Assimp/Importer.hpp"
 #include "Assimp/scene.h"
 #include "Assimp/postprocess.h"
@@ -42,6 +42,6 @@ namespace scene {
             std::vector<MeshEntry> _meshEntries;
             std::vector<types::Material *> _materials;
             // Engine Textures Collection
-            collections::Textures *_texCollection;
+            collections::TexturesCollection *_texCollection;
     };
 }

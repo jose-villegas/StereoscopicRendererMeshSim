@@ -9,6 +9,7 @@ namespace collections {
             public:
                 static void loadShaders();
                 static types::ShaderProgram *getDefaultShader(const core::AvailableShaders::Shaders &sh);
+                static types::ShaderProgram *getDefaultShader(const std::string &shaderName);
         };
     }
 }

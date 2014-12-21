@@ -30,4 +30,13 @@ types::ShaderProgram *collections::stored::Shaders::getDefaultShader(const core:
     return _shaders[sh];
 }
 
+types::ShaderProgram *collections::stored::Shaders::getDefaultShader(const std::string &shaderName)
+{
+    for (int i = 0; i < core::AvailableShaders::Count; i++) {
+        if (core::AvailableShaders::SHADER_NAMES[i] == shaderName) {
+            return _shaders[i];
+        }
+    }
+}
+
 std::vector<types::ShaderProgram *> collections::stored::Shaders::_shaders;

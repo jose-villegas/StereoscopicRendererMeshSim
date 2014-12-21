@@ -35,3 +35,6 @@ layout ( std140 ) uniform sharedMatrices {
     mat4 projection;
     mat4 normal;
 } matrix;
+
+// Common Uniforms Variables
+uniform Material material;

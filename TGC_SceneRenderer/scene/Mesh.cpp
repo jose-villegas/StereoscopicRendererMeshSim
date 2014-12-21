@@ -3,7 +3,7 @@ using namespace scene;
 
 Mesh::Mesh(void)
 {
-    _texCollection = collections::Textures::Instance();
+    _texCollection = collections::TexturesCollection::Instance();
 }
 
 Mesh::~Mesh(void)
@@ -182,6 +182,8 @@ bool Mesh::initMaterials(const aiScene *pScene, const std::string &sFilename)
         currentMat->ambient = glm::vec3(ambient.r, ambient.g, ambient.b);
         currentMat->diffuse = glm::vec3(diffuse.r, diffuse.g, diffuse.b);
         currentMat->specular = glm::vec3(specular.r, specular.g, specular.b);
+        // Guess the shader type based on textures supplied
+        currentMat->guessMaterialShader();
         // Save current mat to mesh materials
         _materials.push_back(currentMat);
     }
@@ -209,8 +211,10 @@ void Mesh::render() const
         glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(types::Vertex), (const GLvoid *)32);		// Vertex Tangent
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _meshEntries[i].IB);
         const unsigned int materialIndex = _meshEntries[i].materialIndex;
-        // Binds the mesh material textures for shader use
+        // Binds the mesh material textures for shader use and
+        // set shaders material uniforms
         this->_materials[materialIndex]->bindTextures();
+        this->_materials[materialIndex]->setUniforms();
         // Draw mesh
         glDrawElements(GL_TRIANGLES, _meshEntries[i].numIndices, GL_UNSIGNED_INT, 0);
     }

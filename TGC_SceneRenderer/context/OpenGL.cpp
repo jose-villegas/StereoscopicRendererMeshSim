@@ -39,7 +39,7 @@ OpenGLForm::COpenGL::COpenGL(System::Windows::Forms::Panel ^parentForm, int iPos
     // Other Class Variables Instancing
     _fmCalc = utils::FrameRate::Instance();
     _time = utils::Time::Instance();
-    _texCollection = collections::Textures::Instance();
+    _texCollection = collections::TexturesCollection::Instance();
     _calcFramerate = true; // Default Don't
 }
 

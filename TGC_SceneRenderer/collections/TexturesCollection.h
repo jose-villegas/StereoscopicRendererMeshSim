@@ -10,11 +10,11 @@
 
 namespace collections {
 
-    class Textures {
+    class TexturesCollection {
         public:
-            virtual ~Textures();
+            virtual ~TexturesCollection();
             // creates Unique Static Instance
-            static Textures *Instance();
+            static TexturesCollection *Instance();
             // loads a new texture
             bool loadTexture(const std::string &sFilename, const unsigned int texID, types::Texture::TextureType textureType);
             // loads a new texture with unique texID (slower)
@@ -32,9 +32,9 @@ namespace collections {
             types::Texture *getTexture(const unsigned &texID);
 
         protected:
-            Textures(const Textures &cpy);
-            Textures();
-            static Textures *_eInstance;
+            TexturesCollection(const TexturesCollection &cpy);
+            TexturesCollection();
+            static TexturesCollection *_eInstance;
             // Texture Collection
             std::map<unsigned int, types::Texture *> textures;
     };

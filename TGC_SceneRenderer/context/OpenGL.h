@@ -3,7 +3,7 @@
 #include "../utils/FrameRate.h"
 #include "../utils/Time.h"
 #include "../core/Renderer.h"
-#include "../collections/Textures.h"
+#include "../collections/TexturesCollection.h"
 #include "LibInfo.h"
 #include "Multisample/arb_multisample.h"
 using namespace System::Windows::Forms;
@@ -30,7 +30,7 @@ namespace OpenGLForm {
             System::Diagnostics::Stopwatch _stopwatch;
             utils::Time *_time;
             utils::FrameRate *_fmCalc;
-            collections::Textures *_texCollection;
+            collections::TexturesCollection *_texCollection;
             System::Boolean _calcFramerate;
             core::Renderer *_oglRender;
             HDC createHandle(System::Windows::Forms::Panel ^parentForm, int iPositionX, int iPositionY, GLsizei iWidth, GLsizei iHeight);

@@ -4,13 +4,13 @@ using namespace types;
 
 Material::Material(void)
 {
-    ambient = diffuse = specular = glm::vec3(0.0f);
+    ambient = diffuse = specular = glm::vec3(0.1f);
     this->shininess = 1.0f;
     this->_matShader = nullptr;
 
     // resize ShaderLink data vector for this structure
     for (int i = 0; i < core::ShadersData::Structures::MATERIAL_MEMBER_COUNT; i++) {
-        LinkData data(core::ShadersData::Structures::MATERIAL_MEMBER_NAMES[i], -1, i);
+        LinkData data(std::string(core::ShadersData::Uniforms::MATERIAL_INSTANCE_NAME) + "." + std::string(core::ShadersData::Structures::MATERIAL_MEMBER_NAMES[i]), -1, i);
         uniformData.push_back(data);
     }
 }
@@ -36,6 +36,9 @@ void types::Material::setShaderProgram(ShaderProgram *shp)
     if (!shp) { return; }
 
     this->_matShader = shp;
+    // Save Locations based on the current shader
+    // and stored names and indexes on uniformData
+    saveUniformLocations(this->_matShader);
 }
 
 void types::Material::setUniforms(types::ShaderProgram *shp)
@@ -45,22 +48,24 @@ void types::Material::setUniforms(types::ShaderProgram *shp)
     for (int i = 0; i < core::ShadersData::Structures::MATERIAL_MEMBER_COUNT; i++) {
         switch (i) {
             case 0:
-                shp->setUniform(uniformData[i].uniformLocation, this->ambient);
+                shp->setUniform(this->uniformData[i].uniformLocation, this->ambient);
                 break;
 
             case 1:
-                shp->setUniform(uniformData[i].uniformLocation, this->diffuse);
+                shp->setUniform(this->uniformData[i].uniformLocation, this->diffuse);
                 break;
 
             case 2:
-                shp->setUniform(uniformData[i].uniformLocation, this->specular);
+                shp->setUniform(this->uniformData[i].uniformLocation, this->specular);
                 break;
 
             case 3:
-                shp->setUniform(uniformData[i].uniformLocation, this->shininess);
+                shp->setUniform(this->uniformData[i].uniformLocation, this->shininess);
                 break;
         }
     }
+
+    setTexturesUniforms();
 }
 
 void types::Material::setUniforms()
@@ -78,6 +83,7 @@ void types::Material::bindTextures() const
 
 void types::Material::guessMaterialShader()
 {
+    setShaderProgram(collections::stored::Shaders::getDefaultShader("Diffuse"));
 }
 
 void types::Material::setTexturesUniforms()
@@ -88,8 +94,10 @@ void types::Material::setTexturesUniforms()
 void types::Material::setTexturesUniforms(types::ShaderProgram *shp)
 {
     for (auto it = this->_textures.begin(); it != this->_textures.end(); it++) {
-        unsigned int texID = ((Texture *)*it)->geTexID();
+        // Obtain texID and textype to query data info
+        unsigned int texID = ((Texture *)*it)->geTexId();
         unsigned int texType = ((Texture *)*it)->getType();
+        // Set to the texture map shader the current texture assigned ID
         shp->setUniform(core::ShadersData::Samplers2D::NAMES[texType], texID);
     }
 }

@@ -28,6 +28,7 @@ namespace bases {
             // Asumes the locations are ordered by shared_data.glsl structures member order
             virtual void saveUniformLocations(std::vector<unsigned int> locations);
             virtual bool saveUniformLocations(std::vector<std::string> names, std::vector<unsigned int> locations);
+            virtual bool saveUniformLocations(const types::ShaderProgram *shp);
             virtual void setUniforms(types::ShaderProgram *shp) = 0;
     };
 }

@@ -2,26 +2,26 @@
 #include <iostream>
 using namespace types;
 
-types::Texture::Texture(const std::string &sFilename, const unsigned int &texID, const TextureType &tType)
+types::Texture::Texture(const std::string &sFilename, const unsigned int &texId, const TextureType &tType)
 {
     this->sFilename = sFilename;
-    this->texID = texID;
+    this->texId = texId;
     this->tType = tType;
     this->tBitsPerPixel = 0;
     this->tWidth = 0;
     this->tHeight = 0;
-    this->oglTexID = -1;
+    this->oglTexId = -1;
 }
 
-types::Texture::Texture(const unsigned int &texID, const TextureType &tType)
+types::Texture::Texture(const unsigned int &texId, const TextureType &tType)
 {
     this->sFilename = "Texture";
-    this->texID = texID;
+    this->texId = texId;
     this->tType = tType;
     this->tBitsPerPixel = 0;
     this->tWidth = 0;
     this->tHeight = 0;
-    this->oglTexID = -1;
+    this->oglTexId = -1;
 }
 
 bool types::Texture::load()
@@ -74,8 +74,8 @@ bool types::Texture::load(const std::string &sFilename)
 
     // Check Image Bit Density
     GLuint imageFormat = tBitsPerPixel == 32 ? GL_BGRA : tBitsPerPixel == 24 ? GL_BGR : tBitsPerPixel == 8 ? GL_RG : 0;
-    glGenTextures(1, &oglTexID);
-    glBindTexture(GL_TEXTURE_2D, oglTexID);											// bind to the new texture ID
+    glGenTextures(1, &oglTexId);
+    glBindTexture(GL_TEXTURE_2D, oglTexId);											// bind to the new texture ID
     // store the texture data for OpenGL use
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, tWidth, tHeight, 0, imageFormat, GL_UNSIGNED_BYTE, bits);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -89,7 +89,7 @@ bool types::Texture::load(const std::string &sFilename)
 
 void types::Texture::unload() const
 {
-    glDeleteTextures(1, &oglTexID);
+    glDeleteTextures(1, &oglTexId);
 }
 
 Texture::~Texture()
@@ -98,6 +98,6 @@ Texture::~Texture()
 
 void Texture::bind() const
 {
-    glActiveTexture(texID);
-    glBindTexture(GL_TEXTURE_2D, oglTexID);
+    glActiveTexture(texId);
+    glBindTexture(GL_TEXTURE_2D, oglTexId);
 }

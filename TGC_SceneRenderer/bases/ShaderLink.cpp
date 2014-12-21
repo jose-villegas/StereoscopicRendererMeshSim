@@ -28,6 +28,21 @@ bool bases::ShaderLink::saveUniformLocations(std::vector<std::string> names, std
     return true;
 }
 
+bool bases::ShaderLink::saveUniformLocations(const types::ShaderProgram *shp)
+{
+    if (!shp) { return false; }
+
+    // Obtain Locations
+    std::vector<unsigned int> locs;
+
+    for (int i = 0; i < this->uniformData.size(); i++) {
+        locs.push_back(shp->getUniform(this->uniformData[i].uniformName));
+    }
+
+    saveUniformLocations(locs);
+    return true;
+}
+
 bases::ShaderLink::ShaderLink(void)
 {
 }

@@ -22,8 +22,8 @@ namespace types {
                 Reflection   = aiTextureType_REFLECTION
             };
 
-            Texture(const std::string &sFilename, const unsigned int &texID, const TextureType &tType);
-            Texture(const unsigned int &texID, const TextureType &tType);
+            Texture(const std::string &sFilename, const unsigned int &texId, const TextureType &tType);
+            Texture(const unsigned int &texId, const TextureType &tType);
             ~Texture();
             void bind() const;
             bool load();
@@ -32,8 +32,8 @@ namespace types {
 
             unsigned int getWidth()    const { return this->tWidth;   };
             unsigned int getHeight()   const { return this->tHeight;  };
-            unsigned int getOGLTexID() const { return this->oglTexID; };
-            unsigned int geTexID()     const { return this->texID;    };
+            unsigned int getOGLTexId() const { return this->oglTexId; };
+            unsigned int geTexId()     const { return this->texId;    };
             unsigned int getType()     const { return this->tType;    };
 
             std::string getFilename() { return this->sFilename; };
@@ -47,8 +47,8 @@ namespace types {
             unsigned int tWidth;
             unsigned int tHeight;
             unsigned int tBitsPerPixel;
-            unsigned int oglTexID;
-            unsigned int texID;
+            unsigned int oglTexId;
+            unsigned int texId;
             TextureType tType;
             std::string sFilename;
     };

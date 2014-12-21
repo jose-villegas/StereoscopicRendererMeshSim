@@ -2,7 +2,6 @@
 //--include shared_data.glsl
 // Uniforms
 uniform sampler2D diffuseMap;
-uniform Material material;
 //uniform Light light[MAX_LIGHTS];
 // Input vertex data
 layout(location = 0) in vec3 vertexPosition;

@@ -1,26 +1,26 @@
-#include "Textures.h"
+#include "TexturesCollection.h"
 using namespace collections;
 
-Textures *Textures::Instance()
+TexturesCollection *TexturesCollection::Instance()
 {
     if (!_eInstance) {
         // Create Unique Shared Static Instance
-        _eInstance = new Textures();
+        _eInstance = new TexturesCollection();
     }
 
     return _eInstance;
 }
 
-Textures::Textures()
+TexturesCollection::TexturesCollection()
 {
 }
 
-Textures::~Textures()
+TexturesCollection::~TexturesCollection()
 {
     unloadAllTextures();
 }
 
-bool Textures::loadTexture(const std::string &sFilename, const unsigned int texID, types::Texture::TextureType textureType)
+bool TexturesCollection::loadTexture(const std::string &sFilename, const unsigned int texID, types::Texture::TextureType textureType)
 {
     types::Texture *newTex = new types::Texture(sFilename, texID, textureType);
     bool loadingResult = newTex->load();
@@ -44,12 +44,12 @@ bool Textures::loadTexture(const std::string &sFilename, const unsigned int texI
     return loadingResult;
 }
 
-bool Textures::loadTexture(const std::string &sFilename, types::Texture::TextureType textureType)
+bool TexturesCollection::loadTexture(const std::string &sFilename, types::Texture::TextureType textureType)
 {
     int unique_texID = 1;
 
     for (std::map<unsigned int, types::Texture *>::iterator it = textures.begin(); it != textures.end(); ++it) {
-        if (it->second->geTexID() == unique_texID) {
+        if (it->second->geTexId() == unique_texID) {
             unique_texID++;
         } else {
             break;
@@ -59,7 +59,7 @@ bool Textures::loadTexture(const std::string &sFilename, types::Texture::Texture
     return loadTexture(sFilename, unique_texID, textureType);
 }
 
-bool Textures::unloadTexture(const unsigned int &texID)
+bool TexturesCollection::unloadTexture(const unsigned int &texID)
 {
     bool result = true;
     // if this texture ID mapped, unload it's texture, and remove it from the map
@@ -75,7 +75,7 @@ bool Textures::unloadTexture(const unsigned int &texID)
     return result;
 }
 
-bool Textures::bindTexture(const unsigned int &texID)
+bool TexturesCollection::bindTexture(const unsigned int &texID)
 {
     bool result(true);
     // If this texture ID mapped, bind it's texture as current
@@ -91,7 +91,7 @@ bool Textures::bindTexture(const unsigned int &texID)
     return result;
 }
 
-void Textures::unloadAllTextures()
+void TexturesCollection::unloadAllTextures()
 {
     //start at the begginning of the texture map
     std::map<unsigned int, types::Texture *>::iterator it = textures.begin();
@@ -106,14 +106,14 @@ void Textures::unloadAllTextures()
     textures.clear();
 }
 
-unsigned int Textures::count(void) const
+unsigned int TexturesCollection::count(void) const
 {
     return this->textures.size();
 }
 
-types::Texture *collections::Textures::getTexture(const unsigned &texID)
+types::Texture *collections::TexturesCollection::getTexture(const unsigned &texID)
 {
     return this->textures[texID];
 }
 
-Textures *collections::Textures::_eInstance = nullptr;
+TexturesCollection *collections::TexturesCollection::_eInstance = nullptr;
