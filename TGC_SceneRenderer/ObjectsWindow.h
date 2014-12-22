@@ -1,4 +1,6 @@
 #pragma once
+#include "Collections\SceneObjectsCollection.h"
+#include "Scene\SceneObject.h"
 
 namespace SceneRenderer {
 
@@ -20,6 +22,11 @@ namespace SceneRenderer {
                 //
                 //TODO: Add the constructor code here
                 //
+                std::unordered_map<unsigned int, scene::SceneObject *>::const_iterator it = collections::SceneObjectsCollection::Instance()->getSceneObjects().begin();
+
+                for (it; it != collections::SceneObjectsCollection::Instance()->getSceneObjects().end(); ++it) {
+                    this->listView1->Items->Add(gcnew System::String((*it).second->getBase()->objectName.c_str()));
+                }
             }
 
         protected:
@@ -49,6 +56,8 @@ namespace SceneRenderer {
         private: System::Windows::Forms::ToolStripMenuItem  ^sphereToolStripMenuItem;
         private: System::Windows::Forms::ListView  ^listView1;
         private: System::Windows::Forms::ColumnHeader  ^columnHeader1;
+        private: System::Windows::Forms::ToolStripMenuItem  ^torusToolStripMenuItem;
+        private: System::Windows::Forms::ToolStripMenuItem  ^cylinderToolStripMenuItem;
         private: System::ComponentModel::IContainer  ^components;
 
         private:
@@ -64,9 +73,6 @@ namespace SceneRenderer {
             /// </summary>
             void InitializeComponent(void)
             {
-                System::Windows::Forms::ListViewItem  ^listViewItem1 = (gcnew System::Windows::Forms::ListViewItem(L"ryrdy"));
-                System::Windows::Forms::ListViewItem  ^listViewItem2 = (gcnew System::Windows::Forms::ListViewItem(L"yrdy"));
-                System::Windows::Forms::ListViewItem  ^listViewItem3 = (gcnew System::Windows::Forms::ListViewItem(L"yrdy"));
                 this->objectsWindowControlPanel = (gcnew System::Windows::Forms::Panel());
                 this->panel1 = (gcnew System::Windows::Forms::Panel());
                 this->listView1 = (gcnew System::Windows::Forms::ListView());
@@ -81,6 +87,8 @@ namespace SceneRenderer {
                 this->toolStripSeparator2 = (gcnew System::Windows::Forms::ToolStripSeparator());
                 this->cubeToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
                 this->sphereToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+                this->torusToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+                this->cylinderToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
                 this->searchToolStripTag = (gcnew System::Windows::Forms::ToolStripMenuItem());
                 this->toolStripTextBox1 = (gcnew System::Windows::Forms::ToolStripTextBox());
                 this->objectsWindowControlPanel->SuspendLayout();
@@ -112,10 +120,6 @@ namespace SceneRenderer {
                 //
                 this->listView1->Columns->AddRange(gcnew cli::array< System::Windows::Forms::ColumnHeader ^  >(1) {this->columnHeader1});
                 this->listView1->Dock = System::Windows::Forms::DockStyle::Fill;
-                this->listView1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ListViewItem ^  >(3) {
-                    listViewItem1, listViewItem2,
-                                   listViewItem3
-                });
                 this->listView1->Location = System::Drawing::Point(0, 0);
                 this->listView1->Name = L"listView1";
                 this->listView1->Size = System::Drawing::Size(214, 289);
@@ -142,10 +146,10 @@ namespace SceneRenderer {
                 //
                 // createToolStripMenuItem
                 //
-                this->createToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem ^  >(8) {
+                this->createToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem ^  >(10) {
                     this->cameraToolStripMenuItem,
                          this->toolStripSeparator1, this->directionalLightToolStripMenuItem, this->spotLightToolStripMenuItem, this->pointLightToolStripMenuItem,
-                         this->toolStripSeparator2, this->cubeToolStripMenuItem, this->sphereToolStripMenuItem
+                         this->toolStripSeparator2, this->cubeToolStripMenuItem, this->sphereToolStripMenuItem, this->torusToolStripMenuItem, this->cylinderToolStripMenuItem
                 });
                 this->createToolStripMenuItem->Name = L"createToolStripMenuItem";
                 this->createToolStripMenuItem->Size = System::Drawing::Size(53, 23);
@@ -196,6 +200,18 @@ namespace SceneRenderer {
                 this->sphereToolStripMenuItem->Name = L"sphereToolStripMenuItem";
                 this->sphereToolStripMenuItem->Size = System::Drawing::Size(161, 22);
                 this->sphereToolStripMenuItem->Text = L"Sphere";
+                //
+                // torusToolStripMenuItem
+                //
+                this->torusToolStripMenuItem->Name = L"torusToolStripMenuItem";
+                this->torusToolStripMenuItem->Size = System::Drawing::Size(161, 22);
+                this->torusToolStripMenuItem->Text = L"Torus";
+                //
+                // cylinderToolStripMenuItem
+                //
+                this->cylinderToolStripMenuItem->Name = L"cylinderToolStripMenuItem";
+                this->cylinderToolStripMenuItem->Size = System::Drawing::Size(161, 22);
+                this->cylinderToolStripMenuItem->Text = L"Cylinder";
                 //
                 // searchToolStripTag
                 //

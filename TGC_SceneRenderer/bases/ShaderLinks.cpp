@@ -35,7 +35,7 @@ bool bases::ShaderLink::saveUniformLocations(const types::ShaderProgram *shp)
     // Obtain Locations
     std::vector<unsigned int> locs;
 
-    for (int i = 0; i < this->uniformData.size(); i++) {
+    for (unsigned int i = 0; i < this->uniformData.size(); i++) {
         locs.push_back(shp->getUniform(this->uniformData[i].uniformName));
     }
 

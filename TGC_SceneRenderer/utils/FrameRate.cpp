@@ -3,11 +3,9 @@ using namespace utils;
 
 FrameRate::FrameRate(void)
 {
-    fpsSamples.fill(0);
+    _fpsSamples.fill(0);
     _currentFramerate = 0;
-    currentSample = 0;
-    frameTimeSum = 0.0;
-    filled = false;
+    _currentSample = 0;
 }
 
 void utils::FrameRate::calculate(const double &deltaTime)

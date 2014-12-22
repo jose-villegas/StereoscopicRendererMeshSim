@@ -82,10 +82,14 @@ namespace core {
                     };
                     // Ordered by TextureType
                     static const char *NAMES[];
+                    static const char *DEFAULT_TEX_FILENAME;
             };
 
             // Attachs predefined uniforms to the shader program
             static void AddShaderData(types::ShaderProgram *shp);
+            static const std::string Filename();
+        private:
+            static const char *FILENAME;
     };
 
     class StoredShaders {
@@ -95,7 +99,10 @@ namespace core {
                 Count // not a shader, represents the number of available shaders
             };
 
-            static const char *SHADER_NAMES[];
+            static const char *NAMES[];
+            static const std::string Filename(const Shaders &index, const types::Shader::ShaderType &type);
+        private:
+            static const char *FILENAMES[];
     };
 
     class StoredMeshes {
@@ -108,8 +115,10 @@ namespace core {
                 Count // not a mesh, it represents the enum size
             };
 
-            static const char *MESH_NAMES[];
-            static const char *MESH_FILENAMES[];
+            static const char *NAMES[];
+            static const std::string Filename(const unsigned int &index);
+        private:
+            static const char *FILENAMES[];
     };
 }
 

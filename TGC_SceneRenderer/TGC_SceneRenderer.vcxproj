@@ -15,6 +15,7 @@
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <Keyword>ManagedCProj</Keyword>
     <RootNamespace>TGC_SceneRenderer</RootNamespace>
+    <ProjectName>SceneRenderer</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -29,7 +30,7 @@
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v110</PlatformToolset>
     <CLRSupport>true</CLRSupport>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -82,12 +83,25 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <Reference Include="3DVectorControl">
+      <HintPath>..\..\3DVectorControl\Debug\3DVectorControl.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="Microsoft.VisualBasic.PowerPacks.Vs">
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\VBPowerPacks\v10.0\Microsoft.VisualBasic.PowerPacks.Vs.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.DirectoryServices" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="Transform">
+      <HintPath>..\..\Transform\Debug\Transform.dll</HintPath>
+    </Reference>
+    <Reference Include="TransformControl">
+      <HintPath>..\..\BaseControls\Debug\TransformControl.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -106,6 +120,7 @@
     <ClCompile Include="bases\ShaderLinks.cpp" />
     <ClCompile Include="collections\LightsCollection.cpp" />
     <ClCompile Include="collections\MeshesCollection.cpp" />
+    <ClCompile Include="InspectorWindow.cpp" />
     <ClCompile Include="Types\Material.cpp" />
     <ClCompile Include="ObjectsWindow.cpp" />
     <ClCompile Include="Collections\SceneObjectsCollection.cpp" />
@@ -142,6 +157,9 @@
     <ClInclude Include="bases\ShaderLinks.h" />
     <ClInclude Include="collections\LightsCollection.h" />
     <ClInclude Include="collections\MeshesCollection.h" />
+    <ClInclude Include="InspectorWindow.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
     <ClInclude Include="Types\Material.h" />
     <ClInclude Include="ObjectsWindow.h">
       <FileType>CppForm</FileType>
@@ -174,8 +192,12 @@
   <ItemGroup>
     <Image Include="app.ico" />
     <Image Include="Resources\default.png" />
+    <Image Include="resources\icons\vec3DSlider.png" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="InspectorWindow.resx">
+      <DependentUpon>InspectorWindow.h</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainWindow.resX">
       <DependentUpon>MainWindow.h</DependentUpon>
       <SubType>Designer</SubType>

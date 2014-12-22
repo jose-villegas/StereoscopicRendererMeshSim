@@ -73,15 +73,21 @@ scene::Light *collections::SceneObjectsCollection::addLight(scene::Light::LightT
 scene::Mesh *collections::SceneObjectsCollection::addMesh(const std::string &sMeshname)
 {
     for (int i = 0; i < core::StoredMeshes::Count; i++) {
-        if (sMeshname == std::string(core::StoredMeshes::MESH_NAMES[i])) {
-            return addMeshFromFile(core::ExecutionInfo::EXEC_DIR + core::StoredMeshes::MESH_FILENAMES[i]);
+        if (sMeshname == std::string(core::StoredMeshes::NAMES[i])) {
+            scene::Mesh *newMesh = addMeshFromFile(core::StoredMeshes::Filename(i));
+            newMesh->base->objectName = sMeshname;
+            return newMesh;
         }
     }
+
+    return nullptr;
 }
 
 scene::Mesh *collections::SceneObjectsCollection::addMesh(const core::StoredMeshes::Meshes meshId)
 {
-    return addMeshFromFile(core::ExecutionInfo::EXEC_DIR + core::StoredMeshes::MESH_FILENAMES[meshId]);
+    scene::Mesh *newMesh = addMeshFromFile(core::StoredMeshes::Filename(meshId));
+    newMesh->base->objectName = core::StoredMeshes::NAMES[meshId];
+    return newMesh;
 }
 
 unsigned int collections::SceneObjectsCollection::sceneObjectsCount()
@@ -99,6 +105,13 @@ scene::Mesh *collections::SceneObjectsCollection::addMeshFromFile(const std::str
     newObject->addComponent(newMesh);
     this->_sceneObjects[objectsIndex] = newObject;
     return newMesh;
+}
+
+scene::SceneObject *collections::SceneObjectsCollection::getSceneObject(const unsigned int &index)
+{
+    if (this->_sceneObjects.find(index) == this->_sceneObjects.end()) { return nullptr; }
+
+    return this->_sceneObjects[index];
 }
 
 unsigned int collections::SceneObjectsCollection::objectsIndex = 0;

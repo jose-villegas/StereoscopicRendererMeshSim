@@ -23,14 +23,14 @@ scene::Camera *collections::CamerasCollection::createCamera()
 
 scene::Camera *collections::CamerasCollection::getCamera(const unsigned int &index)
 {
-    if (index > this->_cameras.size()) { return nullptr; }
+    if (index >= this->_cameras.size()) { return nullptr; }
 
     return this->_cameras[index];
 }
 
 void collections::CamerasCollection::removeCamera(const unsigned int &index)
 {
-    if (index > this->_cameras.size()) { return; }
+    if (index >= this->_cameras.size()) { return; }
 
     delete this->_cameras[index];
     this->_cameras.erase(this->_cameras.begin() + index);
@@ -44,7 +44,7 @@ void collections::CamerasCollection::removeCamera(scene::Camera *cam)
 
 void collections::CamerasCollection::setActiveCamera(const unsigned int &index)
 {
-    if (index > this->_cameras.size()) { return; }
+    if (index >= this->_cameras.size()) { return; }
 
     this->_activeCamera = index;
 }

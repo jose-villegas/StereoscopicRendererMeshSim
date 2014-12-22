@@ -17,7 +17,16 @@ const char *core::ShadersData::UniformBlocks::SHAREDMATRICES_NAME = "sharedMatri
 
 const char *core::ShadersData::Uniforms::MATERIAL_INSTANCE_NAME = "material";
 
+const char *core::ShadersData::FILENAME = "/resources/shaders/shared_data.glsl";
+
+const char *core::ShadersData::Samplers2D::DEFAULT_TEX_FILENAME = "/resources/default.png";
+
 GLchar *core::ShadersData::UniformBlocks::SHAREDLIGHTS_COMPLETE_NAMES[SHAREDLIGHTS_COMPLETE_COUNT];
+
+const std::string core::ShadersData::Filename()
+{
+    return ExecutionInfo::EXEC_DIR + FILENAME;
+}
 
 const char *core::ShadersData::UniformBlocks::SHAREDLIGHTS_MEMBER_NAMES[] = {
     "source",
@@ -66,24 +75,61 @@ const char *core::ShadersData::Samplers2D::NAMES[] = {
     "reflectionMap"
 };
 
-const char *core::StoredShaders::SHADER_NAMES[] = {
+const char *core::StoredShaders::NAMES[] = {
     "Diffuse"
 };
 
-const char *core::StoredMeshes::MESH_NAMES[] = {
-    "cube",
-    "cylinder",
-    "sphere",
-    "torus"
+const char *core::StoredShaders::FILENAMES[] = {
+    "/resources/shaders/diffuse",
 };
 
-const char *core::StoredMeshes::MESH_FILENAMES[] = {
+const std::string core::StoredShaders::Filename(const Shaders &index, const types::Shader::ShaderType &type)
+{
+    std::string extension = ".";
+
+    switch (type) {
+        case types::Shader::Vertex:
+            extension += "vert";
+            break;
+
+        case types::Shader::Fragment:
+            extension += "frag";
+            break;
+
+        case types::Shader::Geometry:
+            extension += "geom";
+            break;
+
+        case types::Shader::TesselationControl:
+            extension += "tessc";
+            break;
+
+        case types::Shader::TesselationEvaluation:
+            extension += "tesse";
+            break;
+    }
+
+    return ExecutionInfo::EXEC_DIR + FILENAMES[index] + extension;
+}
+
+const std::string core::StoredMeshes::Filename(const unsigned int &index)
+{
+    return ExecutionInfo::EXEC_DIR + FILENAMES[index];
+}
+
+const char *core::StoredMeshes::NAMES[] = {
+    "Cube",
+    "Cylinder",
+    "Sphere",
+    "Torus"
+};
+
+const char *core::StoredMeshes::FILENAMES[] = {
     "/resources/models/cube/cube.obj",
     "/resources/models/cylinder/cylinder.obj",
     "/resources/models/sphere/sphere.obj",
     "/resources/models/torus/torus.obj"
 };
-
 
 void core::ShadersData::AddShaderData(types::ShaderProgram *shp)
 {
@@ -107,14 +153,14 @@ void core::ShadersData::CREATE_SHAREDLIGHTS_COMPLETE_NAMES(char *outNames[])
             // Result string
             std::string current = std::string(UniformBlocks::SHAREDLIGHTS_NAME) + "." + std::string(UniformBlocks::SHAREDLIGHTS_MEMBER_NAMES[0]);
             current += "[" + std::to_string(j) + "]." + std::string(Structures::LIGHT_MEMBER_NAMES[k]);
-            outNames[index] = (char *)malloc(current.size() * sizeof(char));
-            strcpy(outNames[index], current.c_str());
+            outNames[index] = new char[current.size() + 1]; // include null character
+            strcpy_s(outNames[index], current.size() + 1, current.c_str());
         }
     }
 
     std::string current = std::string(UniformBlocks::SHAREDLIGHTS_NAME) + "." + std::string(UniformBlocks::SHAREDLIGHTS_MEMBER_NAMES[1]);
-    outNames[UniformBlocks::SHAREDLIGHTS_COMPLETE_COUNT - 1] = (char *)malloc(current.size() * sizeof(char));
-    strcpy(outNames[UniformBlocks::SHAREDLIGHTS_COMPLETE_COUNT - 1], current.c_str());
+    outNames[UniformBlocks::SHAREDLIGHTS_COMPLETE_COUNT - 1] = new char[current.size() + 1];;
+    strcpy_s(outNames[UniformBlocks::SHAREDLIGHTS_COMPLETE_COUNT - 1], current.size() + 1, current.c_str());
 }
 
 void core::ShadersData::Initialize()
@@ -144,7 +190,7 @@ void core::ShadersData::Initialize()
     collections::TexturesCollection::Instance();
     collections::LightsCollection::Instance();
     // Load Default Texture
-    collections::TexturesCollection::Instance()->addTexture("../TGC_SceneRenderer/resources/default.png", 0, types::Texture::Diffuse);
+    collections::TexturesCollection::Instance()->addTexture(ExecutionInfo::EXEC_DIR + Samplers2D::DEFAULT_TEX_FILENAME, 0, types::Texture::Diffuse);
     // Load Engine Shaders
     collections::stored::StoredShaders::LoadShaders();
     // Tells the class that the relevant data has been already construed and loaded

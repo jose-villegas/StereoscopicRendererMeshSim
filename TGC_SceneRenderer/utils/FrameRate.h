@@ -6,11 +6,10 @@ namespace utils {
         private:
             static FrameRate *framerateInstance;
             static int const NUM_FPS_SAMPLES = 32;
-            std::array<double, NUM_FPS_SAMPLES> fpsSamples;
-            int currentSample;
-            int frameTimeSum;
-            bool filled;
+            std::array<double, NUM_FPS_SAMPLES> _fpsSamples;
+            int _currentSample;
             double _currentFramerate;
+            double _timeSum;
         public:
             double currentFramerate() { return _currentFramerate; };
             static FrameRate *Instance();

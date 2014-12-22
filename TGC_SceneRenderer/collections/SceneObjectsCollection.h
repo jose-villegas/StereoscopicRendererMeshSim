@@ -22,6 +22,8 @@ namespace collections {
             scene::Mesh *addMesh(const std::string &sMeshname);
             scene::Mesh *addMesh(const core::StoredMeshes::Meshes meshId);
             scene::Mesh *addMeshFromFile(const std::string &sMeshFilename);
+            scene::SceneObject *getSceneObject(const unsigned int &index);
+            const std::unordered_map<unsigned int, scene::SceneObject *> &getSceneObjects() const { return _sceneObjects; }
             unsigned int sceneObjectsCount();
             SceneObjectsCollection(void);
             ~SceneObjectsCollection();

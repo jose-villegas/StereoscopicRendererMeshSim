@@ -22,14 +22,14 @@ scene::Mesh *collections::MeshesCollection::createMesh()
 
 scene::Mesh *collections::MeshesCollection::getMesh(const unsigned int &index)
 {
-    if (index > this->_meshes.size()) { return nullptr; }
+    if (index >= this->_meshes.size()) { return nullptr; }
 
     return this->_meshes[index];
 }
 
 void collections::MeshesCollection::removeMesh(const unsigned int &index)
 {
-    if (index > this->_meshes.size()) { return; }
+    if (index >= this->_meshes.size()) { return; }
 
     delete this->_meshes[index];
     this->_meshes.erase(this->_meshes.begin() + index);

@@ -52,27 +52,24 @@ void core::Renderer::setup()
     this->_elementalMatrices = new Matrices();
     // Get a default stored shader
     types::ShaderProgram *shProgram = collections::stored::StoredShaders::getDefaultShader(core::StoredShaders::Diffuse);
+    // Initial camera setup
+    this->_activeCamera = this->_sceneObjects->addCamera();
+    this->_activeCamera->projectionType = scene::Camera::Perspective;
+    this->_activeCamera->base->transform.position.z += 5;
+    collections::CamerasCollection::Instance()->setActiveCamera(0);
     // set elemental  matrices data info ubo
     this->_elementalMatrices->setShaderProgram(shProgram);
     this->_elementalMatrices->setUniformBlockInfo();
+    // Add test objects
+    this->_sceneObjects->addMesh(StoredMeshes::Torus);
     // Initial Light UBO setup
     this->_lights->setShaderProgram(shProgram);
     this->_lights->setUniformBlockInfo();
     // Add lights to scene objects
     this->_sceneObjects->addLight(scene::Light::Point);
-    this->_lights->getLight(0)->base->transform.setPosition(4.0, 0.0, 2.5);
+    this->_lights->getLight(0)->base->transform.setPosition(3.0, 0.0, 3.0);
     this->_lights->getLight(0)->setColor(1.0f, 1.0f, 1.0f);
     this->_lights->getLight(0)->intensity = 1.0f;
-    // Add test objects
-    this->_sceneObjects->addMesh(StoredMeshes::Cylinder);
-    this->_sceneObjects->addMesh(StoredMeshes::Torus);
-    this->_sceneObjects->addMesh(StoredMeshes::Sphere);
-    // Initial camera setup
-    this->_activeCamera = this->_sceneObjects->addCamera();
-    this->_activeCamera->projectionType = scene::Camera::Perspective;
-    this->_activeCamera->base->transform.position.z += 5;
-    this->_activeCamera->setProjection(4.0f / 3.0f, 90.f, 0.1f, 100.f);
-    collections::CamerasCollection::Instance()->setActiveCamera(0);
 }
 
 void core::Renderer::loop()
@@ -87,7 +84,7 @@ void core::Renderer::loop()
     this->_elementalMatrices->setViewMatrix(this->_activeCamera->getViewMatrix());
     this->_elementalMatrices->setProjectionMatrix(this->_activeCamera->getFrustumMatrix());
 
-    for (int i = 0; i < this->_meshes->meshCount(); i++) {
+    for (unsigned int i = 0; i < this->_meshes->meshCount(); i++) {
         // update the model matrix per model
         this->_elementalMatrices->setModelMatrix(this->_meshes->getMesh(i)->base->transform.getModelMatrix());
         // recalculate modelview, modelviewprojection and normal matrices with the current matrices

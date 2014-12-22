@@ -7,7 +7,7 @@ Camera::Camera(void)
     this->farClipping = 100.0f;
     this->nearClipping = 0.1f;
     this->fieldOfView = 60.0f;
-    this->aspectRatio = 4.0f / 3.0f;
+    this->aspectRatio = 16.0f / 9.0f;
     float ymax = nearClipping * glm::tan(fieldOfView * glm::pi<float>() / 360.0f);
     float xmax = ymax * aspectRatio;
     this->viewPortRect = glm::vec4(-xmax, xmax, -ymax, ymax);

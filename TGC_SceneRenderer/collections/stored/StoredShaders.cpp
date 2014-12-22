@@ -6,15 +6,15 @@ void collections::stored::StoredShaders::LoadShaders()
     _shaders.resize(core::StoredShaders::Shaders::Count);
     // Creating diffuse shader program
     types::ShaderProgram *shp = new types::ShaderProgram();
-    types::Shader *vertex = new types::Shader(types::Shader::Vertex);
-    types::Shader *fragment = new types::Shader(types::Shader::Fragment);
-    std::string shared_data = types::Shader::fileToString("../TGC_SceneRenderer/resources/shaders/shared_data.glsl");
-    vertex->loadFromFile("../TGC_SceneRenderer/resources/shaders/diffuse.vert", "--include shared_data.glsl", shared_data);
-    fragment->loadFromFile("../TGC_SceneRenderer/resources/shaders/diffuse.frag", "--include shared_data.glsl", shared_data);
-    vertex->compile();
-    fragment->compile();
-    shp->attachShader(vertex);
-    shp->attachShader(fragment);
+    types::Shader *vert = new types::Shader(types::Shader::Vertex);
+    types::Shader *frag = new types::Shader(types::Shader::Fragment);
+    std::string shared_data = types::Shader::fileToString(core::ShadersData::Filename());
+    vert->loadFromFile(core::StoredShaders::Filename(core::StoredShaders::Diffuse, types::Shader::Vertex), "--include shared_data.glsl", shared_data);
+    frag->loadFromFile(core::StoredShaders::Filename(core::StoredShaders::Diffuse, types::Shader::Fragment), "--include shared_data.glsl", shared_data);
+    vert->compile();
+    frag->compile();
+    shp->attachShader(vert);
+    shp->attachShader(frag);
     shp->link();
     // Control Vars
     core::ShadersData::AddShaderData(shp);
@@ -33,10 +33,12 @@ types::ShaderProgram *collections::stored::StoredShaders::getDefaultShader(const
 types::ShaderProgram *collections::stored::StoredShaders::getDefaultShader(const std::string &shaderName)
 {
     for (int i = 0; i < core::StoredShaders::Count; i++) {
-        if (core::StoredShaders::SHADER_NAMES[i] == shaderName) {
+        if (core::StoredShaders::NAMES[i] == shaderName) {
             return _shaders[i];
         }
     }
+
+    return nullptr;
 }
 
 std::vector<types::ShaderProgram *> collections::stored::StoredShaders::_shaders;

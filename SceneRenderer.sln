@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TGC_SceneRenderer", "TGC_SceneRenderer\TGC_SceneRenderer.vcxproj", "{DE7FA618-A051-438A-A5A6-BFDAED947EBF}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SceneRenderer", "TGC_SceneRenderer\TGC_SceneRenderer.vcxproj", "{DE7FA618-A051-438A-A5A6-BFDAED947EBF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -14,11 +14,13 @@ Global
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{DE7FA618-A051-438A-A5A6-BFDAED947EBF}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{DE7FA618-A051-438A-A5A6-BFDAED947EBF}.Debug|Any CPU.Build.0 = Debug|Win32
 		{DE7FA618-A051-438A-A5A6-BFDAED947EBF}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
 		{DE7FA618-A051-438A-A5A6-BFDAED947EBF}.Debug|Mixed Platforms.Build.0 = Debug|Win32
 		{DE7FA618-A051-438A-A5A6-BFDAED947EBF}.Debug|Win32.ActiveCfg = Debug|Win32
 		{DE7FA618-A051-438A-A5A6-BFDAED947EBF}.Debug|Win32.Build.0 = Debug|Win32
 		{DE7FA618-A051-438A-A5A6-BFDAED947EBF}.Release|Any CPU.ActiveCfg = Release|Win32
+		{DE7FA618-A051-438A-A5A6-BFDAED947EBF}.Release|Any CPU.Build.0 = Release|Win32
 		{DE7FA618-A051-438A-A5A6-BFDAED947EBF}.Release|Mixed Platforms.ActiveCfg = Release|Win32
 		{DE7FA618-A051-438A-A5A6-BFDAED947EBF}.Release|Mixed Platforms.Build.0 = Release|Win32
 		{DE7FA618-A051-438A-A5A6-BFDAED947EBF}.Release|Win32.ActiveCfg = Release|Win32
