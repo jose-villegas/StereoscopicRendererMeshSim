@@ -1,5 +1,5 @@
 #pragma once
-#include "../collections/stored/Shaders.h"
+#include "../collections/stored/StoredShaders.h"
 #include "../bases/ShaderLinks.h"
 #include "../core/Data.h"
 #include "Texture.h"

@@ -18,3 +18,10 @@ ref class LibInfo {
         static void Write();
 };
 
+class ExecutionInfo {
+    public:
+        static const std::string EXEC_DIRECTORY;
+    private:
+        ExecutionInfo();
+        static const std::string QueryExecDir();
+};

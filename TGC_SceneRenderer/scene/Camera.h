@@ -4,19 +4,26 @@
 #include "glm/detail/type_vec.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 #include "glm/gtc/constants.hpp"
+#include "../collections/CamerasCollection.h"
+
+namespace collections {
+    class CamerasCollection;
+}
+
 namespace scene {
 
     class Camera : public bases::BaseComponent {
         private:
-
+            friend class collections::CamerasCollection;
             float nearClipping;
             float farClipping;
             float fieldOfView;
             float aspectRatio;
             glm::vec4 viewPortRect;
-
-        public:
+            // Only camerascollection can create cameras
             Camera(void);
+            Camera(const Camera &cam);
+        public:
 
             enum TypeProjection {
                 Orthographic,

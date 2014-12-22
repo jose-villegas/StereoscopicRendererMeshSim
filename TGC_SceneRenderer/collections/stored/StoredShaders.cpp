@@ -1,9 +1,9 @@
-#include "Shaders.h"
+#include "StoredShaders.h"
 using namespace collections::stored;
 
-void collections::stored::Shaders::LoadShaders()
+void collections::stored::StoredShaders::LoadShaders()
 {
-    _shaders.resize(core::AvailableShaders::Shaders::Count);
+    _shaders.resize(core::StoredShaders::Shaders::Count);
     // Creating diffuse shader program
     types::ShaderProgram *shp = new types::ShaderProgram();
     types::Shader *vertex = new types::Shader(types::Shader::Vertex);
@@ -17,26 +17,26 @@ void collections::stored::Shaders::LoadShaders()
     shp->attachShader(fragment);
     shp->link();
     // Control Vars
-    core::Data::AddShaderData(shp);
+    core::ShadersData::AddShaderData(shp);
     // Texture Maps
     shp->addUniform("diffuseMap");
-    _shaders[core::AvailableShaders::Shaders::Diffuse] = shp;
+    _shaders[core::StoredShaders::Shaders::Diffuse] = shp;
 }
 
-types::ShaderProgram *collections::stored::Shaders::getDefaultShader(const core::AvailableShaders::Shaders &sh)
+types::ShaderProgram *collections::stored::StoredShaders::getDefaultShader(const core::StoredShaders::Shaders &sh)
 {
     if (_shaders.empty()) { return nullptr; }
 
     return _shaders[sh];
 }
 
-types::ShaderProgram *collections::stored::Shaders::getDefaultShader(const std::string &shaderName)
+types::ShaderProgram *collections::stored::StoredShaders::getDefaultShader(const std::string &shaderName)
 {
-    for (int i = 0; i < core::AvailableShaders::Count; i++) {
-        if (core::AvailableShaders::SHADER_NAMES[i] == shaderName) {
+    for (int i = 0; i < core::StoredShaders::Count; i++) {
+        if (core::StoredShaders::SHADER_NAMES[i] == shaderName) {
             return _shaders[i];
         }
     }
 }
 
-std::vector<types::ShaderProgram *> collections::stored::Shaders::_shaders;
+std::vector<types::ShaderProgram *> collections::stored::StoredShaders::_shaders;

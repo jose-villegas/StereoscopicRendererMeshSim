@@ -2,9 +2,10 @@
 #include "BaseObject.h"
 namespace bases {
 
-    class BaseComponent : public BaseObject {
+    class BaseComponent {
         public:
             bool alwaysActive;
+            BaseObject *base;
             BaseComponent(void);
     };
 }

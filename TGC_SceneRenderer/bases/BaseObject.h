@@ -10,6 +10,7 @@ namespace bases {
             types::Transform transform;
             BaseObject(void);
             BaseObject(const std::string &sObjectName);
+            virtual void render();
     };
 }
 

@@ -47,20 +47,20 @@ void core::Matrices::setProjectionMatrix(const glm::mat4 &value)
 
 void core::Matrices::setUniformBlockInfo()
 {
-    this->_uniformBlockInfo = this->_sLinkSP->getUniformBlock(Data::UniformBlocks::SHAREDMATRICES_NAME);
+    this->_uniformBlockInfo = this->_sLinkSP->getUniformBlock(ShadersData::UniformBlocks::SHAREDMATRICES_NAME);
 
     // if uniform block info is null cancel
     if (this->_uniformBlockInfo == nullptr) { return; }
 
     // Reserve memory for indices and offsets
-    this->_uniformBlockInfo->indices = new GLuint[Data::UniformBlocks::SHAREDMATRICES_MEMBER_COUNT];
-    this->_uniformBlockInfo->offset = new GLint[Data::UniformBlocks::SHAREDMATRICES_MEMBER_COUNT];
+    this->_uniformBlockInfo->indices = new GLuint[ShadersData::UniformBlocks::SHAREDMATRICES_MEMBER_COUNT];
+    this->_uniformBlockInfo->offset = new GLint[ShadersData::UniformBlocks::SHAREDMATRICES_MEMBER_COUNT];
     // set the uniform block info indices and offsets
     this->_sLinkSP->setUniformBlockInfoIndexAndOffset(
-        Data::UniformBlocks::SHAREDMATRICES_NAME,
+        ShadersData::UniformBlocks::SHAREDMATRICES_NAME,
         this->_uniformBlockInfo,
-        Data::UniformBlocks::SHAREDMATRICES_MEMBER_NAMES,
-        Data::UniformBlocks::SHAREDMATRICES_MEMBER_COUNT
+        ShadersData::UniformBlocks::SHAREDMATRICES_MEMBER_NAMES,
+        ShadersData::UniformBlocks::SHAREDMATRICES_MEMBER_COUNT
     );
 }
 

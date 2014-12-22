@@ -1,7 +1,7 @@
 #include "OpenGL.h"
 
 
-OpenGLForm::COpenGL::COpenGL(System::Windows::Forms::Panel ^parentForm, int iPositionX, int iPositionY, GLsizei iWidth, GLsizei iHeight)
+OGLContext::COpenGL::COpenGL(System::Windows::Forms::Panel ^parentForm, int iPositionX, int iPositionY, GLsizei iWidth, GLsizei iHeight)
 {
     enableRender = true;
     // Create OGL Context
@@ -43,7 +43,7 @@ OpenGLForm::COpenGL::COpenGL(System::Windows::Forms::Panel ^parentForm, int iPos
     _calcFramerate = true; // Default Don't
 }
 
-System::Void OpenGLForm::COpenGL::restartStopwatch(System::Void)
+System::Void OGLContext::COpenGL::restartStopwatch(System::Void)
 {
     this->_time->deltaTime(_stopwatch.Elapsed.TotalSeconds);
     this->_time->totalTime(this->_time->totalTime() + this->_time->deltaTime());
@@ -53,12 +53,12 @@ System::Void OpenGLForm::COpenGL::restartStopwatch(System::Void)
     _stopwatch.Restart();
 }
 
-System::Void OpenGLForm::COpenGL::render(System::Void)
+System::Void OGLContext::COpenGL::render(System::Void)
 {
     if (enableRender) { _oglRender->loop(); }
 }
 
-GLint OpenGLForm::COpenGL::oglSetPixelFormat(HDC hdc)
+GLint OGLContext::COpenGL::oglSetPixelFormat(HDC hdc)
 {
     if (!pfd) {
         PIXELFORMATDESCRIPTOR temporalPFD = {
@@ -117,7 +117,7 @@ GLint OpenGLForm::COpenGL::oglSetPixelFormat(HDC hdc)
     return 1;
 }
 
-HDC OpenGLForm::COpenGL::createHandle(System::Windows::Forms::Panel ^parentForm, int iPositionX, int iPositionY, GLsizei iWidth,
+HDC OGLContext::COpenGL::createHandle(System::Windows::Forms::Panel ^parentForm, int iPositionX, int iPositionY, GLsizei iWidth,
                                       GLsizei iHeight)
 {
     // Create Windows Handler Again But Now With MultiSample Enabled
@@ -137,7 +137,7 @@ HDC OpenGLForm::COpenGL::createHandle(System::Windows::Forms::Panel ^parentForm,
     return GetDC((HWND)this->Handle.ToPointer());
 }
 
-OpenGLForm::COpenGL::~COpenGL(System::Void)
+OGLContext::COpenGL::~COpenGL(System::Void)
 {
     enableRender = false;
     _texCollection->unloadAllTextures();
@@ -147,7 +147,7 @@ OpenGLForm::COpenGL::~COpenGL(System::Void)
     this->DestroyHandle();
 }
 
-System::Void OpenGLForm::COpenGL::clean()
+System::Void OGLContext::COpenGL::clean()
 {
 }
 

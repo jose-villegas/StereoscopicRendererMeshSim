@@ -4,6 +4,7 @@ using namespace scene;
 Mesh::Mesh(void)
 {
     _texCollection = collections::TexturesCollection::Instance();
+    this->base = new bases::BaseObject("Mesh");
 }
 
 Mesh::~Mesh(void)
@@ -48,7 +49,6 @@ bool Mesh::initFromScene(const aiScene *pScene, const std::string &sFilename)
 
 void Mesh::initMesh(unsigned int index, const aiMesh *paiMesh)
 {
-    _meshEntries[index].materialIndex = paiMesh->mMaterialIndex;
     std::vector<types::Vertex> vertices;
     std::vector<unsigned int> indices;
     const aiVector3D Zero3D(0.0f, 0.0f, 0.0f);
@@ -77,7 +77,8 @@ void Mesh::initMesh(unsigned int index, const aiMesh *paiMesh)
         indices.push_back(face.mIndices[2]);
     }
 
-    _meshEntries[index].init(vertices, indices);
+    _meshEntries[index] = new MeshEntry(vertices, indices);
+    _meshEntries[index]->materialIndex = paiMesh->mMaterialIndex;
 }
 
 bool Mesh::initMaterials(const aiScene *pScene, const std::string &sFilename)
@@ -198,7 +199,7 @@ void Mesh::clear()
     _materials.clear();
 }
 
-void Mesh::render() const
+void Mesh::render()
 {
     glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
@@ -207,20 +208,20 @@ void Mesh::render() const
     glEnableVertexAttribArray(4);
 
     for (unsigned int i = 0 ; i < _meshEntries.size() ; i++) {
-        glBindBuffer(GL_ARRAY_BUFFER, _meshEntries[i].VB);
+        glBindBuffer(GL_ARRAY_BUFFER, _meshEntries[i]->VB);
         glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(types::Vertex), 0);						// Vertex Position
         glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(types::Vertex), (const GLvoid *)12);		// Vertex UVS
         glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(types::Vertex), (const GLvoid *)20);		// Vertex Normals
         glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(types::Vertex), (const GLvoid *)32);		// Vertex Tangents
         glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(types::Vertex), (const GLvoid *)44);		// Vertex BiTangets
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _meshEntries[i].IB);
-        const unsigned int materialIndex = _meshEntries[i].materialIndex;
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _meshEntries[i]->IB);
+        const unsigned int materialIndex = _meshEntries[i]->materialIndex;
         // Binds the mesh material textures for shader use and set shaders material
         // uniforms, the material shadeprogram has to be set for the uniforms
         this->_materials[materialIndex]->bindTextures();
         this->_materials[materialIndex]->setUniforms();
         // Draw mesh
-        glDrawElements(GL_TRIANGLES, _meshEntries[i].numIndices, GL_UNSIGNED_INT, 0);
+        glDrawElements(GL_TRIANGLES, _meshEntries[i]->numIndices, GL_UNSIGNED_INT, 0);
     }
 
     glDisableVertexAttribArray(0);
@@ -243,10 +244,19 @@ void Mesh::MeshEntry::init(const std::vector<types::Vertex> &vertices, const std
 
 Mesh::MeshEntry::MeshEntry()
 {
-    VB = INVALID_VALUE;
-    IB = INVALID_VALUE;
-    numIndices  = 0;
-    materialIndex = INVALID_MATERIAL;
+    this->VB            = INVALID_VALUE;
+    this->IB            = INVALID_VALUE;
+    this->numIndices    = 0;
+    this->materialIndex = INVALID_MATERIAL;
+}
+
+scene::Mesh::MeshEntry::MeshEntry(const std::vector<types::Vertex> &vertices, const std::vector<unsigned int> &indices)
+{
+    this->VB            = INVALID_VALUE;
+    this->IB            = INVALID_VALUE;
+    this->numIndices    = 0;
+    this->materialIndex = INVALID_MATERIAL;
+    this->init(vertices, indices);
 }
 
 Mesh::MeshEntry::~MeshEntry()

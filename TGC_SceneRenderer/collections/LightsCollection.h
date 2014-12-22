@@ -1,8 +1,13 @@
 #pragma once
 #include "../bases/ShaderLinks.h"
-#include "../scene/Light.h"
 #include "../core/Data.h"
 #include "GL/gl_core_4_4.h"
+#include "../Scene/Light.h"
+#include <vector>
+
+namespace scene {
+    class Light; // Forward Declare to solve circular dependency
+}
 
 namespace collections {
 
@@ -10,19 +15,21 @@ namespace collections {
         private:
             // Class Instance
             static LightsCollection *_lightsCollection;
-            std::vector<scene::Light *> _sceneLights;
+            std::vector<scene::Light *> _lights;
 
             LightsCollection(void);
             LightsCollection(const LightsCollection &lightc);
+
         public:
+
             static LightsCollection *Instance();
             void setUniformBlock();
             void setUniformBlockInfo();
-
-            scene::Light *createLight();
             void removeLight(const unsigned int &lightIndex);
-            scene::Light *getLight(const unsigned int &lightIndex) const;
             const unsigned int lightCount() const;
+            scene::Light *createLight();
+            scene::Light *getLight(const unsigned int &lightIndex) const;
+
     };
 }
 

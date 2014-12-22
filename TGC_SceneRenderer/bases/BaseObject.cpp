@@ -9,4 +9,8 @@ bases::BaseObject::BaseObject(const std::string &sObjectName) : objectName(sObje
 {
 }
 
+void bases::BaseObject::render()
+{
+}
+
 

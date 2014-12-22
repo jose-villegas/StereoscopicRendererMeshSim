@@ -18,7 +18,7 @@ namespace scene {
             Mesh(void);
             ~Mesh(void);
             bool loadMesh(const std::string &sFileName);
-            void render() const;
+            void render();
             std::vector<types::Material *> materials() const { return _materials; };
 
         private:
@@ -35,11 +35,12 @@ namespace scene {
                 unsigned int numIndices;
                 unsigned int materialIndex;
                 MeshEntry();
+                MeshEntry(const std::vector<types::Vertex> &vertices, const std::vector<unsigned int> &indices);
                 ~MeshEntry();
                 void init(const std::vector<types::Vertex> &vertices, const std::vector<unsigned int> &indices);
             };
 
-            std::vector<MeshEntry> _meshEntries;
+            std::vector<MeshEntry *> _meshEntries;
             std::vector<types::Material *> _materials;
             // Engine Textures Collection
             collections::TexturesCollection *_texCollection;

@@ -45,9 +45,6 @@
     <ClCompile Include="ObjectsWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Collections\SceneObjects.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Bounding\Volumes\BoundingBox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -61,9 +58,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Types\Transform.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Context\LibInfo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Core\Renderer.cpp">
@@ -90,9 +84,6 @@
     <ClCompile Include="Types\Material.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Collections\stored\Shaders.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="core\Matrices.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -109,6 +100,21 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="bases\ShaderLinks.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Collections\SceneObjectsCollection.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Context\LibInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="collections\CamerasCollection.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Collections\stored\StoredShaders.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="collections\MeshesCollection.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -143,9 +149,6 @@
     <ClInclude Include="ObjectsWindow.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Collections\SceneObjects.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Bounding\Volumes\BoundingBox.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -159,9 +162,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Types\Transform.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Context\LibInfo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Core\Renderer.h">
@@ -194,9 +194,6 @@
     <ClInclude Include="Types\Material.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Collections\stored\Shaders.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="core\Matrices.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -210,6 +207,21 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="bases\ShaderLinks.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Collections\SceneObjectsCollection.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Context\LibInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="collections\CamerasCollection.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Collections\stored\StoredShaders.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="collections\MeshesCollection.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

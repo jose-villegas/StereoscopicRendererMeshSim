@@ -22,7 +22,7 @@
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v110</PlatformToolset>
     <CLRSupport>true</CLRSupport>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -97,16 +97,18 @@
     <ClCompile Include="Bases\BaseComponent.cpp" />
     <ClCompile Include="Bounding\Volumes\BoundingSphere.cpp" />
     <ClCompile Include="Bounding\Volumes\BoundingBox.cpp" />
+    <ClCompile Include="collections\CamerasCollection.cpp" />
     <ClCompile Include="core\Data.cpp" />
     <ClCompile Include="Context\LibInfo.cpp" />
     <ClCompile Include="include\GL\gl_core_4_4.c" />
-    <ClCompile Include="Collections\stored\Shaders.cpp" />
+    <ClCompile Include="Collections\stored\StoredShaders.cpp" />
     <ClCompile Include="core\Matrices.cpp" />
     <ClCompile Include="bases\ShaderLinks.cpp" />
     <ClCompile Include="collections\LightsCollection.cpp" />
+    <ClCompile Include="collections\MeshesCollection.cpp" />
     <ClCompile Include="Types\Material.cpp" />
     <ClCompile Include="ObjectsWindow.cpp" />
-    <ClCompile Include="Collections\SceneObjects.cpp" />
+    <ClCompile Include="Collections\SceneObjectsCollection.cpp" />
     <ClCompile Include="Core\Renderer.cpp" />
     <ClCompile Include="Scene\SceneObject.cpp" />
     <ClCompile Include="Bases\BaseObject.cpp" />
@@ -129,20 +131,22 @@
     <ClInclude Include="Bases\BaseComponent.h" />
     <ClInclude Include="Bounding\Volumes\BoundingSphere.h" />
     <ClInclude Include="Bounding\Volumes\BoundingBox.h" />
+    <ClInclude Include="collections\CamerasCollection.h" />
     <ClInclude Include="core\Data.h" />
     <ClInclude Include="Context\LibInfo.h" />
     <ClInclude Include="include\FreeImage\FreeImage.h" />
     <ClInclude Include="include\GL\gl_core_4_4.h" />
     <ClInclude Include="include\GL\wglext.h" />
-    <ClInclude Include="Collections\stored\Shaders.h" />
+    <ClInclude Include="Collections\stored\StoredShaders.h" />
     <ClInclude Include="core\Matrices.h" />
     <ClInclude Include="bases\ShaderLinks.h" />
     <ClInclude Include="collections\LightsCollection.h" />
+    <ClInclude Include="collections\MeshesCollection.h" />
     <ClInclude Include="Types\Material.h" />
     <ClInclude Include="ObjectsWindow.h">
       <FileType>CppForm</FileType>
     </ClInclude>
-    <ClInclude Include="Collections\SceneObjects.h" />
+    <ClInclude Include="Collections\SceneObjectsCollection.h" />
     <ClInclude Include="Core\Renderer.h" />
     <ClInclude Include="Scene\SceneObject.h" />
     <ClInclude Include="Bases\BaseObject.h" />
@@ -178,6 +182,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ObjectsWindow.resx">
       <DependentUpon>ObjectsWindow.h</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

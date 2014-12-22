@@ -1,4 +1,7 @@
 #include "LibInfo.h"
+#include <winbase.h>
+#include <stdio.h>
+#include <string>
 
 void LibInfo::Write()
 {

@@ -1,7 +1,8 @@
 #pragma once
+#include "../collections/SceneObjectsCollection.h"
 #include "../collections/TexturesCollection.h"
 #include "../collections/LightsCollection.h"
-#include "../collections/stored/Shaders.h"
+#include "../collections/stored/StoredShaders.h"
 #include "../scene/Camera.h"
 #include "../scene/Mesh.h"
 #include "../scene/Light.h"
@@ -18,7 +19,7 @@ namespace core {
     class Renderer {
         public:
             static Renderer *Instance();
-            bool load();
+            int load();
             void setup();
             void loop();
         private:
@@ -28,8 +29,8 @@ namespace core {
             Matrices *_elementalMatrices;
             utils::FrameRate *_frameRate;
             utils::Time *_time;
-            collections::TexturesCollection *_textures;
             collections::LightsCollection *_lights;
+            collections::SceneObjectsCollection *_sceneObjects;
     };
 }
 

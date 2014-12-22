@@ -3,12 +3,12 @@
 #include "..\core\Data.h"
 namespace collections {
     namespace stored {
-        class Shaders {
+        class StoredShaders {
             private:
                 static std::vector<types::ShaderProgram *> _shaders;
             public:
                 static void LoadShaders();
-                static types::ShaderProgram *getDefaultShader(const core::AvailableShaders::Shaders &sh);
+                static types::ShaderProgram *getDefaultShader(const core::StoredShaders::Shaders &sh);
                 static types::ShaderProgram *getDefaultShader(const std::string &shaderName);
         };
     }

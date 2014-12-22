@@ -8,7 +8,7 @@
 #include "Multisample/arb_multisample.h"
 using namespace System::Windows::Forms;
 
-namespace OpenGLForm {
+namespace OGLContext {
     public ref class COpenGL : public System::Windows::Forms::NativeWindow {
         public:
             COpenGL(System::Windows::Forms::Panel ^parentForm, int iPositionX, int iPositionY, GLsizei iWidth, GLsizei iHeight);

@@ -11,6 +11,7 @@ Camera::Camera(void)
     float ymax = nearClipping * glm::tan(fieldOfView * glm::pi<float>() / 360.0f);
     float xmax = ymax * aspectRatio;
     this->viewPortRect = glm::vec4(-xmax, xmax, -ymax, ymax);
+    this->base = new bases::BaseObject("Camera");
 }
 
 glm::mat4 scene::Camera::getViewMatrix(const glm::vec3 &cameraPosition, const glm::vec3 &cameraTarget, const glm::vec3 &vectorUp) const

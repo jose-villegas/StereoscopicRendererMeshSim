@@ -1,7 +1,7 @@
 #pragma once
 #include "../types/ShaderProgram.h"
 #include "../bases/ShaderLinks.h"
-#include "../Collections/stored/Shaders.h"
+#include "../Collections/stored/StoredShaders.h"
 #include "glm/detail/type_mat.hpp"
 #include "glm/gtx/transform.hpp"
 #include "glm/gtc/matrix_inverse.hpp"

@@ -1,7 +1,6 @@
 #pragma once
-#include "Collections\SceneObjects.h"
 
-namespace TGC_SceneRenderer {
+namespace SceneRenderer {
 
     using namespace System;
     using namespace System::ComponentModel;
@@ -34,8 +33,6 @@ namespace TGC_SceneRenderer {
                 }
             }
 
-
-        private: collections::SceneObjects *_sceneObjects;
         private: System::Windows::Forms::Panel  ^objectsWindowControlPanel;
         private: System::Windows::Forms::MenuStrip  ^createMenu;
         private: System::Windows::Forms::ToolStripMenuItem  ^createToolStripMenuItem;

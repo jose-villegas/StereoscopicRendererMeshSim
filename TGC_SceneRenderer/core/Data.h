@@ -2,10 +2,27 @@
 #include "assimp\material.h"
 #include "..\Types\ShaderProgram.h"
 namespace core {
+
+    class ExecutionInfo {
+
+        public:
+            static const std::string EXEC_DIR;
+    };
+
+    class EngineData {
+        public:
+            // Engine / Shaders Constrains
+            class Constrains {
+                public:
+                    static const int MAX_LIGHTS = 8;
+                    static const int MAX_SHADOWMAPS = 2;
+            };
+    };
+
     // Use shared_data.glsl for reference
-    // Stores all the relevant shaders and engine values
+    // Stores all the relevant shaders and some engine values
     // Inialize() ShadersData for non-const members
-    class Data {
+    class ShadersData {
         private:
             static bool dataSet;
             static void CREATE_SHAREDLIGHTS_COMPLETE_NAMES(char *outNames[]);
@@ -13,12 +30,6 @@ namespace core {
             // Inialize() ShadersData for non-const members
             static void Initialize();
 
-            // Engine / Shaders Constrains
-            class Constrains {
-                public:
-                    static const int MAX_LIGHTS = 8;
-                    static const int MAX_SHADOWMAPS = 2;
-            };
             // Avaible ShadersData Structures
             class Structures {
                 public:
@@ -40,7 +51,7 @@ namespace core {
                 public:
                     // SharedLight Uniform Block Info
                     static const int SHAREDLIGHTS_MEMBER_COUNT = 2;
-                    static const int SHAREDLIGHTS_COMPLETE_COUNT = Constrains::MAX_LIGHTS *Structures::LIGHT_MEMBER_COUNT + 1;
+                    static const int SHAREDLIGHTS_COMPLETE_COUNT = EngineData::Constrains::MAX_LIGHTS *Structures::LIGHT_MEMBER_COUNT + 1;
                     static const GLchar *SHAREDLIGHTS_MEMBER_NAMES[];
                     static GLchar *SHAREDLIGHTS_COMPLETE_NAMES[SHAREDLIGHTS_COMPLETE_COUNT]; // Inialize() ShadersData for non-const members
                     static const char *SHAREDLIGHTS_NAME;
@@ -77,7 +88,7 @@ namespace core {
             static void AddShaderData(types::ShaderProgram *shp);
     };
 
-    class AvailableShaders {
+    class StoredShaders {
         public:
             enum Shaders {
                 Diffuse,
@@ -85,6 +96,20 @@ namespace core {
             };
 
             static const char *SHADER_NAMES[];
+    };
+
+    class StoredMeshes {
+        public:
+            enum Meshes {
+                Cube,
+                Cylinder,
+                Sphere,
+                Torus,
+                Count // not a mesh, it represents the enum size
+            };
+
+            static const char *MESH_NAMES[];
+            static const char *MESH_FILENAMES[];
     };
 }
 
