@@ -1,5 +1,17 @@
 #include "Renderer.h"
-#include "..\collections\CamerasCollection.h"
+
+#include "../collections/SceneObjectsCollection.h"
+#include "../collections/stored/StoredShaders.h"
+#include "../scene/Camera.h"
+#include "../scene/Mesh.h"
+#include "../scene/Light.h"
+#include "../types/ShaderProgram.h"
+#include "../utils/FrameRate.h"
+#include "../utils/Time.h"
+#include "glm/gtx/transform.hpp"
+#include "glm/gtc/matrix_inverse.hpp"
+#include "Data.h"
+
 using namespace core;
 
 // Testing
@@ -19,6 +31,8 @@ Renderer::Renderer(void)
     this->_frameRate    = utils::FrameRate::Instance();
     this->_time         = utils::Time::Instance();
     this->_lights       = collections::LightsCollection::Instance();
+    this->_meshes		= collections::MeshesCollection::Instance();
+    this->_cameras		= collections::CamerasCollection::Instance();
     this->_sceneObjects = collections::SceneObjectsCollection::Instance();
 }
 
@@ -46,22 +60,18 @@ void core::Renderer::setup()
     // Load member classes
     this->_elementalMatrices = new Matrices();
     // Testing
-    testMesh = new scene::Mesh();
-    testMesh2 = new scene::Mesh();
+    testMesh = this->_meshes->createMesh();
+    testMesh2 = this->_meshes->createMesh();
     testMesh->loadMesh("../TGC_SceneRenderer/resources/models/cube/cube.obj");
     testMesh2->loadMesh("../TGC_SceneRenderer/resources/models/torus/torus.obj");
     // Shader
     shProgram = collections::stored::StoredShaders::getDefaultShader(core::StoredShaders::Diffuse);
-    // Camera
-    cam = collections::CamerasCollection::Instance()->createCamera();
-    cam->projectionType = scene::Camera::Perspective;
-    cam->setProjection(4.0f / 3.0f, 90.f, 0.1f, 100.f);
     // set elemental  matrices data info ubo
     this->_elementalMatrices->setShaderProgram(shProgram);
     this->_elementalMatrices->setUniformBlockInfo();
     // light UBO
-    this->_lights->createLight();
-    this->_lights->createLight();
+    this->_sceneObjects->addLight(scene::Light::Point);
+    this->_sceneObjects->addLight(scene::Light::Point);
     this->_lights->setShaderProgram(shProgram);
     this->_lights->setUniformBlockInfo();
     this->_lights->getLight(0)->base->transform.setPosition(6.0, 0.0, -10.0);
@@ -74,6 +84,9 @@ void core::Renderer::setup()
     this->_sceneObjects->addMesh(StoredMeshes::Cube);
     this->_sceneObjects->addMesh(StoredMeshes::Torus);
     this->_sceneObjects->addMesh(StoredMeshes::Sphere);
+    cam = this->_sceneObjects->addCamera();
+    cam->projectionType = scene::Camera::Perspective;
+    cam->setProjection(4.0f / 3.0f, 90.f, 0.1f, 100.f);
 }
 
 void core::Renderer::loop()
@@ -81,8 +94,13 @@ void core::Renderer::loop()
     // Clear the color and depth buffers.
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f) ;
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
     // Testing
-    shProgram->use();
+    for (int i = 0; i < this->_meshes->meshCount(); i++) {
+        model = this->_meshes->getMesh(i)->base->transform.getModelMatrix();
+    }
+
+    //shProgram->use();
     view = cam->getViewMatrix(glm::vec3(0, 0, 0), glm::vec3(0, 0, -1), glm::vec3(0, 1, 0));
     projection = cam->getProjectionTypeMatrix();
     model = glm::translate(glm::mat4(1.0), glm::vec3(0.0f, 0.0f, -15.0f)) *

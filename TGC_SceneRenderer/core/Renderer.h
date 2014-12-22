@@ -1,18 +1,11 @@
 #pragma once
-#include "../collections/SceneObjectsCollection.h"
-#include "../collections/TexturesCollection.h"
-#include "../collections/LightsCollection.h"
-#include "../collections/stored/StoredShaders.h"
-#include "../scene/Camera.h"
-#include "../scene/Mesh.h"
-#include "../scene/Light.h"
-#include "../types/ShaderProgram.h"
-#include "../utils/FrameRate.h"
-#include "../utils/Time.h"
-#include "glm/gtx/transform.hpp"
-#include "glm/gtc/matrix_inverse.hpp"
 #include "Matrices.h"
-#include "Data.h"
+#include "../Utils/FrameRate.h"
+#include "../Utils/Time.h"
+#include "../collections/LightsCollection.h"
+#include "../Collections/SceneObjectsCollection.h"
+#include "../collections/MeshesCollection.h"
+#include "../collections/CamerasCollection.h"
 
 namespace core {
 
@@ -30,6 +23,8 @@ namespace core {
             utils::FrameRate *_frameRate;
             utils::Time *_time;
             collections::LightsCollection *_lights;
+            collections::MeshesCollection *_meshes;
+            collections::CamerasCollection *_cameras;
             collections::SceneObjectsCollection *_sceneObjects;
     };
 }

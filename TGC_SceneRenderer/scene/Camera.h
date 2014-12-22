@@ -23,6 +23,7 @@ namespace scene {
             // Only camerascollection can create cameras
             Camera(void);
             Camera(const Camera &cam);
+            ~Camera(void);
         public:
 
             enum TypeProjection {

@@ -415,15 +415,14 @@ namespace SceneRenderer {
                 System::Windows::Forms::DialogResult result = assetImportFileDialog->ShowDialog();
 
                 if (result != System::Windows::Forms::DialogResult::Cancel) {
-                    scene::Mesh *nMesh = new scene::Mesh();
+                    // scene::Mesh *nMesh = new scene::Mesh();
                     msclr::interop::marshal_context context;
                     std::string standardString = context.marshal_as<std::string>(assetImportFileDialog->FileName);
-
-                    if (nMesh->loadMesh(standardString)) {
-                        std::cout << "Asset: " << standardString << " loaded successfully" << std::endl;
-                    } else {
-                        std::cout << "An error occurred loading " <<  standardString << " asset" << std::endl;
-                    }
+                    //if (nMesh->loadMesh(standardString)) {
+                    //    std::cout << "Asset: " << standardString << " loaded successfully" << std::endl;
+                    //} else {
+                    //    std::cout << "An error occurred loading " <<  standardString << " asset" << std::endl;
+                    //}
                 }
             }
         private: System::Void MainWindow_Shown(System::Object  ^sender, System::EventArgs  ^e)

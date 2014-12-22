@@ -39,3 +39,7 @@ std::string scene::Light::getLightTypeString(const LightType &lightType)
 
     return "";
 }
+
+scene::Light::~Light(void)
+{
+}

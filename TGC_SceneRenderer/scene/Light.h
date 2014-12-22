@@ -22,6 +22,7 @@ namespace scene {
             // Only Lights Collection can create Light Objects
             Light(const Light &lght);
             Light(void);
+            ~Light(void);
         public:
 
             enum LightType {

@@ -9,19 +9,28 @@
 #include <vector>
 #include <iostream>
 #include "../Types/Material.h"
+
 #define INVALID_MATERIAL 0xFFFFFFFF
 #define INVALID_VALUE 0xFFFFFFFF
+
+namespace collections {
+    class MeshesCollection;
+}
+
 namespace scene {
 
     class Mesh : public bases::BaseComponent {
         public:
-            Mesh(void);
-            ~Mesh(void);
+
             bool loadMesh(const std::string &sFileName);
             void render();
             std::vector<types::Material *> materials() const { return _materials; };
 
         private:
+            friend class collections::MeshesCollection;
+
+            Mesh(void);
+            ~Mesh(void);
             Mesh(const Mesh &mesh);
 
             bool initFromScene(const aiScene *paiScene, const std::string &sFilename);

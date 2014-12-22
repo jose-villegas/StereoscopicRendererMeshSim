@@ -1,11 +1,11 @@
 #pragma once
 #include "../scene/SceneObject.h"
-#include "../scene/Camera.h"
-#include "../scene/Light.h"
-#include "../Scene/Mesh.h"
 #include "../core/Data.h"
-#include "LightsCollection.h"
+#include "../Scene/Light.h"
+#include "../Scene/Camera.h"
+#include "../Scene/Mesh.h"
 #include <unordered_map>
+
 namespace collections {
 
     class SceneObjectsCollection {
@@ -17,12 +17,12 @@ namespace collections {
             void add(const std::string &sObjectName);
             void remove(const unsigned int &objectID);
             // Default Scene Objects
-            void addCamera();
-            void addLight(scene::Light::LightType lightType);
-            void addMesh(const std::string &sMeshname);
-            void addMesh(const core::StoredMeshes::Meshes meshId);
-            void addMeshFromFile(const std::string &sMeshFilename);
-            unsigned int count();
+            scene::Camera *addCamera();
+            scene::Light *addLight(scene::Light::LightType lightType);
+            scene::Mesh *addMesh(const std::string &sMeshname);
+            scene::Mesh *addMesh(const core::StoredMeshes::Meshes meshId);
+            scene::Mesh *addMeshFromFile(const std::string &sMeshFilename);
+            unsigned int sceneObjectsCount();
             SceneObjectsCollection(void);
             ~SceneObjectsCollection();
 

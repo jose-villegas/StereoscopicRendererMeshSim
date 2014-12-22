@@ -33,4 +33,10 @@ void collections::MeshesCollection::removeMesh(const unsigned int &index)
     this->_meshes.erase(this->_meshes.begin() + index);
 }
 
+void collections::MeshesCollection::removeMesh(scene::Mesh *mesh)
+{
+    auto it = std::find(this->_meshes.begin(), this->_meshes.end(), mesh);
+    this->_meshes.erase(it);
+}
+
 MeshesCollection *collections::MeshesCollection::_instance;

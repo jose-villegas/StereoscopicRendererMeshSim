@@ -218,6 +218,7 @@ void Mesh::render()
         const unsigned int materialIndex = _meshEntries[i]->materialIndex;
         // Binds the mesh material textures for shader use and set shaders material
         // uniforms, the material shadeprogram has to be set for the uniforms
+        this->_materials[materialIndex]->useMaterialShader();
         this->_materials[materialIndex]->bindTextures();
         this->_materials[materialIndex]->setUniforms();
         // Draw mesh

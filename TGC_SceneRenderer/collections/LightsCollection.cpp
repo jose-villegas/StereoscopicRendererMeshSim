@@ -75,6 +75,12 @@ void collections::LightsCollection::removeLight(const unsigned int &lightIndex)
     this->_lights.erase(_lights.begin() + lightIndex);
 }
 
+void collections::LightsCollection::removeLight(scene::Light *lght)
+{
+    auto it = std::find(this->_lights.begin(), this->_lights.end(), lght);
+    this->_lights.erase(it);
+}
+
 scene::Light *collections::LightsCollection::getLight(const unsigned int &lightIndex) const
 {
     if (lightIndex >= _lights.size()) { return nullptr; }

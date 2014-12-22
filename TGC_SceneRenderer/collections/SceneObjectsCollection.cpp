@@ -1,4 +1,8 @@
 #include "SceneObjectsCollection.h"
+#include "../scene/Camera.h"
+#include "../scene/Light.h"
+#include "../Scene/Mesh.h"
+#include "MeshesCollection.h"
 using namespace collections;
 
 SceneObjectsCollection::SceneObjectsCollection(void)
@@ -32,11 +36,19 @@ void collections::SceneObjectsCollection::remove(const unsigned int &objectID)
     // Cancel if a object with this ID doesn't exist
     if (this->_sceneObjects.find(objectID) == this->_sceneObjects.end()) { return; }
 
-    delete this->_sceneObjects[objectID];
+    // Remove this object also from the scene collectors
+    if (typeid(*_sceneObjects[objectID]) == typeid(scene::Camera)) {
+        collections::CamerasCollection::Instance()->removeCamera((scene::Camera *)this->_sceneObjects[objectID]);
+    } else if (typeid(*_sceneObjects[objectID]) == typeid(scene::Light)) {
+        collections::LightsCollection::Instance()->removeLight((scene::Light *)this->_sceneObjects[objectID]);
+    } else if (typeid(*_sceneObjects[objectID]) == typeid(scene::Mesh)) {
+        collections::MeshesCollection::Instance()->removeMesh((scene::Mesh *)this->_sceneObjects[objectID]);
+    }
+
     this->_sceneObjects.erase(objectID);
 }
 
-void collections::SceneObjectsCollection::addCamera()
+scene::Camera *collections::SceneObjectsCollection::addCamera()
 {
     objectsIndex++;
     scene::SceneObject *newObject = new scene::SceneObject();
@@ -44,9 +56,10 @@ void collections::SceneObjectsCollection::addCamera()
     newObject->setBaseObject(newCamera->base);
     newObject->addComponent(newCamera);
     this->_sceneObjects[objectsIndex] = newObject;
+    return newCamera;
 }
 
-void collections::SceneObjectsCollection::addLight(scene::Light::LightType lightType)
+scene::Light *collections::SceneObjectsCollection::addLight(scene::Light::LightType lightType)
 {
     objectsIndex++;
     scene::SceneObject *newObject = new scene::SceneObject();
@@ -54,34 +67,35 @@ void collections::SceneObjectsCollection::addLight(scene::Light::LightType light
     newObject->setBaseObject(newLight->base);
     newObject->addComponent(newLight);
     this->_sceneObjects[objectsIndex] = newObject;
+    return newLight;
 }
 
-void collections::SceneObjectsCollection::addMesh(const std::string &sMeshname)
+scene::Mesh *collections::SceneObjectsCollection::addMesh(const std::string &sMeshname)
 {
     for (int i = 0; i < core::StoredMeshes::Count; i++) {
         if (sMeshname == std::string(core::StoredMeshes::MESH_NAMES[i])) {
-            addMeshFromFile(core::ExecutionInfo::EXEC_DIR + core::StoredMeshes::MESH_FILENAMES[i]);
-            break;
+            return addMeshFromFile(core::ExecutionInfo::EXEC_DIR + core::StoredMeshes::MESH_FILENAMES[i]);
         }
     }
 }
 
-void collections::SceneObjectsCollection::addMesh(const core::StoredMeshes::Meshes meshId)
+scene::Mesh *collections::SceneObjectsCollection::addMesh(const core::StoredMeshes::Meshes meshId)
 {
-    addMeshFromFile(core::ExecutionInfo::EXEC_DIR + core::StoredMeshes::MESH_FILENAMES[meshId]);
+    return addMeshFromFile(core::ExecutionInfo::EXEC_DIR + core::StoredMeshes::MESH_FILENAMES[meshId]);
 }
 
-unsigned int collections::SceneObjectsCollection::count()
+unsigned int collections::SceneObjectsCollection::sceneObjectsCount()
 {
     return this->_sceneObjects.size();
 }
 
-void collections::SceneObjectsCollection::addMeshFromFile(const std::string &sMeshFilename)
+scene::Mesh *collections::SceneObjectsCollection::addMeshFromFile(const std::string &sMeshFilename)
 {
     objectsIndex++;
     scene::SceneObject *newObject = new scene::SceneObject();
-    scene::Mesh *newMesh = new scene::Mesh();
+    scene::Mesh *newMesh = collections::MeshesCollection::Instance()->createMesh();
     newMesh->loadMesh(sMeshFilename);
+    return newMesh;
 }
 
 unsigned int collections::SceneObjectsCollection::objectsIndex = 0;

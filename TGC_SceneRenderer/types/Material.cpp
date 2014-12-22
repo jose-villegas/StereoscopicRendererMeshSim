@@ -101,3 +101,8 @@ void types::Material::setTexturesUniforms(types::ShaderProgram *shp)
         shp->setUniform(core::ShadersData::Samplers2D::NAMES[texType], texID);
     }
 }
+
+void types::Material::useMaterialShader()
+{
+    this->_matShader->use();
+}

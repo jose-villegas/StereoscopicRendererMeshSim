@@ -35,6 +35,8 @@ namespace types {
             void addTexture(Texture *tex);
             void addTexture(Texture *tex[], const unsigned int texCount);
             void setShaderProgram(ShaderProgram *shp);
+            // matShader needs to be set
+            void useMaterialShader();
             void bindTextures() const;
             // Pass the textures ID to the ShaderProgram
             void setTexturesUniforms(types::ShaderProgram *shp);

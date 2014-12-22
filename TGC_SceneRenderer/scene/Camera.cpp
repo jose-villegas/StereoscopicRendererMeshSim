@@ -56,3 +56,7 @@ void scene::Camera::setProjection(const float &aspectRatio, const float &fieldOf
     float xmax = ymax * aspectRatio;
     this->viewPortRect = glm::vec4(-xmax, xmax, -ymax, ymax);
 }
+
+scene::Camera::~Camera(void)
+{
+}

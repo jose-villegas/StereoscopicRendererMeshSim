@@ -3,6 +3,7 @@ using namespace collections;
 
 CamerasCollection::CamerasCollection(void)
 {
+    this->_activeCamera = 0;
 }
 
 CamerasCollection *collections::CamerasCollection::Instance()
@@ -31,6 +32,24 @@ void collections::CamerasCollection::removeCamera(const unsigned int &index)
 
     delete this->_cameras[index];
     this->_cameras.erase(this->_cameras.begin() + index);
+}
+
+void collections::CamerasCollection::removeCamera(scene::Camera *cam)
+{
+    auto it = std::find(this->_cameras.begin(), this->_cameras.end(), cam);
+    this->_cameras.erase(it);
+}
+
+void collections::CamerasCollection::setActiveCamera(const unsigned int &index)
+{
+    if (index > this->_cameras.size()) { return; }
+
+    this->_activeCamera = index;
+}
+
+scene::Camera *collections::CamerasCollection::getActiveCamera()
+{
+    return this->_cameras[this->_activeCamera];
 }
 
 CamerasCollection *collections::CamerasCollection::_instance;
