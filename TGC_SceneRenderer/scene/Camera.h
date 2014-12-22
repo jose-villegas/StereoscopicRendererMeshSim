@@ -34,6 +34,7 @@ namespace scene {
             TypeProjection projectionType;
 
             glm::mat4 getViewMatrix(const glm::vec3 &cameraPosition, const glm::vec3 &cameraTarget, const glm::vec3 &vectorUp) const;
+            glm::mat4 getViewMatrix() const;
             glm::mat4 getProjectionTypeMatrix() const;
             glm::mat4 getFrustumMatrix() const;
             glm::mat4 getOrthographicMatrix() const;

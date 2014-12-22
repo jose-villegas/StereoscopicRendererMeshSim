@@ -22,10 +22,12 @@ namespace core {
             Matrices *_elementalMatrices;
             utils::FrameRate *_frameRate;
             utils::Time *_time;
+            scene::Camera *_activeCamera;
             collections::LightsCollection *_lights;
             collections::MeshesCollection *_meshes;
             collections::CamerasCollection *_cameras;
             collections::SceneObjectsCollection *_sceneObjects;
+
     };
 }
 

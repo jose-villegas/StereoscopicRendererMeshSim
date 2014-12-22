@@ -4,8 +4,8 @@ using namespace types;
 
 Material::Material(void)
 {
-    ambient = diffuse = specular = glm::vec3(0.1f);
-    this->shininess = 1.0f;
+    ambient = diffuse = specular = glm::vec3(0.5f);
+    this->shininess = 16.0f;
     this->_matShader = nullptr;
 
     // resize ShaderLink data vector for this structure

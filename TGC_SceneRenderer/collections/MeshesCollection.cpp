@@ -7,7 +7,9 @@ MeshesCollection::MeshesCollection(void)
 
 MeshesCollection *collections::MeshesCollection::Instance()
 {
-    if (!_instance) { return new collections::MeshesCollection(); }
+    if (!_instance) {
+        _instance = new collections::MeshesCollection();
+    }
 
     return _instance;
 }

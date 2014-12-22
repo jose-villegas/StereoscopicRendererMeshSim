@@ -19,6 +19,13 @@ glm::mat4 scene::Camera::getViewMatrix(const glm::vec3 &cameraPosition, const gl
     return glm::lookAt(cameraPosition, cameraTarget, vectorUp);
 }
 
+glm::mat4 scene::Camera::getViewMatrix() const
+{
+    glm::vec3 cameraPosition = this->base->transform.position;
+    glm::vec3 cameraTarget = (this->base->transform.position + glm::vec3(0.0, 0.0, -1.0)) * glm::mat3_cast(this->base->transform.rotation);
+    return getViewMatrix(cameraPosition, cameraTarget, glm::vec3(0.0, 1.0, 0.0));
+}
+
 glm::mat4 scene::Camera::getProjectionTypeMatrix() const
 {
     if (this->projectionType == Perspective) {

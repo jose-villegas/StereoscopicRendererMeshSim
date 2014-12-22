@@ -8,7 +8,9 @@ CamerasCollection::CamerasCollection(void)
 
 CamerasCollection *collections::CamerasCollection::Instance()
 {
-    if (!_instance) { return new CamerasCollection(); }
+    if (!_instance) {
+        _instance = new CamerasCollection();
+    }
 
     return _instance;
 }
