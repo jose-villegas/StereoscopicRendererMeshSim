@@ -114,6 +114,11 @@ scene::SceneObject *collections::SceneObjectsCollection::getSceneObject(const un
     return this->_sceneObjects[index];
 }
 
+const unsigned int collections::SceneObjectsCollection::getLastObjectIndex() const
+{
+    return objectsIndex;
+}
+
 unsigned int collections::SceneObjectsCollection::objectsIndex = 0;
 
 SceneObjectsCollection *collections::SceneObjectsCollection::_instance = nullptr;

@@ -31,3 +31,8 @@ void types::Transform::setScale(const float &value0, const float &value1, const 
     this->scale.y = value1;
     this->scale.z = value2;
 }
+
+glm::vec3 types::Transform::eulerAngles()
+{
+    return glm::eulerAngles(this->rotation);
+}

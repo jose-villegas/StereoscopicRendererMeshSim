@@ -1,7 +1,8 @@
 #pragma once
 #include <iostream>
+#include "Scene\SceneObject.h"
 
-namespace TGC_SceneRenderer {
+namespace SceneRenderer {
 
     using namespace System;
     using namespace System::ComponentModel;
@@ -21,10 +22,9 @@ namespace TGC_SceneRenderer {
                 //
                 //TODO: Add the constructor code here
                 //
-                this->vector3DControl2->valuesChangedEvent += gcnew ValuesChanged(this, &InspectorWindow::onVector3DUserControlChanged);
-                this->transformControl1->positionChanged += gcnew TransformValuesChangedHandler(this, &InspectorWindow::onPositionVectorChanged);
-                this->transformControl1->rotationChanged += gcnew TransformValuesChangedHandler(this, &InspectorWindow::onRotationVectorChanged);
-                this->transformControl1->scaleChanged += gcnew TransformValuesChangedHandler(this, &InspectorWindow::onScaleVectorChanged);
+                this->trnfrControl->positionChanged += gcnew TransformValuesChangedHandler(this, &InspectorWindow::onPositionVectorChanged);
+                this->trnfrControl->rotationChanged += gcnew TransformValuesChangedHandler(this, &InspectorWindow::onRotationVectorChanged);
+                this->trnfrControl->scaleChanged += gcnew TransformValuesChangedHandler(this, &InspectorWindow::onScaleVectorChanged);
             }
 
         protected:
@@ -38,7 +38,13 @@ namespace TGC_SceneRenderer {
                 }
             }
 
-        private: BaseControls::TransformControl  ^transformControl1;
+        public: System::Object ^InstancedBy;
+        public: System::Boolean changedActiveIndex;
+        private: BaseControl::BaseControlControl  ^baseControl;
+        private: System::Windows::Forms::TableLayoutPanel  ^tableLayoutPanel1;
+        private: BaseControls::TransformControl  ^trnfrControl;
+        private: unsigned int activeObjectIndex;
+        private: scene::SceneObject *activeSceneObject;
 
         private:
             /// <summary>
@@ -53,51 +59,71 @@ namespace TGC_SceneRenderer {
             /// </summary>
             void InitializeComponent(void)
             {
-                this->transformControl1 = (gcnew BaseControls::TransformControl());
+                this->baseControl = (gcnew BaseControl::BaseControlControl());
+                this->tableLayoutPanel1 = (gcnew System::Windows::Forms::TableLayoutPanel());
+                this->trnfrControl = (gcnew BaseControls::TransformControl());
+                this->tableLayoutPanel1->SuspendLayout();
                 this->SuspendLayout();
+                //
+                // baseControlControl1
+                //
+                this->baseControl->Dock = System::Windows::Forms::DockStyle::Top;
+                this->baseControl->Location = System::Drawing::Point(0, 0);
+                this->baseControl->Name = L"baseControlControl1";
+                this->baseControl->Size = System::Drawing::Size(599, 20);
+                this->baseControl->TabIndex = 3;
+                //
+                // tableLayoutPanel1
+                //
+                this->tableLayoutPanel1->ColumnCount = 1;
+                this->tableLayoutPanel1->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
+                        100)));
+                this->tableLayoutPanel1->Controls->Add(this->trnfrControl, 0, 0);
+                this->tableLayoutPanel1->Dock = System::Windows::Forms::DockStyle::Fill;
+                this->tableLayoutPanel1->Location = System::Drawing::Point(0, 20);
+                this->tableLayoutPanel1->Name = L"tableLayoutPanel1";
+                this->tableLayoutPanel1->RowCount = 2;
+                this->tableLayoutPanel1->RowStyles->Add((gcnew System::Windows::Forms::RowStyle()));
+                this->tableLayoutPanel1->RowStyles->Add((gcnew System::Windows::Forms::RowStyle()));
+                this->tableLayoutPanel1->Size = System::Drawing::Size(599, 242);
+                this->tableLayoutPanel1->TabIndex = 4;
                 //
                 // transformControl1
                 //
-                this->transformControl1->Location = System::Drawing::Point(12, 12);
-                this->transformControl1->Name = L"transformControl1";
-                this->transformControl1->Size = System::Drawing::Size(297, 96);
-                this->transformControl1->TabIndex = 2;
+                this->trnfrControl->AutoSize = true;
+                this->trnfrControl->Dock = System::Windows::Forms::DockStyle::Top;
+                this->trnfrControl->Location = System::Drawing::Point(3, 3);
+                this->trnfrControl->Name = L"transformControl1";
+                this->trnfrControl->Size = System::Drawing::Size(593, 106);
+                this->trnfrControl->TabIndex = 0;
                 //
                 // InspectorWindow
                 //
                 this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
                 this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-                this->ClientSize = System::Drawing::Size(470, 262);
-                this->Controls->Add(this->transformControl1);
-                this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::FixedToolWindow;
+                this->ClientSize = System::Drawing::Size(599, 262);
+                this->Controls->Add(this->tableLayoutPanel1);
+                this->Controls->Add(this->baseControl);
+                this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::SizableToolWindow;
                 this->Name = L"InspectorWindow";
                 this->Text = L"Inspector";
+                this->FormClosing += gcnew System::Windows::Forms::FormClosingEventHandler(this, &InspectorWindow::InspectorWindow_FormClosing);
+                this->tableLayoutPanel1->ResumeLayout(false);
+                this->tableLayoutPanel1->PerformLayout();
                 this->ResumeLayout(false);
             }
             #pragma endregion
-        private: System::Void onPositionVectorChanged(System::Object  ^sender, System::EventArgs  ^e)
+        private: System::Void onPositionVectorChanged(System::Object  ^sender, System::EventArgs  ^e);
+        private: System::Void onRotationVectorChanged(System::Object  ^sender, System::EventArgs  ^e);
+        private: System::Void onScaleVectorChanged(System::Object  ^sender, System::EventArgs  ^e);
+        public: System::Void SetActiveObjectIndex(unsigned int index);
+        private: System::Void InspectorWindow_FormClosing(System::Object  ^sender, System::Windows::Forms::FormClosingEventArgs  ^e)
             {
-                std::cout << this->transformControl1->Position()->X() << " ," <<  this->transformControl1->Position()->Y() << " ," <<  this->transformControl1->Position()->Z() << "\n";
+                if (e->CloseReason == System::Windows::Forms::CloseReason::UserClosing) {
+                    this->Hide();
+                    e->Cancel = true;
+                }
             }
-
-        private: System::Void onRotationVectorChanged(System::Object  ^sender, System::EventArgs  ^e)
-            {
-                std::cout << this->transformControl1->Rotation()->X() << " ," <<  this->transformControl1->Rotation()->Y() << " ," <<  this->transformControl1->Rotation()->Z() << "\n";
-            }
-
-        private: System::Void onScaleVectorChanged(System::Object  ^sender, System::EventArgs  ^e)
-            {
-                std::cout << this->transformControl1->Scale()->X() << " ," <<  this->transformControl1->Scale()->Y() << " ," <<  this->transformControl1->Scale()->Z() << "\n";
-            }
-
-
-
-
-        public: System::Void onVector3DUserControlChanged(System::Object  ^sender, System::EventArgs  ^e)
-            {
-                std::cout << this->vector3DControl2->X() << " ," << this->vector3DControl2->Y() << " ," << this->vector3DControl2->Z() << "\n";
-            }
-
 
     };
 }

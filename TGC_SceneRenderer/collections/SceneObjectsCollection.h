@@ -25,6 +25,7 @@ namespace collections {
             scene::SceneObject *getSceneObject(const unsigned int &index);
             const std::unordered_map<unsigned int, scene::SceneObject *> &getSceneObjects() const { return _sceneObjects; }
             unsigned int sceneObjectsCount();
+            const unsigned int getLastObjectIndex() const;
             SceneObjectsCollection(void);
             ~SceneObjectsCollection();
 

@@ -26,19 +26,26 @@ namespace SceneRenderer {
             MainWindow(void)
             {
                 InitializeComponent();
+                this->TopLevel = true;
                 // Setup OpenGL Render Context Inside a Panel
                 System::Windows::Forms::Panel ^oglRenderPanel = this->OpenGLRenderPanel;
                 OpenGL = gcnew COpenGL(oglRenderPanel, 0, 0, oglRenderPanel->ClientSize.Width, oglRenderPanel->ClientSize.Height);
                 // Add OpenGL Info to Form Title
                 this->Text += " (" + OpenGL->OGL_INFO_STRING + ")";
                 // Other Components / Forms
-                consoleIsActive = true;
-                objectsWindow = gcnew ObjectsWindow();
-                objectsWindow->Height = this->Height / 2 - 5;
+                consoleIsActive               = true;
+                objectsWindow                 = gcnew ObjectsWindow();
+                inspWin                       = gcnew SceneRenderer::InspectorWindow();
+                objectsWindow->InstancedBy    = this;
+                inspWin->InstancedBy          = this;
+                objectsWindow->Height   = this->Height / 2 - 5;
                 // Show Tool Windows At Startup
                 objectsWindow->Show();
                 objectsWindow->Refresh();
             }
+
+            ObjectsWindow ^GetObjectsWindow() { return objectsWindow; }
+            InspectorWindow ^GetInspectorWindow() { return inspWin; }
 
         protected:
             /// <summary>
@@ -46,12 +53,16 @@ namespace SceneRenderer {
             /// </summary>
             ~MainWindow()
             {
+                objectsWindow->Close();
+                inspWin->Close();
+
                 if (components) {
                     delete components;
                 }
             }
         private: OGLContext::COpenGL ^OpenGL;
         private: ObjectsWindow ^objectsWindow;
+        private: InspectorWindow ^inspWin;
         private: System::Windows::Forms::MenuStrip  ^topMenuBar;
         private: System::Boolean consoleIsActive;
             /// <summary>
@@ -442,7 +453,6 @@ namespace SceneRenderer {
             }
         private: System::Void inspectorToolStripMenuItem_Click(System::Object  ^sender, System::EventArgs  ^e)
             {
-                TGC_SceneRenderer::InspectorWindow ^inspWin = gcnew TGC_SceneRenderer::InspectorWindow();
                 inspWin->Show();
             }
     };

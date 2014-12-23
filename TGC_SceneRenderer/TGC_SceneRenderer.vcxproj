@@ -86,6 +86,9 @@
     <Reference Include="3DVectorControl">
       <HintPath>..\..\3DVectorControl\Debug\3DVectorControl.dll</HintPath>
     </Reference>
+    <Reference Include="BaseControl">
+      <HintPath>..\..\BaseControls\Debug\BaseControl.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="Microsoft.VisualBasic.PowerPacks.Vs">
       <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\VBPowerPacks\v10.0\Microsoft.VisualBasic.PowerPacks.Vs.dll</HintPath>
@@ -197,6 +200,7 @@
   <ItemGroup>
     <EmbeddedResource Include="InspectorWindow.resx">
       <DependentUpon>InspectorWindow.h</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="MainWindow.resX">
       <DependentUpon>MainWindow.h</DependentUpon>
