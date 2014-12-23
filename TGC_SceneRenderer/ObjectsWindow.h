@@ -201,24 +201,28 @@ namespace SceneRenderer {
                 this->cubeToolStripMenuItem->Name = L"cubeToolStripMenuItem";
                 this->cubeToolStripMenuItem->Size = System::Drawing::Size(161, 22);
                 this->cubeToolStripMenuItem->Text = L"Cube";
+                this->cubeToolStripMenuItem->Click += gcnew System::EventHandler(this, &ObjectsWindow::cubeToolStripMenuItem_Click);
                 //
                 // sphereToolStripMenuItem
                 //
                 this->sphereToolStripMenuItem->Name = L"sphereToolStripMenuItem";
                 this->sphereToolStripMenuItem->Size = System::Drawing::Size(161, 22);
                 this->sphereToolStripMenuItem->Text = L"Sphere";
+                this->sphereToolStripMenuItem->Click += gcnew System::EventHandler(this, &ObjectsWindow::sphereToolStripMenuItem_Click);
                 //
                 // torusToolStripMenuItem
                 //
                 this->torusToolStripMenuItem->Name = L"torusToolStripMenuItem";
                 this->torusToolStripMenuItem->Size = System::Drawing::Size(161, 22);
                 this->torusToolStripMenuItem->Text = L"Torus";
+                this->torusToolStripMenuItem->Click += gcnew System::EventHandler(this, &ObjectsWindow::torusToolStripMenuItem_Click);
                 //
                 // cylinderToolStripMenuItem
                 //
                 this->cylinderToolStripMenuItem->Name = L"cylinderToolStripMenuItem";
                 this->cylinderToolStripMenuItem->Size = System::Drawing::Size(161, 22);
                 this->cylinderToolStripMenuItem->Text = L"Cylinder";
+                this->cylinderToolStripMenuItem->Click += gcnew System::EventHandler(this, &ObjectsWindow::cylinderToolStripMenuItem_Click);
                 //
                 // searchToolStripTag
                 //
@@ -260,5 +264,50 @@ namespace SceneRenderer {
             }
 
         private: System::Void listView1_ItemSelectionChanged(System::Object  ^sender, System::Windows::Forms::ListViewItemSelectionChangedEventArgs  ^e);
+
+        public: void addCube()
+            {
+                std::string objectName = collections::SceneObjectsCollection::Instance()->addMesh(core::StoredMeshes::Cube)->base->objectName;
+                this->listView1->Items->Add(gcnew System::String(objectName.c_str()));
+                this->objectRealIndexes.Add(collections::SceneObjectsCollection::Instance()->getLastObjectIndex());
+            }
+
+        public: void addSphere()
+            {
+                std::string objectName = collections::SceneObjectsCollection::Instance()->addMesh(core::StoredMeshes::Sphere)->base->objectName;
+                this->listView1->Items->Add(gcnew System::String(objectName.c_str()));
+                this->objectRealIndexes.Add(collections::SceneObjectsCollection::Instance()->getLastObjectIndex());
+            }
+
+        public: void addTorus()
+            {
+                std::string objectName = collections::SceneObjectsCollection::Instance()->addMesh(core::StoredMeshes::Torus)->base->objectName;
+                this->listView1->Items->Add(gcnew System::String(objectName.c_str()));
+                this->objectRealIndexes.Add(collections::SceneObjectsCollection::Instance()->getLastObjectIndex());
+            }
+
+        public: void addCylinder()
+            {
+                std::string objectName = collections::SceneObjectsCollection::Instance()->addMesh(core::StoredMeshes::Cylinder)->base->objectName;
+                this->listView1->Items->Add(gcnew System::String(objectName.c_str()));
+                this->objectRealIndexes.Add(collections::SceneObjectsCollection::Instance()->getLastObjectIndex());
+            }
+
+        private: System::Void cubeToolStripMenuItem_Click(System::Object  ^sender, System::EventArgs  ^e)
+            {
+                addCube();
+            }
+        private: System::Void sphereToolStripMenuItem_Click(System::Object  ^sender, System::EventArgs  ^e)
+            {
+                addSphere();
+            }
+        private: System::Void torusToolStripMenuItem_Click(System::Object  ^sender, System::EventArgs  ^e)
+            {
+                addTorus();
+            }
+        private: System::Void cylinderToolStripMenuItem_Click(System::Object  ^sender, System::EventArgs  ^e)
+            {
+                addCylinder();
+            }
     };
 }

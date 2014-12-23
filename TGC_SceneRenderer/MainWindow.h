@@ -39,9 +39,7 @@ namespace SceneRenderer {
                 objectsWindow->InstancedBy    = this;
                 inspWin->InstancedBy          = this;
                 objectsWindow->Height   = this->Height / 2 - 5;
-                // Show Tool Windows At Startup
-                objectsWindow->Show();
-                objectsWindow->Refresh();
+                inspWin->Height   = this->Height / 2 - 5;
             }
 
             ObjectsWindow ^GetObjectsWindow() { return objectsWindow; }
@@ -88,7 +86,7 @@ namespace SceneRenderer {
         private: System::Windows::Forms::ToolStripMenuItem  ^createOtherToolStripMenuItem;
         private: System::Windows::Forms::ToolStripMenuItem  ^cameraToolStripMenuItem;
         private: System::Windows::Forms::ToolStripMenuItem  ^objectsToolStripMenuItem;
-        private: System::Windows::Forms::ToolStripSeparator  ^toolStripSeparator3;
+
         private: System::Windows::Forms::ToolStripMenuItem  ^importAssetToolStripMenuItem;
         private: System::Windows::Forms::ToolStripSeparator  ^toolStripSeparator4;
         private: System::Windows::Forms::ToolStripMenuItem  ^directionalLightToolStripMenuItem;
@@ -125,7 +123,6 @@ namespace SceneRenderer {
                 this->editToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
                 this->settingsToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
                 this->modelsToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-                this->toolStripSeparator3 = (gcnew System::Windows::Forms::ToolStripSeparator());
                 this->importAssetToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
                 this->sceneObjectToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
                 this->createOtherToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
@@ -227,23 +224,15 @@ namespace SceneRenderer {
                 //
                 // modelsToolStripMenuItem
                 //
-                this->modelsToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem ^  >(2) {
-                    this->toolStripSeparator3,
-                         this->importAssetToolStripMenuItem
-                });
+                this->modelsToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem ^  >(1) {this->importAssetToolStripMenuItem});
                 this->modelsToolStripMenuItem->Name = L"modelsToolStripMenuItem";
                 this->modelsToolStripMenuItem->Size = System::Drawing::Size(53, 20);
                 this->modelsToolStripMenuItem->Text = L"Model";
                 //
-                // toolStripSeparator3
-                //
-                this->toolStripSeparator3->Name = L"toolStripSeparator3";
-                this->toolStripSeparator3->Size = System::Drawing::Size(144, 6);
-                //
                 // importAssetToolStripMenuItem
                 //
                 this->importAssetToolStripMenuItem->Name = L"importAssetToolStripMenuItem";
-                this->importAssetToolStripMenuItem->Size = System::Drawing::Size(147, 22);
+                this->importAssetToolStripMenuItem->Size = System::Drawing::Size(152, 22);
                 this->importAssetToolStripMenuItem->Text = L"Import Model";
                 this->importAssetToolStripMenuItem->Click += gcnew System::EventHandler(this, &MainWindow::importAssetToolStripMenuItem_Click);
                 //
@@ -262,7 +251,7 @@ namespace SceneRenderer {
                          this->toolStripSeparator5, this->cubeToolStripMenuItem, this->sphereToolStripMenuItem, this->torusToolStripMenuItem, this->cylinderToolStripMenuItem
                 });
                 this->createOtherToolStripMenuItem->Name = L"createOtherToolStripMenuItem";
-                this->createOtherToolStripMenuItem->Size = System::Drawing::Size(141, 22);
+                this->createOtherToolStripMenuItem->Size = System::Drawing::Size(152, 22);
                 this->createOtherToolStripMenuItem->Text = L"Create Other";
                 //
                 // cameraToolStripMenuItem
@@ -428,7 +417,16 @@ namespace SceneRenderer {
             }
         private: System::Void MainWindow_Shown(System::Object  ^sender, System::EventArgs  ^e)
             {
+                // Show Tool Windows At Startup
+                objectsWindow->Show();
+                inspWin->Show();
+                objectsWindow->Refresh();
+                inspWin->Refresh();
+                // Set Convenient positions
+                this->SetDesktopLocation(50, 50);
                 this->objectsWindow->SetDesktopLocation(this->DesktopLocation.X + this->Width + 5, this->DesktopLocation.Y);
+                this->inspWin->SetDesktopLocation(this->DesktopLocation.X + this->Width + 5, this->DesktopLocation.Y + this->inspWin->Height + 5);
+                // Refresh Parent
                 this->Refresh();
             }
         private: System::Void MainWindow_FormClosing(System::Object  ^sender, System::Windows::Forms::FormClosingEventArgs  ^e)
@@ -437,19 +435,19 @@ namespace SceneRenderer {
             }
         private: System::Void cubeToolStripMenuItem_Click(System::Object  ^sender, System::EventArgs  ^e)
             {
-                collections::SceneObjectsCollection::Instance()->addMesh(core::StoredMeshes::Cube);
+                this->objectsWindow->addCube();
             }
         private: System::Void sphereToolStripMenuItem_Click(System::Object  ^sender, System::EventArgs  ^e)
             {
-                collections::SceneObjectsCollection::Instance()->addMesh(core::StoredMeshes::Sphere);
+                this->objectsWindow->addSphere();
             }
         private: System::Void torusToolStripMenuItem_Click(System::Object  ^sender, System::EventArgs  ^e)
             {
-                collections::SceneObjectsCollection::Instance()->addMesh(core::StoredMeshes::Torus);
+                this->objectsWindow->addTorus();
             }
         private: System::Void cylinderToolStripMenuItem_Click(System::Object  ^sender, System::EventArgs  ^e)
             {
-                collections::SceneObjectsCollection::Instance()->addMesh(core::StoredMeshes::Cylinder);
+                this->objectsWindow->addCylinder();
             }
         private: System::Void inspectorToolStripMenuItem_Click(System::Object  ^sender, System::EventArgs  ^e)
             {

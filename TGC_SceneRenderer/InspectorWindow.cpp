@@ -2,6 +2,13 @@
 #include "Collections\SceneObjectsCollection.h"
 #include "Scene\SceneObject.h"
 
+const double PI  = 3.141592653589793238463;
+
+// Converts degrees to radians.
+#define degreesToRadians(angleDegrees) (angleDegrees * PI / 180.0)
+
+// Converts radians to degrees.
+#define radiansToDegrees(angleRadians) (angleRadians * 180.0 / PI)
 
 System::Void SceneRenderer::InspectorWindow::SetActiveObjectIndex(unsigned int index)
 {
@@ -30,24 +37,36 @@ System::Void SceneRenderer::InspectorWindow::SetActiveObjectIndex(unsigned int i
 
 System::Void SceneRenderer::InspectorWindow::onPositionVectorChanged(System::Object ^sender, System::EventArgs ^e)
 {
-    if (changedActiveIndex) { changedActiveIndex = false; return; }
+    if (changedActiveIndex || !activeSceneObject) { changedActiveIndex = false; return; }
 
     // Set Transform
-    activeSceneObject->getBase()->transform.setPosition(this->trnfrControl->Position()->X(), this->trnfrControl->Position()->Y(), this->trnfrControl->Position()->Z());
+    activeSceneObject->getBase()->transform.setPosition(
+        this->trnfrControl->Position()->X(),
+        this->trnfrControl->Position()->Y(),
+        this->trnfrControl->Position()->Z()
+    );
 }
 
 System::Void SceneRenderer::InspectorWindow::onRotationVectorChanged(System::Object ^sender, System::EventArgs ^e)
 {
-    if (changedActiveIndex) { changedActiveIndex = false; return; }
+    if (changedActiveIndex || !activeSceneObject) { changedActiveIndex = false; return; }
 
     // Set Transform
-    activeSceneObject->getBase()->transform.setRotation(this->trnfrControl->Rotation()->X(), this->trnfrControl->Rotation()->Y(), this->trnfrControl->Rotation()->Z());
+    activeSceneObject->getBase()->transform.setRotation(
+        degreesToRadians(this->trnfrControl->Rotation()->X()),
+        degreesToRadians(this->trnfrControl->Rotation()->Y()),
+        degreesToRadians(this->trnfrControl->Rotation()->Z())
+    );
 }
 
 System::Void SceneRenderer::InspectorWindow::onScaleVectorChanged(System::Object ^sender, System::EventArgs ^e)
 {
-    if (changedActiveIndex) { changedActiveIndex = false; return; }
+    if (changedActiveIndex || !activeSceneObject) { changedActiveIndex = false; return; }
 
     // Set Transform
-    activeSceneObject->getBase()->transform.setScale(this->trnfrControl->Scale()->X(), this->trnfrControl->Scale()->Y(), this->trnfrControl->Scale()->Z());
+    activeSceneObject->getBase()->transform.setScale(
+        this->trnfrControl->Scale()->X(),
+        this->trnfrControl->Scale()->Y(),
+        this->trnfrControl->Scale()->Z()
+    );
 }
