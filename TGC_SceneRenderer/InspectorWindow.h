@@ -65,12 +65,12 @@ namespace SceneRenderer {
                 this->tableLayoutPanel1->SuspendLayout();
                 this->SuspendLayout();
                 //
-                // baseControlControl1
+                // baseControl
                 //
                 this->baseControl->Dock = System::Windows::Forms::DockStyle::Top;
                 this->baseControl->Location = System::Drawing::Point(0, 0);
-                this->baseControl->Name = L"baseControlControl1";
-                this->baseControl->Size = System::Drawing::Size(599, 20);
+                this->baseControl->Name = L"baseControl";
+                this->baseControl->Size = System::Drawing::Size(384, 20);
                 this->baseControl->TabIndex = 3;
                 //
                 // tableLayoutPanel1
@@ -85,23 +85,23 @@ namespace SceneRenderer {
                 this->tableLayoutPanel1->RowCount = 2;
                 this->tableLayoutPanel1->RowStyles->Add((gcnew System::Windows::Forms::RowStyle()));
                 this->tableLayoutPanel1->RowStyles->Add((gcnew System::Windows::Forms::RowStyle()));
-                this->tableLayoutPanel1->Size = System::Drawing::Size(599, 242);
+                this->tableLayoutPanel1->Size = System::Drawing::Size(384, 146);
                 this->tableLayoutPanel1->TabIndex = 4;
                 //
-                // transformControl1
+                // trnfrControl
                 //
                 this->trnfrControl->AutoSize = true;
                 this->trnfrControl->Dock = System::Windows::Forms::DockStyle::Top;
                 this->trnfrControl->Location = System::Drawing::Point(3, 3);
-                this->trnfrControl->Name = L"transformControl1";
-                this->trnfrControl->Size = System::Drawing::Size(593, 106);
+                this->trnfrControl->Name = L"trnfrControl";
+                this->trnfrControl->Size = System::Drawing::Size(378, 106);
                 this->trnfrControl->TabIndex = 0;
                 //
                 // InspectorWindow
                 //
                 this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
                 this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-                this->ClientSize = System::Drawing::Size(599, 262);
+                this->ClientSize = System::Drawing::Size(384, 166);
                 this->Controls->Add(this->tableLayoutPanel1);
                 this->Controls->Add(this->baseControl);
                 this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::SizableToolWindow;
