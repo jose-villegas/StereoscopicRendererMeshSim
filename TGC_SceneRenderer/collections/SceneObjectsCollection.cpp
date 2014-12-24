@@ -36,15 +36,7 @@ void collections::SceneObjectsCollection::remove(const unsigned int &objectID)
     // Cancel if a object with this ID doesn't exist
     if (this->_sceneObjects.find(objectID) == this->_sceneObjects.end()) { return; }
 
-    // Remove this object also from the scene collectors
-    if (typeid(*_sceneObjects[objectID]) == typeid(scene::Camera)) {
-        collections::CamerasCollection::Instance()->removeCamera((scene::Camera *)this->_sceneObjects[objectID]);
-    } else if (typeid(*_sceneObjects[objectID]) == typeid(scene::Light)) {
-        collections::LightsCollection::Instance()->removeLight((scene::Light *)this->_sceneObjects[objectID]);
-    } else if (typeid(*_sceneObjects[objectID]) == typeid(scene::Mesh)) {
-        collections::MeshesCollection::Instance()->removeMesh((scene::Mesh *)this->_sceneObjects[objectID]);
-    }
-
+    delete _sceneObjects[objectID];
     this->_sceneObjects.erase(objectID);
 }
 

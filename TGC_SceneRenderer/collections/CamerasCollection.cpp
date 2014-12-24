@@ -39,6 +39,7 @@ void collections::CamerasCollection::removeCamera(const unsigned int &index)
 void collections::CamerasCollection::removeCamera(scene::Camera *cam)
 {
     auto it = std::find(this->_cameras.begin(), this->_cameras.end(), cam);
+    delete *it;
     this->_cameras.erase(it);
 }
 

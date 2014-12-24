@@ -11,6 +11,7 @@ namespace bases {
             BaseObject(void);
             BaseObject(const std::string &sObjectName);
             virtual void render();
+            virtual ~BaseObject() {};
     };
 }
 

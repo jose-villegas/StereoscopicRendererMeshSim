@@ -17,9 +17,11 @@ namespace scene {
             // SceneObject *childObject;
 
             SceneObject();
+            ~SceneObject();
             void addComponent(bases::BaseComponent *component);
             void removeComponent(const unsigned int &componentIndex);
             void setBaseObject(bases::BaseObject *base);
+            const unsigned int componentCount() { return components.size(); };
             bases::BaseObject *getBase() const { return base; }
             const std::vector<bases::BaseComponent *> &getComponents() const { return components; }
     };

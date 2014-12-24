@@ -1,5 +1,6 @@
 #pragma once
 #include "BaseObject.h"
+#include <iostream>
 namespace bases {
 
     class BaseComponent {
@@ -7,6 +8,10 @@ namespace bases {
             bool alwaysActive;
             BaseObject *base;
             BaseComponent(void);
+            virtual ~BaseComponent()
+            {
+                std::cout << "delete" << std::endl;
+            };
     };
 }
 

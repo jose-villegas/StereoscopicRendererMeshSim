@@ -61,6 +61,9 @@ bool TexturesCollection::addTexture(const std::string &sFilename, types::Texture
 
 bool TexturesCollection::unloadTexture(const unsigned int &texID)
 {
+    // don't delete default texture
+    if (texID == DEFAULT_TEXTURE_ID) { return false; }
+
     bool result = true;
     // if this texture ID mapped, unload it's texture, and remove it from the map
     std::map<unsigned int, types::Texture *>::iterator it = textures.find(texID);

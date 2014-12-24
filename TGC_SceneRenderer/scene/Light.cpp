@@ -14,9 +14,7 @@ Light::Light(void)
 
 void scene::Light::setColor(const float &value0, const float &value1, const float &value2)
 {
-    this->color.r = value0;
-    this->color.g = value1;
-    this->color.b = value2;
+    this->color = glm::vec3(value0, value1, value2);
 }
 
 void scene::Light::setColor(const unsigned int &value0, const unsigned int &value1, const unsigned int &value2)

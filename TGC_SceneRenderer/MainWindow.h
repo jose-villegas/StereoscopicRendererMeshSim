@@ -40,10 +40,19 @@ namespace SceneRenderer {
                 inspWin->InstancedBy          = this;
                 objectsWindow->Height   = this->Height / 2 - 5;
                 inspWin->Height   = this->Height / 2 - 5;
+                // Enable OGL rendering
+                renderingEnabled = true;
             }
 
             ObjectsWindow ^GetObjectsWindow() { return objectsWindow; }
             InspectorWindow ^GetInspectorWindow() { return inspWin; }
+
+            void EnableRendering(bool value)
+            {
+                this->renderingEnabled = value;
+                // case true redraw
+                this->OpenGLRenderPanel->Invalidate();
+            }
 
         protected:
             /// <summary>
@@ -58,11 +67,13 @@ namespace SceneRenderer {
                     delete components;
                 }
             }
+
         private: OGLContext::COpenGL ^OpenGL;
         private: ObjectsWindow ^objectsWindow;
         private: InspectorWindow ^inspWin;
         private: System::Windows::Forms::MenuStrip  ^topMenuBar;
         private: System::Boolean consoleIsActive;
+        private: System::Boolean renderingEnabled;
             /// <summary>
             /// Required designer variable.
             /// </summary>
@@ -99,6 +110,8 @@ namespace SceneRenderer {
         private: System::Windows::Forms::ToolStripMenuItem  ^torusToolStripMenuItem;
         private: System::Windows::Forms::ToolStripMenuItem  ^cylinderToolStripMenuItem;
         private: System::Windows::Forms::ToolStripMenuItem  ^inspectorToolStripMenuItem;
+
+
 
 
 
@@ -231,8 +244,9 @@ namespace SceneRenderer {
                 //
                 // importAssetToolStripMenuItem
                 //
+                this->importAssetToolStripMenuItem->BackColor = System::Drawing::Color::White;
                 this->importAssetToolStripMenuItem->Name = L"importAssetToolStripMenuItem";
-                this->importAssetToolStripMenuItem->Size = System::Drawing::Size(152, 22);
+                this->importAssetToolStripMenuItem->Size = System::Drawing::Size(147, 22);
                 this->importAssetToolStripMenuItem->Text = L"Import Model";
                 this->importAssetToolStripMenuItem->Click += gcnew System::EventHandler(this, &MainWindow::importAssetToolStripMenuItem_Click);
                 //
@@ -251,7 +265,7 @@ namespace SceneRenderer {
                          this->toolStripSeparator5, this->cubeToolStripMenuItem, this->sphereToolStripMenuItem, this->torusToolStripMenuItem, this->cylinderToolStripMenuItem
                 });
                 this->createOtherToolStripMenuItem->Name = L"createOtherToolStripMenuItem";
-                this->createOtherToolStripMenuItem->Size = System::Drawing::Size(152, 22);
+                this->createOtherToolStripMenuItem->Size = System::Drawing::Size(141, 22);
                 this->createOtherToolStripMenuItem->Text = L"Create Other";
                 //
                 // cameraToolStripMenuItem
@@ -383,6 +397,8 @@ namespace SceneRenderer {
             #pragma endregion
         private: System::Void timer1_Tick(System::Object  ^sender, System::Windows::Forms::PaintEventArgs  ^e)
             {
+                if (!renderingEnabled) { return; }
+
                 OpenGL->restartStopwatch();
                 UNREFERENCED_PARAMETER(sender);
                 UNREFERENCED_PARAMETER(e);
@@ -413,6 +429,10 @@ namespace SceneRenderer {
                 if (result != System::Windows::Forms::DialogResult::Cancel) {
                     msclr::interop::marshal_context context;
                     std::string standardString = context.marshal_as<std::string>(assetImportFileDialog->FileName);
+                    // Load mesh
+                    collections::SceneObjectsCollection::Instance()->addMeshFromFile(standardString);
+                    // Notify the objects window of the new addition
+                    this->objectsWindow->addedObject();
                 }
             }
         private: System::Void MainWindow_Shown(System::Object  ^sender, System::EventArgs  ^e)
@@ -451,7 +471,11 @@ namespace SceneRenderer {
             }
         private: System::Void inspectorToolStripMenuItem_Click(System::Object  ^sender, System::EventArgs  ^e)
             {
-                inspWin->Show();
+                if (inspWin->Visible) {
+                    inspWin->Hide();
+                } else {
+                    inspWin->Show();
+                }
             }
     };
 }

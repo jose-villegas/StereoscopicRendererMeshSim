@@ -1,6 +1,5 @@
 #include "OpenGL.h"
 
-
 OGLContext::COpenGL::COpenGL(System::Windows::Forms::Panel ^parentForm, int iPositionX, int iPositionY, GLsizei iWidth, GLsizei iHeight)
 {
     enableRender = true;

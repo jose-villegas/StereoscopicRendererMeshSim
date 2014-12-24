@@ -26,9 +26,9 @@ namespace scene {
         public:
 
             enum LightType {
-                Directional,
+                Point,
                 Spot,
-                Point
+                Directional
             };
 
             glm::vec3 color;

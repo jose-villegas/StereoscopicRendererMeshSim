@@ -1,4 +1,5 @@
 #include "Material.h"
+#include "..\Collections\TexturesCollection.h"
 
 using namespace types;
 
@@ -105,4 +106,11 @@ void types::Material::setTexturesUniforms(types::ShaderProgram *shp)
 void types::Material::useMaterialShader()
 {
     this->_matShader->use();
+}
+
+types::Material::~Material(void)
+{
+    for each(types::Texture * var in this->_textures) {
+        collections::TexturesCollection::Instance()->unloadTexture(var->geTexId());
+    }
 }

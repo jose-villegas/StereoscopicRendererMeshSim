@@ -60,7 +60,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>opengl32.lib;gdi32.lib;user32.lib;FreeImaged.lib;assimpd.lib</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;gdi32.lib;user32.lib;comctl32.lib;comdlg32.lib;kernel32.lib;advapi32.lib;FreeImaged.lib;assimpd.lib</AdditionalDependencies>
       <SubSystem>Windows</SubSystem>
       <EntryPointSymbol>main</EntryPointSymbol>
       <AdditionalLibraryDirectories>$(ProjectDir)lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -76,7 +76,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>opengl32.lib;gdi32.lib;user32.lib;freeimage.lib;assimp.lib</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;gdi32.lib;user32.lib;comctl32.lib;comdlg32.lib;kernel32.lib;advapi32.lib;freeimage.lib;assimp.lib</AdditionalDependencies>
       <SubSystem>Windows</SubSystem>
       <EntryPointSymbol>main</EntryPointSymbol>
       <AdditionalLibraryDirectories>$(ProjectDir)lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -84,10 +84,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <Reference Include="3DVectorControl">
-      <HintPath>..\..\3DVectorControl\Debug\3DVectorControl.dll</HintPath>
+      <HintPath>..\..\BaseControls\Debug\3DVectorControl.dll</HintPath>
     </Reference>
     <Reference Include="BaseControl">
       <HintPath>..\..\BaseControls\Debug\BaseControl.dll</HintPath>
+    </Reference>
+    <Reference Include="LightControl">
+      <HintPath>..\..\BaseControls\Debug\LightControl.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="Microsoft.VisualBasic.PowerPacks.Vs">
@@ -99,9 +102,6 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="Transform">
-      <HintPath>..\..\Transform\Debug\Transform.dll</HintPath>
-    </Reference>
     <Reference Include="TransformControl">
       <HintPath>..\..\BaseControls\Debug\TransformControl.dll</HintPath>
     </Reference>

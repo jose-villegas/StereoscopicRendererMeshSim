@@ -196,7 +196,15 @@ bool Mesh::initMaterials(const aiScene *pScene, const std::string &sFilename)
 
 void Mesh::clear()
 {
+    for each(types::Material * var in this->_materials) {
+        delete var;
+    }
+
     _materials.clear();
+
+    for each(MeshEntry * var in this->_meshEntries) {
+        delete var;
+    }
 }
 
 void Mesh::render()

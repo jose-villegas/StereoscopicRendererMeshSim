@@ -133,6 +133,7 @@ namespace SceneRenderer {
                 this->listView1->UseCompatibleStateImageBehavior = false;
                 this->listView1->View = System::Windows::Forms::View::Details;
                 this->listView1->ItemSelectionChanged += gcnew System::Windows::Forms::ListViewItemSelectionChangedEventHandler(this, &ObjectsWindow::listView1_ItemSelectionChanged);
+                this->listView1->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &ObjectsWindow::objectListKeyListener);
                 //
                 // columnHeader1
                 //
@@ -293,6 +294,13 @@ namespace SceneRenderer {
                 this->objectRealIndexes.Add(collections::SceneObjectsCollection::Instance()->getLastObjectIndex());
             }
 
+        public: void addedObject()
+            {
+                std::string objectName = collections::SceneObjectsCollection::Instance()->getSceneObject(collections::SceneObjectsCollection::Instance()->getLastObjectIndex())->getBase()->objectName;
+                this->listView1->Items->Add(gcnew System::String(objectName.c_str()));
+                this->objectRealIndexes.Add(collections::SceneObjectsCollection::Instance()->getLastObjectIndex());
+            }
+
         private: System::Void cubeToolStripMenuItem_Click(System::Object  ^sender, System::EventArgs  ^e)
             {
                 addCube();
@@ -308,6 +316,15 @@ namespace SceneRenderer {
         private: System::Void cylinderToolStripMenuItem_Click(System::Object  ^sender, System::EventArgs  ^e)
             {
                 addCylinder();
+            }
+        private: System::Void objectListKeyListener(System::Object  ^sender, System::Windows::Forms::KeyEventArgs  ^e)
+            {
+                if (e->KeyCode == System::Windows::Forms::Keys::Delete && this->listView1->SelectedIndices[0] != -1) {
+                    unsigned int realIndex = (unsigned int)this->objectRealIndexes[this->listView1->SelectedIndices[0]];
+                    collections::SceneObjectsCollection::Instance()->remove(realIndex);  // wrap around int() to create a temporary instance
+                    this->objectRealIndexes.RemoveAt(this->listView1->SelectedIndices[0]);
+                    this->listView1->Items->RemoveAt(this->listView1->SelectedIndices[0]);
+                }
             }
     };
 }

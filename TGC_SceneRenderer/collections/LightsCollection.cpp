@@ -78,6 +78,7 @@ void collections::LightsCollection::removeLight(const unsigned int &lightIndex)
 void collections::LightsCollection::removeLight(scene::Light *lght)
 {
     auto it = std::find(this->_lights.begin(), this->_lights.end(), lght);
+    delete *it;
     this->_lights.erase(it);
 }
 

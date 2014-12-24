@@ -4,7 +4,7 @@ using namespace scene;
 Camera::Camera(void)
 {
     this->projectionType = Perspective;
-    this->farClipping = 100.0f;
+    this->farClipping = 1000.0f;
     this->nearClipping = 0.1f;
     this->fieldOfView = 60.0f;
     this->aspectRatio = 16.0f / 9.0f;

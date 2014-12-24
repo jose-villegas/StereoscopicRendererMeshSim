@@ -26,11 +26,12 @@ namespace scene {
             void render();
             std::vector<types::Material *> materials() const { return _materials; };
 
+            ~Mesh(void);
+
         private:
             friend class collections::MeshesCollection;
 
             Mesh(void);
-            ~Mesh(void);
             Mesh(const Mesh &mesh);
 
             bool initFromScene(const aiScene *paiScene, const std::string &sFilename);
