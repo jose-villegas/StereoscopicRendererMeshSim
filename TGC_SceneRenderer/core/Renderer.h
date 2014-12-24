@@ -9,13 +9,20 @@
 
 namespace core {
 
+
+
     class Renderer {
+
         public:
+
             static Renderer *Instance();
             int load();
             void setup();
             void loop();
+            void viewport(const unsigned int &width, const unsigned int &height);
+
         private:
+
             Renderer(void);
             Renderer(const Renderer &cpy);
             static Renderer *_rdInstance;

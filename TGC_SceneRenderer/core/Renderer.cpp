@@ -84,7 +84,7 @@ void core::Renderer::loop()
     this->_lights->setUniformBlock();
     // set elemetal matricse with the active camera info, these matrices stay the same for all models
     this->_elementalMatrices->setViewMatrix(this->_activeCamera->getViewMatrix());
-    this->_elementalMatrices->setProjectionMatrix(this->_activeCamera->getFrustumMatrix());
+    this->_elementalMatrices->setProjectionMatrix(this->_activeCamera->getProjectionTypeMatrix());
 
     for (unsigned int i = 0; i < this->_meshes->meshCount(); i++) {
         // update the model matrix per model
@@ -96,6 +96,12 @@ void core::Renderer::loop()
         // render the current mesh
         this->_meshes->getMesh(i)->render();
     }
+}
+
+void core::Renderer::viewport(const unsigned int &width, const unsigned int &height)
+{
+    glViewport(0, 0, width, height);
+    this->_cameras->getActiveCamera()->setAspectRatio((float)width / (float)height);
 }
 
 Renderer *core::Renderer::_rdInstance = nullptr;

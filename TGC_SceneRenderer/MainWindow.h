@@ -375,6 +375,7 @@ namespace SceneRenderer {
                 this->OpenGLRenderPanel->Size = System::Drawing::Size(1424, 838);
                 this->OpenGLRenderPanel->TabIndex = 3;
                 this->OpenGLRenderPanel->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &MainWindow::timer1_Tick);
+                this->OpenGLRenderPanel->Resize += gcnew System::EventHandler(this, &MainWindow::OpenGLRenderPanel_Resize);
                 //
                 // MainWindow
                 //
@@ -476,6 +477,10 @@ namespace SceneRenderer {
                 } else {
                     inspWin->Show();
                 }
+            }
+        private: System::Void OpenGLRenderPanel_Resize(System::Object  ^sender, System::EventArgs  ^e)
+            {
+                this->OpenGL->resizeRenderingViewPort(this->OpenGLRenderPanel->Width, this->OpenGLRenderPanel->Height);
             }
     };
 }

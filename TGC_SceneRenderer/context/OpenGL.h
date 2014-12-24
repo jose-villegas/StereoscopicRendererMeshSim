@@ -23,6 +23,8 @@ namespace OGLContext {
             System::Void clean();
             System::Boolean enableRender;
 
+            void resizeRenderingViewPort(System::Int32 width, System::Int32 height);
+
         private:
             HDC _mHDC;
             HGLRC _mHGLRC;

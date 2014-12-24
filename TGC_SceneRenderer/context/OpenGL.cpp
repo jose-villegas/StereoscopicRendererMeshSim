@@ -33,6 +33,7 @@ OGLContext::COpenGL::COpenGL(System::Windows::Forms::Panel ^parentForm, int iPos
     LibInfo::Write();
     // Setup OGL Flags
     _oglRender->setup();
+    _oglRender->viewport(parentForm->Width, parentForm->Height);
     // Query Current OGL Context Info
     OGL_INFO_STRING = LibInfo::OGL_INFO_STRING;
     // Other Class Variables Instancing
@@ -148,5 +149,13 @@ OGLContext::COpenGL::~COpenGL(System::Void)
 
 System::Void OGLContext::COpenGL::clean()
 {
+}
+
+void OGLContext::COpenGL::resizeRenderingViewPort(System::Int32 width, System::Int32 height)
+{
+    // Resize context handler
+    SetWindowPos((HWND)this->Handle.ToPointer(), HWND_BOTTOM, 0, 0, width, height, SWP_NOMOVE);
+    // Resize rendering viewport
+    this->_oglRender->viewport(int(width), int(height));
 }
 
