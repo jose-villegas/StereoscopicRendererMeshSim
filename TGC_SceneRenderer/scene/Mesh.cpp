@@ -1,4 +1,5 @@
 #include "Mesh.h"
+#include "..\core\Data.h"
 using namespace scene;
 
 Mesh::Mesh(void)
@@ -251,17 +252,17 @@ void Mesh::MeshEntry::generateBuffers()
 
 Mesh::MeshEntry::MeshEntry()
 {
-    this->VB            = INVALID_VALUE;
-    this->IB            = INVALID_VALUE;
-    this->materialIndex = INVALID_MATERIAL;
+    this->VB            = core::EngineData::Commoms::INVALID_VALUE;
+    this->IB            = core::EngineData::Commoms::INVALID_VALUE;
+    this->materialIndex = core::EngineData::Commoms::INVALID_MATERIAL;
     this->verticesCount = this->indicesCount = 0;
 }
 
 scene::Mesh::MeshEntry::MeshEntry(const std::vector<types::Vertex> &vertices, const std::vector<unsigned int> &indices)
 {
-    this->VB            = INVALID_VALUE;
-    this->IB            = INVALID_VALUE;
-    this->materialIndex = INVALID_MATERIAL;
+    this->VB            = core::EngineData::Commoms::INVALID_VALUE;
+    this->IB            = core::EngineData::Commoms::INVALID_VALUE;
+    this->materialIndex = core::EngineData::Commoms::INVALID_MATERIAL;
     this->verticesCount = this->indicesCount = 0;
     this->generateBuffers();
     this->setBuffersData(vertices, indices);
@@ -280,11 +281,11 @@ void scene::Mesh::MeshEntry::setBuffersData(const std::vector<types::Vertex> &ve
 
 Mesh::MeshEntry::~MeshEntry()
 {
-    if (VB != INVALID_VALUE) {
+    if (VB != core::EngineData::Commoms::INVALID_VALUE) {
         glDeleteBuffers(1, &VB);
     }
 
-    if (IB != INVALID_VALUE) {
+    if (IB != core::EngineData::Commoms::INVALID_VALUE) {
         glDeleteBuffers(1, &IB);
     }
 }

@@ -1,7 +1,7 @@
 #pragma once
-#define DEFAULT_TEXTURE_ID 0
 
 #include "../types/Texture.h"
+#include "../core/Data.h"
 #include <fstream>
 #include <iostream>
 #include <streambuf>
@@ -28,7 +28,7 @@ namespace collections {
             // amount of textures loaded
             unsigned int textureCount(void) const;
             // return default texture's texID, white default texture
-            types::Texture *getDefaultTexture() { return getTexture(DEFAULT_TEXTURE_ID); }
+            types::Texture *getDefaultTexture() { return getTexture(core::EngineData::Commoms::DEFAULT_TEXTURE_ID); }
             types::Texture *getTexture(const unsigned &texID);
 
         protected:

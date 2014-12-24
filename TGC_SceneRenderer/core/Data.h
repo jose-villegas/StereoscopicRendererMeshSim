@@ -11,6 +11,12 @@ namespace core {
 
     class EngineData {
         public:
+            class Commoms {
+                public:
+                    static const int DEFAULT_TEXTURE_ID = 0;
+                    static const int INVALID_MATERIAL = -1;
+                    static const int INVALID_VALUE = -1;
+            };
             // Engine / Shaders Constrains
             class Constrains {
                 public:

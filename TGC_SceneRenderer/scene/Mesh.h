@@ -10,9 +10,6 @@
 #include <iostream>
 #include "../Types/Material.h"
 
-#define INVALID_MATERIAL 0xFFFFFFFF
-#define INVALID_VALUE 0xFFFFFFFF
-
 namespace collections {
     class MeshesCollection;
 }
