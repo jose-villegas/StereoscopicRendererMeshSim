@@ -168,7 +168,7 @@ void core::ShadersData::Initialize()
     // Only on call to this function
     if (dataSet) { return; }
 
-    // Load Execution Location Info
+    // Load Execution Location Info - WIN only
     const std::string &execDirRef = core::ExecutionInfo::EXEC_DIR;
     DWORD cwdsz = GetCurrentDirectory(0, 0); // determine size needed
     char *cwd = (char *)malloc(cwdsz);

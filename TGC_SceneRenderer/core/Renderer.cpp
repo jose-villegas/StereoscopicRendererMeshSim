@@ -44,12 +44,10 @@ void core::Renderer::setup()
     // Initialize Engine Data
     core::ShadersData::Initialize();
     // Setup OpenGL Flags
-    glEnable(GL_CULL_FACE);
     glCullFace(GL_BACK);
+    glEnable(GL_CULL_FACE);
     glEnable(GL_DEPTH_TEST);
-    glDepthFunc(GL_LESS);
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glDepthFunc(GL_LEQUAL);
     // Load member classes
     this->_elementalMatrices = new Matrices();
     // Get a default stored shader
@@ -104,14 +102,9 @@ void core::Renderer::viewport(const unsigned int &width, const unsigned int &hei
     this->_cameras->getActiveCamera()->setAspectRatio((float)width / (float)height);
 }
 
-void core::Renderer::wireframeMode()
+void core::Renderer::polygonModel(Modes mode)
 {
-    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-}
-
-void core::Renderer::filledMode()
-{
-    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+    glPolygonMode(GL_FRONT_AND_BACK, mode);
 }
 
 Renderer *core::Renderer::_rdInstance = nullptr;

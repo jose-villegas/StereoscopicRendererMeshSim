@@ -167,12 +167,16 @@ void OGLContext::COpenGL::renderMode(RenderMode mode)
     if (!_oglRender) { return; }
 
     switch (mode) {
+        case OGLContext::Points:
+            this->_oglRender->polygonModel(core::Renderer::Points);
+            break;
+
         case OGLContext::Wireframe:
-            this->_oglRender->wireframeMode();
+            this->_oglRender->polygonModel(core::Renderer::Wireframe);
             break;
 
         case OGLContext::Textured:
-            this->_oglRender->filledMode();
+            this->_oglRender->polygonModel(core::Renderer::Textured);
             break;
 
         default:

@@ -11,6 +11,7 @@ using namespace System::Windows::Forms;
 namespace OGLContext {
 
     enum RenderMode {
+        Points,
         Wireframe,
         Textured
     };

@@ -15,13 +15,18 @@ namespace core {
 
         public:
 
+            enum Modes {
+                Points = GL_POINT,
+                Wireframe = GL_LINE,
+                Textured = GL_FILL,
+            };
+
             static Renderer *Instance();
             int load();
             void setup();
             void loop();
             void viewport(const unsigned int &width, const unsigned int &height);
-            void wireframeMode();
-            void filledMode();
+            void polygonModel(Modes mode);
 
         private:
 

@@ -18,6 +18,7 @@ bool Mesh::loadMesh(const std::string &sFileName)
     clear();
     bool bRtrn = false;
     Assimp::Importer Importer;
+    // read filename with assimp importer
     const aiScene *pScene = Importer.ReadFile(sFileName.c_str(), aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_CalcTangentSpace | aiProcess_FlipUVs);
 
     if (pScene) {
@@ -71,7 +72,7 @@ void Mesh::initMesh(unsigned int index, const aiMesh *paiMesh)
 
     for (unsigned int i = 0 ; i < paiMesh->mNumFaces ; i++) {
         const aiFace &face = paiMesh->mFaces[i];
-        assert(face.mNumIndices == 3);
+        assert(face.mNumIndices == 3); // Verify triangulation preprocess
         indices.push_back(face.mIndices[0]);
         indices.push_back(face.mIndices[1]);
         indices.push_back(face.mIndices[2]);
@@ -79,6 +80,8 @@ void Mesh::initMesh(unsigned int index, const aiMesh *paiMesh)
 
     _meshEntries[index] = new MeshEntry(vertices, indices);
     _meshEntries[index]->materialIndex = paiMesh->mMaterialIndex;
+    vertices.clear();
+    indices.clear();
 }
 
 bool Mesh::initMaterials(const aiScene *pScene, const std::string &sFilename)
@@ -196,13 +199,13 @@ bool Mesh::initMaterials(const aiScene *pScene, const std::string &sFilename)
 
 void Mesh::clear()
 {
-    for each(types::Material * var in this->_materials) {
+    for each(types::Material * var in _materials) {
         delete var;
     }
 
     _materials.clear();
 
-    for each(MeshEntry * var in this->_meshEntries) {
+    for each(MeshEntry * var in _meshEntries) {
         delete var;
     }
 }
@@ -230,7 +233,7 @@ void Mesh::render()
         this->_materials[materialIndex]->bindTextures();
         this->_materials[materialIndex]->setUniforms();
         // Draw mesh
-        glDrawElements(GL_TRIANGLES, _meshEntries[i]->numIndices, GL_UNSIGNED_INT, 0);
+        glDrawElements(GL_TRIANGLES, _meshEntries[i]->indicesCount, GL_UNSIGNED_INT, 0);
     }
 
     glDisableVertexAttribArray(0);
@@ -240,32 +243,39 @@ void Mesh::render()
     glDisableVertexAttribArray(4);
 }
 
-void Mesh::MeshEntry::init(const std::vector<types::Vertex> &vertices, const std::vector<unsigned int> &indices)
+void Mesh::MeshEntry::generateBuffers()
 {
-    numIndices = indices.size();
     glGenBuffers(1, &VB);
-    glBindBuffer(GL_ARRAY_BUFFER, VB);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(types::Vertex) * vertices.size(), &vertices[0], GL_STATIC_DRAW);
     glGenBuffers(1, &IB);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IB);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * numIndices, &indices[0], GL_STATIC_DRAW);
 }
 
 Mesh::MeshEntry::MeshEntry()
 {
     this->VB            = INVALID_VALUE;
     this->IB            = INVALID_VALUE;
-    this->numIndices    = 0;
     this->materialIndex = INVALID_MATERIAL;
+    this->verticesCount = this->indicesCount = 0;
 }
 
 scene::Mesh::MeshEntry::MeshEntry(const std::vector<types::Vertex> &vertices, const std::vector<unsigned int> &indices)
 {
     this->VB            = INVALID_VALUE;
     this->IB            = INVALID_VALUE;
-    this->numIndices    = 0;
     this->materialIndex = INVALID_MATERIAL;
-    this->init(vertices, indices);
+    this->verticesCount = this->indicesCount = 0;
+    this->generateBuffers();
+    this->setBuffersData(vertices, indices);
+}
+
+void scene::Mesh::MeshEntry::setBuffersData(const std::vector<types::Vertex> &vertices, const std::vector<unsigned int> &indices)
+{
+    this->verticesCount = vertices.size();
+    this->indicesCount  = indices.size();
+    this->facesCount    = indices.size() / 3; // Valid since mesh is triangulated before processing it
+    glBindBuffer(GL_ARRAY_BUFFER, VB);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(types::Vertex) * verticesCount, &vertices[0], GL_STATIC_DRAW);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IB);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * indicesCount, &indices[0], GL_STATIC_DRAW);
 }
 
 Mesh::MeshEntry::~MeshEntry()
