@@ -104,4 +104,14 @@ void core::Renderer::viewport(const unsigned int &width, const unsigned int &hei
     this->_cameras->getActiveCamera()->setAspectRatio((float)width / (float)height);
 }
 
+void core::Renderer::wireframeMode()
+{
+    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+}
+
+void core::Renderer::filledMode()
+{
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+}
+
 Renderer *core::Renderer::_rdInstance = nullptr;

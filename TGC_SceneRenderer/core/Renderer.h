@@ -20,6 +20,8 @@ namespace core {
             void setup();
             void loop();
             void viewport(const unsigned int &width, const unsigned int &height);
+            void wireframeMode();
+            void filledMode();
 
         private:
 

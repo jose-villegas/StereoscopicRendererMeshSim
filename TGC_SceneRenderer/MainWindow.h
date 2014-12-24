@@ -2,7 +2,7 @@
 #include "Collections/SceneObjectsCollection.h"
 #include "Context/OpenGL.h"
 #include "ObjectsWindow.h"
-#include "InspectorWindow.h"
+#include "PropertiesWindow.h"
 #include "Scene/Mesh.h"
 #include "core/Data.h"
 #include <msclr/marshal_cppstd.h>
@@ -33,19 +33,19 @@ namespace SceneRenderer {
                 // Add OpenGL Info to Form Title
                 this->Text += " (" + OpenGL->OGL_INFO_STRING + ")";
                 // Other Components / Forms
-                consoleIsActive               = true;
-                objectsWindow                 = gcnew ObjectsWindow();
-                inspWin                       = gcnew SceneRenderer::InspectorWindow();
-                objectsWindow->InstancedBy    = this;
-                inspWin->InstancedBy          = this;
-                objectsWindow->Height   = this->Height / 2 - 5;
-                inspWin->Height   = this->Height / 2 - 5;
+                consoleIsActive            = true;
+                objectsWindow              = gcnew ObjectsWindow();
+                inspWin                    = gcnew SceneRenderer::PropertiesWindow();
+                objectsWindow->InstancedBy = this;
+                inspWin->InstancedBy       = this;
+                objectsWindow->Height      = this->Height / 2 - 5;
+                inspWin->Height            = this->Height / 2 - 5;
                 // Enable OGL rendering
                 renderingEnabled = true;
             }
 
             ObjectsWindow ^GetObjectsWindow() { return objectsWindow; }
-            InspectorWindow ^GetInspectorWindow() { return inspWin; }
+            PropertiesWindow ^GetInspectorWindow() { return inspWin; }
 
             void EnableRendering(bool value)
             {
@@ -70,50 +70,46 @@ namespace SceneRenderer {
 
         private: OGLContext::COpenGL ^OpenGL;
         private: ObjectsWindow ^objectsWindow;
-        private: InspectorWindow ^inspWin;
+        private: PropertiesWindow ^inspWin;
         private: System::Windows::Forms::MenuStrip  ^topMenuBar;
         private: System::Boolean consoleIsActive;
         private: System::Boolean renderingEnabled;
             /// <summary>
             /// Required designer variable.
             /// </summary>
-        private: System::Windows::Forms::ToolStripMenuItem  ^fileToolStripMenuItem;
-        private: System::Windows::Forms::ToolStripMenuItem  ^newSceneToolStripMenuItem;
-        private: System::Windows::Forms::ToolStripMenuItem  ^openSceneToolStripMenuItem;
-        private: System::Windows::Forms::ToolStripMenuItem  ^saveSceneToolStripMenuItem;
-        private: System::Windows::Forms::ToolStripMenuItem  ^exitToolStripMenuItem;
+        private: System::Windows::Forms::ToolStripMenuItem   ^fileToolStripMenuItem;
+        private: System::Windows::Forms::ToolStripMenuItem   ^newSceneToolStripMenuItem;
+        private: System::Windows::Forms::ToolStripMenuItem   ^openSceneToolStripMenuItem;
+        private: System::Windows::Forms::ToolStripMenuItem   ^saveSceneToolStripMenuItem;
+        private: System::Windows::Forms::ToolStripMenuItem   ^exitToolStripMenuItem;
         private: System::Windows::Forms::ToolStripSeparator  ^toolStripSeparator1;
-        private: System::Windows::Forms::ToolStripMenuItem  ^saveSceneAsToolStripMenuItem;
+        private: System::Windows::Forms::ToolStripMenuItem   ^saveSceneAsToolStripMenuItem;
         private: System::Windows::Forms::ToolStripSeparator  ^toolStripSeparator2;
-        private: System::Windows::Forms::ToolStripMenuItem  ^editToolStripMenuItem;
-        private: System::Windows::Forms::ToolStripMenuItem  ^modelsToolStripMenuItem;
-        private: System::Windows::Forms::ToolStripMenuItem  ^sceneObjectToolStripMenuItem;
-        private: System::Windows::Forms::ToolStripMenuItem  ^windowToolStripMenuItem;
-        private: System::Windows::Forms::OpenFileDialog  ^assetImportFileDialog;
-
-
-        private: System::Windows::Forms::ToolStripMenuItem  ^consoleToolStripMenuItem;
-        private: System::Windows::Forms::Panel  ^OpenGLRenderPanel;
-        private: System::Windows::Forms::ToolStripMenuItem  ^createOtherToolStripMenuItem;
-        private: System::Windows::Forms::ToolStripMenuItem  ^cameraToolStripMenuItem;
-        private: System::Windows::Forms::ToolStripMenuItem  ^objectsToolStripMenuItem;
-
-        private: System::Windows::Forms::ToolStripMenuItem  ^importAssetToolStripMenuItem;
+        private: System::Windows::Forms::ToolStripMenuItem   ^editToolStripMenuItem;
+        private: System::Windows::Forms::ToolStripMenuItem   ^modelsToolStripMenuItem;
+        private: System::Windows::Forms::ToolStripMenuItem   ^sceneObjectToolStripMenuItem;
+        private: System::Windows::Forms::ToolStripMenuItem   ^windowToolStripMenuItem;
+        private: System::Windows::Forms::OpenFileDialog      ^assetImportFileDialog;
+        private: System::Windows::Forms::ToolStripMenuItem   ^consoleToolStripMenuItem;
+        private: System::Windows::Forms::Panel               ^OpenGLRenderPanel;
+        private: System::Windows::Forms::ToolStripMenuItem   ^createOtherToolStripMenuItem;
+        private: System::Windows::Forms::ToolStripMenuItem   ^cameraToolStripMenuItem;
+        private: System::Windows::Forms::ToolStripMenuItem   ^objectsToolStripMenuItem;
+        private: System::Windows::Forms::ToolStripMenuItem   ^importAssetToolStripMenuItem;
         private: System::Windows::Forms::ToolStripSeparator  ^toolStripSeparator4;
-        private: System::Windows::Forms::ToolStripMenuItem  ^directionalLightToolStripMenuItem;
-        private: System::Windows::Forms::ToolStripMenuItem  ^spotLightToolStripMenuItem;
-        private: System::Windows::Forms::ToolStripMenuItem  ^pointLightToolStripMenuItem;
+        private: System::Windows::Forms::ToolStripMenuItem   ^directionalLightToolStripMenuItem;
+        private: System::Windows::Forms::ToolStripMenuItem   ^spotLightToolStripMenuItem;
+        private: System::Windows::Forms::ToolStripMenuItem   ^pointLightToolStripMenuItem;
         private: System::Windows::Forms::ToolStripSeparator  ^toolStripSeparator5;
-        private: System::Windows::Forms::ToolStripMenuItem  ^cubeToolStripMenuItem;
-        private: System::Windows::Forms::ToolStripMenuItem  ^sphereToolStripMenuItem;
-        private: System::Windows::Forms::ToolStripMenuItem  ^settingsToolStripMenuItem;
-        private: System::Windows::Forms::ToolStripMenuItem  ^torusToolStripMenuItem;
-        private: System::Windows::Forms::ToolStripMenuItem  ^cylinderToolStripMenuItem;
-        private: System::Windows::Forms::ToolStripMenuItem  ^inspectorToolStripMenuItem;
-
-
-
-
+        private: System::Windows::Forms::ToolStripMenuItem   ^cubeToolStripMenuItem;
+        private: System::Windows::Forms::ToolStripMenuItem   ^sphereToolStripMenuItem;
+        private: System::Windows::Forms::ToolStripMenuItem   ^settingsToolStripMenuItem;
+        private: System::Windows::Forms::ToolStripMenuItem   ^torusToolStripMenuItem;
+        private: System::Windows::Forms::ToolStripMenuItem   ^cylinderToolStripMenuItem;
+        private: System::Windows::Forms::ToolStripMenuItem   ^propertiesToolStripMenuItem;
+        private: System::Windows::Forms::ToolStripMenuItem   ^renderToolStripMenuItem;
+        private: System::Windows::Forms::ToolStripMenuItem   ^wireframeToolStripMenuItem;
+        private: System::Windows::Forms::ToolStripMenuItem   ^texturesToolStripMenuItem;
 
             System::ComponentModel::Container ^components;
 
@@ -135,6 +131,9 @@ namespace SceneRenderer {
                 this->exitToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
                 this->editToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
                 this->settingsToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+                this->renderToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+                this->wireframeToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+                this->texturesToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
                 this->modelsToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
                 this->importAssetToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
                 this->sceneObjectToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
@@ -152,7 +151,7 @@ namespace SceneRenderer {
                 this->windowToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
                 this->consoleToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
                 this->objectsToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-                this->inspectorToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+                this->propertiesToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
                 this->assetImportFileDialog = (gcnew System::Windows::Forms::OpenFileDialog());
                 this->OpenGLRenderPanel = (gcnew System::Windows::Forms::Panel());
                 this->topMenuBar->SuspendLayout();
@@ -224,7 +223,10 @@ namespace SceneRenderer {
                 //
                 // editToolStripMenuItem
                 //
-                this->editToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem ^  >(1) {this->settingsToolStripMenuItem});
+                this->editToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem ^  >(2) {
+                    this->settingsToolStripMenuItem,
+                         this->renderToolStripMenuItem
+                });
                 this->editToolStripMenuItem->Name = L"editToolStripMenuItem";
                 this->editToolStripMenuItem->Size = System::Drawing::Size(39, 20);
                 this->editToolStripMenuItem->Text = L"Edit";
@@ -232,8 +234,32 @@ namespace SceneRenderer {
                 // settingsToolStripMenuItem
                 //
                 this->settingsToolStripMenuItem->Name = L"settingsToolStripMenuItem";
-                this->settingsToolStripMenuItem->Size = System::Drawing::Size(116, 22);
+                this->settingsToolStripMenuItem->Size = System::Drawing::Size(152, 22);
                 this->settingsToolStripMenuItem->Text = L"Settings";
+                //
+                // renderToolStripMenuItem
+                //
+                this->renderToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem ^  >(2) {
+                    this->wireframeToolStripMenuItem,
+                         this->texturesToolStripMenuItem
+                });
+                this->renderToolStripMenuItem->Name = L"renderToolStripMenuItem";
+                this->renderToolStripMenuItem->Size = System::Drawing::Size(152, 22);
+                this->renderToolStripMenuItem->Text = L"View";
+                //
+                // wireframeToolStripMenuItem
+                //
+                this->wireframeToolStripMenuItem->Name = L"wireframeToolStripMenuItem";
+                this->wireframeToolStripMenuItem->Size = System::Drawing::Size(152, 22);
+                this->wireframeToolStripMenuItem->Text = L"Wireframe";
+                this->wireframeToolStripMenuItem->Click += gcnew System::EventHandler(this, &MainWindow::wireframeToolStripMenuItem_Click);
+                //
+                // texturesToolStripMenuItem
+                //
+                this->texturesToolStripMenuItem->Name = L"texturesToolStripMenuItem";
+                this->texturesToolStripMenuItem->Size = System::Drawing::Size(152, 22);
+                this->texturesToolStripMenuItem->Text = L"Textured";
+                this->texturesToolStripMenuItem->Click += gcnew System::EventHandler(this, &MainWindow::texturesToolStripMenuItem_Click);
                 //
                 // modelsToolStripMenuItem
                 //
@@ -246,7 +272,7 @@ namespace SceneRenderer {
                 //
                 this->importAssetToolStripMenuItem->BackColor = System::Drawing::Color::White;
                 this->importAssetToolStripMenuItem->Name = L"importAssetToolStripMenuItem";
-                this->importAssetToolStripMenuItem->Size = System::Drawing::Size(147, 22);
+                this->importAssetToolStripMenuItem->Size = System::Drawing::Size(152, 22);
                 this->importAssetToolStripMenuItem->Text = L"Import Model";
                 this->importAssetToolStripMenuItem->Click += gcnew System::EventHandler(this, &MainWindow::importAssetToolStripMenuItem_Click);
                 //
@@ -265,8 +291,8 @@ namespace SceneRenderer {
                          this->toolStripSeparator5, this->cubeToolStripMenuItem, this->sphereToolStripMenuItem, this->torusToolStripMenuItem, this->cylinderToolStripMenuItem
                 });
                 this->createOtherToolStripMenuItem->Name = L"createOtherToolStripMenuItem";
-                this->createOtherToolStripMenuItem->Size = System::Drawing::Size(141, 22);
-                this->createOtherToolStripMenuItem->Text = L"Create Other";
+                this->createOtherToolStripMenuItem->Size = System::Drawing::Size(152, 22);
+                this->createOtherToolStripMenuItem->Text = L"Create";
                 //
                 // cameraToolStripMenuItem
                 //
@@ -334,7 +360,7 @@ namespace SceneRenderer {
                 //
                 this->windowToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem ^  >(3) {
                     this->consoleToolStripMenuItem,
-                         this->objectsToolStripMenuItem, this->inspectorToolStripMenuItem
+                         this->objectsToolStripMenuItem, this->propertiesToolStripMenuItem
                 });
                 this->windowToolStripMenuItem->Name = L"windowToolStripMenuItem";
                 this->windowToolStripMenuItem->Size = System::Drawing::Size(63, 20);
@@ -343,23 +369,23 @@ namespace SceneRenderer {
                 // consoleToolStripMenuItem
                 //
                 this->consoleToolStripMenuItem->Name = L"consoleToolStripMenuItem";
-                this->consoleToolStripMenuItem->Size = System::Drawing::Size(123, 22);
+                this->consoleToolStripMenuItem->Size = System::Drawing::Size(152, 22);
                 this->consoleToolStripMenuItem->Text = L"Console";
                 this->consoleToolStripMenuItem->Click += gcnew System::EventHandler(this, &MainWindow::consoleToolStripMenuItem_Click);
                 //
                 // objectsToolStripMenuItem
                 //
                 this->objectsToolStripMenuItem->Name = L"objectsToolStripMenuItem";
-                this->objectsToolStripMenuItem->Size = System::Drawing::Size(123, 22);
+                this->objectsToolStripMenuItem->Size = System::Drawing::Size(152, 22);
                 this->objectsToolStripMenuItem->Text = L"Objects";
                 this->objectsToolStripMenuItem->Click += gcnew System::EventHandler(this, &MainWindow::objectsToolStripMenuItem_Click);
                 //
                 // inspectorToolStripMenuItem
                 //
-                this->inspectorToolStripMenuItem->Name = L"inspectorToolStripMenuItem";
-                this->inspectorToolStripMenuItem->Size = System::Drawing::Size(123, 22);
-                this->inspectorToolStripMenuItem->Text = L"Inspector";
-                this->inspectorToolStripMenuItem->Click += gcnew System::EventHandler(this, &MainWindow::inspectorToolStripMenuItem_Click);
+                this->propertiesToolStripMenuItem->Name = L"inspectorToolStripMenuItem";
+                this->propertiesToolStripMenuItem->Size = System::Drawing::Size(152, 22);
+                this->propertiesToolStripMenuItem->Text = L"Properties";
+                this->propertiesToolStripMenuItem->Click += gcnew System::EventHandler(this, &MainWindow::inspectorToolStripMenuItem_Click);
                 //
                 // assetImportFileDialog
                 //
@@ -481,6 +507,18 @@ namespace SceneRenderer {
         private: System::Void OpenGLRenderPanel_Resize(System::Object  ^sender, System::EventArgs  ^e)
             {
                 this->OpenGL->resizeRenderingViewPort(this->OpenGLRenderPanel->Width, this->OpenGLRenderPanel->Height);
+            }
+        private: System::Void wireframeToolStripMenuItem_Click(System::Object  ^sender, System::EventArgs  ^e)
+            {
+                this->wireframeToolStripMenuItem->Checked = true;
+                this->texturesToolStripMenuItem->Checked = false;
+                this->OpenGL->renderMode(RenderMode::Wireframe);
+            }
+        private: System::Void texturesToolStripMenuItem_Click(System::Object  ^sender, System::EventArgs  ^e)
+            {
+                this->wireframeToolStripMenuItem->Checked = false;
+                this->texturesToolStripMenuItem->Checked = true;
+                this->OpenGL->renderMode(RenderMode::Textured);
             }
     };
 }

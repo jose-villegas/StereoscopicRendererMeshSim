@@ -17,10 +17,12 @@ namespace SceneRenderer {
     /// <summary>
     /// Summary for InspectorWindow
     /// </summary>
-    public ref class InspectorWindow : public System::Windows::Forms::Form {
+    public ref class PropertiesWindow : public System::Windows::Forms::Form {
         private:
             scene::Light  *_lightComponentPtr;
             scene::Camera *_cameraComponentPtr;
+        private: CameraControl::CameraControlControl  ^cameraControl;
+
             scene::Mesh *_meshComponentPtr;
 
             // Transform Control Events
@@ -34,20 +36,20 @@ namespace SceneRenderer {
             System::Void onLightInnerAngleChanged(System::Object  ^sender, System::EventArgs  ^e);
 
         public:
-            InspectorWindow(void)
+            PropertiesWindow(void)
             {
                 InitializeComponent();
                 // Set Delegated Events from Transform Control
-                this->trnfrControl->positionChanged += gcnew TransformValuesChangedHandler(this, &InspectorWindow::onPositionVectorChanged);
-                this->trnfrControl->rotationChanged += gcnew TransformValuesChangedHandler(this, &InspectorWindow::onRotationVectorChanged);
-                this->trnfrControl->scaleChanged += gcnew TransformValuesChangedHandler(this, &InspectorWindow::onScaleVectorChanged);
+                this->trnfrControl->positionChanged += gcnew TransformValuesChangedHandler(this, &PropertiesWindow::onPositionVectorChanged);
+                this->trnfrControl->rotationChanged += gcnew TransformValuesChangedHandler(this, &PropertiesWindow::onRotationVectorChanged);
+                this->trnfrControl->scaleChanged += gcnew TransformValuesChangedHandler(this, &PropertiesWindow::onScaleVectorChanged);
                 // Set light control color picking event
-                this->lightControl->colorPickerButton->Click += gcnew System::EventHandler(this, &InspectorWindow::pickColorDialogPopup);
+                this->lightControl->colorPickerButton->Click += gcnew System::EventHandler(this, &PropertiesWindow::pickColorDialogPopup);
                 // Set delegated events from light control
-                this->lightControl->attenuationChangedDelegatedEvent += gcnew AttenuationChangedDelegateEvent(this, &InspectorWindow::onLightAttenuationChanged);
-                this->lightControl->intensityChangedDelegatedEvent += gcnew IntensityChangedDelegateEvent(this, &InspectorWindow::onLightIntensityChanged);
-                this->lightControl->outerAngleChangedDelegatedEvent += gcnew OuterAngleChangedDelegateEvent(this, &InspectorWindow::onLightOuterAngleChanged);
-                this->lightControl->innerAngleChangedDelegatedEvent += gcnew InnerAngleChangedDelegateEvent(this, &InspectorWindow::onLightInnerAngleChanged);
+                this->lightControl->attenuationChangedDelegatedEvent += gcnew AttenuationChangedDelegateEvent(this, &PropertiesWindow::onLightAttenuationChanged);
+                this->lightControl->intensityChangedDelegatedEvent += gcnew IntensityChangedDelegateEvent(this, &PropertiesWindow::onLightIntensityChanged);
+                this->lightControl->outerAngleChangedDelegatedEvent += gcnew OuterAngleChangedDelegateEvent(this, &PropertiesWindow::onLightOuterAngleChanged);
+                this->lightControl->innerAngleChangedDelegatedEvent += gcnew InnerAngleChangedDelegateEvent(this, &PropertiesWindow::onLightInnerAngleChanged);
                 // Construct unmanaged vectors
                 this->_lightComponentPtr  = nullptr;
                 this->_cameraComponentPtr =  nullptr;
@@ -60,7 +62,7 @@ namespace SceneRenderer {
             /// <summary>
             /// Clean up any resources being used.
             /// </summary>
-            ~InspectorWindow()
+            ~PropertiesWindow()
             {
                 if (components) {
                     delete components;
@@ -95,11 +97,12 @@ namespace SceneRenderer {
             void InitializeComponent(void)
             {
                 this->tableLayoutPanel1 = (gcnew System::Windows::Forms::TableLayoutPanel());
-                this->componentPanel = (gcnew System::Windows::Forms::Panel());
-                this->colorDialog1 = (gcnew System::Windows::Forms::ColorDialog());
                 this->trnfrControl = (gcnew BaseControls::TransformControl());
-                this->baseControl = (gcnew BaseControl::BaseControlControl());
+                this->componentPanel = (gcnew System::Windows::Forms::Panel());
+                this->cameraControl = (gcnew CameraControl::CameraControlControl());
                 this->lightControl = (gcnew BaseControls::LightControlControl());
+                this->colorDialog1 = (gcnew System::Windows::Forms::ColorDialog());
+                this->baseControl = (gcnew BaseControl::BaseControlControl());
                 this->tableLayoutPanel1->SuspendLayout();
                 this->componentPanel->SuspendLayout();
                 this->SuspendLayout();
@@ -117,26 +120,8 @@ namespace SceneRenderer {
                 this->tableLayoutPanel1->RowCount = 2;
                 this->tableLayoutPanel1->RowStyles->Add((gcnew System::Windows::Forms::RowStyle()));
                 this->tableLayoutPanel1->RowStyles->Add((gcnew System::Windows::Forms::RowStyle()));
-                this->tableLayoutPanel1->Size = System::Drawing::Size(384, 334);
+                this->tableLayoutPanel1->Size = System::Drawing::Size(384, 392);
                 this->tableLayoutPanel1->TabIndex = 4;
-                //
-                // componentPanel
-                //
-                this->componentPanel->AutoScroll = true;
-                this->componentPanel->BorderStyle = System::Windows::Forms::BorderStyle::Fixed3D;
-                this->componentPanel->Controls->Add(this->lightControl);
-                this->componentPanel->Dock = System::Windows::Forms::DockStyle::Fill;
-                this->componentPanel->Location = System::Drawing::Point(0, 112);
-                this->componentPanel->Margin = System::Windows::Forms::Padding(0);
-                this->componentPanel->Name = L"componentPanel";
-                this->componentPanel->Padding = System::Windows::Forms::Padding(5);
-                this->componentPanel->Size = System::Drawing::Size(384, 222);
-                this->componentPanel->TabIndex = 1;
-                //
-                // colorDialog1
-                //
-                this->colorDialog1->AnyColor = true;
-                this->colorDialog1->ShowHelp = true;
                 //
                 // trnfrControl
                 //
@@ -147,6 +132,43 @@ namespace SceneRenderer {
                 this->trnfrControl->Size = System::Drawing::Size(378, 106);
                 this->trnfrControl->TabIndex = 0;
                 //
+                // componentPanel
+                //
+                this->componentPanel->AutoScroll = true;
+                this->componentPanel->BorderStyle = System::Windows::Forms::BorderStyle::Fixed3D;
+                this->componentPanel->Controls->Add(this->cameraControl);
+                this->componentPanel->Controls->Add(this->lightControl);
+                this->componentPanel->Dock = System::Windows::Forms::DockStyle::Fill;
+                this->componentPanel->Location = System::Drawing::Point(0, 112);
+                this->componentPanel->Margin = System::Windows::Forms::Padding(0);
+                this->componentPanel->Name = L"componentPanel";
+                this->componentPanel->Padding = System::Windows::Forms::Padding(5);
+                this->componentPanel->Size = System::Drawing::Size(384, 280);
+                this->componentPanel->TabIndex = 1;
+                //
+                // cameraControl
+                //
+                this->cameraControl->Dock = System::Windows::Forms::DockStyle::Top;
+                this->cameraControl->Location = System::Drawing::Point(5, 208);
+                this->cameraControl->Name = L"cameraControl";
+                this->cameraControl->Size = System::Drawing::Size(353, 207);
+                this->cameraControl->TabIndex = 1;
+                this->cameraControl->Visible = false;
+                //
+                // lightControl
+                //
+                this->lightControl->Dock = System::Windows::Forms::DockStyle::Top;
+                this->lightControl->Location = System::Drawing::Point(5, 5);
+                this->lightControl->Name = L"lightControl";
+                this->lightControl->Size = System::Drawing::Size(353, 203);
+                this->lightControl->TabIndex = 0;
+                this->lightControl->Visible = false;
+                //
+                // colorDialog1
+                //
+                this->colorDialog1->AnyColor = true;
+                this->colorDialog1->ShowHelp = true;
+                //
                 // baseControl
                 //
                 this->baseControl->Dock = System::Windows::Forms::DockStyle::Top;
@@ -155,26 +177,17 @@ namespace SceneRenderer {
                 this->baseControl->Size = System::Drawing::Size(384, 20);
                 this->baseControl->TabIndex = 3;
                 //
-                // lightControlControl1
-                //
-                this->lightControl->Dock = System::Windows::Forms::DockStyle::Top;
-                this->lightControl->Location = System::Drawing::Point(5, 5);
-                this->lightControl->Name = L"lightControlControl1";
-                this->lightControl->Size = System::Drawing::Size(370, 203);
-                this->lightControl->TabIndex = 0;
-                this->lightControl->Visible = false;
-                //
                 // InspectorWindow
                 //
                 this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
                 this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-                this->ClientSize = System::Drawing::Size(384, 354);
+                this->ClientSize = System::Drawing::Size(384, 412);
                 this->Controls->Add(this->tableLayoutPanel1);
                 this->Controls->Add(this->baseControl);
                 this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::SizableToolWindow;
                 this->Name = L"InspectorWindow";
-                this->Text = L"Inspector";
-                this->FormClosing += gcnew System::Windows::Forms::FormClosingEventHandler(this, &InspectorWindow::InspectorWindow_FormClosing);
+                this->Text = L"Properties";
+                this->FormClosing += gcnew System::Windows::Forms::FormClosingEventHandler(this, &PropertiesWindow::InspectorWindow_FormClosing);
                 this->tableLayoutPanel1->ResumeLayout(false);
                 this->tableLayoutPanel1->PerformLayout();
                 this->componentPanel->ResumeLayout(false);

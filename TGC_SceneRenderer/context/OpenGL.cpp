@@ -27,6 +27,9 @@ OGLContext::COpenGL::COpenGL(System::Windows::Forms::Panel ^parentForm, int iPos
 
     if (!_oglRender->load()) {
         std::cout << "Failed to initialize OpenGL" << std::endl;
+        delete _oglRender;
+        enableRender = false;
+        _oglRender = nullptr;
     }
 
     // Write Library Loading / Current Instance Info
@@ -157,5 +160,23 @@ void OGLContext::COpenGL::resizeRenderingViewPort(System::Int32 width, System::I
     SetWindowPos((HWND)this->Handle.ToPointer(), HWND_BOTTOM, 0, 0, width, height, SWP_NOMOVE);
     // Resize rendering viewport
     this->_oglRender->viewport(int(width), int(height));
+}
+
+void OGLContext::COpenGL::renderMode(RenderMode mode)
+{
+    if (!_oglRender) { return; }
+
+    switch (mode) {
+        case OGLContext::Wireframe:
+            this->_oglRender->wireframeMode();
+            break;
+
+        case OGLContext::Textured:
+            this->_oglRender->filledMode();
+            break;
+
+        default:
+            break;
+    }
 }
 

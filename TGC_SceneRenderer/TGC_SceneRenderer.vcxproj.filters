@@ -117,7 +117,7 @@
     <ClCompile Include="collections\MeshesCollection.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="InspectorWindow.cpp">
+    <ClCompile Include="PropertiesWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -227,7 +227,7 @@
     <ClInclude Include="collections\MeshesCollection.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="InspectorWindow.h">
+    <ClInclude Include="PropertiesWindow.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -254,7 +254,7 @@
     <EmbeddedResource Include="ObjectsWindow.resx">
       <Filter>Resource Files</Filter>
     </EmbeddedResource>
-    <EmbeddedResource Include="InspectorWindow.resx">
+    <EmbeddedResource Include="PropertiesWindow.resx">
       <Filter>Resource Files</Filter>
     </EmbeddedResource>
   </ItemGroup>

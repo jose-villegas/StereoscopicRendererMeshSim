@@ -1,5 +1,5 @@
 #include <windows.h>
-#include "InspectorWindow.h"
+#include "PropertiesWindow.h"
 #include "Collections\SceneObjectsCollection.h"
 #include "Scene\SceneObject.h"
 #include "MainWindow.h"
@@ -12,7 +12,7 @@ const double PI  = 3.141592653589793238463;
 // Converts radians to degrees.
 #define radiansToDegrees(angleRadians) (angleRadians * 180.0 / PI)
 
-System::Void SceneRenderer::InspectorWindow::setActiveObjectIndex(unsigned int index)
+System::Void SceneRenderer::PropertiesWindow::setActiveObjectIndex(unsigned int index)
 {
     this->activeObjectIndex = index;
     this->changedActiveIndex = true;
@@ -40,6 +40,7 @@ System::Void SceneRenderer::InspectorWindow::setActiveObjectIndex(unsigned int i
     std::vector<bases::BaseComponent *>::const_iterator ite = activeSceneObject->getComponents().end();
     // Hide components
     this->lightControl->Visible = false;
+    this->cameraControl->Visible = false;
 
     // Show current object components
     for (it; it != ite; it++) {
@@ -71,11 +72,12 @@ System::Void SceneRenderer::InspectorWindow::setActiveObjectIndex(unsigned int i
         } else if (dynamic_cast<scene::Camera *>(ptr) != 0) {
             // set ptr to component
             this->_cameraComponentPtr = (scene::Camera *)ptr;
+            this->cameraControl->Visible = true;
         }
     }
 }
 
-System::Void SceneRenderer::InspectorWindow::onPositionVectorChanged(System::Object ^sender, System::EventArgs ^e)
+System::Void SceneRenderer::PropertiesWindow::onPositionVectorChanged(System::Object ^sender, System::EventArgs ^e)
 {
     if (changedActiveIndex || !activeSceneObject) { changedActiveIndex = false; return; }
 
@@ -87,7 +89,7 @@ System::Void SceneRenderer::InspectorWindow::onPositionVectorChanged(System::Obj
     );
 }
 
-System::Void SceneRenderer::InspectorWindow::onRotationVectorChanged(System::Object ^sender, System::EventArgs ^e)
+System::Void SceneRenderer::PropertiesWindow::onRotationVectorChanged(System::Object ^sender, System::EventArgs ^e)
 {
     if (changedActiveIndex || !activeSceneObject) { changedActiveIndex = false; return; }
 
@@ -99,7 +101,7 @@ System::Void SceneRenderer::InspectorWindow::onRotationVectorChanged(System::Obj
     );
 }
 
-System::Void SceneRenderer::InspectorWindow::onScaleVectorChanged(System::Object ^sender, System::EventArgs ^e)
+System::Void SceneRenderer::PropertiesWindow::onScaleVectorChanged(System::Object ^sender, System::EventArgs ^e)
 {
     if (changedActiveIndex || !activeSceneObject) { changedActiveIndex = false; return; }
 
@@ -111,7 +113,7 @@ System::Void SceneRenderer::InspectorWindow::onScaleVectorChanged(System::Object
     );
 }
 
-System::Void SceneRenderer::InspectorWindow::pickColorDialogPopup(System::Object ^sender, System::EventArgs ^e)
+System::Void SceneRenderer::PropertiesWindow::pickColorDialogPopup(System::Object ^sender, System::EventArgs ^e)
 {
     // Disable render loop for color picking dialog
     ((MainWindow ^)this->InstancedBy)->EnableRendering(false);
@@ -128,28 +130,28 @@ System::Void SceneRenderer::InspectorWindow::pickColorDialogPopup(System::Object
     ((MainWindow ^)this->InstancedBy)->EnableRendering(true);
 }
 
-System::Void SceneRenderer::InspectorWindow::onLightAttenuationChanged(System::Object ^sender, System::EventArgs ^e)
+System::Void SceneRenderer::PropertiesWindow::onLightAttenuationChanged(System::Object ^sender, System::EventArgs ^e)
 {
     if (this->_lightComponentPtr) {
         this->_lightComponentPtr->attenuation = (float)this->lightControl->attenuationValue->Value;
     }
 }
 
-System::Void SceneRenderer::InspectorWindow::onLightIntensityChanged(System::Object ^sender, System::EventArgs ^e)
+System::Void SceneRenderer::PropertiesWindow::onLightIntensityChanged(System::Object ^sender, System::EventArgs ^e)
 {
     if (this->_lightComponentPtr) {
         this->_lightComponentPtr->intensity = (float)this->lightControl->intensityValue->Value;
     }
 }
 
-System::Void SceneRenderer::InspectorWindow::onLightOuterAngleChanged(System::Object ^sender, System::EventArgs ^e)
+System::Void SceneRenderer::PropertiesWindow::onLightOuterAngleChanged(System::Object ^sender, System::EventArgs ^e)
 {
     if (this->_lightComponentPtr) {
         this->_lightComponentPtr->outerConeAngle = (float)this->lightControl->outerAngleValue->Value;
     }
 }
 
-System::Void SceneRenderer::InspectorWindow::onLightInnerAngleChanged(System::Object ^sender, System::EventArgs ^e)
+System::Void SceneRenderer::PropertiesWindow::onLightInnerAngleChanged(System::Object ^sender, System::EventArgs ^e)
 {
     if (this->_lightComponentPtr) {
         this->_lightComponentPtr->innerConeAngle = (float)this->lightControl->innerAngleValue->Value;

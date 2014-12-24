@@ -9,8 +9,15 @@
 using namespace System::Windows::Forms;
 
 namespace OGLContext {
+
+    enum RenderMode {
+        Wireframe,
+        Textured
+    };
+
     public ref class COpenGL : public System::Windows::Forms::NativeWindow {
         public:
+
             COpenGL(System::Windows::Forms::Panel ^parentForm, int iPositionX, int iPositionY, GLsizei iWidth, GLsizei iHeight);
             System::Void restartStopwatch(System::Void);
             System::Void calculateFramerate(System::Boolean blSet) { this->_calcFramerate = blSet; }
@@ -24,6 +31,7 @@ namespace OGLContext {
             System::Boolean enableRender;
 
             void resizeRenderingViewPort(System::Int32 width, System::Int32 height);
+            void renderMode(RenderMode mode);
 
         private:
             HDC _mHDC;

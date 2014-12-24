@@ -89,6 +89,9 @@
     <Reference Include="BaseControl">
       <HintPath>..\..\BaseControls\Debug\BaseControl.dll</HintPath>
     </Reference>
+    <Reference Include="CameraControl">
+      <HintPath>..\..\BaseControls\Debug\CameraControl.dll</HintPath>
+    </Reference>
     <Reference Include="LightControl">
       <HintPath>..\..\BaseControls\Debug\LightControl.dll</HintPath>
     </Reference>
@@ -123,7 +126,7 @@
     <ClCompile Include="bases\ShaderLinks.cpp" />
     <ClCompile Include="collections\LightsCollection.cpp" />
     <ClCompile Include="collections\MeshesCollection.cpp" />
-    <ClCompile Include="InspectorWindow.cpp" />
+    <ClCompile Include="PropertiesWindow.cpp" />
     <ClCompile Include="Types\Material.cpp" />
     <ClCompile Include="ObjectsWindow.cpp" />
     <ClCompile Include="Collections\SceneObjectsCollection.cpp" />
@@ -160,7 +163,7 @@
     <ClInclude Include="bases\ShaderLinks.h" />
     <ClInclude Include="collections\LightsCollection.h" />
     <ClInclude Include="collections\MeshesCollection.h" />
-    <ClInclude Include="InspectorWindow.h">
+    <ClInclude Include="PropertiesWindow.h">
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="Types\Material.h" />
@@ -198,8 +201,8 @@
     <Image Include="resources\icons\vec3DSlider.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="InspectorWindow.resx">
-      <DependentUpon>InspectorWindow.h</DependentUpon>
+    <EmbeddedResource Include="PropertiesWindow.resx">
+      <DependentUpon>PropertiesWindow.h</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="MainWindow.resX">
