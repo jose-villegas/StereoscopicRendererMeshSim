@@ -42,12 +42,12 @@ namespace bases {
         protected:
             ShaderLinkBlock();
             virtual ~ShaderLinkBlock() {};
-            types::ShaderProgram::UniformBlock *_uniformBlockInfo;
-            types::ShaderProgram *_sLinkSP;
+            types::ShaderProgram::UniformBlockInfo *uniformBlockInfo;
+            types::ShaderProgram *sLinkSP;
             // Sets uniform block data, needs uniformBlock info and sLinkSP to be set
             virtual void setUniformBlock() = 0;
-            // sets the uniformblock info based on the stored shaderprogram , sLinkSP
-            // needs to be set
+            // sets the uniformblockinfo based on the stored shaderprogram , sLinkSP
+            // needs to be set call this function only once
             virtual void setUniformBlockInfo() = 0;
             // binds the ubo
             void bindUniformBuffer();

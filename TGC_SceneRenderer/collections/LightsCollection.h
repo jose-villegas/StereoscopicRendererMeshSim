@@ -14,8 +14,8 @@ namespace collections {
     class LightsCollection : public bases::ShaderLinkBlock {
         private:
             // Class Instance
-            static LightsCollection *_lightsCollection;
-            std::vector<scene::Light *> _lights;
+            static LightsCollection *instance;
+            std::vector<scene::Light *> lights;
             LightsCollection(void);
             LightsCollection(const LightsCollection &lightc);
 
@@ -29,7 +29,7 @@ namespace collections {
             const unsigned int lightCount() const;
             scene::Light *createLight();
             scene::Light *getLight(const unsigned int &lightIndex) const;
-            std::vector<scene::Light *> getLights() const { return _lights; }
+            std::vector<scene::Light *> getLights() const { return lights; }
 
     };
 }

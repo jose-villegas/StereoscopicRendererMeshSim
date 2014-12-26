@@ -9,25 +9,33 @@ namespace types {
 
     class ShaderProgram {
         public:
-            struct UniformBlock {
+
+            struct UniformBlockInfo {
                 std::string uniformBlockName;
                 GLubyte *dataPointer;
                 GLint blockSize;
                 GLuint UB;
                 GLuint *indices;
                 GLint *offset;
-                UniformBlock(const std::string &uniformBlockName, GLubyte *dataPointer, GLint blockSize, GLuint UB);
-                ~UniformBlock();
+                UniformBlockInfo(const std::string &uniformBlockName, GLubyte *dataPointer, GLint blockSize, GLuint UB);
+                ~UniformBlockInfo();
             };
-        private:
-            // stores uniform blocks shared between all shader programs
-            static std::unordered_map<std::string, UniformBlock *> _uniformBlocks;
 
-            unsigned int _programID;
-            unsigned int _fragmentShaderCount;
-            unsigned int _vertexShaderCount;
-            std::unordered_map<std::string, unsigned int> _uniformLoc;
-            std::vector<Shader *> _attachedShaders;
+        private:
+            // stores uniform blocks shared between all shader programs if they
+            // have this uniform block
+            static std::unordered_map<std::string, UniformBlockInfo *> uniformBlocks;
+            // stores uniform variables they are unique to every shaderprogram
+            // so if multiple shader share the same uniform variable it this
+            // uniform needs to be set again per shaderprogram
+            std::unordered_map<std::string, unsigned int> uniformLoc;
+            // ogl indentifier for this program
+            unsigned int programID;
+
+            unsigned int fragmentShaderCount;
+            unsigned int vertexShaderCount;
+            // shaders related to this shaderprogram
+            std::vector<Shader *> attachedShaders;
         public:
             ShaderProgram(void);
             ~ShaderProgram(void);
@@ -35,12 +43,22 @@ namespace types {
             bool link() const;
             void use() const;
             void disable() const;
+            // adds a new uniform related to the shaderprogram
             unsigned int addUniform(const std::string &sUniformName);
+            // returns the location integer of this uniform
             unsigned int getUniform(const std::string &sUniformName) const;
+            // adds a new uniform block to the binding point
             unsigned int addUniformBlock(const std::string &sUniformBlockName, const unsigned int &bindingPoint);
-            UniformBlock *getUniformBlock(const std::string &sUniformBlockName) const;
+            // returns a struct with all the uniform block info
+            UniformBlockInfo *getUniformBlock(const std::string &sUniformBlockName) const;
+            // sets to out indices and offset the indices and offsets related
+            // to the uniform variable names in the uniform block with this name
+            // reserves memory accordly to count in outIndices and outOffset
             void getUniformBlockIndexAndOffset(const std::string &uniformBlockName, const char *names[], GLuint *outIndices[], GLint *outOffset[], const unsigned int &count) const;
-            void setUniformBlockInfoIndexAndOffset(const std::string &uniformBlockName, UniformBlock *outUBF, const char *names[], const unsigned int &count) const;
+            // sets the indices and offsets related to the uniform variable names
+            // in the uniform block with this name into passed uniformblock info struct
+            // reserver memory accordly to count in outUBF indices and offset
+            void setUniformBlockInfoIndexAndOffset(UniformBlockInfo *outUBF, const char *names[], const unsigned int &count) const;
 
             /*
              * Validates the uniform name and location
@@ -49,11 +67,6 @@ namespace types {
              * glUniform{1|2|3|4}{f|i|ui} based on number of parameters
              * glUniform{2|3|4}fv for type glm::vec{2|3|4}
              * glUniformMatrix{2|3|4}fv for type glm::mat{2|3|4}
-             * Method:    setUniform
-             * FullName:  Types::ShaderProgram::setUniform
-             * Access:    public
-             * Parameter: const std::string & sUniformName
-             * Parameter: T && value{1|2|3|4} -- rvalue to be forwarded to a specific overloaded function based on value type
              */
             template<typename T> void setUniform(const std::string &sUniformName, T &&value0) const;
             template<typename T> void setUniform(const std::string &sUniformName, T &&value0, T &&value1) const;

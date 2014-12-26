@@ -6,12 +6,12 @@ namespace utils {
         private:
             static FrameRate *framerateInstance;
             static int const NUM_FPS_SAMPLES = 32;
-            std::array<double, NUM_FPS_SAMPLES> _fpsSamples;
-            int _currentSample;
-            double _currentFramerate;
-            double _timeSum;
+            std::array<double, NUM_FPS_SAMPLES> fpsSamples;
+            int currentSample;
+            double currentFramerate;
+            double timeSum;
         public:
-            double currentFramerate() { return _currentFramerate; };
+            double getCurrentFramerate() { return currentFramerate; };
             static FrameRate *Instance();
             // Calculates the average framerate based on NUM_FPS_SAMPLES
             void calculate(const double &deltaTime);

@@ -48,13 +48,13 @@ namespace types {
             // Converts a file to a string
             static const std::string fileToString(const std::string &sFilename);
             bool compile();
-            GLuint getId() const { return _id; }
-            types::Shader::ShaderType getType() const { return _type; }
+            GLuint getId() const { return id; }
+            types::Shader::ShaderType getType() const { return shaderType; }
         private:
-            GLuint _id;
-            ShaderType _type;
-            std::string _source;
-            std::string _shaderName;
+            GLuint id;
+            ShaderType shaderType;
+            std::string sourceCode;
+            std::string shaderName;
             bool compilationCheck();
             std::string getShaderTypeString();
     };

@@ -7,39 +7,39 @@ MeshesCollection::MeshesCollection(void)
 
 MeshesCollection *collections::MeshesCollection::Instance()
 {
-    if (!_instance) {
-        _instance = new collections::MeshesCollection();
+    if (!instance) {
+        instance = new collections::MeshesCollection();
     }
 
-    return _instance;
+    return instance;
 }
 
 scene::Mesh *collections::MeshesCollection::createMesh()
 {
-    this->_meshes.push_back(new scene::Mesh());
-    return this->_meshes.back();
+    this->meshes.push_back(new scene::Mesh());
+    return this->meshes.back();
 }
 
 scene::Mesh *collections::MeshesCollection::getMesh(const unsigned int &index)
 {
-    if (index >= this->_meshes.size()) { return nullptr; }
+    if (index >= this->meshes.size()) { return nullptr; }
 
-    return this->_meshes[index];
+    return this->meshes[index];
 }
 
 void collections::MeshesCollection::removeMesh(const unsigned int &index)
 {
-    if (index >= this->_meshes.size()) { return; }
+    if (index >= this->meshes.size()) { return; }
 
-    delete this->_meshes[index];
-    this->_meshes.erase(this->_meshes.begin() + index);
+    delete this->meshes[index];
+    this->meshes.erase(this->meshes.begin() + index);
 }
 
 void collections::MeshesCollection::removeMesh(scene::Mesh *mesh)
 {
-    auto it = std::find(this->_meshes.begin(), this->_meshes.end(), mesh);
+    auto it = std::find(this->meshes.begin(), this->meshes.end(), mesh);
     delete *it;
-    this->_meshes.erase(it);
+    this->meshes.erase(it);
 }
 
-MeshesCollection *collections::MeshesCollection::_instance;
+MeshesCollection *collections::MeshesCollection::instance;

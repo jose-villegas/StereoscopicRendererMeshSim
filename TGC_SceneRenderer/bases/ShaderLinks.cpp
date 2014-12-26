@@ -56,26 +56,26 @@ bases::ShaderLink::LinkData::LinkData(std::string name, unsigned int loc, unsign
 
 void bases::ShaderLinkBlock::bindUniformBuffer()
 {
-    if (!this->_uniformBlockInfo) { return; }
+    if (!this->uniformBlockInfo) { return; }
 
-    glBindBuffer(GL_UNIFORM_BUFFER, this->_uniformBlockInfo->UB);
+    glBindBuffer(GL_UNIFORM_BUFFER, this->uniformBlockInfo->UB);
 }
 
 void bases::ShaderLinkBlock::updateUniformBufferData()
 {
-    if (!this->_uniformBlockInfo) { return; }
+    if (!this->uniformBlockInfo) { return; }
 
-    glBufferData(GL_UNIFORM_BUFFER, this->_uniformBlockInfo->blockSize, this->_uniformBlockInfo->dataPointer, GL_DYNAMIC_DRAW);
+    glBufferData(GL_UNIFORM_BUFFER, this->uniformBlockInfo->blockSize, this->uniformBlockInfo->dataPointer, GL_DYNAMIC_DRAW);
     glBindBuffer(GL_UNIFORM_BUFFER, 0);
 }
 
 void bases::ShaderLinkBlock::setShaderProgram(types::ShaderProgram *shp)
 {
-    this->_sLinkSP = shp;
+    this->sLinkSP = shp;
 }
 
 bases::ShaderLinkBlock::ShaderLinkBlock()
 {
-    this->_sLinkSP = nullptr;
-    this->_uniformBlockInfo = nullptr;
+    this->sLinkSP = nullptr;
+    this->uniformBlockInfo = nullptr;
 }

@@ -32,15 +32,15 @@ namespace core {
 
             Renderer(void);
             Renderer(const Renderer &cpy);
-            static Renderer *_rdInstance;
-            Matrices *_elementalMatrices;
-            utils::FrameRate *_frameRate;
-            utils::Time *_time;
-            scene::Camera *_activeCamera;
-            collections::LightsCollection *_lights;
-            collections::MeshesCollection *_meshes;
-            collections::CamerasCollection *_cameras;
-            collections::SceneObjectsCollection *_sceneObjects;
+            static Renderer *instance;
+            Matrices *matrices;
+            collections::CamerasCollection *cameras;
+            collections::LightsCollection *lights;
+            collections::MeshesCollection *meshes;
+            collections::SceneObjectsCollection *sceneObjects;
+            scene::Camera *activeCamera;
+            utils::FrameRate *framerate;
+            utils::Time *time;
 
     };
 }

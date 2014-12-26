@@ -3,12 +3,12 @@ using namespace collections;
 
 TexturesCollection *TexturesCollection::Instance()
 {
-    if (!_eInstance) {
+    if (!instance) {
         // Create Unique Shared Static Instance
-        _eInstance = new TexturesCollection();
+        instance = new TexturesCollection();
     }
 
-    return _eInstance;
+    return instance;
 }
 
 TexturesCollection::TexturesCollection()
@@ -119,4 +119,4 @@ types::Texture *collections::TexturesCollection::getTexture(const unsigned &texI
     return this->textures[texID];
 }
 
-TexturesCollection *collections::TexturesCollection::_eInstance = nullptr;
+TexturesCollection *collections::TexturesCollection::instance = nullptr;

@@ -9,8 +9,8 @@ namespace collections {
 
     class MeshesCollection {
         private:
-            std::vector <scene::Mesh *> _meshes;
-            static MeshesCollection *_instance;
+            static MeshesCollection *instance;
+            std::vector <scene::Mesh *> meshes;
             MeshesCollection(void);
             MeshesCollection(const MeshesCollection &meshesColl);
         public:
@@ -19,8 +19,8 @@ namespace collections {
             scene::Mesh *getMesh(const unsigned int &index);
             void removeMesh(const unsigned int &index);
             void removeMesh(scene::Mesh *mesh);
-            unsigned int meshCount() const { return _meshes.size(); }
-            std::vector<scene::Mesh *> getMeshes() const { return _meshes; }
+            unsigned int meshCount() const { return meshes.size(); }
+            std::vector<scene::Mesh *> getMeshes() const { return meshes; }
     };
 }
 

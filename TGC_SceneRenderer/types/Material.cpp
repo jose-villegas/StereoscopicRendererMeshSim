@@ -7,7 +7,7 @@ Material::Material(void)
 {
     ambient = diffuse = specular = glm::vec3(0.5f);
     this->shininess = 16.0f;
-    this->_matShader = nullptr;
+    this->matShader = nullptr;
 
     // resize ShaderLink data vector for this structure
     for (int i = 0; i < core::ShadersData::Structures::MATERIAL_MEMBER_COUNT; i++) {
@@ -21,14 +21,14 @@ void types::Material::addTexture(Texture *tex)
     // if texture is null, cancel
     if (!tex) { return; }
 
-    this->_textures.insert(tex);
+    this->textures.insert(tex);
 }
 
 void types::Material::addTexture(Texture *tex[], const unsigned int texCount)
 {
     if (texCount == 0) { return; }
 
-    this->_textures.insert(tex, tex + texCount);
+    this->textures.insert(tex, tex + texCount);
 }
 
 void types::Material::setShaderProgram(ShaderProgram *shp)
@@ -36,10 +36,10 @@ void types::Material::setShaderProgram(ShaderProgram *shp)
     // Cancel if shp is null
     if (!shp) { return; }
 
-    this->_matShader = shp;
+    this->matShader = shp;
     // Save Locations based on the current shader
     // and stored names and indexes on uniformData
-    saveUniformLocations(this->_matShader);
+    saveUniformLocations(this->matShader);
 }
 
 void types::Material::setUniforms(types::ShaderProgram *shp)
@@ -71,13 +71,13 @@ void types::Material::setUniforms(types::ShaderProgram *shp)
 
 void types::Material::setUniforms()
 {
-    setUniforms(this->_matShader);
+    setUniforms(this->matShader);
 }
 
 void types::Material::bindTextures() const
 {
     // Bind textures in reverse type order
-    for (auto it = this->_textures.rbegin(); it != this->_textures.rend(); it++) {
+    for (auto it = this->textures.rbegin(); it != this->textures.rend(); it++) {
         ((Texture *)*it)->bind();
     }
 }
@@ -89,12 +89,12 @@ void types::Material::guessMaterialShader()
 
 void types::Material::setTexturesUniforms()
 {
-    setTexturesUniforms(this->_matShader);
+    setTexturesUniforms(this->matShader);
 }
 
 void types::Material::setTexturesUniforms(types::ShaderProgram *shp)
 {
-    for (auto it = this->_textures.begin(); it != this->_textures.end(); it++) {
+    for (auto it = this->textures.begin(); it != this->textures.end(); it++) {
         // Obtain texID and textype to query data info
         unsigned int texID = ((Texture *)*it)->geTexId();
         unsigned int texType = ((Texture *)*it)->getType();
@@ -105,12 +105,12 @@ void types::Material::setTexturesUniforms(types::ShaderProgram *shp)
 
 void types::Material::useMaterialShader()
 {
-    this->_matShader->use();
+    this->matShader->use();
 }
 
 types::Material::~Material(void)
 {
-    for each(types::Texture * var in this->_textures) {
+    for each(types::Texture * var in this->textures) {
         collections::TexturesCollection::Instance()->unloadTexture(var->geTexId());
     }
 }

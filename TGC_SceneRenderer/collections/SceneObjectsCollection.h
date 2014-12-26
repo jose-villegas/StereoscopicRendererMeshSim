@@ -23,7 +23,7 @@ namespace collections {
             scene::Mesh *addMesh(const core::StoredMeshes::Meshes meshId);
             scene::Mesh *addMeshFromFile(const std::string &sMeshFilename);
             scene::SceneObject *getSceneObject(const unsigned int &index);
-            const std::unordered_map<unsigned int, scene::SceneObject *> &getSceneObjects() const { return _sceneObjects; }
+            const std::unordered_map<unsigned int, scene::SceneObject *> &getSceneObjects() const { return sceneObjects; }
             unsigned int sceneObjectsCount();
             const unsigned int getLastObjectIndex() const;
             SceneObjectsCollection(void);
@@ -31,8 +31,8 @@ namespace collections {
 
         private:
             // Unique Static Instance
-            static SceneObjectsCollection *_instance;
-            std::unordered_map<unsigned int, scene::SceneObject *> _sceneObjects;
+            static SceneObjectsCollection *instance;
+            std::unordered_map<unsigned int, scene::SceneObject *> sceneObjects;
     };
 
 }

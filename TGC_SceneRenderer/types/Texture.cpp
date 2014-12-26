@@ -6,10 +6,10 @@ types::Texture::Texture(const std::string &sFilename, const unsigned int &texId,
 {
     this->sFilename     = sFilename;
     this->texId         = texId;
-    this->tType         = tType;
-    this->tBitsPerPixel = 0;
-    this->tWidth        = 0;
-    this->tHeight       = 0;
+    this->textureType         = tType;
+    this->bitsPerPixel = 0;
+    this->width        = 0;
+    this->height       = 0;
     this->oglTexId      = -1;
 }
 
@@ -17,10 +17,10 @@ types::Texture::Texture(const unsigned int &texId, const TextureType &tType)
 {
     this->sFilename     = "Texture";
     this->texId         = texId;
-    this->tType         = tType;
-    this->tBitsPerPixel = 0;
-    this->tWidth        = 0;
-    this->tHeight       = 0;
+    this->textureType         = tType;
+    this->bitsPerPixel = 0;
+    this->width        = 0;
+    this->height       = 0;
     this->oglTexId      = -1;
 }
 
@@ -62,25 +62,25 @@ bool types::Texture::load(const std::string &sFilename)
     // Retrieve the image raw data
     BYTE *bits = FreeImage_GetBits(dib);
     //get the image width and height
-    tWidth = FreeImage_GetWidth(dib);
-    tHeight = FreeImage_GetHeight(dib);
-    tBitsPerPixel = FreeImage_GetBPP(dib);
+    width = FreeImage_GetWidth(dib);
+    height = FreeImage_GetHeight(dib);
+    bitsPerPixel = FreeImage_GetBPP(dib);
 
     // If this somehow one of these failed (they shouldn't), return failure
-    if ((tBitsPerPixel == 0) || (tHeight == 0) || (tWidth == 0)) {
+    if ((bitsPerPixel == 0) || (height == 0) || (width == 0)) {
         FreeImage_Unload(dib);
         return false;
     }
 
     // Check Image Bit Density
-    GLuint imageFormat = tBitsPerPixel == 32 ? GL_BGRA :
-                         tBitsPerPixel == 24 ? GL_BGR  :
-                         tBitsPerPixel == 16 ? GL_RG   :
-                         tBitsPerPixel ==  8 ? GL_RED  : 0;
+    GLuint imageFormat = bitsPerPixel == 32 ? GL_BGRA :
+                         bitsPerPixel == 24 ? GL_BGR  :
+                         bitsPerPixel == 16 ? GL_RG   :
+                         bitsPerPixel ==  8 ? GL_RED  : 0;
     glGenTextures(1, &oglTexId);
     glBindTexture(GL_TEXTURE_2D, oglTexId);											// bind to the new texture ID
     // store the texture data for OpenGL use
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, tWidth, tHeight, 0, imageFormat, GL_UNSIGNED_BYTE, bits);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, imageFormat, GL_UNSIGNED_BYTE, bits);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glBindTexture(GL_TEXTURE_2D, 0);

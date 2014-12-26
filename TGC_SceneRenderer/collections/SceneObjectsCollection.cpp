@@ -15,11 +15,11 @@ SceneObjectsCollection::~SceneObjectsCollection()
 
 SceneObjectsCollection *SceneObjectsCollection::Instance()
 {
-    if (!_instance) {
-        _instance = new SceneObjectsCollection();
+    if (!instance) {
+        instance = new SceneObjectsCollection();
     }
 
-    return _instance;
+    return instance;
 }
 
 void collections::SceneObjectsCollection::add(const std::string &sObjectName)
@@ -28,16 +28,16 @@ void collections::SceneObjectsCollection::add(const std::string &sObjectName)
     scene::SceneObject *newSceneObject = new scene::SceneObject();
     bases::BaseObject *newObject = new bases::BaseObject(sObjectName);
     newSceneObject->setBaseObject(newObject);
-    this->_sceneObjects[objectsIndex] = newSceneObject;
+    this->sceneObjects[objectsIndex] = newSceneObject;
 }
 
 void collections::SceneObjectsCollection::remove(const unsigned int &objectID)
 {
     // Cancel if a object with this ID doesn't exist
-    if (this->_sceneObjects.find(objectID) == this->_sceneObjects.end()) { return; }
+    if (this->sceneObjects.find(objectID) == this->sceneObjects.end()) { return; }
 
-    delete _sceneObjects[objectID];
-    this->_sceneObjects.erase(objectID);
+    delete sceneObjects[objectID];
+    this->sceneObjects.erase(objectID);
 }
 
 scene::Camera *collections::SceneObjectsCollection::addCamera()
@@ -47,7 +47,7 @@ scene::Camera *collections::SceneObjectsCollection::addCamera()
     scene::Camera *newCamera = CamerasCollection::Instance()->createCamera();
     newObject->setBaseObject(newCamera->base);
     newObject->addComponent(newCamera);
-    this->_sceneObjects[objectsIndex] = newObject;
+    this->sceneObjects[objectsIndex] = newObject;
     return newCamera;
 }
 
@@ -58,7 +58,7 @@ scene::Light *collections::SceneObjectsCollection::addLight(scene::Light::LightT
     scene::Light *newLight = collections::LightsCollection::Instance()->createLight();
     newObject->setBaseObject(newLight->base);
     newObject->addComponent(newLight);
-    this->_sceneObjects[objectsIndex] = newObject;
+    this->sceneObjects[objectsIndex] = newObject;
     return newLight;
 }
 
@@ -84,7 +84,7 @@ scene::Mesh *collections::SceneObjectsCollection::addMesh(const core::StoredMesh
 
 unsigned int collections::SceneObjectsCollection::sceneObjectsCount()
 {
-    return this->_sceneObjects.size();
+    return this->sceneObjects.size();
 }
 
 scene::Mesh *collections::SceneObjectsCollection::addMeshFromFile(const std::string &sMeshFilename)
@@ -95,15 +95,15 @@ scene::Mesh *collections::SceneObjectsCollection::addMeshFromFile(const std::str
     newMesh->loadMesh(sMeshFilename);
     newObject->setBaseObject(newMesh->base);
     newObject->addComponent(newMesh);
-    this->_sceneObjects[objectsIndex] = newObject;
+    this->sceneObjects[objectsIndex] = newObject;
     return newMesh;
 }
 
 scene::SceneObject *collections::SceneObjectsCollection::getSceneObject(const unsigned int &index)
 {
-    if (this->_sceneObjects.find(index) == this->_sceneObjects.end()) { return nullptr; }
+    if (this->sceneObjects.find(index) == this->sceneObjects.end()) { return nullptr; }
 
-    return this->_sceneObjects[index];
+    return this->sceneObjects[index];
 }
 
 const unsigned int collections::SceneObjectsCollection::getLastObjectIndex() const
@@ -113,6 +113,6 @@ const unsigned int collections::SceneObjectsCollection::getLastObjectIndex() con
 
 unsigned int collections::SceneObjectsCollection::objectsIndex = 0;
 
-SceneObjectsCollection *collections::SceneObjectsCollection::_instance = nullptr;
+SceneObjectsCollection *collections::SceneObjectsCollection::instance = nullptr;
 
 

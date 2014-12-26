@@ -13,8 +13,8 @@ namespace types {
                 bool operator()(const Texture *lhs, const Texture *rhs) const  { return lhs->getType() < rhs->getType(); }
             };
             // Ordered Textures by type check Texture.h
-            std::set<Texture *, TexturePtrComp> _textures;
-            ShaderProgram *_matShader;
+            std::set<Texture *, TexturePtrComp> textures;
+            ShaderProgram *matShader;
             Material(const Material &mat);
 
         public:
@@ -28,7 +28,7 @@ namespace types {
             /*
              * Assigns a guessed ShaderProgram from the stored shaders
              * based on the stored textures and their type for example
-             * a material with diffuse and height maps would be assigned
+             * a material with diffuse and normal maps would be assigned
              * a BumpedDiffuse ShaderProgram
              */
             void guessMaterialShader();
@@ -48,7 +48,7 @@ namespace types {
             // Uses the class member stored ShaderProgram _matShader
             void setUniforms();
 
-            unsigned int textureCount() const { return _textures.size(); };
+            unsigned int textureCount() const { return textures.size(); };
     };
 }
 

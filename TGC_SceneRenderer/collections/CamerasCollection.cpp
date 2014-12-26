@@ -3,56 +3,56 @@ using namespace collections;
 
 CamerasCollection::CamerasCollection(void)
 {
-    this->_activeCamera = 0;
+    this->activeCamera = 0;
 }
 
 CamerasCollection *collections::CamerasCollection::Instance()
 {
-    if (!_instance) {
-        _instance = new CamerasCollection();
+    if (!instance) {
+        instance = new CamerasCollection();
     }
 
-    return _instance;
+    return instance;
 }
 
 scene::Camera *collections::CamerasCollection::createCamera()
 {
-    this->_cameras.push_back(new scene::Camera());
-    return this->_cameras.back();
+    this->cameras.push_back(new scene::Camera());
+    return this->cameras.back();
 }
 
 scene::Camera *collections::CamerasCollection::getCamera(const unsigned int &index)
 {
-    if (index >= this->_cameras.size()) { return nullptr; }
+    if (index >= this->cameras.size()) { return nullptr; }
 
-    return this->_cameras[index];
+    return this->cameras[index];
 }
 
 void collections::CamerasCollection::removeCamera(const unsigned int &index)
 {
-    if (index >= this->_cameras.size()) { return; }
+    if (index >= this->cameras.size()) { return; }
 
-    delete this->_cameras[index];
-    this->_cameras.erase(this->_cameras.begin() + index);
+    delete this->cameras[index];
+    this->cameras.erase(this->cameras.begin() + index);
 }
 
 void collections::CamerasCollection::removeCamera(scene::Camera *cam)
 {
-    auto it = std::find(this->_cameras.begin(), this->_cameras.end(), cam);
+    auto it = std::find(this->cameras.begin(), this->cameras.end(), cam);
     delete *it;
-    this->_cameras.erase(it);
+    this->cameras.erase(it);
 }
 
 void collections::CamerasCollection::setActiveCamera(const unsigned int &index)
 {
-    if (index >= this->_cameras.size()) { return; }
+    if (index >= this->cameras.size()) { return; }
 
-    this->_activeCamera = index;
+    this->activeCamera = index;
 }
 
 scene::Camera *collections::CamerasCollection::getActiveCamera()
 {
-    return this->_cameras[this->_activeCamera];
+    return this->cameras[this->activeCamera];
 }
 
-CamerasCollection *collections::CamerasCollection::_instance;
+CamerasCollection *collections::CamerasCollection::instance;

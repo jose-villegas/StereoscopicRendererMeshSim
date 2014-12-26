@@ -8,7 +8,6 @@
 
 ref class LibInfo {
     public:
-        static collections::TexturesCollection *_tInstance;
         static System::String ^OGL_INFO_STRING;
         static System::String ^FREEIMAGE_INFO_STRING;
         static System::String ^ASSIMP_INFO_STRING;
@@ -16,12 +15,4 @@ ref class LibInfo {
         static std::string *FREEIMAGE_INFO_STRING_STD;
         static std::string *ASSIMP_INFO_STRING_STD;
         static void Write();
-};
-
-class ExecutionInfo {
-    public:
-        static const std::string EXEC_DIRECTORY;
-    private:
-        ExecutionInfo();
-        static const std::string QueryExecDir();
 };

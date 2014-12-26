@@ -10,9 +10,9 @@ namespace collections {
 
     class CamerasCollection {
         private:
-            unsigned int _activeCamera;
-            std::vector<scene::Camera *> _cameras;
-            static CamerasCollection *_instance;
+            unsigned int activeCamera;
+            std::vector<scene::Camera *> cameras;
+            static CamerasCollection *instance;
             CamerasCollection(void);
             CamerasCollection(const CamerasCollection &camColl);
         public:
@@ -21,8 +21,8 @@ namespace collections {
             scene::Camera *getCamera(const unsigned int &index);
             void removeCamera(const unsigned int &index);
             void removeCamera(scene::Camera *cam);
-            unsigned int cameraCount() const { return _cameras.size(); }
-            std::vector<scene::Camera *> getCameras() const { return _cameras; }
+            unsigned int cameraCount() const { return cameras.size(); }
+            std::vector<scene::Camera *> getCameras() const { return cameras; }
             void setActiveCamera(const unsigned int &index);
             scene::Camera *getActiveCamera();
     };

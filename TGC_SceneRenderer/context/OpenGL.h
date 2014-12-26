@@ -21,11 +21,11 @@ namespace OGLContext {
 
             COpenGL(System::Windows::Forms::Panel ^parentForm, int iPositionX, int iPositionY, GLsizei iWidth, GLsizei iHeight);
             System::Void restartStopwatch(System::Void);
-            System::Void calculateFramerate(System::Boolean blSet) { this->_calcFramerate = blSet; }
-            System::Void swapOpenGLBuffers(System::Void) { SwapBuffers(_mHDC); }
-            System::Double getDeltaTime() { return _time->deltaTime(); }
-            System::Double getTotalTime() { return _time->totalTime(); }
-            System::Double getFrameRate() { return _fmCalc->currentFramerate(); }
+            System::Void calculateFramerate(System::Boolean blSet) { this->calcFramerate = blSet; }
+            System::Void swapOpenGLBuffers(System::Void) { SwapBuffers(mHDC); }
+            System::Double getDeltaTime() { return time->deltaTime; }
+            System::Double getTotalTime() { return time->totalTime; }
+            System::Double getFrameRate() { return fmCalc->getCurrentFramerate(); }
             virtual System::Void render(System::Void);
             System::String ^OGL_INFO_STRING;
             System::Void clean();
@@ -35,15 +35,14 @@ namespace OGLContext {
             void renderMode(RenderMode mode);
 
         private:
-            HDC _mHDC;
-            HGLRC _mHGLRC;
+            HDC mHDC;
+            HGLRC mHGLRC;
             PIXELFORMATDESCRIPTOR *pfd;
-            System::Diagnostics::Stopwatch _stopwatch;
-            utils::Time *_time;
-            utils::FrameRate *_fmCalc;
-            collections::TexturesCollection *_texCollection;
-            System::Boolean _calcFramerate;
-            core::Renderer *_oglRender;
+            System::Diagnostics::Stopwatch stopwatch;
+            utils::Time *time;
+            utils::FrameRate *fmCalc;
+            System::Boolean calcFramerate;
+            core::Renderer *oglRender;
             HDC createHandle(System::Windows::Forms::Panel ^parentForm, int iPositionX, int iPositionY, GLsizei iWidth, GLsizei iHeight);
 
         protected:

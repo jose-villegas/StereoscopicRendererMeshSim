@@ -17,11 +17,14 @@ types::Face::Face(void)
 {
 }
 
-types::Face::Face(types::Vertex &v1,  types::Vertex &v2, types::Vertex &v3, const bool calcNormal /*= false*/)
+types::Face::Face(types::Vertex &v1, types::Vertex &v2, types::Vertex &v3, const unsigned int i1, const unsigned int i2, const unsigned int i3, const bool calcNormal /*= false */)
 {
     this->vertices[0] = &v1;
     this->vertices[1] = &v2;
     this->vertices[2] = &v3;
+    this->indices[0] = i1;
+    this->indices[1] = i2;
+    this->indices[2] = i3;
 
     if (calcNormal) { this->calculateNormal(); }
 }

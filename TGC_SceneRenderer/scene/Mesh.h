@@ -21,7 +21,7 @@ namespace scene {
         public:
             bool loadMesh(const std::string &sFileName);
             void render();
-            std::vector<types::Material *> materials() const { return _materials; };
+            std::vector<types::Material *> getMaterials() const { return materials; };
 
             ~Mesh(void);
 
@@ -56,10 +56,10 @@ namespace scene {
             virtual void initMesh(unsigned int index, const aiMesh *paiMesh);
 
         private:
-            std::vector<MeshEntry *> _meshEntries;
-            std::vector<types::Material *> _materials;
+            std::vector<MeshEntry *> meshEntries;
+            std::vector<types::Material *> materials;
             // Engine Textures Collection
-            collections::TexturesCollection *_texCollection;
+            collections::TexturesCollection *texCollection;
 
             Mesh(void);
             Mesh(const Mesh &mesh);

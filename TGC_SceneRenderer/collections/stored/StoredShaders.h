@@ -5,7 +5,7 @@ namespace collections {
     namespace stored {
         class StoredShaders {
             private:
-                static std::vector<types::ShaderProgram *> _shaders;
+                static std::vector<types::ShaderProgram *> shaders;
             public:
                 static void LoadShaders();
                 static types::ShaderProgram *getDefaultShader(const core::StoredShaders::Shaders &sh);

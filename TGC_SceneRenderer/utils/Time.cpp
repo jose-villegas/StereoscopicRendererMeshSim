@@ -14,6 +14,6 @@ Time *utils::Time::Instance()
 
 utils::Time::Time(void)
 {
-    this->_deltaTime = 0;
-    this->_totalTime = 0;
+    this->deltaTime = 0;
+    this->totalTime = 0;
 }

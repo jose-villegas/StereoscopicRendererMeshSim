@@ -4,10 +4,10 @@ OGLContext::COpenGL::COpenGL(System::Windows::Forms::Panel ^parentForm, int iPos
 {
     enableRender = true;
     // Create OGL Context
-    _mHDC = createHandle(parentForm, iPositionX, iPositionY, iWidth, iHeight);
+    mHDC = createHandle(parentForm, iPositionX, iPositionY, iWidth, iHeight);
 
-    if (_mHDC) {
-        oglSetPixelFormat(_mHDC);
+    if (mHDC) {
+        oglSetPixelFormat(mHDC);
         HINSTANCE hInstance = (HINSTANCE)GetWindowLong((HWND)this->Handle.ToPointer(), GWL_HINSTANCE);
 
         // Query Multisample Support
@@ -16,49 +16,48 @@ OGLContext::COpenGL::COpenGL(System::Windows::Forms::Panel ^parentForm, int iPos
                 // Destroy Temporary Context
                 DestroyWindow((HWND)this->Handle.ToPointer());
                 // Create new Context with MultiSample Support
-                _mHDC = createHandle(parentForm, iPositionX, iPositionY, iWidth, iHeight);;
-                oglSetPixelFormat(_mHDC);
+                mHDC = createHandle(parentForm, iPositionX, iPositionY, iWidth, iHeight);;
+                oglSetPixelFormat(mHDC);
             }
         }
     }
 
     // Create Renderer (Core::Renderer is in charge of rendering all scene objects and misc)
-    _oglRender = core::Renderer::Instance();
+    oglRender = core::Renderer::Instance();
 
-    if (!_oglRender->load()) {
+    if (!oglRender->load()) {
         std::cout << "Failed to initialize OpenGL" << std::endl;
-        delete _oglRender;
+        delete oglRender;
         enableRender = false;
-        _oglRender = nullptr;
+        oglRender = nullptr;
     }
 
     // Write Library Loading / Current Instance Info
     LibInfo::Write();
-    // Setup OGL Flags
-    _oglRender->setup();
-    _oglRender->viewport(parentForm->Width, parentForm->Height);
+    // Setup render instance
+    oglRender->setup();
+    oglRender->viewport(parentForm->Width, parentForm->Height);
     // Query Current OGL Context Info
     OGL_INFO_STRING = LibInfo::OGL_INFO_STRING;
     // Other Class Variables Instancing
-    _fmCalc = utils::FrameRate::Instance();
-    _time = utils::Time::Instance();
-    _texCollection = collections::TexturesCollection::Instance();
-    _calcFramerate = true; // Default Don't
+    fmCalc = utils::FrameRate::Instance();
+    time = utils::Time::Instance();
+    calcFramerate = true; // Default Don't
 }
 
 System::Void OGLContext::COpenGL::restartStopwatch(System::Void)
 {
-    this->_time->deltaTime(_stopwatch.Elapsed.TotalSeconds);
-    this->_time->totalTime(this->_time->totalTime() + this->_time->deltaTime());
+    this->time->deltaTime = stopwatch.Elapsed.TotalSeconds;
+    this->time->totalTime += this->time->deltaTime;
 
-    if (_calcFramerate) { _fmCalc->calculate(this->_time->deltaTime()); }
+    if (calcFramerate) { fmCalc->calculate(this->time->deltaTime); }
 
-    _stopwatch.Restart();
+    stopwatch.Restart();
 }
 
 System::Void OGLContext::COpenGL::render(System::Void)
 {
-    if (enableRender) { _oglRender->loop(); }
+    if (enableRender) { oglRender->loop(); }
 }
 
 GLint OGLContext::COpenGL::oglSetPixelFormat(HDC hdc)
@@ -107,12 +106,12 @@ GLint OGLContext::COpenGL::oglSetPixelFormat(HDC hdc)
         return 0;
     }
 
-    if ((_mHGLRC = wglCreateContext(_mHDC)) == NULL) {
+    if ((mHGLRC = wglCreateContext(mHDC)) == NULL) {
         std::cout << "wglCreateContext Failed" << std::endl;
         return 0;
     }
 
-    if ((wglMakeCurrent(_mHDC, _mHGLRC)) == NULL) {
+    if ((wglMakeCurrent(mHDC, mHGLRC)) == NULL) {
         std::cout << "wglMakeCurrent Failed" << std::endl;
         return 0;
     }
@@ -143,10 +142,6 @@ HDC OGLContext::COpenGL::createHandle(System::Windows::Forms::Panel ^parentForm,
 OGLContext::COpenGL::~COpenGL(System::Void)
 {
     enableRender = false;
-    _texCollection->unloadAllTextures();
-    delete _texCollection;
-    delete _fmCalc;
-    delete _time;
     this->DestroyHandle();
 }
 
@@ -159,24 +154,24 @@ void OGLContext::COpenGL::resizeRenderingViewPort(System::Int32 width, System::I
     // Resize context handler
     SetWindowPos((HWND)this->Handle.ToPointer(), HWND_BOTTOM, 0, 0, width, height, SWP_NOMOVE);
     // Resize rendering viewport
-    this->_oglRender->viewport(int(width), int(height));
+    this->oglRender->viewport(int(width), int(height));
 }
 
 void OGLContext::COpenGL::renderMode(RenderMode mode)
 {
-    if (!_oglRender) { return; }
+    if (!oglRender) { return; }
 
     switch (mode) {
         case OGLContext::Points:
-            this->_oglRender->polygonModel(core::Renderer::Points);
+            this->oglRender->polygonModel(core::Renderer::Points);
             break;
 
         case OGLContext::Wireframe:
-            this->_oglRender->polygonModel(core::Renderer::Wireframe);
+            this->oglRender->polygonModel(core::Renderer::Wireframe);
             break;
 
         case OGLContext::Textured:
-            this->_oglRender->polygonModel(core::Renderer::Textured);
+            this->oglRender->polygonModel(core::Renderer::Textured);
             break;
 
         default:
