@@ -12,12 +12,21 @@ SceneObject::SceneObject()
 
 void scene::SceneObject::addComponent(bases::BaseComponent *component)
 {
+    for (unsigned int i = 0; i < this->components.size(); i++) {
+        bases::BaseComponent *ptr = this->components[i];
+
+        if (typeid(*ptr) == typeid(*component)) {
+            std::cout << "SceneObject(" << this << ") " << "cannot have the same component twice, operation cancelled" << std::endl;
+            return;
+        }
+    }
+
     components.push_back(component);
 }
 
 void scene::SceneObject::removeComponent(const unsigned int &componentIndex)
 {
-    if (!components[componentIndex]) { return; }
+    if (componentIndex >= components.size() || !components[componentIndex]) { return; }
 
     components.erase(components.begin() + componentIndex);
 }
@@ -32,11 +41,11 @@ scene::SceneObject::~SceneObject()
     for (unsigned int i = 0; i < this->components.size(); i++) {
         bases::BaseComponent *ptr = this->components[i];
 
-        if (dynamic_cast<scene::Mesh *>(ptr) != 0) {
+        if (typeid(*ptr) == typeid(scene::Mesh)) {
             collections::MeshesCollection::Instance()->removeMesh((scene::Mesh *)ptr);
-        } else if (dynamic_cast<scene::Light *>(ptr) != 0) {
+        } else if (typeid(*ptr) == typeid(scene::Light)) {
             collections::LightsCollection::Instance()->removeLight((scene::Light *)ptr);
-        } else if (dynamic_cast<scene::Camera *>(ptr) != 0) {
+        } else if (typeid(*ptr) == typeid(scene::Camera)) {
             collections::CamerasCollection::Instance()->removeCamera((scene::Camera *)ptr);
         }
     }

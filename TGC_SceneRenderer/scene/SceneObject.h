@@ -13,9 +13,6 @@ namespace scene {
             std::vector<bases::BaseComponent *> components;
         public:
 
-            // Tree Hierachy Structure
-            // SceneObject *childObject;
-
             SceneObject();
             ~SceneObject();
             void addComponent(bases::BaseComponent *component);

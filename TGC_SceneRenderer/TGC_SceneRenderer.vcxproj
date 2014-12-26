@@ -120,6 +120,8 @@
     <ClCompile Include="collections\CamerasCollection.cpp" />
     <ClCompile Include="core\Data.cpp" />
     <ClCompile Include="Context\LibInfo.cpp" />
+    <ClCompile Include="utils\ProgressiveMeshes.cpp" />
+    <ClCompile Include="types\Face.cpp" />
     <ClCompile Include="include\GL\gl_core_4_4.c" />
     <ClCompile Include="Collections\stored\StoredShaders.cpp" />
     <ClCompile Include="core\Matrices.cpp" />
@@ -155,6 +157,8 @@
     <ClInclude Include="collections\CamerasCollection.h" />
     <ClInclude Include="core\Data.h" />
     <ClInclude Include="Context\LibInfo.h" />
+    <ClInclude Include="utils\ProgressiveMeshes.h" />
+    <ClInclude Include="types\Face.h" />
     <ClInclude Include="include\FreeImage\FreeImage.h" />
     <ClInclude Include="include\GL\gl_core_4_4.h" />
     <ClInclude Include="include\GL\wglext.h" />
