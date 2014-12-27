@@ -69,6 +69,7 @@ void scene::Camera::setProjection(const float &aspectRatio, const float &fieldOf
 
 scene::Camera::~Camera(void)
 {
+    collections::CamerasCollection::Instance()->removeCamera(this);
 }
 
 void scene::Camera::setAspectRatio(const float &val)

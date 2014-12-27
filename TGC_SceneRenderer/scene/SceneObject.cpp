@@ -39,15 +39,7 @@ void scene::SceneObject::setBaseObject(bases::BaseObject *base)
 scene::SceneObject::~SceneObject()
 {
     for (unsigned int i = 0; i < this->components.size(); i++) {
-        bases::BaseComponent *ptr = this->components[i];
-
-        if (typeid(*ptr) == typeid(scene::Mesh)) {
-            collections::MeshesCollection::Instance()->removeMesh((scene::Mesh *)ptr);
-        } else if (typeid(*ptr) == typeid(scene::Light)) {
-            collections::LightsCollection::Instance()->removeLight((scene::Light *)ptr);
-        } else if (typeid(*ptr) == typeid(scene::Camera)) {
-            collections::CamerasCollection::Instance()->removeCamera((scene::Camera *)ptr);
-        }
+        delete this->components[i];
     }
 
     delete base;

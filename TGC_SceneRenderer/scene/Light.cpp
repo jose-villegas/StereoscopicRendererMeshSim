@@ -40,4 +40,5 @@ std::string scene::Light::getLightTypeString(const LightType &lightType)
 
 scene::Light::~Light(void)
 {
+    collections::LightsCollection::Instance()->removeLight(this);
 }

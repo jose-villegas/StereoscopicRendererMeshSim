@@ -15,8 +15,8 @@ namespace types {
             std::array <types::Vertex *, 3> vertices;
             std::array <unsigned int, 3> indices;
             glm::vec3 normal;
-            void calculateNormal();
-            bool hasVertex(types::Vertex *v);
+            virtual void calculateNormal();
+            virtual bool hasVertex(types::Vertex *v);
             // construtors
             Face(void);
             ~Face() {};

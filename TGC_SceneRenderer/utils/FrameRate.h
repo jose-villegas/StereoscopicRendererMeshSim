@@ -2,14 +2,11 @@
 #include <array>
 
 namespace utils {
+    // time and framerate has to be calculated by the context provider
     class FrameRate {
         private:
             static FrameRate *framerateInstance;
-            static int const NUM_FPS_SAMPLES = 32;
-            std::array<double, NUM_FPS_SAMPLES> fpsSamples;
-            int currentSample;
             double currentFramerate;
-            double timeSum;
         public:
             double getCurrentFramerate() { return currentFramerate; };
             static FrameRate *Instance();

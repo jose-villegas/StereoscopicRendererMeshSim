@@ -5,6 +5,7 @@
 #include "..\Collections\TexturesCollection.h"
 #include "..\Collections\stored\StoredShaders.h"
 #include "..\collections\LightsCollection.h"
+#include <thread>
 using namespace core;
 
 const char *core::ShadersData::UniformBlocks::SHAREDLIGHTS_INSTANCE_NAME = "light";
@@ -170,6 +171,7 @@ void core::ShadersData::Initialize()
 
     // Load Execution Location Info - WIN only
     const std::string &execDirRef = core::ExecutionInfo::EXEC_DIR;
+    // Obtain Execution Directory
     DWORD cwdsz = GetCurrentDirectory(0, 0); // determine size needed
     char *cwd = (char *)malloc(cwdsz);
 
@@ -200,3 +202,5 @@ void core::ShadersData::Initialize()
 bool core::ShadersData::dataSet = false;
 
 const std::string core::ExecutionInfo::EXEC_DIR = "";
+
+unsigned const int core::ExecutionInfo::AVAILABLE_CORES = std::thread::hardware_concurrency();

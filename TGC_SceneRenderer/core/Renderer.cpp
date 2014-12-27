@@ -76,8 +76,10 @@ void core::Renderer::loop()
 {
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f) ;
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    // set control variables
     this->activeCamera = this->cameras->getActiveCamera();
+
+    if (!this->activeCamera) { return; }
+
     // set lights uniform block data
     this->lights->setUniformBlock();
     // set elemetal matricse with the active camera info, these matrices stay the same for all models

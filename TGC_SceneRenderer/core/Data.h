@@ -2,10 +2,11 @@
 #include "assimp\material.h"
 #include "..\Types\ShaderProgram.h"
 namespace core {
-
+    // Execution general enviroment general info
+    // OS dependent implementation
     class ExecutionInfo {
-
         public:
+            static const unsigned int AVAILABLE_CORES;
             static const std::string EXEC_DIR;
     };
 

@@ -1,5 +1,7 @@
 #include "Mesh.h"
 #include "..\core\Data.h"
+#include "..\utils\ProgressiveMeshes.h"
+#include "..\collections\MeshesCollection.h"
 using namespace scene;
 
 Mesh::Mesh(void)
@@ -11,6 +13,7 @@ Mesh::Mesh(void)
 Mesh::~Mesh(void)
 {
     clear();
+    collections::MeshesCollection::Instance()->removeMesh(this);
 }
 
 bool Mesh::loadMesh(const std::string &sFileName)
@@ -94,6 +97,8 @@ void Mesh::initMesh(unsigned int index, const aiMesh *paiMesh)
 
     meshEntries[index]->generateBuffers();
     meshEntries[index]->setBuffersData();
+    utils::ProgressiveMeshes progMesh;
+    progMesh.generateProgressiveMesh(meshEntries[index]->vertices, meshEntries[index]->faces);
 }
 
 bool Mesh::initMaterials(const aiScene *pScene, const std::string &sFilename)
@@ -297,6 +302,11 @@ void scene::Mesh::MeshEntry::setBuffersData()
 
 Mesh::MeshEntry::~MeshEntry()
 {
+    this->vertices.clear();
+    this->faces.clear();
+    this->indices.clear();
+
+    // delete reserve memory for object buffers
     if (VB != core::EngineData::Commoms::INVALID_VALUE) {
         glDeleteBuffers(1, &VB);
     }

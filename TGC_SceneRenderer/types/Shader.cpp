@@ -42,7 +42,7 @@ bool types::Shader::loadFromString(std::string &sSource, const std::string &toke
     sSource.insert(glslTokenIndex + token.size(), data);
     std::cout << "Shader(" << this << "): " << getShaderTypeString() << " data modified \n " << data << "\ninserted at token " << token << std::endl;
     // Load normally
-    loadFromString(sSource);
+    return loadFromString(sSource);
 }
 
 bool types::Shader::loadFromFile(const std::string &sFilename)
@@ -149,4 +149,6 @@ std::string types::Shader::getShaderTypeString()
         default:
             break;
     }
+
+    return "";
 }

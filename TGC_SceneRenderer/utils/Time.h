@@ -1,6 +1,6 @@
 #pragma once
 namespace utils {
-
+    // time and framerate has to be calculated by the context provider
     class Time {
         public:
             double deltaTime;

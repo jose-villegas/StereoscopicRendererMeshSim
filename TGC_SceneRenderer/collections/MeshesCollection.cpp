@@ -31,14 +31,15 @@ void collections::MeshesCollection::removeMesh(const unsigned int &index)
 {
     if (index >= this->meshes.size()) { return; }
 
-    delete this->meshes[index];
     this->meshes.erase(this->meshes.begin() + index);
 }
 
 void collections::MeshesCollection::removeMesh(scene::Mesh *mesh)
 {
     auto it = std::find(this->meshes.begin(), this->meshes.end(), mesh);
-    delete *it;
+
+    if (it == this->meshes.end()) { return; }
+
     this->meshes.erase(it);
 }
 

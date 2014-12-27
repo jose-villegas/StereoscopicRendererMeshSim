@@ -65,8 +65,6 @@ void collections::LightsCollection::removeLight(const unsigned int &lightIndex)
 {
     if (lightIndex >= lights.size()) { return; }
 
-    // Free memory reserved by light structure
-    delete this->lights[lightIndex];
     // Delete index from vector
     this->lights.erase(lights.begin() + lightIndex);
 }
@@ -74,7 +72,9 @@ void collections::LightsCollection::removeLight(const unsigned int &lightIndex)
 void collections::LightsCollection::removeLight(scene::Light *lght)
 {
     auto it = std::find(this->lights.begin(), this->lights.end(), lght);
-    delete *it;
+
+    if (it == this->lights.end()) { return; }
+
     this->lights.erase(it);
 }
 
