@@ -46,13 +46,22 @@ namespace utils {
 
             float edgeCollapseCost(Vertex *u, Vertex *v);
             void edgeCostAtVertex(Vertex *v);
+            // updates u and v neighbors and faces after
+            // collapsing the uv edge
             void collapse(Vertex *u, Vertex *v);
+            // iterates through all the class vertices returns
+            // the one with the minimumn collapse cost
             Vertex *minimumCostEdge();
-
-            void removeVertex(Vertex *v);
-            void removeFace(Face *f);
+            // stores normal mesh values into progressive mesh data
             void copyVertices(const std::vector<types::Vertex> &vertices);
+            // stores normal mesh values into progressive mesh data
             void copyFaces(const std::vector<types::Face> &faces);
+            // deletes a face at iterator <it>, also deletes its vertices
+            // and neighbors references to this face returns true if the
+            // iterator was invalidated during erase, in which case <it>
+            // becomes the <it> next to the deleted element (valid), used
+            // in collapse() function
+            bool removeProgFace(std::unordered_map<unsigned int, utils::ProgressiveMeshes::Face *>::iterator &it, Vertex *src);
 
         public:
 

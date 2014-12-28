@@ -23,7 +23,12 @@ bool Mesh::loadMesh(const std::string &sFileName)
     bool bRtrn = false;
     Assimp::Importer Importer;
     // read filename with assimp importer
-    const aiScene *pScene = Importer.ReadFile(sFileName.c_str(), aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_CalcTangentSpace | aiProcess_FlipUVs);
+    const aiScene *pScene = Importer.ReadFile(sFileName.c_str(),
+                            aiProcess_Triangulate
+                            | aiProcess_JoinIdenticalVertices
+                            | aiProcess_GenSmoothNormals
+                            | aiProcess_CalcTangentSpace
+                            | aiProcess_FlipUVs);
 
     if (pScene) {
         std::cout << "Mesh(" << this << ") " << "Loading asset " << sFileName << std::endl;

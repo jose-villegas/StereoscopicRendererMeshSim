@@ -61,7 +61,7 @@ void core::Renderer::setup()
     this->matrices->setShaderProgram(shProgram);
     this->matrices->setUniformBlockInfo();
     // Add test objects
-    this->sceneObjects->addMesh(StoredMeshes::Torus);
+    this->sceneObjects->addMesh(core::StoredMeshes::Torus);
     // Initial Light UBO setup
     this->lights->setShaderProgram(shProgram);
     this->lights->setUniformBlockInfo();

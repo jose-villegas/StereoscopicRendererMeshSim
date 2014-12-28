@@ -20,21 +20,18 @@ System::Void SceneRenderer::PropertiesWindow::setActiveObjectIndex(unsigned int 
     // Update object name
     this->baseControl->objectName->Text = gcnew System::String(activeSceneObject->getBase()->objectName.c_str());
     // Update Transform accordly
-    this->trnfrControl->Position(
-        activeSceneObject->getBase()->transform.position.x,
-        activeSceneObject->getBase()->transform.position.y,
-        activeSceneObject->getBase()->transform.position.z
+    this->trnfrControl->setValues(
+        (double)activeSceneObject->getBase()->transform.position.x,
+        (double)activeSceneObject->getBase()->transform.position.y,
+        (double)activeSceneObject->getBase()->transform.position.z,
+        (double)activeSceneObject->getBase()->transform.eulerAngles().x,
+        (double)activeSceneObject->getBase()->transform.eulerAngles().y,
+        (double)activeSceneObject->getBase()->transform.eulerAngles().z,
+        (double)activeSceneObject->getBase()->transform.scale.x,
+        (double)activeSceneObject->getBase()->transform.scale.y,
+        (double)activeSceneObject->getBase()->transform.scale.z
     );
-    this->trnfrControl->Rotation(
-        activeSceneObject->getBase()->transform.eulerAngles().x,
-        activeSceneObject->getBase()->transform.eulerAngles().y,
-        activeSceneObject->getBase()->transform.eulerAngles().z
-    );
-    this->trnfrControl->Scale(
-        activeSceneObject->getBase()->transform.scale.x,
-        activeSceneObject->getBase()->transform.scale.y,
-        activeSceneObject->getBase()->transform.scale.z
-    );
+    this->trnfrControl->Refresh();
     // Set up components user controls
     std::vector<bases::BaseComponent *>::const_iterator it = activeSceneObject->getComponents().begin();
     std::vector<bases::BaseComponent *>::const_iterator ite = activeSceneObject->getComponents().end();
@@ -56,9 +53,9 @@ System::Void SceneRenderer::PropertiesWindow::setActiveObjectIndex(unsigned int 
             // Create a window managed color from vector values
             System::Drawing::Color wLightColor;
             wLightColor = System::Drawing::Color::FromArgb(
-                              ((scene::Light *)ptr)->color.r * 255,
-                              ((scene::Light *)ptr)->color.g * 255,
-                              ((scene::Light *)ptr)->color.b * 255
+                              (int)(((scene::Light *)ptr)->color.r * 255.f),
+                              (int)(((scene::Light *)ptr)->color.g * 255.f),
+                              (int)(((scene::Light *)ptr)->color.b * 255.f)
                           );
             // set current values to the user control
             this->lightControl->SetValues(
@@ -83,9 +80,9 @@ System::Void SceneRenderer::PropertiesWindow::onPositionVectorChanged(System::Ob
 
     // Set Transform
     activeSceneObject->getBase()->transform.setPosition(
-        this->trnfrControl->Position()->X(),
-        this->trnfrControl->Position()->Y(),
-        this->trnfrControl->Position()->Z()
+        (float)this->trnfrControl->Position()->X(),
+        (float)this->trnfrControl->Position()->Y(),
+        (float)this->trnfrControl->Position()->Z()
     );
 }
 
@@ -95,9 +92,9 @@ System::Void SceneRenderer::PropertiesWindow::onRotationVectorChanged(System::Ob
 
     // Set Transform
     activeSceneObject->getBase()->transform.setRotation(
-        degreesToRadians(this->trnfrControl->Rotation()->X()),
-        degreesToRadians(this->trnfrControl->Rotation()->Y()),
-        degreesToRadians(this->trnfrControl->Rotation()->Z())
+        (float)degreesToRadians(this->trnfrControl->Rotation()->X()),
+        (float)degreesToRadians(this->trnfrControl->Rotation()->Y()),
+        (float)degreesToRadians(this->trnfrControl->Rotation()->Z())
     );
 }
 
@@ -107,9 +104,9 @@ System::Void SceneRenderer::PropertiesWindow::onScaleVectorChanged(System::Objec
 
     // Set Transform
     activeSceneObject->getBase()->transform.setScale(
-        this->trnfrControl->Scale()->X(),
-        this->trnfrControl->Scale()->Y(),
-        this->trnfrControl->Scale()->Z()
+        (float)this->trnfrControl->Scale()->X(),
+        (float)this->trnfrControl->Scale()->Y(),
+        (float)this->trnfrControl->Scale()->Z()
     );
 }
 
