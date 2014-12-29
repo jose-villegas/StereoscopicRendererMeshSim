@@ -61,13 +61,13 @@ void core::Renderer::setup()
     this->matrices->setShaderProgram(shProgram);
     this->matrices->setUniformBlockInfo();
     // Add test objects
-    this->sceneObjects->addMesh(core::StoredMeshes::Torus);
+    this->sceneObjects->addMeshFromFile(core::ExecutionInfo::EXEC_DIR + "/resources/cube.off");
     // Initial Light UBO setup
     this->lights->setShaderProgram(shProgram);
     this->lights->setUniformBlockInfo();
     // Add lights to scene objects
     this->sceneObjects->addLight(scene::Light::Point);
-    this->lights->getLight(0)->base->transform.setPosition(3.0, 0.0, 3.0);
+    this->lights->getLight(0)->base->transform.setPosition(0.0, 0.0, 3.0);
     this->lights->getLight(0)->setColor(1.0f, 1.0f, 1.0f);
     this->lights->getLight(0)->intensity = 1.0f;
 }
@@ -84,7 +84,7 @@ void core::Renderer::loop()
     this->lights->setUniformBlock();
     // set elemetal matricse with the active camera info, these matrices stay the same for all models
     this->matrices->setViewMatrix(this->activeCamera->getViewMatrix());
-    this->matrices->setProjectionMatrix(this->activeCamera->getProjectionTypeMatrix());
+    this->matrices->setProjectionMatrix(this->activeCamera->getFrustumMatrix());
 
     for (unsigned int i = 0; i < this->meshes->meshCount(); i++) {
         // update the model matrix per model
@@ -107,6 +107,23 @@ void core::Renderer::viewport(const unsigned int &width, const unsigned int &hei
 void core::Renderer::polygonModel(Modes mode)
 {
     glPolygonMode(GL_FRONT_AND_BACK, mode);
+}
+
+void core::Renderer::unload()
+{
+    delete collections::TexturesCollection::Instance();
+    delete this->time;
+    delete this->framerate;
+    delete this->sceneObjects;
+    delete this->cameras;
+    delete this->lights;
+    delete this->meshes;
+    delete this->matrices;
+}
+
+core::Renderer::~Renderer()
+{
+    unload();
 }
 
 Renderer *core::Renderer::instance = nullptr;

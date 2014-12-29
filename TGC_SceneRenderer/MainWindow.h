@@ -62,6 +62,7 @@ namespace SceneRenderer {
             {
                 objectsWindow->Close();
                 inspWin->Close();
+                delete OpenGL;
 
                 if (components) {
                     delete components;

@@ -7,9 +7,10 @@
 #include <thread>
 using namespace utils;
 
-void utils::ProgressiveMeshes::Face::replaceVertex(Vertex *oldVertex, Vertex *newVertex, const bool calcNormal /* = true */)
+bool utils::ProgressiveMeshes::Face::replaceVertex(std::unordered_map<unsigned int, utils::ProgressiveMeshes::Face *>::iterator &it, Vertex *oldVertex, Vertex *newVertex,
+        const bool calcNormal /* = true */)
 {
-    if (!(oldVertex && newVertex) || !this->hasVertex(oldVertex) || this->hasVertex(newVertex)) { return; }
+    if (!(oldVertex && newVertex) || !this->hasVertex(oldVertex) || this->hasVertex(newVertex)) { return false; }
 
     if (oldVertex == vertices[0]) {
         vertices[0] = newVertex;
@@ -20,13 +21,8 @@ void utils::ProgressiveMeshes::Face::replaceVertex(Vertex *oldVertex, Vertex *ne
     }
 
     // erase in the old vertex this face association
-    if (oldVertex->faces.find(this->mappingId) == newVertex->faces.end()) { return; }
-
-    oldVertex->faces.erase(this->mappingId);
-
+    it = oldVertex->faces.erase(oldVertex->faces.find(this->mappingId));
     // add to the new vertex this face as an associate
-    if (newVertex->faces.find(this->mappingId) != newVertex->faces.end()) { return; }
-
     newVertex->faces[this->mappingId] = this;
     // remove non-neighbors
     std::for_each(this->vertices.begin(), this->vertices.end(), [oldVertex](Vertex * vertex) {
@@ -36,12 +32,11 @@ void utils::ProgressiveMeshes::Face::replaceVertex(Vertex *oldVertex, Vertex *ne
 
     // update face vertices neighbors
     for (unsigned int i = 0; i < 3; i++) {
-        if (this->vertices[i]->faces.find(this->mappingId) == this->vertices[i]->faces.end()) { return; }
+        if (this->vertices[i]->faces.find(this->mappingId) == this->vertices[i]->faces.end()) { return true; }
 
         for (unsigned int j = 0; j < 3; j++) {
             if (j != i) {
-                if (this->vertices[i]->neightbors.find(this->vertices[j]->mappingId) != this->vertices[i]->neightbors.end()) { break; }
-
+                //if (this->vertices[i]->neightbors.find(this->vertices[j]->mappingId) == this->vertices[i]->neightbors.end())
                 this->vertices[i]->neightbors[this->vertices[j]->mappingId] = this->vertices[j];
             }
         }
@@ -49,6 +44,8 @@ void utils::ProgressiveMeshes::Face::replaceVertex(Vertex *oldVertex, Vertex *ne
 
     // recalculate face normal
     if (calcNormal) { this->calculateNormal(); }
+
+    return true;
 }
 
 utils::ProgressiveMeshes::Face::Face(const unsigned int id, Vertex *v1, Vertex *v2, Vertex *v3, const types::Face &nonProgFace) : types::Face(nonProgFace)
@@ -110,15 +107,15 @@ utils::ProgressiveMeshes::Vertex::~Vertex()
 {
     if (this->faces.empty()) { return; }
 
-    for (auto it = this->neightbors.begin(); it != this->neightbors.end(); it++) {
-        (*it).second->neightbors.erase(this->mappingId);
+    while (!this->neightbors.empty()) {
+        (*this->neightbors.begin()).second->neightbors.erase(this->mappingId);
+        this->neightbors.erase(this->neightbors.begin());
     }
-
-    this->neightbors.clear();
 }
 
 utils::ProgressiveMeshes::Face::~Face()
 {
+    this->vertices[0] = nullptr; this->vertices[1] = nullptr; this->vertices[2] = nullptr;
 }
 
 float utils::ProgressiveMeshes::edgeCollapseCost(Vertex *u, Vertex *v)
@@ -174,19 +171,22 @@ bool  utils::ProgressiveMeshes::removeProgFace(std::unordered_map<unsigned int, 
 {
     Face *ptr = (*it).second;
     bool iteratorInvalidated = false;
-    // delete face reference from
-    // progressivemeshes class collection
-    this->progFaces.erase(ptr->mappingId);
 
     // remove association with this face at face vertices
     for (int i = 0; i < 3; i++) {
         // if we found this vertice is the src we need to replace
-        // the iterator, erase invalidates all class iterators
+        // the iterator, erase operation invalidates all class iterators
+        if (!ptr->vertices[i]) { continue; }
+
+        auto faceIt  = ptr->vertices[i]->faces.find(ptr->mappingId);
+
+        if (faceIt == ptr->vertices[i]->faces.end()) { continue; }
+
         if (ptr->vertices[i] && ptr->vertices[i] == src) {
-            it = ptr->vertices[i]->faces.erase(ptr->vertices[i]->faces.find(ptr->mappingId));
+            it = ptr->vertices[i]->faces.erase(faceIt);
             iteratorInvalidated = true;
         } else if (ptr->vertices[i]) {
-            ptr->vertices[i]->faces.erase(ptr->mappingId); // else just erase normally
+            ptr->vertices[i]->faces.erase(faceIt); // else just erase normally
         }
     }
 
@@ -202,20 +202,25 @@ bool  utils::ProgressiveMeshes::removeProgFace(std::unordered_map<unsigned int, 
 
     // delete face reserved memory
     delete ptr;
+    // delete face reference from
+    // progressivemeshes class collection
+    this->progFaces.erase(ptr->mappingId);
     // return iterator status
     return iteratorInvalidated;
 }
 
 void utils::ProgressiveMeshes::collapse(Vertex *u, Vertex *v)
 {
-    if (v == nullptr) {
+    if (!v) {
         this->progVertices.erase(u->mappingId);
         delete u;;
         return;
     }
 
     std::unordered_map<unsigned int, Vertex *> tmpNeighbors = u->neightbors;
-    std::unordered_map<unsigned int, utils::ProgressiveMeshes::Face *>::iterator it = u->faces.begin();
+    // deletes the face triangle from the progmesh
+    // and updates vertices and neighbors accordly
+    auto it = u->faces.begin();
 
     while (it != u->faces.end()) {
         if ((*it).second->hasVertex(v)) {
@@ -223,9 +228,12 @@ void utils::ProgressiveMeshes::collapse(Vertex *u, Vertex *v)
         } else { it++; }
     }
 
-    // update rest of the triangles accordily to deleted triangle
-    for (auto it = u->faces.begin(); it != u->faces.end(); it++) {
-        (*it).second->replaceVertex(u, v);
+    // update rest of the triangles and vertices
+    // accordily to deleted triangle
+    it = u->faces.begin();
+
+    while (it != u->faces.end()) {
+        (*it).second->replaceVertex(it, u, v) ?  it : it++;
     }
 
     this->progVertices.erase(u->mappingId);
@@ -286,16 +294,24 @@ void utils::ProgressiveMeshes::generateProgressiveMesh(const std::vector<types::
     // allocate space for output
     this->candidatesMap.resize(this->progVertices.size());
     this->permutations.resize(this->progVertices.size());
-    //for (auto it = this->progVertices.begin(); it != this->progVertices.end(); it++) {
-    //    edgeCostAtVertex((*it).second);
-    //}
-    //while (!this->progVertices.empty()) {
-    //    Vertex *mnimum = minimumCostEdge();
-    //    // track of the collapse vertices order
-    //    this->permutations[mnimum->mappingId] = this->progVertices.size() - 1;
-    //    // track of the collapse candidate
-    //    this->candidatesMap[this->progVertices.size() - 1] = mnimum->collapseCandidate != nullptr ? mnimum->collapseCandidate->mappingId : -1;
-    //    this->collapse(mnimum, mnimum->collapseCandidate);
-    //}
-    //std::cout << ";";
+
+    for (auto it = this->progVertices.begin(); it != this->progVertices.end(); it++) {
+        edgeCostAtVertex((*it).second);
+    }
+
+    while (!this->progVertices.empty()) {
+        Vertex *mnimum = minimumCostEdge();
+        // track of the collapse vertices order
+        this->permutations[mnimum->mappingId] = this->progVertices.size() - 1;
+        // track of the collapse candidate
+        this->candidatesMap[this->progVertices.size() - 1] = mnimum->collapseCandidate != nullptr ? mnimum->collapseCandidate->mappingId : -1;
+        // collapse with candidate and reorganize progressivemesh
+        this->collapse(mnimum, mnimum->collapseCandidate);
+    }
+
+    for (auto it = this->candidatesMap.begin(); it != this->candidatesMap.end(); it++) {
+        (*it) = (*it) == -1 ? 0 : this->permutations[(*it)];
+    }
+
+    std::cout << ";";
 }

@@ -142,6 +142,7 @@ HDC OGLContext::COpenGL::createHandle(System::Windows::Forms::Panel ^parentForm,
 OGLContext::COpenGL::~COpenGL(System::Void)
 {
     enableRender = false;
+    delete oglRender;
     this->DestroyHandle();
 }
 

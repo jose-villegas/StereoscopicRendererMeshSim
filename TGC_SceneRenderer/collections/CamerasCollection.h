@@ -16,6 +16,7 @@ namespace collections {
             CamerasCollection(void);
             CamerasCollection(const CamerasCollection &camColl);
         public:
+            ~CamerasCollection();
             static CamerasCollection *Instance();
             scene::Camera *createCamera();
             scene::Camera *getCamera(const unsigned int &index);

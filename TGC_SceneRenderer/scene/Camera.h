@@ -1,4 +1,7 @@
 #pragma once
+
+#define GLM_FORCE_RADIANS
+
 #include "../bases/BaseComponent.h"
 #include "glm/detail/type_mat.hpp"
 #include "glm/detail/type_vec.hpp"

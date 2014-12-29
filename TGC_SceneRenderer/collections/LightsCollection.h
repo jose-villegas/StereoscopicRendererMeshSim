@@ -20,7 +20,7 @@ namespace collections {
             LightsCollection(const LightsCollection &lightc);
 
         public:
-
+            ~LightsCollection();
             static LightsCollection *Instance();
             void setUniformBlock();
             void setUniformBlockInfo();

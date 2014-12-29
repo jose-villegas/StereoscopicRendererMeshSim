@@ -8,9 +8,7 @@ Camera::Camera(void)
     this->nearClipping = 0.1f;
     this->fieldOfView = 75.0f;
     this->aspectRatio = 16.0f / 9.0f;
-    float ymax = nearClipping * glm::tan(fieldOfView * glm::pi<float>() / 360.0f);
-    float xmax = ymax * aspectRatio;
-    this->horizontalVerticalClipping = glm::vec4(-xmax, xmax, -ymax, ymax);
+    setProjection(aspectRatio, fieldOfView, nearClipping, farClipping);
     this->base = new bases::BaseObject("Camera");
 }
 
@@ -29,7 +27,7 @@ glm::mat4 scene::Camera::getViewMatrix() const
 glm::mat4 scene::Camera::getProjectionTypeMatrix() const
 {
     if (this->projectionType == Perspective) {
-        return glm::perspective(this->fieldOfView, this->aspectRatio, this->nearClipping, this->farClipping);
+        return glm::perspective(glm::radians(this->fieldOfView), this->aspectRatio, this->nearClipping, this->farClipping);
     } else if (this->projectionType == Orthographic) {
         return glm::ortho(this->horizontalVerticalClipping.x, this->horizontalVerticalClipping.y, this->horizontalVerticalClipping.z, this->horizontalVerticalClipping.w, this->nearClipping,
                           this->farClipping);

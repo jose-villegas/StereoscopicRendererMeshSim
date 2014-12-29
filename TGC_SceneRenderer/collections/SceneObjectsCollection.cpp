@@ -11,6 +11,10 @@ SceneObjectsCollection::SceneObjectsCollection(void)
 
 SceneObjectsCollection::~SceneObjectsCollection()
 {
+    while (!this->sceneObjects.empty()) {
+        delete(*this->sceneObjects.begin()).second;
+        this->sceneObjects.erase(this->sceneObjects.begin());
+    }
 }
 
 SceneObjectsCollection *SceneObjectsCollection::Instance()

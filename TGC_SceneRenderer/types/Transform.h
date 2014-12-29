@@ -1,4 +1,7 @@
 #pragma once
+
+#define GLM_FORCE_RADIANS
+
 #include "GLM/glm.hpp"
 #include "GLM/gtx/transform.hpp"
 #include "GLM/gtc/quaternion.hpp"

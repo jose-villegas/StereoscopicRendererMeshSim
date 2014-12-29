@@ -58,4 +58,9 @@ scene::Camera *collections::CamerasCollection::getActiveCamera()
     return this->cameras[this->activeCamera];
 }
 
+collections::CamerasCollection::~CamerasCollection()
+{
+    this->cameras.clear();
+}
+
 CamerasCollection *collections::CamerasCollection::instance;

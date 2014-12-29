@@ -9,8 +9,6 @@
 
 namespace core {
 
-
-
     class Renderer {
 
         public:
@@ -24,12 +22,14 @@ namespace core {
             static Renderer *Instance();
             int load();
             void setup();
+            void unload();
             void loop();
             void viewport(const unsigned int &width, const unsigned int &height);
             void polygonModel(Modes mode);
+            ~Renderer();
 
         private:
-
+            // only delete through unload()
             Renderer(void);
             Renderer(const Renderer &cpy);
             static Renderer *instance;

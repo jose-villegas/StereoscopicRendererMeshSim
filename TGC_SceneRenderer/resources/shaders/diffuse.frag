@@ -6,11 +6,9 @@ in vec3 normal;
 in vec3 position;
 // Uniforms
 uniform sampler2D diffuseMap;
-//uniform Light light[MAX_LIGHTS];
 // Output fragment data
 layout (location = 0) out vec4 fragColor;
 
-// Useful functions
 vec3 phong(vec3 pos, vec3 norm, in vec3 srcColor)
 {
     vec3 normal = normalize(norm);
@@ -21,11 +19,11 @@ vec3 phong(vec3 pos, vec3 norm, in vec3 srcColor)
 
         vec3 lightDirection = normalize(light.source[i].position - pos);
 
-        // Diffuse
+        // diffuse
         float diffuseCoefficient = max(0.0f, dot(normal, lightDirection));
         vec3 diffuse = diffuseCoefficient * srcColor * material.diffuse * light.source[i].color * light.source[i].intensity;
 
-        // Specular
+        // specular
         float specularCoefficient = 0.0f;
 
         if(diffuseCoefficient > 0.0f) {
@@ -47,10 +45,19 @@ vec3 phong(vec3 pos, vec3 norm, in vec3 srcColor)
     return result;
 }
 
+vec3 gamma(vec3 color)
+{
+	return pow(color, vec3(1.0f / 2.2f));
+}
+
 void main()
 {
-	// Obtain texture color at current position
+	// obtain texture color at current position
 	vec4 surfaceColor = texture(diffuseMap, texCoord);
-	// Calculate Phong Shading
-	fragColor = vec4(phong(position, normal, surfaceColor.rgb), surfaceColor.a);
+	// calculate phong shading
+	vec3 accumColor = phong(position, normal, surfaceColor.rgb);
+	// correct gamma values
+	accumColor = gamma(accumColor);
+	// output fragment color
+	fragColor = vec4(accumColor, surfaceColor.a);
 }

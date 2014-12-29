@@ -15,6 +15,13 @@ void types::Face::calculateNormal()
 
 types::Face::Face(void)
 {
+    this->vertices[0] = nullptr;
+    this->vertices[1] = nullptr;
+    this->vertices[2] = nullptr;
+    this->indices[0] = -1;
+    this->indices[1] = -1;
+    this->indices[2] = -1;
+    normal = glm::vec3(-127);
 }
 
 types::Face::Face(types::Vertex &v1, types::Vertex &v2, types::Vertex &v3, const unsigned int i1, const unsigned int i2, const unsigned int i3, const bool calcNormal /*= false */)

@@ -43,4 +43,9 @@ void collections::MeshesCollection::removeMesh(scene::Mesh *mesh)
     this->meshes.erase(it);
 }
 
+collections::MeshesCollection::~MeshesCollection()
+{
+    this->meshes.clear();
+}
+
 MeshesCollection *collections::MeshesCollection::instance;

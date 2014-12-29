@@ -90,4 +90,9 @@ const unsigned int collections::LightsCollection::lightCount() const
     return this->lights.size();
 }
 
+collections::LightsCollection::~LightsCollection()
+{
+    this->lights.clear();
+}
+
 LightsCollection *collections::LightsCollection::instance;

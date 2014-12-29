@@ -4,14 +4,6 @@
 #include "Scene\SceneObject.h"
 #include "MainWindow.h"
 
-const double PI  = 3.141592653589793238463;
-
-// Converts degrees to radians.
-#define degreesToRadians(angleDegrees) (angleDegrees * PI / 180.0)
-
-// Converts radians to degrees.
-#define radiansToDegrees(angleRadians) (angleRadians * 180.0 / PI)
-
 System::Void SceneRenderer::PropertiesWindow::setActiveObjectIndex(unsigned int index)
 {
     this->activeObjectIndex = index;
@@ -24,9 +16,9 @@ System::Void SceneRenderer::PropertiesWindow::setActiveObjectIndex(unsigned int 
         (double)activeSceneObject->getBase()->transform.position.x,
         (double)activeSceneObject->getBase()->transform.position.y,
         (double)activeSceneObject->getBase()->transform.position.z,
-        (double)activeSceneObject->getBase()->transform.eulerAngles().x,
-        (double)activeSceneObject->getBase()->transform.eulerAngles().y,
-        (double)activeSceneObject->getBase()->transform.eulerAngles().z,
+        (double)glm::degrees(activeSceneObject->getBase()->transform.eulerAngles().x),
+        (double)glm::degrees(activeSceneObject->getBase()->transform.eulerAngles().y),
+        (double)glm::degrees(activeSceneObject->getBase()->transform.eulerAngles().z),
         (double)activeSceneObject->getBase()->transform.scale.x,
         (double)activeSceneObject->getBase()->transform.scale.y,
         (double)activeSceneObject->getBase()->transform.scale.z
@@ -92,9 +84,9 @@ System::Void SceneRenderer::PropertiesWindow::onRotationVectorChanged(System::Ob
 
     // Set Transform
     activeSceneObject->getBase()->transform.setRotation(
-        (float)degreesToRadians(this->trnfrControl->Rotation()->X()),
-        (float)degreesToRadians(this->trnfrControl->Rotation()->Y()),
-        (float)degreesToRadians(this->trnfrControl->Rotation()->Z())
+        (float)glm::radians(this->trnfrControl->Rotation()->X()),
+        (float)glm::radians(this->trnfrControl->Rotation()->Y()),
+        (float)glm::radians(this->trnfrControl->Rotation()->Z())
     );
 }
 
