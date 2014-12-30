@@ -96,7 +96,7 @@ void utils::ProgressiveMeshes::Vertex::removeNonNeighbor(Vertex *v)
     // this vertex isn't stored
     if (this->neightbors.find(v->mappingId) == this->neightbors.end()) { return; }
 
-    for (auto it = this->faces.begin(); it != this->faces.end(); it++) {
+    for (auto it = this->faces.begin(); it != this->faces.end(); ++it) {
         if ((*it).second->hasVertex(v)) { return; }
     }
 
@@ -125,12 +125,12 @@ float utils::ProgressiveMeshes::edgeCollapseCost(Vertex *u, Vertex *v)
     // find faces associated with uv edge
     std::unordered_map<unsigned int, Face *> sides;
 
-    for (auto it = u->faces.begin(); it != u->faces.end(); it++) {
+    for (auto it = u->faces.begin(); it != u->faces.end(); ++it) {
         if ((*it).second->hasVertex(v)) { sides[(*it).first] = (*it).second; }
     }
 
     // use face facing most away from associated faces
-    for (auto it = u->faces.begin(); it != u->faces.end(); it++) {
+    for (auto it = u->faces.begin(); it != u->faces.end(); ++it) {
         float minCurvature = 1.f;
 
         // determine the minimum normal curvature between faces
@@ -157,7 +157,7 @@ void utils::ProgressiveMeshes::edgeCostAtVertex(Vertex *v)
     v->collapseCandidate = nullptr;
 
     // search for the least cost edge
-    for (auto it = v->neightbors.begin(); it != v->neightbors.end(); it++) {
+    for (auto it = v->neightbors.begin(); it != v->neightbors.end(); ++it) {
         float currentCost = edgeCollapseCost(v, (*it).second);
 
         if (currentCost < v->collapseCost) {
@@ -224,8 +224,8 @@ void utils::ProgressiveMeshes::collapse(Vertex *u, Vertex *v)
 
     while (it != u->faces.end()) {
         if ((*it).second->hasVertex(v)) {
-            removeProgFace(it, u) ? it : it++;
-        } else { it++; }
+            removeProgFace(it, u) ? it : ++it;
+        } else { ++it; }
     }
 
     // update rest of the triangles and vertices
@@ -233,14 +233,14 @@ void utils::ProgressiveMeshes::collapse(Vertex *u, Vertex *v)
     it = u->faces.begin();
 
     while (it != u->faces.end()) {
-        (*it).second->replaceVertex(it, u, v) ?  it : it++;
+        (*it).second->replaceVertex(it, u, v) ?  it : ++it;
     }
 
     this->progVertices.erase(u->mappingId);
     delete u;
 
     // recalculate edge cost with new neighbors
-    for (auto it = tmpNeighbors.begin(); it != tmpNeighbors.end(); it++) {
+    for (auto it = tmpNeighbors.begin(); it != tmpNeighbors.end(); ++it) {
         edgeCostAtVertex((*it).second);
     }
 }
@@ -264,9 +264,6 @@ utils::ProgressiveMeshes::Vertex *utils::ProgressiveMeshes::minimumCostEdge()
 
         return false;
     });
-
-    if (this->minOptimalVertexCount < 0 && it == progVertices.end()) { this->minOptimalVertexCount = this->progVertices.size(); }
-
     return minCostVertex;
 }
 
@@ -274,7 +271,7 @@ void utils::ProgressiveMeshes::copyVertices(const std::vector<types::Vertex> &ve
 {
     int index = 0;
 
-    for (std::vector<types::Vertex>::const_iterator it = vertices.begin(); it < vertices.end(); it++) {
+    for (std::vector<types::Vertex>::const_iterator it = vertices.begin(); it < vertices.end(); ++it) {
         this->progVertices[index++] = new Vertex(index, *it); // starts from 1
     }
 }
@@ -283,19 +280,22 @@ void utils::ProgressiveMeshes::copyFaces(const std::vector<types::Face> &faces)
 {
     int index = 0;
 
-    for (std::vector<types::Face>::const_iterator it = faces.begin(); it < faces.end(); it++) {
+    for (std::vector<types::Face>::const_iterator it = faces.begin(); it < faces.end(); ++it) {
         this->progFaces[index++] = new Face(index, progVertices[(*it).indices[0]], progVertices[(*it).indices[1]], progVertices[(*it).indices[2]], *it);;
     }
 }
 
 void utils::ProgressiveMeshes::generateProgressiveMesh(const std::vector<types::Vertex> &vertices, const std::vector<types::Face> &faces)
 {
+    vertexCount = vertices.size();
+    polyCount = faces.size();
+    // copy regular mesh values to prog mesh structures
     copyVertices(vertices); copyFaces(faces);
     // allocate space for output
     this->candidatesMap.resize(this->progVertices.size());
     this->permutations.resize(this->progVertices.size());
 
-    for (auto it = this->progVertices.begin(); it != this->progVertices.end(); it++) {
+    for (auto it = this->progVertices.begin(); it != this->progVertices.end(); ++it) {
         edgeCostAtVertex((*it).second);
     }
 
@@ -309,9 +309,77 @@ void utils::ProgressiveMeshes::generateProgressiveMesh(const std::vector<types::
         this->collapse(mnimum, mnimum->collapseCandidate);
     }
 
-    for (auto it = this->candidatesMap.begin(); it != this->candidatesMap.end(); it++) {
+    for (auto it = this->candidatesMap.begin(); it != this->candidatesMap.end(); ++it) {
         (*it) = (*it) == -1 ? 0 : this->permutations[(*it)];
     }
 
     std::cout << ";";
+}
+
+void utils::ProgressiveMeshes::permuteVertices(std::vector<types::Vertex> &vertices, std::vector<unsigned int> &indices, std::vector<types::Face> &faces)
+{
+    if (permutations.empty()) { return; }
+
+    std::vector<types::Vertex> tmpVerts = vertices;
+
+    // reorder vertices by permutation
+    for (unsigned int i = 0; i < vertices.size(); i++) {
+        vertices[permutations[i]] = tmpVerts[i];
+    }
+
+    // update face indices respectively
+    for (unsigned int i = 0; i < faces.size(); i++) {
+        for (int j = 0; j < 3; j++) {
+            faces[i].indices[j] = permutations[faces[i].indices[j]];
+            faces[i].vertices[j] = &vertices[faces[i].indices[j]];
+            indices[i * 3 + j] = faces[i].indices[j];
+        }
+    }
+}
+
+unsigned int utils::ProgressiveMeshes::mapVertexCollapse(const int a, const int b)
+{
+    if (b <= 0) { return 0; }
+
+    unsigned int result = a;
+
+    while (result >= b) {
+        result = candidatesMap[result];
+    }
+
+    return result;
+}
+
+void utils::ProgressiveMeshes::reorderVertices(std::vector<types::Vertex> &vertices, std::vector<unsigned int> &indices, std::vector<types::Face> &faces, const int vertexCount)
+{
+    if (vertexCount <= 0) { return; }
+
+    std::vector<types::Vertex> verticesResult(vertexCount);
+    std::vector<types::Face> facesResult;
+    std::vector<unsigned int> indicesResult;
+    int point[3], qpoint[3];
+    types::Vertex vertex[3];
+
+    for (int i = 0; i < faces.size(); i++) {
+        for (int j = 0; j < 3; j++) {
+            point[j] = mapVertexCollapse(faces[i].indices[j], vertexCount);
+        }
+
+        if (point[0] == point[1] || point[1] == point[2] || point[2] == point[0]) { continue; }
+
+        facesResult.push_back(faces[i]);
+
+        for (int j = 0; j < 3; j++) {
+            vertex[j] = vertices[point[j]];
+            indicesResult.push_back(faces[i].indices[j]);
+            verticesResult[point[j]] = vertex[j];
+        }
+    }
+
+    vertices.clear();
+    faces.clear();
+    indices.clear();
+    vertices = verticesResult;
+    faces = facesResult;
+    indices = indicesResult;
 }

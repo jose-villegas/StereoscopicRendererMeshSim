@@ -203,4 +203,4 @@ bool core::ShadersData::dataSet = false;
 
 const std::string core::ExecutionInfo::EXEC_DIR = "";
 
-unsigned const int core::ExecutionInfo::AVAILABLE_CORES = std::thread::hardware_concurrency();
+unsigned const int core::ExecutionInfo::AVAILABLE_CORES = std::thread::hardware_concurrency() <= 0 ? 1 : std::thread::hardware_concurrency();

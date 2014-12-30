@@ -34,8 +34,9 @@ vec3 phong(vec3 pos, vec3 norm, in vec3 srcColor)
         vec3 specular = specularCoefficient * material.specular * light.source[i].color * light.source[i].intensity;
 
         // Attenuation Calcuation
-        float distanceToLight = length(lightDirection);
-        float attenuation = 1.0f / (1.0f + light.source[i].attenuation * pow(distanceToLight, 2));
+        float d = length(light.source[i].position - pos);
+        float k = light.source[i].attenuation;
+        float attenuation = 1.0f / (1.0f +  k * pow(d, 2.0f));
 
         result += attenuation * (diffuse + specular);
 

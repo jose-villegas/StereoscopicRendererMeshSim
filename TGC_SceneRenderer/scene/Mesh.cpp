@@ -100,10 +100,12 @@ void Mesh::initMesh(unsigned int index, const aiMesh *paiMesh)
         );
     }
 
-    meshEntries[index]->generateBuffers();
-    meshEntries[index]->setBuffersData();
     utils::ProgressiveMeshes progMesh;
     progMesh.generateProgressiveMesh(meshEntries[index]->vertices, meshEntries[index]->faces);
+    progMesh.permuteVertices(meshEntries[index]->vertices, meshEntries[index]->indices, meshEntries[index]->faces);
+    //progMesh.reorderVertices(meshEntries[index]->vertices, meshEntries[index]->indices, meshEntries[index]->faces, meshEntries[index]->vertices.size() - 1);
+    meshEntries[index]->generateBuffers();
+    meshEntries[index]->setBuffersData();
 }
 
 bool Mesh::initMaterials(const aiScene *pScene, const std::string &sFilename)

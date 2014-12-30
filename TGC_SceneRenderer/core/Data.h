@@ -58,7 +58,7 @@ namespace core {
                 public:
                     // SharedLight Uniform Block Info
                     static const int SHAREDLIGHTS_MEMBER_COUNT = 2;
-                    static const int SHAREDLIGHTS_COMPLETE_COUNT = EngineData::Constrains::MAX_LIGHTS *Structures::LIGHT_MEMBER_COUNT + 1;
+                    static const int SHAREDLIGHTS_COMPLETE_COUNT = EngineData::Constrains::MAX_LIGHTS * Structures::LIGHT_MEMBER_COUNT + 1;
                     static const GLchar *SHAREDLIGHTS_MEMBER_NAMES[];
                     static GLchar *SHAREDLIGHTS_COMPLETE_NAMES[SHAREDLIGHTS_COMPLETE_COUNT]; // Inialize() ShadersData for non-const members
                     static const char *SHAREDLIGHTS_NAME;

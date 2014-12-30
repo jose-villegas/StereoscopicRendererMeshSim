@@ -1,8 +1,9 @@
 #pragma once
 #include "..\types\Vertex.h"
 #include "..\types\Face.h"
-#include <map>
 #include <unordered_map>
+#include <map>
+#include <set>
 
 namespace utils {
 
@@ -29,6 +30,11 @@ namespace utils {
 
             class Vertex : public types::Vertex {
                 public:
+
+                    struct VertexPtrCostComp {
+                        bool operator()(const Vertex *lhs, const Vertex *rhs) const  { return lhs->collapseCost < rhs->collapseCost; }
+                    };
+
                     // instances new vertex
                     Vertex(const unsigned int id, const types::Vertex &nonProgVert);
                     // deletes vertex and neighbor associations with this vertex
@@ -64,16 +70,31 @@ namespace utils {
             // becomes the <it> next to the deleted element (valid), used
             // in collapse() function
             bool removeProgFace(std::unordered_map<unsigned int, utils::ProgressiveMeshes::Face * >::iterator &it, Vertex *src);
+            // maps vertex correctly with collpase order
+            unsigned int mapVertexCollapse(const int a, const int b);
 
         public:
 
-            ProgressiveMeshes() : minOptimalVertexCount(-1) {};
+            ProgressiveMeshes() : levelOfDetailBase(0.5f), morphingFactor(1.0f), vertexCount(-1) {};
 
-            int minOptimalVertexCount;
+            float morphingFactor;
+            float levelOfDetailBase;
+            unsigned int vertexCount;
+            unsigned int polyCount;
             std::vector<int> candidatesMap;
             std::vector<int> permutations;
 
+            // generates progmeshes data structures (permutations and candidatesMap)
+            // based on a initial mesh mesh model and progressive collapse iterations
             void generateProgressiveMesh(const std::vector<types::Vertex> &vertices, const std::vector<types::Face> &faces);
+            // reorder vertices indices and faces input based on
+            // permutation order for future prog meshes iteratios
+            void permuteVertices(std::vector<types::Vertex> &vertices, std::vector<unsigned int> &indices, std::vector<types::Face> &faces);
+            // reordes and resizes vertices indices and faces based on vertexCount
+            // need to be reorder previously by permuteVertices, reduces polycount and vertex count
+            void reorderVertices(std::vector<types::Vertex> &vertices, std::vector<unsigned int> &indices, std::vector<types::Face> &faces, const int vertexCount);
+
+
     };
 }
 
