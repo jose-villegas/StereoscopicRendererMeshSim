@@ -53,7 +53,7 @@ namespace scene {
             };
             // mesh loading can be redefined by child classes to handle
             // themselves the mesh indices, vertices and faces
-            virtual void initMesh(unsigned int index, const aiMesh *paiMesh);
+            void initMesh(unsigned int index, const aiMesh *paiMesh);
 
         private:
             std::vector<MeshEntry *> meshEntries;

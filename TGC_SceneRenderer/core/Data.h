@@ -21,7 +21,7 @@ namespace core {
             // Engine / Shaders Constrains
             class Constrains {
                 public:
-                    static const int MAX_LIGHTS = 8;
+                    static const int MAX_LIGHTS = 32;
                     static const int MAX_SHADOWMAPS = 2;
             };
     };

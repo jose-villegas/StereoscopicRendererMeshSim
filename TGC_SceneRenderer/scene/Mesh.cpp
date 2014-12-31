@@ -103,7 +103,10 @@ void Mesh::initMesh(unsigned int index, const aiMesh *paiMesh)
     utils::ProgressiveMeshes progMesh;
     progMesh.generateProgressiveMesh(meshEntries[index]->vertices, meshEntries[index]->faces);
     progMesh.permuteVertices(meshEntries[index]->vertices, meshEntries[index]->indices, meshEntries[index]->faces);
-    //progMesh.reorderVertices(meshEntries[index]->vertices, meshEntries[index]->indices, meshEntries[index]->faces, meshEntries[index]->vertices.size() - 1);
+    utils::ProgressiveMeshes::ReducedMesh *res = progMesh.reorderVertices(meshEntries[index]->vertices, meshEntries[index]->indices, meshEntries[index]->faces, meshEntries[index]->vertices.size() - 1);
+    meshEntries[index]->faces = res->faces;
+    meshEntries[index]->indices = res->indices;
+    meshEntries[index]->vertices = res->vertices;
     meshEntries[index]->generateBuffers();
     meshEntries[index]->setBuffersData();
 }

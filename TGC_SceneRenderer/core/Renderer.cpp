@@ -44,8 +44,8 @@ void core::Renderer::setup()
     // Initialize Engine Data
     core::ShadersData::Initialize();
     // Setup OpenGL Flags
-    glCullFace(GL_BACK);
-    glEnable(GL_CULL_FACE);
+    //glCullFace(GL_BACK);
+    //glEnable(GL_CULL_FACE);
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LEQUAL);
     // Load member classes
@@ -70,6 +70,8 @@ void core::Renderer::setup()
     this->lights->getLight(0)->base->transform.setPosition(0.0, 0.0, 3.0);
     this->lights->getLight(0)->setColor(1.0f, 1.0f, 1.0f);
     this->lights->getLight(0)->intensity = 1.0f;
+    // testing prog meshes
+    this->polygonModel(Wireframe);
 }
 
 void core::Renderer::loop()

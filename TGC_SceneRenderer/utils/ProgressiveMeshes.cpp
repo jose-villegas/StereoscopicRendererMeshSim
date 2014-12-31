@@ -337,7 +337,7 @@ void utils::ProgressiveMeshes::permuteVertices(std::vector<types::Vertex> &verti
     }
 }
 
-unsigned int utils::ProgressiveMeshes::mapVertexCollapse(const int a, const int b)
+unsigned int utils::ProgressiveMeshes::mapVertexCollapse(const unsigned int a, const unsigned int b)
 {
     if (b <= 0) { return 0; }
 
@@ -350,36 +350,44 @@ unsigned int utils::ProgressiveMeshes::mapVertexCollapse(const int a, const int 
     return result;
 }
 
-void utils::ProgressiveMeshes::reorderVertices(std::vector<types::Vertex> &vertices, std::vector<unsigned int> &indices, std::vector<types::Face> &faces, const int vertexCount)
+utils::ProgressiveMeshes::ReducedMesh *utils::ProgressiveMeshes::reorderVertices(const std::vector<types::Vertex> &vertices,
+        const std::vector<unsigned int> &indices,
+        const std::vector<types::Face> &faces,
+        const int vertexCount)
 {
-    if (vertexCount <= 0) { return; }
+    if (vertexCount <= 0 || vertices.empty() || indices.empty() || faces.empty()) { return nullptr; }
 
-    std::vector<types::Vertex> verticesResult(vertexCount);
-    std::vector<types::Face> facesResult;
-    std::vector<unsigned int> indicesResult;
-    int point[3], qpoint[3];
-    types::Vertex vertex[3];
+    ReducedMesh *result = new ReducedMesh();
+    result->vertices.resize(vertexCount);
+    types::Vertex permutedVertex[3];
+    unsigned int permutePosition[3], permutePositionLoD[3];
 
-    for (int i = 0; i < faces.size(); i++) {
+    for (unsigned int i = 0; i < faces.size(); i++) {
         for (int j = 0; j < 3; j++) {
-            point[j] = mapVertexCollapse(faces[i].indices[j], vertexCount);
+            permutePosition[j] = this->mapVertexCollapse(faces[i].indices[j], vertexCount);
         }
 
-        if (point[0] == point[1] || point[1] == point[2] || point[2] == point[0]) { continue; }
+        if (permutePosition[0] == permutePosition[1]
+                || permutePosition[1] == permutePosition[2]
+                || permutePosition[2] == permutePosition[0]) {
+            continue;
+        }
 
-        facesResult.push_back(faces[i]);
+        result->faces.push_back(faces[i]);
 
         for (int j = 0; j < 3; j++) {
-            vertex[j] = vertices[point[j]];
-            indicesResult.push_back(faces[i].indices[j]);
-            verticesResult[point[j]] = vertex[j];
+            permutePositionLoD[j] = this->mapVertexCollapse(permutePosition[j], (int)(vertexCount * levelOfDetailBase));
+        }
+
+        for (int j = 0; j < 3; j++) {
+            permutedVertex[j] = vertices[permutePosition[j]];
+            permutedVertex[j].position = vertices[permutePosition[j]].position * morphingFactor +
+                                         vertices[permutePositionLoD[j]].position * (1.f - morphingFactor);
+            // write to result structure
+            result->indices.push_back(permutePosition[j]);
+            result->vertices[permutePosition[j]] = permutedVertex[j];
         }
     }
 
-    vertices.clear();
-    faces.clear();
-    indices.clear();
-    vertices = verticesResult;
-    faces = facesResult;
-    indices = indicesResult;
+    return result;
 }

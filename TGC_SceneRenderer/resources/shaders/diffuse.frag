@@ -42,7 +42,7 @@ vec3 phong(vec3 pos, vec3 norm, in vec3 srcColor)
 
     }
 
-    // Final Color
+    // final color
     return result;
 }
 

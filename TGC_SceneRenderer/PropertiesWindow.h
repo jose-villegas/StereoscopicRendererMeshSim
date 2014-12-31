@@ -54,6 +54,10 @@ namespace SceneRenderer {
                 this->_lightComponentPtr  = nullptr;
                 this->_cameraComponentPtr =  nullptr;
                 this->_meshComponentPtr   =  nullptr;
+                // Speed params
+                this->trnfrControl->positionSpeed(0.01);
+                this->trnfrControl->rotationSpeed(0.33);
+                this->trnfrControl->scaleSpeed(0.01);
             }
 
         public: System::Void setActiveObjectIndex(unsigned int index);

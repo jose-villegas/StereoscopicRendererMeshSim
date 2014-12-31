@@ -1,6 +1,6 @@
 
 // Rendering Constrains
-const uint MAX_LIGHTS = 8;
+const uint MAX_LIGHTS = 32;
 
 // Shared Structures
 struct Light {

@@ -71,7 +71,7 @@ namespace utils {
             // in collapse() function
             bool removeProgFace(std::unordered_map<unsigned int, utils::ProgressiveMeshes::Face * >::iterator &it, Vertex *src);
             // maps vertex correctly with collpase order
-            unsigned int mapVertexCollapse(const int a, const int b);
+            unsigned int mapVertexCollapse(const unsigned int a, const unsigned int b);
 
         public:
 
@@ -90,10 +90,17 @@ namespace utils {
             // reorder vertices indices and faces input based on
             // permutation order for future prog meshes iteratios
             void permuteVertices(std::vector<types::Vertex> &vertices, std::vector<unsigned int> &indices, std::vector<types::Face> &faces);
-            // reordes and resizes vertices indices and faces based on vertexCount
-            // need to be reorder previously by permuteVertices, reduces polycount and vertex count
-            void reorderVertices(std::vector<types::Vertex> &vertices, std::vector<unsigned int> &indices, std::vector<types::Face> &faces, const int vertexCount);
-
+            // outputs reordered and resized vertices, faces and indices structure based on vertexCount, vertices,
+            // indices and faces need to be reorder previously by permuteVertices, final output is the simplified mesh data
+            struct ReducedMesh {
+                std::vector<types::Vertex> vertices;
+                std::vector<unsigned int> indices;
+                std::vector<types::Face> faces;
+            };
+            ReducedMesh *reorderVertices(const std::vector<types::Vertex> &vertices,
+                                         const std::vector<unsigned int> &indices,
+                                         const std::vector<types::Face> &faces,
+                                         const int vertexCount);
 
     };
 }
