@@ -20,6 +20,13 @@ scene::Mesh *collections::MeshesCollection::createMesh()
     return this->meshes.back();
 }
 
+scene::Mesh *collections::MeshesCollection::createMesh(const std::string &sFilename)
+{
+    this->meshes.push_back(new scene::Mesh());
+    this->meshes.back()->loadMesh(sFilename);
+    return this->meshes.back();
+}
+
 scene::Mesh *collections::MeshesCollection::getMesh(const unsigned int &index)
 {
     if (index >= this->meshes.size()) { return nullptr; }

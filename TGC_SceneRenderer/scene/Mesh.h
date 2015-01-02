@@ -15,30 +15,41 @@ namespace collections {
     class MeshesCollection;
 }
 
+namespace utils {
+    class ProgressiveMesh;
+    class MeshReductor;
+}
+
 namespace scene {
 
     class Mesh : public bases::BaseComponent {
         public:
-            bool loadMesh(const std::string &sFileName);
             void render();
-            std::vector<types::Material *> getMaterials() const { return materials; };
 
-            ~Mesh(void);
+            unsigned int getPolyCount() const { return polyCount; }
+            unsigned int getVertexCount() const { return vertexCount; }
+            unsigned int getSubmeshesCount() const { return this->meshEntries.size(); }
 
         protected:
             friend class collections::MeshesCollection;
+            // Mesh Reduction Classes have access to private
+            // and protected data for modifications
+            friend class utils::ProgressiveMesh;
+            friend class utils::MeshReductor;
 
-            class MeshEntry {
+            class SubMesh {
                 public:
                     // MeshEntry general data
                     std::vector<types::Vertex> vertices;
                     std::vector<unsigned int> indices;
                     std::vector<types::Face> faces;
-                    // OpenGL buffer objects identifiers
-                    GLuint VB;
-                    GLuint IB;
-
+                    // Rendering params
+                    unsigned int indicesCount;
+                    bool enableRendering;
+                    //  ogl data setting / handling
                     void generateBuffers();
+                    // VB and IB need to set with generateBuffers() changes
+                    // indicesCount depending on size of input indices
                     void setBuffersData(const std::vector<types::Vertex> &vertices, const std::vector<unsigned int> &indices);
                     // uses class stored vertices and indexes
                     void setBuffersData();
@@ -46,26 +57,47 @@ namespace scene {
                     friend class scene::Mesh;
                     // only mesh outer class can destroy and create mesh entries and manipulate the material indexes
                     unsigned int materialIndex;
+                    // OpenGL buffer objects identifiers
+                    GLuint VB;
+                    GLuint IB;
 
-                    MeshEntry();
-                    ~MeshEntry();
-                    MeshEntry(const std::vector<types::Vertex> &vertices, const std::vector<unsigned int> &indices, const std::vector<types::Face> &faces);
+                    SubMesh();
+                    ~SubMesh();
+                    SubMesh(const std::vector<types::Vertex> &vertices, const std::vector<unsigned int> &indices, const std::vector<types::Face> &faces);
             };
-            // mesh loading can be redefined by child classes to handle
-            // themselves the mesh indices, vertices and faces
-            void initMesh(unsigned int index, const aiMesh *paiMesh);
+
+            unsigned int polyCount;
+            unsigned int vertexCount;
+            bool enableRendering;
 
         private:
-            std::vector<MeshEntry *> meshEntries;
-            std::vector<types::Material *> materials;
+
+            std::vector<SubMesh * > meshEntries;
+            std::vector<types::Material * > materials;
             // Engine Textures Collection
             collections::TexturesCollection *texCollection;
 
             Mesh(void);
-            Mesh(const Mesh &mesh);
+            Mesh(const Mesh &mesh) : polyCount(0), vertexCount(0), enableRendering(true), meshReductionEnabled(false) {};
+            ~Mesh(void);
 
+            bool loadMesh(const std::string &sFileName);
+            void initMesh(unsigned int index, const aiMesh *paiMesh);
             bool initFromScene(const aiScene *paiScene, const std::string &sFilename);
             bool initMaterials(const aiScene *paiScene, const std::string &sFilename);
+            const unsigned int subMeshCount() const { return this->meshEntries.size(); }
             void clear();
+
+            // Mesh Reduction properties
+        private:
+
+            bool meshReductionEnabled;
+            utils::MeshReductor *meshReductor;
+
+        public:
+
+            void enableMeshReduction();
+            utils::MeshReductor *getMeshReductor() const { return meshReductor; }
+            bool isMeshReductionEnabled() const { return meshReductionEnabled; }
     };
 }

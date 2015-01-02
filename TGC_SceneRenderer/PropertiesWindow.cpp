@@ -1,6 +1,7 @@
 #include <windows.h>
 #include "PropertiesWindow.h"
 #include "Collections\SceneObjectsCollection.h"
+#include "utils\ProgressiveMeshes.h"
 #include "Scene\SceneObject.h"
 #include "MainWindow.h"
 
@@ -27,9 +28,14 @@ System::Void SceneRenderer::PropertiesWindow::setActiveObjectIndex(unsigned int 
     // Set up components user controls
     std::vector<bases::BaseComponent *>::const_iterator it = activeSceneObject->getComponents().begin();
     std::vector<bases::BaseComponent *>::const_iterator ite = activeSceneObject->getComponents().end();
+    // reset components
+    this->meshComponentPtr       = nullptr;
+    this->lightComponentPtr      = nullptr;
+    this->cameraComponentPtr     = nullptr;
     // Hide components
-    this->lightControl->Visible = false;
+    this->lightControl->Visible  = false;
     this->cameraControl->Visible = false;
+    this->meshControl->Visible   = false;
 
     // Show current object components
     for (it; it != ite; it++) {
@@ -37,10 +43,14 @@ System::Void SceneRenderer::PropertiesWindow::setActiveObjectIndex(unsigned int 
 
         if (dynamic_cast<scene::Mesh *>(ptr) != 0) {
             // set ptr to component
-            this->_meshComponentPtr = (scene::Mesh *)ptr;
+            this->meshComponentPtr = (scene::Mesh *)ptr;
+            this->meshControl->Visible = true;
+            unsigned int polyCount = this->meshComponentPtr->isMeshReductionEnabled() ? this->meshComponentPtr->getMeshReductor()->getActualPolyCount() : this->meshComponentPtr->getPolyCount();
+            unsigned int vertexCount = this->meshComponentPtr->isMeshReductionEnabled() ? this->meshComponentPtr->getMeshReductor()->getActualVertexCount() : this->meshComponentPtr->getVertexCount();
+            this->meshControl->setValues(true, this->meshComponentPtr->isMeshReductionEnabled(), polyCount, vertexCount, this->meshComponentPtr->getSubmeshesCount());
         } else if (dynamic_cast<scene::Light *>(ptr) != 0) {
             // set ptr to component
-            this->_lightComponentPtr = (scene::Light *)ptr;
+            this->lightComponentPtr = (scene::Light *)ptr;
             this->lightControl->Visible = true;
             // Create a window managed color from vector values
             System::Drawing::Color wLightColor;
@@ -60,10 +70,14 @@ System::Void SceneRenderer::PropertiesWindow::setActiveObjectIndex(unsigned int 
             );
         } else if (dynamic_cast<scene::Camera *>(ptr) != 0) {
             // set ptr to component
-            this->_cameraComponentPtr = (scene::Camera *)ptr;
+            this->cameraComponentPtr = (scene::Camera *)ptr;
             this->cameraControl->Visible = true;
         }
     }
+
+    this->lightControl->Refresh();
+    this->cameraControl->Refresh();
+    this->meshControl->Refresh();
 }
 
 System::Void SceneRenderer::PropertiesWindow::onPositionVectorChanged(System::Object ^sender, System::EventArgs ^e)
@@ -104,15 +118,17 @@ System::Void SceneRenderer::PropertiesWindow::onScaleVectorChanged(System::Objec
 
 System::Void SceneRenderer::PropertiesWindow::pickColorDialogPopup(System::Object ^sender, System::EventArgs ^e)
 {
+    if (changedActiveIndex || !this->lightControl) { return; }
+
     // Disable render loop for color picking dialog
     ((MainWindow ^)this->InstancedBy)->EnableRendering(false);
 
     if (this->colorDialog1->ShowDialog() == System::Windows::Forms::DialogResult::OK) {
         this->lightControl->colorPickerButton->BackColor = this->colorDialog1->Color;
 
-        if (this->_lightComponentPtr) {
+        if (this->lightComponentPtr) {
             int argb[] = {(int)this->colorDialog1->Color.R, (int)this->colorDialog1->Color.G, (int)this->colorDialog1->Color.B};
-            this->_lightComponentPtr->setColor((unsigned int)argb[0], (unsigned int)argb[1], (unsigned int)argb[2]);
+            this->lightComponentPtr->setColor((unsigned int)argb[0], (unsigned int)argb[1], (unsigned int)argb[2]);
         }
     }
 
@@ -121,28 +137,47 @@ System::Void SceneRenderer::PropertiesWindow::pickColorDialogPopup(System::Objec
 
 System::Void SceneRenderer::PropertiesWindow::onLightAttenuationChanged(System::Object ^sender, System::EventArgs ^e)
 {
-    if (this->_lightComponentPtr) {
-        this->_lightComponentPtr->attenuation = (float)this->lightControl->attenuationValue->Value;
-    }
+    if (changedActiveIndex || !this->lightComponentPtr) { return; }
+
+    this->lightComponentPtr->attenuation = (float)this->lightControl->attenuationValue->Value;
 }
 
 System::Void SceneRenderer::PropertiesWindow::onLightIntensityChanged(System::Object ^sender, System::EventArgs ^e)
 {
-    if (this->_lightComponentPtr) {
-        this->_lightComponentPtr->intensity = (float)this->lightControl->intensityValue->Value;
-    }
+    if (changedActiveIndex || !this->lightComponentPtr) { return; }
+
+    this->lightComponentPtr->intensity = (float)this->lightControl->intensityValue->Value;
 }
 
 System::Void SceneRenderer::PropertiesWindow::onLightOuterAngleChanged(System::Object ^sender, System::EventArgs ^e)
 {
-    if (this->_lightComponentPtr) {
-        this->_lightComponentPtr->outerConeAngle = (float)this->lightControl->outerAngleValue->Value;
-    }
+    if (changedActiveIndex || !this->lightComponentPtr) { return; }
+
+    this->lightComponentPtr->outerConeAngle = (float)this->lightControl->outerAngleValue->Value;
 }
 
 System::Void SceneRenderer::PropertiesWindow::onLightInnerAngleChanged(System::Object ^sender, System::EventArgs ^e)
 {
-    if (this->_lightComponentPtr) {
-        this->_lightComponentPtr->innerConeAngle = (float)this->lightControl->innerAngleValue->Value;
-    }
+    if (changedActiveIndex || !this->lightComponentPtr) { return; }
+
+    this->lightComponentPtr->innerConeAngle = (float)this->lightControl->innerAngleValue->Value;
+}
+
+System::Void SceneRenderer::PropertiesWindow::onSimplMeshCheckChanged(System::Object ^sender, System::EventArgs ^e)
+{
+    if (changedActiveIndex || !this->meshComponentPtr) { return; }
+
+    if (this->meshComponentPtr->isMeshReductionEnabled()) { return; }
+
+    this->meshComponentPtr->enableMeshReduction();
+}
+
+System::Void SceneRenderer::PropertiesWindow::onVertexCountNumericChanged(System::Object ^sender, System::EventArgs ^e)
+{
+    if (changedActiveIndex || !this->meshComponentPtr) { return; }
+
+    if (!this->meshComponentPtr->isMeshReductionEnabled()) { return; }
+
+    this->meshComponentPtr->getMeshReductor()->reduce((unsigned int)this->meshControl->vertexNumeric->Value);
+    this->meshControl->getPolyNumeric()->Value = System::Decimal(this->meshComponentPtr->getMeshReductor()->getActualPolyCount());
 }

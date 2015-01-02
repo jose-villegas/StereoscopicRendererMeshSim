@@ -60,18 +60,16 @@ void core::Renderer::setup()
     // set elemental  matrices data info ubo
     this->matrices->setShaderProgram(shProgram);
     this->matrices->setUniformBlockInfo();
-    // Add test objects
-    this->sceneObjects->addMeshFromFile(core::ExecutionInfo::EXEC_DIR + "/resources/cube.off");
     // Initial Light UBO setup
     this->lights->setShaderProgram(shProgram);
     this->lights->setUniformBlockInfo();
     // Add lights to scene objects
     this->sceneObjects->addLight(scene::Light::Point);
-    this->lights->getLight(0)->base->transform.setPosition(0.0, 0.0, 3.0);
+    this->lights->getLight(0)->base->transform.setPosition(0.0, 0.0, 1.0);
     this->lights->getLight(0)->setColor(1.0f, 1.0f, 1.0f);
     this->lights->getLight(0)->intensity = 1.0f;
-    // testing prog meshes
-    this->polygonModel(Wireframe);
+    // Add test objects
+    this->sceneObjects->addMesh(StoredMeshes::Sphere);
 }
 
 void core::Renderer::loop()

@@ -16,6 +16,7 @@ namespace collections {
         public:
             ~MeshesCollection();
             static MeshesCollection *Instance();
+            scene::Mesh *createMesh(const std::string &sFilename);
             scene::Mesh *createMesh();
             scene::Mesh *getMesh(const unsigned int &index);
             void removeMesh(const unsigned int &index);

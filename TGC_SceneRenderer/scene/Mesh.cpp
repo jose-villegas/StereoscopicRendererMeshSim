@@ -4,15 +4,19 @@
 #include "..\collections\MeshesCollection.h"
 using namespace scene;
 
-Mesh::Mesh(void)
+Mesh::Mesh(void) : polyCount(0), vertexCount(0), enableRendering(true), meshReductionEnabled(false)
 {
     texCollection = collections::TexturesCollection::Instance();
     this->base = new bases::BaseObject("Mesh");
+    this->meshReductor = nullptr;
 }
 
 Mesh::~Mesh(void)
 {
     clear();
+
+    if (this->meshReductionEnabled) { delete this->meshReductor; }
+
     collections::MeshesCollection::Instance()->removeMesh(this);
 }
 
@@ -40,6 +44,9 @@ bool Mesh::loadMesh(const std::string &sFileName)
     if (bRtrn) { std::cout << "Mesh(" << this << ") " << "Asset " << sFileName << " loaded successfully" << std::endl; }
     else { std::cout << "Mesh(" << this << ") " << "An error occured loading asset " << sFileName << std::endl; }
 
+    utils::MeshReductor mRed;
+    //mRed.load(this);
+    //mRed.reduce(0.8f);
     return bRtrn;
 }
 
@@ -59,7 +66,7 @@ bool Mesh::initFromScene(const aiScene *pScene, const std::string &sFilename)
 
 void Mesh::initMesh(unsigned int index, const aiMesh *paiMesh)
 {
-    meshEntries[index] = new MeshEntry();
+    meshEntries[index] = new SubMesh();
     meshEntries[index]->materialIndex = paiMesh->mMaterialIndex;
     const aiVector3D Zero3D(0.0f, 0.0f, 0.0f);
 
@@ -77,6 +84,8 @@ void Mesh::initMesh(unsigned int index, const aiMesh *paiMesh)
             glm::vec3(pBitangent->x, pBitangent->y, pBitangent->z)
         );
         meshEntries[index]->vertices.push_back(v);
+        // total mesh values
+        this->vertexCount++;
     }
 
     for (unsigned int i = 0 ; i < paiMesh->mNumFaces ; i++) {
@@ -98,15 +107,10 @@ void Mesh::initMesh(unsigned int index, const aiMesh *paiMesh)
                 face.mIndices[2]
             )
         );
+        // total mesh values
+        polyCount++;
     }
 
-    utils::ProgressiveMeshes progMesh;
-    progMesh.generateProgressiveMesh(meshEntries[index]->vertices, meshEntries[index]->faces);
-    progMesh.permuteVertices(meshEntries[index]->vertices, meshEntries[index]->indices, meshEntries[index]->faces);
-    utils::ProgressiveMeshes::ReducedMesh *res = progMesh.reorderVertices(meshEntries[index]->vertices, meshEntries[index]->indices, meshEntries[index]->faces, meshEntries[index]->vertices.size() - 1);
-    meshEntries[index]->faces = res->faces;
-    meshEntries[index]->indices = res->indices;
-    meshEntries[index]->vertices = res->vertices;
     meshEntries[index]->generateBuffers();
     meshEntries[index]->setBuffersData();
 }
@@ -241,6 +245,8 @@ void Mesh::clear()
 
 void Mesh::render()
 {
+    if (!enableRendering) { return; }
+
     glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
     glEnableVertexAttribArray(2);
@@ -248,6 +254,9 @@ void Mesh::render()
     glEnableVertexAttribArray(4);
 
     for (unsigned int i = 0 ; i < meshEntries.size() ; i++) {
+        // ignore empty submeshes
+        if (!meshEntries[i]->enableRendering) { continue; }
+
         glBindBuffer(GL_ARRAY_BUFFER, meshEntries[i]->VB);
         glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(types::Vertex), 0);						// Vertex Position
         glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(types::Vertex), (const GLvoid *)12);		// Vertex UVS
@@ -261,8 +270,8 @@ void Mesh::render()
         this->materials[materialIndex]->useMaterialShader();
         this->materials[materialIndex]->bindTextures();
         this->materials[materialIndex]->setUniforms();
-        // Draw mesh
-        glDrawElements(GL_TRIANGLES, meshEntries[i]->indices.size(), GL_UNSIGNED_INT, 0);
+        // Draw mesh triangles  with loaded buffer object data
+        glDrawElements(GL_TRIANGLES, meshEntries[i]->indicesCount, GL_UNSIGNED_INT, 0);
     }
 
     glDisableVertexAttribArray(0);
@@ -272,20 +281,21 @@ void Mesh::render()
     glDisableVertexAttribArray(4);
 }
 
-void Mesh::MeshEntry::generateBuffers()
+void Mesh::SubMesh::generateBuffers()
 {
     glGenBuffers(1, &VB);
     glGenBuffers(1, &IB);
 }
 
-Mesh::MeshEntry::MeshEntry()
+Mesh::SubMesh::SubMesh() : enableRendering(true)
 {
     this->VB            = core::EngineData::Commoms::INVALID_VALUE;
     this->IB            = core::EngineData::Commoms::INVALID_VALUE;
     this->materialIndex = core::EngineData::Commoms::INVALID_MATERIAL;
+    this->indicesCount  = 0;
 }
 
-scene::Mesh::MeshEntry::MeshEntry(const std::vector<types::Vertex> &vertices, const std::vector<unsigned int> &indices, const std::vector<types::Face> &faces)
+scene::Mesh::SubMesh::SubMesh(const std::vector<types::Vertex> &vertices, const std::vector<unsigned int> &indices, const std::vector<types::Face> &faces) : enableRendering(true)
 {
     this->VB            = core::EngineData::Commoms::INVALID_VALUE;
     this->IB            = core::EngineData::Commoms::INVALID_VALUE;
@@ -293,24 +303,30 @@ scene::Mesh::MeshEntry::MeshEntry(const std::vector<types::Vertex> &vertices, co
     this->vertices      = vertices;
     this->indices       = indices;
     this->faces         = faces;
+    this->indicesCount	= indices.size();
     this->generateBuffers();
     this->setBuffersData(vertices, indices);
 }
 
-void scene::Mesh::MeshEntry::setBuffersData(const std::vector<types::Vertex> &vertices, const std::vector<unsigned int> &indices)
+void scene::Mesh::SubMesh::setBuffersData(const std::vector<types::Vertex> &vertices, const std::vector<unsigned int> &indices)
 {
+    if (this->VB == core::EngineData::Commoms::INVALID_VALUE || this->IB == core::EngineData::Commoms::INVALID_VALUE) { return; }
+
+    if (vertices.empty() || indices.empty()) { this->indicesCount = 0; return; }
+
+    this->indicesCount = indices.size();
     glBindBuffer(GL_ARRAY_BUFFER, VB);
     glBufferData(GL_ARRAY_BUFFER, sizeof(types::Vertex) * vertices.size(), &vertices[0], GL_STATIC_DRAW);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IB);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * indices.size(), &indices[0], GL_STATIC_DRAW);
 }
 
-void scene::Mesh::MeshEntry::setBuffersData()
+void scene::Mesh::SubMesh::setBuffersData()
 {
     this->setBuffersData(this->vertices, this->indices);
 }
 
-Mesh::MeshEntry::~MeshEntry()
+Mesh::SubMesh::~SubMesh()
 {
     this->vertices.clear();
     this->faces.clear();
@@ -324,4 +340,13 @@ Mesh::MeshEntry::~MeshEntry()
     if (IB != core::EngineData::Commoms::INVALID_VALUE) {
         glDeleteBuffers(1, &IB);
     }
+}
+
+void scene::Mesh::enableMeshReduction()
+{
+    if (this->meshReductionEnabled) { return; }
+
+    this->meshReductor = new utils::MeshReductor();
+    meshReductor->load(this);
+    this->meshReductionEnabled = true;
 }

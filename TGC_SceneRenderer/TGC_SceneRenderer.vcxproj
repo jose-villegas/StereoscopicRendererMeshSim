@@ -95,6 +95,9 @@
     <Reference Include="LightControl">
       <HintPath>..\..\BaseControls\Debug\LightControl.dll</HintPath>
     </Reference>
+    <Reference Include="MeshControl">
+      <HintPath>..\..\BaseControls\Debug\MeshControl.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="Microsoft.VisualBasic.PowerPacks.Vs">
       <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\VBPowerPacks\v10.0\Microsoft.VisualBasic.PowerPacks.Vs.dll</HintPath>

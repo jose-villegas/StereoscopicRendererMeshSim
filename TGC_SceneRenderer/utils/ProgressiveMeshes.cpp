@@ -7,7 +7,7 @@
 #include <thread>
 using namespace utils;
 
-bool utils::ProgressiveMeshes::Face::replaceVertex(std::unordered_map<unsigned int, utils::ProgressiveMeshes::Face *>::iterator &it, Vertex *oldVertex, Vertex *newVertex,
+bool utils::ProgressiveMesh::Face::replaceVertex(std::unordered_map<unsigned int, utils::ProgressiveMesh::Face *>::iterator &it, Vertex *oldVertex, Vertex *newVertex,
         const bool calcNormal /* = true */)
 {
     if (!(oldVertex && newVertex) || !this->hasVertex(oldVertex) || this->hasVertex(newVertex)) { return false; }
@@ -48,7 +48,7 @@ bool utils::ProgressiveMeshes::Face::replaceVertex(std::unordered_map<unsigned i
     return true;
 }
 
-utils::ProgressiveMeshes::Face::Face(const unsigned int id, Vertex *v1, Vertex *v2, Vertex *v3, const types::Face &nonProgFace) : types::Face(nonProgFace)
+utils::ProgressiveMesh::Face::Face(const unsigned int id, Vertex *v1, Vertex *v2, Vertex *v3, const types::Face &nonProgFace) : types::Face(nonProgFace)
 {
     this->mappingId = id;
     this->vertices[0] = v1;
@@ -68,13 +68,13 @@ utils::ProgressiveMeshes::Face::Face(const unsigned int id, Vertex *v1, Vertex *
     }
 }
 
-utils::ProgressiveMeshes::Vertex::Vertex(const unsigned int id, const types::Vertex &nonProgVert) : types::Vertex(nonProgVert)
+utils::ProgressiveMesh::Vertex::Vertex(const unsigned int id, const types::Vertex &nonProgVert) : types::Vertex(nonProgVert)
 {
     this->mappingId = id;
     this->originalPlace = id;
 }
 
-void utils::ProgressiveMeshes::Face::calculateNormal()
+void utils::ProgressiveMesh::Face::calculateNormal()
 {
     glm::vec3 v0 = this->vertices[0]->position;
     glm::vec3 v1 = this->vertices[1]->position;
@@ -86,12 +86,12 @@ void utils::ProgressiveMeshes::Face::calculateNormal()
     normal = glm::normalize(normal);
 }
 
-bool utils::ProgressiveMeshes::Face::hasVertex(types::Vertex *v)
+bool utils::ProgressiveMesh::Face::hasVertex(types::Vertex *v)
 {
     return (v == vertices[0] || v == vertices[1] || v == vertices[2]);
 }
 
-void utils::ProgressiveMeshes::Vertex::removeNonNeighbor(Vertex *v)
+void utils::ProgressiveMesh::Vertex::removeNonNeighbor(Vertex *v)
 {
     // this vertex isn't stored
     if (this->neightbors.find(v->mappingId) == this->neightbors.end()) { return; }
@@ -103,7 +103,7 @@ void utils::ProgressiveMeshes::Vertex::removeNonNeighbor(Vertex *v)
     this->neightbors.erase(v->mappingId);
 }
 
-utils::ProgressiveMeshes::Vertex::~Vertex()
+utils::ProgressiveMesh::Vertex::~Vertex()
 {
     if (this->faces.empty()) { return; }
 
@@ -113,12 +113,12 @@ utils::ProgressiveMeshes::Vertex::~Vertex()
     }
 }
 
-utils::ProgressiveMeshes::Face::~Face()
+utils::ProgressiveMesh::Face::~Face()
 {
     this->vertices[0] = nullptr; this->vertices[1] = nullptr; this->vertices[2] = nullptr;
 }
 
-float utils::ProgressiveMeshes::edgeCollapseCost(Vertex *u, Vertex *v)
+float utils::ProgressiveMesh::edgeCollapseCost(Vertex *u, Vertex *v)
 {
     float edgeLength, curvature = 0.f;
     edgeLength = glm::length(v->position - u->position);
@@ -145,7 +145,7 @@ float utils::ProgressiveMeshes::edgeCollapseCost(Vertex *u, Vertex *v)
     return edgeLength * curvature;
 }
 
-void utils::ProgressiveMeshes::edgeCostAtVertex(Vertex *v)
+void utils::ProgressiveMesh::edgeCostAtVertex(Vertex *v)
 {
     if (v->neightbors.empty()) {
         v->collapseCandidate = nullptr;
@@ -167,7 +167,7 @@ void utils::ProgressiveMeshes::edgeCostAtVertex(Vertex *v)
     }
 }
 
-bool  utils::ProgressiveMeshes::removeProgFace(std::unordered_map<unsigned int, utils::ProgressiveMeshes::Face *>::iterator &it, Vertex *src)
+bool  utils::ProgressiveMesh::removeProgFace(std::unordered_map<unsigned int, utils::ProgressiveMesh::Face *>::iterator &it, Vertex *src)
 {
     Face *ptr = (*it).second;
     bool iteratorInvalidated = false;
@@ -209,7 +209,7 @@ bool  utils::ProgressiveMeshes::removeProgFace(std::unordered_map<unsigned int, 
     return iteratorInvalidated;
 }
 
-void utils::ProgressiveMeshes::collapse(Vertex *u, Vertex *v)
+void utils::ProgressiveMesh::collapse(Vertex *u, Vertex *v)
 {
     if (!v) {
         this->progVertices.erase(u->mappingId);
@@ -245,7 +245,7 @@ void utils::ProgressiveMeshes::collapse(Vertex *u, Vertex *v)
     }
 }
 
-utils::ProgressiveMeshes::Vertex *utils::ProgressiveMeshes::minimumCostEdge()
+utils::ProgressiveMesh::Vertex *utils::ProgressiveMesh::minimumCostEdge()
 {
     Vertex *minCostVertex = (*(progVertices.begin())).second;
     // the find lowest cost vertex to be deleted meaning
@@ -267,7 +267,7 @@ utils::ProgressiveMeshes::Vertex *utils::ProgressiveMeshes::minimumCostEdge()
     return minCostVertex;
 }
 
-void utils::ProgressiveMeshes::copyVertices(const std::vector<types::Vertex> &vertices)
+void utils::ProgressiveMesh::copyVertices(const std::vector<types::Vertex> &vertices)
 {
     int index = 0;
 
@@ -276,7 +276,7 @@ void utils::ProgressiveMeshes::copyVertices(const std::vector<types::Vertex> &ve
     }
 }
 
-void utils::ProgressiveMeshes::copyFaces(const std::vector<types::Face> &faces)
+void utils::ProgressiveMesh::copyFaces(const std::vector<types::Face> &faces)
 {
     int index = 0;
 
@@ -285,7 +285,7 @@ void utils::ProgressiveMeshes::copyFaces(const std::vector<types::Face> &faces)
     }
 }
 
-void utils::ProgressiveMeshes::generateProgressiveMesh(const std::vector<types::Vertex> &vertices, const std::vector<types::Face> &faces)
+void utils::ProgressiveMesh::generateProgressiveMesh(const std::vector<types::Vertex> &vertices, const std::vector<types::Face> &faces)
 {
     vertexCount = vertices.size();
     polyCount = faces.size();
@@ -312,11 +312,25 @@ void utils::ProgressiveMeshes::generateProgressiveMesh(const std::vector<types::
     for (auto it = this->candidatesMap.begin(); it != this->candidatesMap.end(); ++it) {
         (*it) = (*it) == -1 ? 0 : this->permutations[(*it)];
     }
-
-    std::cout << ";";
 }
 
-void utils::ProgressiveMeshes::permuteVertices(std::vector<types::Vertex> &vertices, std::vector<unsigned int> &indices, std::vector<types::Face> &faces)
+void utils::ProgressiveMesh::generateProgressiveMesh(const scene::Mesh::SubMesh *input)
+{
+    generateProgressiveMesh(input->vertices, input->faces);
+}
+
+
+utils::ProgressiveMesh::ProgressiveMesh(const std::vector<types::Vertex> &vertices, const std::vector<types::Face> &faces) : levelOfDetailBase(0.5f), morphingFactor(1.0f), vertexCount(-1)
+{
+    generateProgressiveMesh(vertices, faces);
+}
+
+utils::ProgressiveMesh::ProgressiveMesh(const scene::Mesh::SubMesh *input) : levelOfDetailBase(0.5f), morphingFactor(1.0f), vertexCount(-1)
+{
+    generateProgressiveMesh(input);
+}
+
+void utils::ProgressiveMesh::permuteVertices(std::vector<types::Vertex> &vertices, std::vector<unsigned int> &indices, std::vector<types::Face> &faces)
 {
     if (permutations.empty()) { return; }
 
@@ -337,7 +351,12 @@ void utils::ProgressiveMeshes::permuteVertices(std::vector<types::Vertex> &verti
     }
 }
 
-unsigned int utils::ProgressiveMeshes::mapVertexCollapse(const unsigned int a, const unsigned int b)
+void utils::ProgressiveMesh::permuteVertices(scene::Mesh::SubMesh *input)
+{
+    this->permuteVertices(input->vertices, input->indices, input->faces);
+}
+
+unsigned int utils::ProgressiveMesh::mapVertexCollapse(const unsigned int a, const unsigned int b)
 {
     if (b <= 0) { return 0; }
 
@@ -350,12 +369,12 @@ unsigned int utils::ProgressiveMeshes::mapVertexCollapse(const unsigned int a, c
     return result;
 }
 
-utils::ProgressiveMeshes::ReducedMesh *utils::ProgressiveMeshes::reorderVertices(const std::vector<types::Vertex> &vertices,
+utils::ProgressiveMesh::ReducedMesh *utils::ProgressiveMesh::reduceVerticesCount(const std::vector<types::Vertex> &vertices,
         const std::vector<unsigned int> &indices,
         const std::vector<types::Face> &faces,
         const int vertexCount)
 {
-    if (vertexCount <= 0 || vertices.empty() || indices.empty() || faces.empty()) { return nullptr; }
+    if (vertexCount <= 2 || vertices.empty() || indices.empty() || faces.empty()) { return nullptr; }
 
     ReducedMesh *result = new ReducedMesh();
     result->vertices.resize(vertexCount);
@@ -389,5 +408,69 @@ utils::ProgressiveMeshes::ReducedMesh *utils::ProgressiveMeshes::reorderVertices
         }
     }
 
+    // rewite statistic data
+    this->vertexCount = result->vertices.size();
+    this->polyCount = result->faces.size();
+    // return whole structure
     return result;
+}
+
+utils::ProgressiveMesh::ReducedMesh *utils::ProgressiveMesh::reduceVerticesCount(const scene::Mesh::SubMesh *input, const int vertexCount)
+{
+    return reduceVerticesCount(input->vertices, input->indices, input->faces, vertexCount);
+}
+
+void utils::ProgressiveMesh::reduceAndSetBufferData(scene::Mesh::SubMesh *input, const int vertexCount)
+{
+    ReducedMesh *rslt = reduceVerticesCount(input->vertices, input->indices, input->faces, vertexCount);
+
+    if (rslt) {
+        input->enableRendering = true;
+        input->setBuffersData(rslt->vertices, rslt->indices);
+        delete rslt;
+    } else {
+        input->enableRendering = false;
+        input->setBuffersData(std::vector<types::Vertex>(), std::vector<unsigned int>());
+    }
+}
+
+void utils::MeshReductor::load(scene::Mesh *baseMesh)
+{
+    this->baseMesh = baseMesh;
+    originalPolyCount = originalVertexCount = 0;
+
+    for (auto it = baseMesh->meshEntries.begin(); it != baseMesh->meshEntries.end(); ++it) {
+        this->reducedMeshEntries.push_back(ProgressiveMesh(*it));
+        this->reducedMeshEntries.back().permuteVertices(*it);
+        originalVertexCount += this->reducedMeshEntries.back().vertexCount;
+        originalPolyCount += this->reducedMeshEntries.back().polyCount;
+        std::cout << "MeshReductor(" << this << ") " << "generated progressive mesh for Submesh(" << *it << ") with polycount (" << this->reducedMeshEntries.back().polyCount << ") ";
+        std::cout << "and vertexcount (" << this->reducedMeshEntries.back().vertexCount << ")" << std::endl;
+    }
+
+    this->actualPolyCount = originalPolyCount;
+    this->actualVertexCount = originalVertexCount;
+}
+
+void utils::MeshReductor::reduce(const float prcentil /* 0.0 - 1.0 */)
+{
+    unsigned int finalVertexCount = (unsigned int)((float)originalVertexCount * prcentil);
+    unsigned int meshIndex; actualPolyCount = meshIndex = actualVertexCount = 0;
+    reduce(finalVertexCount);
+}
+
+void utils::MeshReductor::reduce(const unsigned int vertexCount)
+{
+    unsigned int meshIndex; actualPolyCount = meshIndex = actualVertexCount = 0;
+    unsigned int reductionPerMesh = (unsigned int)std::ceil((float)(originalVertexCount - vertexCount) / (float)baseMesh->meshEntries.size());
+    unsigned int reductionTotalAcum = 0;
+
+    for (auto it = this->reducedMeshEntries.begin(); it != this->reducedMeshEntries.end(); ++it, ++meshIndex) {
+        (*it).reduceAndSetBufferData(baseMesh->meshEntries[meshIndex], baseMesh->meshEntries[meshIndex]->vertices.size() - reductionPerMesh);
+        reductionTotalAcum += reductionPerMesh;
+        actualPolyCount += (*it).polyCount;
+        actualVertexCount += (*it).vertexCount;
+
+        if (reductionTotalAcum >= originalVertexCount - vertexCount) { break; }
+    }
 }

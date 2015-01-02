@@ -95,8 +95,7 @@ scene::Mesh *collections::SceneObjectsCollection::addMeshFromFile(const std::str
 {
     objectsIndex++;
     scene::SceneObject *newObject = new scene::SceneObject();
-    scene::Mesh *newMesh = collections::MeshesCollection::Instance()->createMesh();
-    newMesh->loadMesh(sMeshFilename);
+    scene::Mesh *newMesh = collections::MeshesCollection::Instance()->createMesh(sMeshFilename);
     newObject->setBaseObject(newMesh->base);
     newObject->addComponent(newMesh);
     this->sceneObjects[objectsIndex] = newObject;
