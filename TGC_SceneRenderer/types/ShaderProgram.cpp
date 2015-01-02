@@ -17,6 +17,10 @@ types::ShaderProgram::ShaderProgram(void)
 
 types::ShaderProgram::~ShaderProgram(void)
 {
+    for (auto it = this->attachedShaders.begin(); it != this->attachedShaders.end(); ++it) {
+        delete(*it);
+    }
+
     glDeleteProgram(this->programID);
 }
 
@@ -270,6 +274,7 @@ types::ShaderProgram::UniformBlockInfo::UniformBlockInfo(const std::string &unif
 
 types::ShaderProgram::UniformBlockInfo::~UniformBlockInfo()
 {
+    delete[] this->dataPointer;
     delete[] this->indices;
     delete[] this->offset;
 }

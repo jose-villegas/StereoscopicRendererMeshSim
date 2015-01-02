@@ -41,4 +41,11 @@ types::ShaderProgram *collections::stored::StoredShaders::getDefaultShader(const
     return nullptr;
 }
 
+void collections::stored::StoredShaders::Clear()
+{
+    for (auto it = shaders.begin(); it != shaders.end(); ++it) {
+        delete *it;
+    }
+}
+
 std::vector<types::ShaderProgram *> collections::stored::StoredShaders::shaders;

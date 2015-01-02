@@ -10,6 +10,7 @@ namespace types {
 
     class Shader {
         public:
+
             enum ShaderType {
                 Vertex = GL_VERTEX_SHADER,
                 Fragment = GL_FRAGMENT_SHADER,
@@ -17,8 +18,11 @@ namespace types {
                 TesselationControl = GL_TESS_CONTROL_SHADER,
                 TesselationEvaluation = GL_TESS_EVALUATION_SHADER
             };
+
             Shader(const ShaderType &shaderType);
             Shader(const ShaderType &shaderType, const std::string &source, const bool &loadFromFile = true);
+            ~Shader() {};
+
             bool loadFromString(const std::string &sSource);
             bool loadFromFile(const std::string &sFilename);
             /*
@@ -50,7 +54,9 @@ namespace types {
             bool compile();
             GLuint getId() const { return id; }
             types::Shader::ShaderType getType() const { return shaderType; }
+
         private:
+
             GLuint id;
             ShaderType shaderType;
             std::string sourceCode;

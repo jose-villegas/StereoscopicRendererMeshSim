@@ -8,6 +8,7 @@ namespace collections {
                 static std::vector<types::ShaderProgram *> shaders;
             public:
                 static void LoadShaders();
+                static void Clear();
                 static types::ShaderProgram *getDefaultShader(const core::StoredShaders::Shaders &sh);
                 static types::ShaderProgram *getDefaultShader(const std::string &shaderName);
         };

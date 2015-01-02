@@ -40,8 +40,7 @@ scene::SceneObject::~SceneObject()
 {
     for (unsigned int i = 0; i < this->components.size(); i++) {
         delete this->components[i];
-    }
+    } this->components.clear();
 
     delete base;
-    this->components.clear();
 }
