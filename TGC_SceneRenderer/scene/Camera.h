@@ -75,7 +75,7 @@ namespace scene {
             void setFarClippingDistance(const float &val);
             void setFieldOfView(const float &val);
             // camera render meshes
-            void draw(const core::Renderer *actRenderer);
+            void renderFromPOV(const core::Renderer *actRenderer);
     };
 }
 

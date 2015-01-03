@@ -27,14 +27,14 @@ scene::Mesh *collections::MeshesCollection::createMesh(const std::string &sFilen
     return this->meshes.back();
 }
 
-scene::Mesh *collections::MeshesCollection::getMesh(const unsigned int &index)
+scene::Mesh *collections::MeshesCollection::getMesh(const unsigned int index)
 {
     if (index >= this->meshes.size()) { return nullptr; }
 
     return this->meshes[index];
 }
 
-void collections::MeshesCollection::removeMesh(const unsigned int &index)
+void collections::MeshesCollection::removeMesh(const unsigned int index)
 {
     if (index >= this->meshes.size()) { return; }
 

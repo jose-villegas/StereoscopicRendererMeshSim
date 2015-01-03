@@ -121,7 +121,7 @@ void scene::Camera::setFieldOfView(const float &val)
     setProjection(this->aspectRatio, val, this->nearClippingPlane.distance, this->farClippingPlane.distance);
 }
 
-void scene::Camera::draw(const core::Renderer *actRenderer)
+void scene::Camera::renderFromPOV(const core::Renderer *actRenderer)
 {
     // sets the light uniform block with active lights params
     actRenderer->lights->setUniformBlock();

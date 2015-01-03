@@ -85,7 +85,7 @@ void core::Renderer::loop()
     // call active camera with this class collection
     // camera will draw depending on its parameters
     // and the current loaded data in renderer collections
-    this->activeCamera->draw(this);
+    this->activeCamera->renderFromPOV(this);
 }
 
 void core::Renderer::viewport(const unsigned int &width, const unsigned int &height)
