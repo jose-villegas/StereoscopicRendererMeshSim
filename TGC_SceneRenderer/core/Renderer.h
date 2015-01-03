@@ -1,11 +1,10 @@
 #pragma once
+
+#include "../collections/SceneObjectsCollection.h"
+#include "../collections/TexturesCollection.h"
+#include "../utils/FrameRate.h"
+#include "../utils/Time.h"
 #include "Matrices.h"
-#include "../Utils/FrameRate.h"
-#include "../Utils/Time.h"
-#include "../collections/LightsCollection.h"
-#include "../Collections/SceneObjectsCollection.h"
-#include "../collections/MeshesCollection.h"
-#include "../collections/CamerasCollection.h"
 
 namespace core {
 
@@ -29,7 +28,9 @@ namespace core {
             ~Renderer();
 
         private:
-            // only delete through unload()
+            // camera has access to renderer collections
+            friend class scene::Camera;
+            // constructor private for single instance
             Renderer(void);
             Renderer(const Renderer &cpy);
             static Renderer *instance;
@@ -38,6 +39,7 @@ namespace core {
             collections::LightsCollection *lights;
             collections::MeshesCollection *meshes;
             collections::SceneObjectsCollection *sceneObjects;
+            collections::TexturesCollection *textures;
             scene::Camera *activeCamera;
             utils::FrameRate *framerate;
             utils::Time *time;

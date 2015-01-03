@@ -42,7 +42,7 @@ namespace bases {
             ShaderLinkBlock(const ShaderLinkBlock &slb);
         protected:
             ShaderLinkBlock();
-            virtual ~ShaderLinkBlock() { delete uniformBlockInfo; };
+            virtual ~ShaderLinkBlock() {};
             types::ShaderProgram::UniformBlockInfo *uniformBlockInfo;
             types::ShaderProgram *sLinkSP;
             // Sets uniform block data, needs uniformBlock info and sLinkSP to be set

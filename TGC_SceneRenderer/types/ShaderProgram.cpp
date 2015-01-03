@@ -274,7 +274,7 @@ types::ShaderProgram::UniformBlockInfo::UniformBlockInfo(const std::string &unif
 
 types::ShaderProgram::UniformBlockInfo::~UniformBlockInfo()
 {
-    delete[] this->dataPointer;
+    delete this->dataPointer;
     delete[] this->indices;
     delete[] this->offset;
 }

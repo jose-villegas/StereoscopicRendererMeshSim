@@ -1,16 +1,31 @@
 #pragma once
 #include "assimp\material.h"
 #include "..\Types\ShaderProgram.h"
+
 namespace core {
+
+    class Data {
+        private:
+            static bool dataSet;
+        public:
+            static void Initialize();
+            static void Clear();
+    };
     // Execution general enviroment general info
     // OS dependent implementation
     class ExecutionInfo {
+
+            friend void core::Data::Initialize();
+
         public:
             static const unsigned int AVAILABLE_CORES;
             static const std::string EXEC_DIR;
     };
 
     class EngineData {
+
+            friend void core::Data::Initialize();
+
         public:
             class Commoms {
                 public:
@@ -30,12 +45,12 @@ namespace core {
     // Stores all the relevant shaders and some engine values
     // Inialize() ShadersData for non-const members
     class ShadersData {
+
+            friend void core::Data::Initialize();
+
         private:
-            static bool dataSet;
             static void CREATE_SHAREDLIGHTS_COMPLETE_NAMES(char *outNames[]);
         public:
-            // Inialize() ShadersData for non-const members
-            static void Initialize();
 
             // Avaible ShadersData Structures
             class Structures {
@@ -100,6 +115,9 @@ namespace core {
     };
 
     class StoredShaders {
+
+            friend void core::Data::Initialize();
+
         public:
             enum Shaders {
                 Diffuse,
@@ -113,6 +131,9 @@ namespace core {
     };
 
     class StoredMeshes {
+
+            friend void core::Data::Initialize();
+
         public:
             enum Meshes {
                 Cube,

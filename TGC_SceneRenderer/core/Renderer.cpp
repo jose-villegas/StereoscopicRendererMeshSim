@@ -11,6 +11,7 @@
 #include "glm/gtx/transform.hpp"
 #include "glm/gtc/matrix_inverse.hpp"
 #include "Data.h"
+#include "../collections/MeshesCollection.h"
 
 using namespace core;
 
@@ -23,6 +24,7 @@ Renderer::Renderer(void)
     this->meshes		= collections::MeshesCollection::Instance();
     this->cameras		= collections::CamerasCollection::Instance();
     this->sceneObjects  = collections::SceneObjectsCollection::Instance();
+    this->textures		= collections::TexturesCollection::Instance();
 }
 
 Renderer *core::Renderer::Instance()
@@ -42,7 +44,7 @@ int core::Renderer::load()
 void core::Renderer::setup()
 {
     // Initialize Engine Data
-    core::ShadersData::Initialize();
+    core::Data::Initialize();
     // Setup OpenGL Flags
     //glCullFace(GL_BACK);
     //glEnable(GL_CULL_FACE);
@@ -80,22 +82,10 @@ void core::Renderer::loop()
 
     if (!this->activeCamera) { return; }
 
-    // set lights uniform block data
-    this->lights->setUniformBlock();
-    // set elemetal matricse with the active camera info, these matrices stay the same for all models
-    this->matrices->setViewMatrix(this->activeCamera->getViewMatrix());
-    this->matrices->setProjectionMatrix(this->activeCamera->getFrustumMatrix());
-
-    for (unsigned int i = 0; i < this->meshes->meshCount(); i++) {
-        // update the model matrix per model
-        this->matrices->setModelMatrix(this->meshes->getMesh(i)->base->transform.getModelMatrix());
-        // recalculate modelview, modelviewprojection and normal matrices with the current matrices
-        this->matrices->calculateMatrices();
-        // update matrices uniform block data
-        this->matrices->setUniformBlock();
-        // render the current mesh
-        this->meshes->getMesh(i)->render();
-    }
+    // call active camera with this class collection
+    // camera will draw depending on its parameters
+    // and the current loaded data in renderer collections
+    this->activeCamera->draw(this);
 }
 
 void core::Renderer::viewport(const unsigned int &width, const unsigned int &height)
@@ -111,13 +101,7 @@ void core::Renderer::polygonModel(Modes mode)
 
 void core::Renderer::unload()
 {
-    delete collections::TexturesCollection::Instance();
-    delete this->time;
-    delete this->framerate;
-    delete this->sceneObjects;
-    delete this->cameras;
-    delete this->lights;
-    delete this->meshes;
+    core::Data::Clear();
     delete this->matrices;
 }
 

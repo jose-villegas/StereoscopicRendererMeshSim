@@ -46,6 +46,8 @@ void collections::stored::StoredShaders::Clear()
     for (auto it = shaders.begin(); it != shaders.end(); ++it) {
         delete *it;
     }
+
+    shaders.clear();
 }
 
 std::vector<types::ShaderProgram *> collections::stored::StoredShaders::shaders;

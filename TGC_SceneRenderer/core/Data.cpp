@@ -6,6 +6,9 @@
 #include "..\Collections\stored\StoredShaders.h"
 #include "..\collections\LightsCollection.h"
 #include <thread>
+#include "..\collections\MeshesCollection.h"
+#include "..\collections\CamerasCollection.h"
+#include "..\Collections\SceneObjectsCollection.h"
 using namespace core;
 
 const char *core::ShadersData::UniformBlocks::SHAREDLIGHTS_INSTANCE_NAME = "light";
@@ -164,7 +167,7 @@ void core::ShadersData::CREATE_SHAREDLIGHTS_COMPLETE_NAMES(char *outNames[])
     strcpy_s(outNames[UniformBlocks::SHAREDLIGHTS_COMPLETE_COUNT - 1], current.size() + 1, current.c_str());
 }
 
-void core::ShadersData::Initialize()
+void core::Data::Initialize()
 {
     // Only on call to this function
     if (dataSet) { return; }
@@ -185,21 +188,41 @@ void core::ShadersData::Initialize()
 
     free((void *)cwd);
     // Set up shared light huge string array of names
-    CREATE_SHAREDLIGHTS_COMPLETE_NAMES(UniformBlocks::SHAREDLIGHTS_COMPLETE_NAMES);
+    core::ShadersData::CREATE_SHAREDLIGHTS_COMPLETE_NAMES(core::ShadersData::UniformBlocks::SHAREDLIGHTS_COMPLETE_NAMES);
     // Instace Singleton Engine Classes
-    utils::Time::Instance();
     utils::FrameRate::Instance();
-    collections::TexturesCollection::Instance();
+    utils::Time::Instance();
     collections::LightsCollection::Instance();
+    collections::MeshesCollection::Instance();
+    collections::CamerasCollection::Instance();
+    collections::SceneObjectsCollection::Instance();
+    collections::TexturesCollection::Instance();
     // Load Default Texture
-    collections::TexturesCollection::Instance()->addTexture(ExecutionInfo::EXEC_DIR + Samplers2D::DEFAULT_TEX_FILENAME, 0, types::Texture::Diffuse);
+    collections::TexturesCollection::Instance()->addTexture(core::ExecutionInfo::EXEC_DIR + core::ShadersData::Samplers2D::DEFAULT_TEX_FILENAME, 0, types::Texture::Diffuse);
     // Load Engine Shaders
     collections::stored::StoredShaders::LoadShaders();
     // Tells the class that the relevant data has been already construed and loaded
     dataSet = true;
 }
 
-bool core::ShadersData::dataSet = false;
+void core::Data::Clear()
+{
+    // delete stored shaders and materials
+    collections::stored::StoredShaders::Clear();
+    // it is important to delete sceneobjects first as the topmost collection
+    delete collections::SceneObjectsCollection::Instance();
+    // delete scene components collections
+    delete collections::CamerasCollection::Instance();
+    delete collections::LightsCollection::Instance();
+    delete collections::MeshesCollection::Instance();
+    // delete texture collections
+    delete collections::TexturesCollection::Instance();
+    // delete memory reserved by utils
+    delete utils::FrameRate::Instance();
+    delete utils::Time::Instance();
+}
+
+bool core::Data::dataSet = false;;
 
 const std::string core::ExecutionInfo::EXEC_DIR = "";
 

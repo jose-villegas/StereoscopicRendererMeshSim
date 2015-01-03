@@ -488,7 +488,6 @@ namespace SceneRenderer {
             }
         private: System::Void MainWindow_FormClosing(System::Object  ^sender, System::Windows::Forms::FormClosingEventArgs  ^e)
             {
-                OpenGL->~COpenGL();
             }
         private: System::Void cubeToolStripMenuItem_Click(System::Object  ^sender, System::EventArgs  ^e)
             {

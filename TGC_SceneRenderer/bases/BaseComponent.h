@@ -8,7 +8,7 @@ namespace bases {
             bool alwaysActive;
             BaseObject *base;
             BaseComponent(void);
-            virtual ~BaseComponent() { delete base; };
+            virtual ~BaseComponent() {};
     };
 }
 

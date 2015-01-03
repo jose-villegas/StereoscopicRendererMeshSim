@@ -42,5 +42,7 @@ scene::SceneObject::~SceneObject()
         delete this->components[i];
     } this->components.clear();
 
-    delete base;
+    if (base != nullptr) {
+        delete base;
+    }
 }
