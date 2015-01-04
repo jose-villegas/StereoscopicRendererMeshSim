@@ -6,6 +6,7 @@ using namespace scene;
 Camera::Camera(void)
 {
     this->projectionType = Perspective;
+    // normal members
     this->nearClippingPlane.distance = 0.1f;
     this->farClippingPlane.distance = 1000.f;
     this->farClippingPlane.distance = 1000.0f;
@@ -13,6 +14,12 @@ Camera::Camera(void)
     this->vectorUp = glm::vec3(0.f, 1.f, 0.f);
     this->fieldOfView = 75.0f;
     this->aspectRatio = 16.0f / 9.0f;
+    // ortho members
+    this->orthoProjectionSize = 50.f;
+    // stereo members
+    this->zeroParallax = 1000.f;
+    this->eyeSeparation = 0.133f;
+    // subclass members
     this->base = new bases::BaseObject("Camera");
     setProjection(aspectRatio, fieldOfView, nearClippingPlane.distance, farClippingPlane.distance);
 }
@@ -32,24 +39,31 @@ glm::mat4 scene::Camera::getViewMatrix() const
 glm::mat4 scene::Camera::getProjectionTypeMatrix() const
 {
     if (this->projectionType == Perspective) {
-        return glm::perspective(glm::radians(this->fieldOfView), this->aspectRatio, this->nearClippingPlane.distance, this->farClippingPlane.distance);
+        return getFrustumMatrix();
     } else if (this->projectionType == Orthographic) {
-        return glm::ortho(this->horizontalVerticalClipping.x, this->horizontalVerticalClipping.y, this->horizontalVerticalClipping.z, this->horizontalVerticalClipping.w, this->nearClippingPlane.distance,
-                          this->farClippingPlane.distance);
+        return getOrthographicMatrix();
     }
 
-    return glm::mat4(1.0);
+    return  getFrustumMatrix();
 }
 
 glm::mat4 scene::Camera::getFrustumMatrix() const
 {
-    return glm::frustum(this->horizontalVerticalClipping.x, this->horizontalVerticalClipping.y, this->horizontalVerticalClipping.z, this->horizontalVerticalClipping.w, this->nearClippingPlane.distance,
+    return glm::frustum(this->horizontalVerticalClipping.x,
+                        this->horizontalVerticalClipping.y,
+                        this->horizontalVerticalClipping.z,
+                        this->horizontalVerticalClipping.w,
+                        this->nearClippingPlane.distance,
                         this->farClippingPlane.distance);
 }
 
 glm::mat4 scene::Camera::getOrthographicMatrix() const
 {
-    return glm::ortho(this->horizontalVerticalClipping.x, this->horizontalVerticalClipping.y, this->horizontalVerticalClipping.z, this->horizontalVerticalClipping.w, this->nearClippingPlane.distance,
+    return glm::ortho(this->horizontalVerticalClipping.x * this->orthoProjectionSize,
+                      this->horizontalVerticalClipping.y * this->orthoProjectionSize,
+                      this->horizontalVerticalClipping.z * this->orthoProjectionSize,
+                      this->horizontalVerticalClipping.w * this->orthoProjectionSize,
+                      this->nearClippingPlane.distance,
                       this->farClippingPlane.distance);
 }
 
@@ -81,7 +95,7 @@ void scene::Camera::setProjection(const float &aspectRatio, const float &fieldOf
     }
 
     // Set ViewPort Accordly
-    float ymax = nearClipping * glm::tan(fieldOfView * glm::pi<float>() / 360.f);
+    float ymax = nearClippingPlane.distance * glm::tan(fieldOfView * glm::pi<float>() / 360.f); // (fov * pi / 180) / 2
     float xmax = ymax * aspectRatio;
     this->setViewPortRect(-xmax, xmax, -ymax, ymax);
 }
@@ -101,34 +115,100 @@ scene::Camera::~Camera(void)
     collections::CamerasCollection::Instance()->removeCamera(this);
 }
 
-void scene::Camera::setAspectRatio(const float &val)
+void scene::Camera::setAspectRatio(const float val)
 {
     setProjection(val, this->fieldOfView, this->nearClippingPlane.distance, this->farClippingPlane.distance);
 }
 
-void scene::Camera::setNearClippingDistance(const float &val)
+void scene::Camera::setNearClippingDistance(const float val)
 {
     setProjection(this->aspectRatio, this->fieldOfView, val, this->farClippingPlane.distance);
 }
 
-void scene::Camera::setFarClippingDistance(const float &val)
+void scene::Camera::setFarClippingDistance(const float val)
 {
     setProjection(this->aspectRatio, this->fieldOfView, this->nearClippingPlane.distance, val);
 }
 
-void scene::Camera::setFieldOfView(const float &val)
+void scene::Camera::setFieldOfView(const float val)
 {
     setProjection(this->aspectRatio, val, this->nearClippingPlane.distance, this->farClippingPlane.distance);
 }
+
+void scene::Camera::setEyeSeparation(const float val)
+{
+    this->eyeSeparation = val;
+}
+
 
 void scene::Camera::renderFromPOV(const core::Renderer *actRenderer)
 {
     // sets the light uniform block with active lights params
     actRenderer->lights->setUniformBlock();
-    // actrenderer elemental matrices for shader use
-    actRenderer->matrices->setViewMatrix(this->getViewMatrix());
-    actRenderer->matrices->setProjectionMatrix(this->getFrustumMatrix());
 
+    // actrenderer elemental matrices for shader use
+    if (this->projectionType == Stereoscopic) {
+        // render from left pov
+        actRenderer->matrices->setProjectionMatrix(this->leftFrustum());
+        // displace world to the right
+        actRenderer->matrices->setViewMatrix(this->getViewMatrix() * glm::translate(glm::vec3(this->eyeSeparation / 2.f, 0.f, 0.f)));
+        // render in red
+        glColorMask(true, false, false, false);
+        renderMeshes(actRenderer);
+        // clear depth to avoid depth test
+        glClear(GL_DEPTH_BUFFER_BIT) ;
+        // render from right pov
+        actRenderer->matrices->setProjectionMatrix(this->rightFrustum());
+        // displace world to the left
+        actRenderer->matrices->setViewMatrix(this->getViewMatrix() * glm::translate(glm::vec3(-this->eyeSeparation / 2.f, 0.f, 0.f)));
+        // render to cyan
+        glColorMask(false, true, true, false);
+        renderMeshes(actRenderer);
+        // restore original color mask
+        glColorMask(true, true, true, true);
+    } else {
+        actRenderer->matrices->setViewMatrix(this->getViewMatrix()) ;
+        actRenderer->matrices->setProjectionMatrix(this->getProjectionTypeMatrix());
+        renderMeshes(actRenderer);
+    }
+}
+
+glm::mat4 scene::Camera::leftFrustum()
+{
+    float top, bottom, left, right;
+    // vertical planes stay the same
+    top = this->horizontalVerticalClipping[3];
+    bottom = this->horizontalVerticalClipping[2];
+    // calculate horizontal planes movement
+    float horizontalClipStep = this->aspectRatio * glm::tan(this->fieldOfView * glm::pi<float>() / 360.f) * this->zeroParallax;
+    float leftSeparationStep = horizontalClipStep - this->eyeSeparation / 2.f;
+    float rightSeparationStep = horizontalClipStep + this->eyeSeparation / 2.f;
+    // horizontal planes movement
+    left = -leftSeparationStep * this->nearClippingPlane.distance / this->zeroParallax;
+    right = rightSeparationStep * this->nearClippingPlane.distance / this->zeroParallax;
+    // return projection matrix
+    return glm::frustum(left, right, bottom, top, this->nearClippingPlane.distance, this->farClippingPlane.distance);
+}
+
+glm::mat4 scene::Camera::rightFrustum()
+{
+    float top, bottom, left, right;
+    // vertical planes stay the same
+    top = this->horizontalVerticalClipping[3];
+    bottom = this->horizontalVerticalClipping[2];
+    // calculate horizontal planes movement
+    float horizontalClipStep = this->aspectRatio * glm::tan(this->fieldOfView * glm::pi<float>() / 360.f) * this->zeroParallax;
+    float leftSeparationStep = horizontalClipStep - this->eyeSeparation / 2.f;
+    float rightSeparationStep = horizontalClipStep + this->eyeSeparation / 2.f;
+    // horizontal planes movement
+    left = -rightSeparationStep * this->nearClippingPlane.distance / this->zeroParallax;
+    right = leftSeparationStep * this->nearClippingPlane.distance / this->zeroParallax;
+    // return projection matrix
+    return glm::frustum(left, right, bottom, top, this->nearClippingPlane.distance, this->farClippingPlane.distance);
+}
+
+void scene::Camera::renderMeshes(const core::Renderer *actRenderer)
+{
     for (unsigned int i = 0; i < actRenderer->meshes->meshCount(); i++) {
         // set model view matrix per mesh
         actRenderer->matrices->setModelMatrix(actRenderer->meshes->getMesh(i)->base->transform.getModelMatrix());

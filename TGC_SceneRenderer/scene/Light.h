@@ -17,19 +17,23 @@ namespace collections {
 namespace scene {
 
     class Light : public bases::BaseComponent {
-        private:
-            friend class collections::LightsCollection;
-            // Only Lights Collection can create Light Objects
-            Light(const Light &lght);
-            Light(void);
-            ~Light(void);
+
         public:
 
-            enum LightType {
+            static enum LightType {
                 Point,
                 Spot,
                 Directional
             };
+
+        private:
+            friend class collections::LightsCollection;
+            // Only Lights Collection can create Light Objects
+            Light(const Light &lght);
+            Light(const LightType &lghtType);
+            Light(void);
+            ~Light(void);
+        public:
 
             glm::vec3 color;
             float intensity;

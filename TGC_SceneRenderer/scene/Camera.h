@@ -36,13 +36,21 @@ namespace scene {
                 void updatePoints(glm::vec3 position, glm::vec3 direction, glm::vec3 up, glm::vec3 right);
             };
 
+            void renderMeshes(const core::Renderer *actRenderer);
             // Depend on each other so they need to be encapsulated anyways
             Plane nearClippingPlane;
             Plane farClippingPlane;
+            glm::vec4 horizontalVerticalClipping; // left - right - bottom - top
+            glm::vec3 vectorUp;
             float fieldOfView;
             float aspectRatio;
-            glm::vec4 horizontalVerticalClipping;
-            glm::vec3 vectorUp;
+            // orthographic projection size
+            float orthoProjectionSize;
+            // stereo 3d projection data members
+            float zeroParallax;
+            float eyeSeparation;
+            glm::mat4 leftFrustum();
+            glm::mat4 rightFrustum();
             // Only camerascollection can create cameras
             Camera(void);
             Camera(const Camera &cam);
@@ -50,8 +58,9 @@ namespace scene {
         public:
 
             enum TypeProjection {
+                Perspective,
                 Orthographic,
-                Perspective
+                Stereoscopic // anaglyph stereo 3d projection
             };
 
             TypeProjection projectionType;
@@ -67,13 +76,20 @@ namespace scene {
             // members getters
             const Plane &getNearClippingPlane() const { return this->nearClippingPlane; }
             const Plane &getFarClippingPlane() const { return this->farClippingPlane; }
+            const glm::vec3 &getVectorUp() const { return vectorUp; }
             float getFieldOfView() const { return fieldOfView; }
             float getAspectRatio() const { return aspectRatio; }
+            float getOrthoProjectionSize() const { return orthoProjectionSize; }
+            float getZeroParallax() const { return zeroParallax; }
+            float getEyeSeparation() const { return eyeSeparation; }
             // members setters, update projection based on new values
-            void setAspectRatio(const float &val);
-            void setNearClippingDistance(const float &val);
-            void setFarClippingDistance(const float &val);
-            void setFieldOfView(const float &val);
+            void setAspectRatio(const float val);
+            void setNearClippingDistance(const float val);
+            void setFarClippingDistance(const float val);
+            void setFieldOfView(const float val);
+            void setEyeSeparation(const float val);
+            void setOrthoProjectionSize(float val) { orthoProjectionSize = val; }
+            void setZeroParallax(float val) { zeroParallax = val; }
             // camera render meshes
             void renderFromPOV(const core::Renderer *actRenderer);
     };

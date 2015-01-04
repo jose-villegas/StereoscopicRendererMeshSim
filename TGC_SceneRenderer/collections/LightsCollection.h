@@ -27,7 +27,7 @@ namespace collections {
             void removeLight(const unsigned int &lightIndex);
             void removeLight(scene::Light *lght);
             const unsigned int lightCount() const;
-            scene::Light *createLight();
+            scene::Light *createLight(const unsigned int lightType);
             scene::Light *getLight(const unsigned int &lightIndex) const;
             std::vector<scene::Light *> getLights() const { return lights; }
 

@@ -10,6 +10,24 @@ System::Void SceneRenderer::PropertiesWindow::setActiveObjectIndex(unsigned int 
     this->activeObjectIndex = index;
     this->changedActiveIndex = true;
     activeSceneObject = collections::SceneObjectsCollection::Instance()->getSceneObject(index);
+    // reset components
+    this->meshComponentPtr       = nullptr;
+    this->lightComponentPtr      = nullptr;
+    this->cameraComponentPtr     = nullptr;
+    // Hide components
+    this->lightControl->Visible  = false;
+    this->cameraControl->Visible = false;
+    this->meshControl->Visible   = false;
+
+    if (!activeSceneObject) {
+        activeSceneObject = nullptr;
+        // set empty values
+        this->baseControl->objectName->Text = L"Null Selection";
+        this->trnfrControl->setValues(0, 0, 0, 0, 0, 0, 0, 0, 0);
+        // cancel
+        return;
+    }
+
     // Update object name
     this->baseControl->objectName->Text = gcnew System::String(activeSceneObject->getBase()->objectName.c_str());
     // Update Transform accordly
@@ -28,14 +46,6 @@ System::Void SceneRenderer::PropertiesWindow::setActiveObjectIndex(unsigned int 
     // Set up components user controls
     std::vector<bases::BaseComponent *>::const_iterator it = activeSceneObject->getComponents().begin();
     std::vector<bases::BaseComponent *>::const_iterator ite = activeSceneObject->getComponents().end();
-    // reset components
-    this->meshComponentPtr       = nullptr;
-    this->lightComponentPtr      = nullptr;
-    this->cameraComponentPtr     = nullptr;
-    // Hide components
-    this->lightControl->Visible  = false;
-    this->cameraControl->Visible = false;
-    this->meshControl->Visible   = false;
 
     // Show current object components
     for (it; it != ite; it++) {
@@ -72,6 +82,16 @@ System::Void SceneRenderer::PropertiesWindow::setActiveObjectIndex(unsigned int 
             // set ptr to component
             this->cameraComponentPtr = (scene::Camera *)ptr;
             this->cameraControl->Visible = true;
+            this->cameraControl->setValues(cameraComponentPtr->getNearClippingPlane().distance,
+                                           cameraComponentPtr->getFarClippingPlane().distance,
+                                           cameraComponentPtr->getFieldOfView(),
+                                           cameraComponentPtr->getOrthoProjectionSize(),
+                                           cameraComponentPtr->getZeroParallax(),
+                                           cameraComponentPtr->getEyeSeparation(),
+                                           (unsigned int)cameraComponentPtr->projectionType);
+            this->cameraControl->setUpVector(cameraComponentPtr->getVectorUp().x,
+                                             cameraComponentPtr->getVectorUp().y,
+                                             cameraComponentPtr->getVectorUp().z);
         }
     }
 
@@ -180,4 +200,67 @@ System::Void SceneRenderer::PropertiesWindow::onVertexCountNumericChanged(System
 
     this->meshComponentPtr->getMeshReductor()->reduce((unsigned int)this->meshControl->vertexNumeric->Value);
     this->meshControl->getPolyNumeric()->Value = System::Decimal(this->meshComponentPtr->getMeshReductor()->getActualPolyCount());
+}
+
+System::Void SceneRenderer::PropertiesWindow::onEyeSeparationChanged(System::Object ^sender, System::EventArgs ^e)
+{
+    if (changedActiveIndex || !this->cameraComponentPtr) { return; }
+
+    this->cameraComponentPtr->setEyeSeparation((float)this->cameraControl->separationValue->Value);
+}
+
+System::Void SceneRenderer::PropertiesWindow::onFieldOfViewChanged(System::Object ^sender, System::EventArgs ^e)
+{
+    if (changedActiveIndex || !this->cameraComponentPtr) { return; }
+
+    this->cameraComponentPtr->setFieldOfView((float)this->cameraControl->fovValue->Value);
+}
+
+System::Void SceneRenderer::PropertiesWindow::onProjectionTypeChanged(System::Object ^sender, System::EventArgs ^e)
+{
+    if (changedActiveIndex || !this->cameraComponentPtr) { return; }
+
+    scene::Camera::TypeProjection typeProj = scene::Camera::Orthographic;
+    unsigned int projectionType = cameraControl->getProjectionType();
+
+    switch (projectionType) {
+        case 0: typeProj = scene::Camera::Perspective; break;
+
+        case 1: typeProj = scene::Camera::Orthographic; break;
+
+        case 2: typeProj = scene::Camera::Stereoscopic; break;
+
+        default:
+            break;
+    }
+
+    this->cameraComponentPtr->projectionType = typeProj;
+}
+
+System::Void SceneRenderer::PropertiesWindow::onNearDistanceChanged(System::Object ^sender, System::EventArgs ^e)
+{
+    if (changedActiveIndex || !this->cameraComponentPtr) { return; }
+
+    cameraComponentPtr->setNearClippingDistance((float)this->cameraControl->nearDistanceNumeric->Value);
+}
+
+System::Void SceneRenderer::PropertiesWindow::onFarDistanceChanged(System::Object ^sender, System::EventArgs ^e)
+{
+    if (changedActiveIndex || !this->cameraComponentPtr) { return; }
+
+    cameraComponentPtr->setFarClippingDistance((float)this->cameraControl->farDistanceNumeric->Value);
+}
+
+System::Void SceneRenderer::PropertiesWindow::onOrthoSizeChanged(System::Object ^sender, System::EventArgs ^e)
+{
+    if (changedActiveIndex || !this->cameraComponentPtr) { return; }
+
+    cameraComponentPtr->setOrthoProjectionSize((float)this->cameraControl->orthoSizeValue->Value);
+}
+
+System::Void SceneRenderer::PropertiesWindow::onZeroParallaxChanged(System::Object ^sender, System::EventArgs ^e)
+{
+    if (changedActiveIndex || !this->cameraComponentPtr) { return; }
+
+    cameraComponentPtr->setZeroParallax((float)this->cameraControl->zpValue->Value);
 }

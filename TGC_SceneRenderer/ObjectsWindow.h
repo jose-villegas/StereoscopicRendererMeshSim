@@ -186,6 +186,7 @@ namespace SceneRenderer {
                 this->pointLightToolStripMenuItem->Name = L"pointLightToolStripMenuItem";
                 this->pointLightToolStripMenuItem->Size = System::Drawing::Size(161, 22);
                 this->pointLightToolStripMenuItem->Text = L"Point Light";
+                this->pointLightToolStripMenuItem->Click += gcnew System::EventHandler(this, &ObjectsWindow::pointLightToolStripMenuItem_Click);
                 //
                 // toolStripSeparator2
                 //
@@ -300,14 +301,22 @@ namespace SceneRenderer {
             {
                 addCylinder();
             }
-        private: System::Void objectListKeyListener(System::Object  ^sender, System::Windows::Forms::KeyEventArgs  ^e)
+        private: System::Void objectListKeyListener(System::Object  ^sender, System::Windows::Forms::KeyEventArgs  ^e);
+
+        public: void addPointLight()
             {
-                if (e->KeyCode == System::Windows::Forms::Keys::Delete && this->listView1->SelectedIndices[0] != -1) {
-                    unsigned int realIndex = (unsigned int)this->objectRealIndexes[this->listView1->SelectedIndices[0]];
-                    collections::SceneObjectsCollection::Instance()->remove(realIndex);  // wrap around int() to create a temporary instance
-                    this->objectRealIndexes.RemoveAt(this->listView1->SelectedIndices[0]);
-                    this->listView1->Items->RemoveAt(this->listView1->SelectedIndices[0]);
-                }
+                scene::Light *newLight = collections::SceneObjectsCollection::Instance()->addLight(scene::Light::Point);
+
+                if (!newLight) { return; }
+
+                std::string objectName = newLight->base->objectName;
+                this->listView1->Items->Add(gcnew System::String(objectName.c_str()));
+                this->objectRealIndexes.Add(collections::SceneObjectsCollection::Instance()->getLastObjectIndex());
+            }
+
+        private: System::Void pointLightToolStripMenuItem_Click(System::Object  ^sender, System::EventArgs  ^e)
+            {
+                addPointLight();
             }
     };
 }

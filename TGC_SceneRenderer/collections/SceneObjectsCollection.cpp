@@ -59,7 +59,13 @@ scene::Light *collections::SceneObjectsCollection::addLight(scene::Light::LightT
 {
     objectsIndex++;
     scene::SceneObject *newObject = new scene::SceneObject();
-    scene::Light *newLight = collections::LightsCollection::Instance()->createLight();
+    scene::Light *newLight = collections::LightsCollection::Instance()->createLight(lightType);
+
+    if (!newLight) {
+        delete newObject;
+        return nullptr;
+    }
+
     newObject->setBaseObject(newLight->base);
     newObject->addComponent(newLight);
     this->sceneObjects[objectsIndex] = newObject;

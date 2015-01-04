@@ -1,4 +1,6 @@
 #include "LightsCollection.h"
+#include "..\Scene\Light.h"
+#include "glm\detail\func_common.hpp"
 
 using namespace collections;
 
@@ -20,7 +22,7 @@ void collections::LightsCollection::setUniformBlock()
     if (!this->uniformBlockInfo || !this->sLinkSP) { return; }
 
     bindUniformBuffer();
-    unsigned int lightCount = this->lights.size();
+    unsigned int lightCount = glm::min((int)this->lights.size(), core::EngineData::Constrains::MAX_LIGHTS);
 
     for (unsigned int i = 0; i < lightCount; i++) {
         unsigned int line = i * core::ShadersData::Structures::LIGHT_MEMBER_COUNT;
@@ -52,13 +54,6 @@ void collections::LightsCollection::setUniformBlockInfo()
         (const char **)core::ShadersData::UniformBlocks::SHAREDLIGHTS_COMPLETE_NAMES,
         core::ShadersData::UniformBlocks::SHAREDLIGHTS_COMPLETE_COUNT
     );
-}
-
-scene::Light *collections::LightsCollection::createLight()
-{
-    this->lights.push_back(new scene::Light());
-    // Return last added light
-    return this->lights.back();
 }
 
 void collections::LightsCollection::removeLight(const unsigned int &lightIndex)
@@ -93,6 +88,15 @@ const unsigned int collections::LightsCollection::lightCount() const
 collections::LightsCollection::~LightsCollection()
 {
     this->lights.clear();
+}
+
+scene::Light *collections::LightsCollection::createLight(const unsigned int lightType)
+{
+    if (this->lights.size() >= core::EngineData::Constrains::MAX_LIGHTS) { return nullptr; }
+
+    this->lights.push_back(new scene::Light((scene::Light::LightType)lightType));
+    // Return last added light
+    return this->lights.back();
 }
 
 LightsCollection *collections::LightsCollection::instance;

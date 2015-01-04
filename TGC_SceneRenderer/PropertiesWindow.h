@@ -38,6 +38,14 @@ namespace SceneRenderer {
                 // Mesh Control Events
                 this->meshControl->renderSimplChangedHandler += gcnew RenderSimplChanged(this, &PropertiesWindow::onSimplMeshCheckChanged);
                 this->meshControl->vertexNumeric->ValueChanged += gcnew System::EventHandler(this, &PropertiesWindow::onVertexCountNumericChanged);
+                // Camera Control Events
+                this->cameraControl->fovChangedDelegatedEvent += gcnew FOVChangedDelegateEvent(this, &PropertiesWindow::onFieldOfViewChanged);
+                this->cameraControl->eyeSeparationChangedDelegatedEvent += gcnew EyeSeparationChangedDelegateEvent(this, &PropertiesWindow::onEyeSeparationChanged);
+                this->cameraControl->projTypeChangedDelegatedEvent += gcnew ProjectionTypeChangedDelegateEvent(this, &PropertiesWindow::onProjectionTypeChanged);
+                this->cameraControl->nearDistanceNumeric->ValueChanged += gcnew System::EventHandler(this, &PropertiesWindow::onNearDistanceChanged);
+                this->cameraControl->farDistanceNumeric->ValueChanged += gcnew System::EventHandler(this, &PropertiesWindow::onFarDistanceChanged);
+                this->cameraControl->orthoSizeValue->ValueChanged += gcnew System::EventHandler(this, &PropertiesWindow::onOrthoSizeChanged);
+                this->cameraControl->zpValue->ValueChanged += gcnew System::EventHandler(this, &PropertiesWindow::onZeroParallaxChanged);
                 // Construct unmanaged vectors
                 this->lightComponentPtr  = nullptr;
                 this->cameraComponentPtr =  nullptr;
@@ -72,6 +80,14 @@ namespace SceneRenderer {
             // Mesh control events
             System::Void onSimplMeshCheckChanged(System::Object  ^sender, System::EventArgs  ^e);
             System::Void onVertexCountNumericChanged(System::Object  ^sender, System::EventArgs  ^e);
+            // Camera Control events
+            System::Void onEyeSeparationChanged(System::Object  ^sender, System::EventArgs  ^e);
+            System::Void onFieldOfViewChanged(System::Object  ^sender, System::EventArgs  ^e);
+            System::Void onProjectionTypeChanged(System::Object  ^sender, System::EventArgs  ^e);
+            System::Void onNearDistanceChanged(System::Object  ^sender, System::EventArgs  ^e);
+            System::Void onFarDistanceChanged(System::Object  ^sender, System::EventArgs  ^e);
+            System::Void onOrthoSizeChanged(System::Object  ^sender, System::EventArgs  ^e);
+            System::Void onZeroParallaxChanged(System::Object  ^sender, System::EventArgs  ^e);
 
         protected:
             /// <summary>

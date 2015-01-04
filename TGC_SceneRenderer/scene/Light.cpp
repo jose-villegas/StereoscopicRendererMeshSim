@@ -4,7 +4,7 @@ using namespace scene;
 Light::Light(void)
 {
     this->color          = glm::vec3(1.0, 1.0, 1.0);
-    this->attenuation    = 1.0;
+    this->attenuation    = 0.5f;
     this->intensity      = 1.0f;
     this->innerConeAngle = 30;
     this->outerConeAngle = 90;
@@ -41,4 +41,15 @@ std::string scene::Light::getLightTypeString(const LightType &lightType)
 scene::Light::~Light(void)
 {
     collections::LightsCollection::Instance()->removeLight(this);
+}
+
+scene::Light::Light(const LightType &lghtType)
+{
+    this->color          = glm::vec3(1.0, 1.0, 1.0);
+    this->attenuation    = 0.5f;
+    this->intensity      = 1.0f;
+    this->innerConeAngle = 30;
+    this->outerConeAngle = 90;
+    this->lightType      = lightType;
+    this->base = new bases::BaseObject(getLightTypeString(lghtType) + " Light");
 }

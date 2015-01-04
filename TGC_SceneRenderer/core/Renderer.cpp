@@ -56,7 +56,6 @@ void core::Renderer::setup()
     types::ShaderProgram *shProgram = collections::stored::StoredShaders::getDefaultShader(core::StoredShaders::Diffuse);
     // Initial camera setup
     this->activeCamera = this->sceneObjects->addCamera();
-    this->activeCamera->projectionType = scene::Camera::Perspective;
     this->activeCamera->base->transform.position.z += 5;
     collections::CamerasCollection::Instance()->setActiveCamera(0);
     // set elemental  matrices data info ubo
@@ -68,8 +67,6 @@ void core::Renderer::setup()
     // Add lights to scene objects
     this->sceneObjects->addLight(scene::Light::Point);
     this->lights->getLight(0)->base->transform.setPosition(0.0, 0.0, 1.0);
-    this->lights->getLight(0)->setColor(1.0f, 1.0f, 1.0f);
-    this->lights->getLight(0)->intensity = 1.0f;
     // Add test objects
     this->sceneObjects->addMesh(StoredMeshes::Sphere);
 }
