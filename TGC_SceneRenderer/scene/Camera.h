@@ -90,6 +90,8 @@ namespace scene {
             void setEyeSeparation(const float val);
             void setOrthoProjectionSize(float val) { orthoProjectionSize = val; }
             void setZeroParallax(float val) { zeroParallax = val; }
+            void setVectorUp(glm::vec3 val) { vectorUp = val; }
+            void setVectorUp(float a, float b, float c) { vectorUp = glm::vec3(a, b, c); }
             // camera render meshes
             void renderFromPOV(const core::Renderer *actRenderer);
     };

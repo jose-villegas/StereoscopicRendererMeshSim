@@ -35,6 +35,7 @@ namespace SceneRenderer {
                 this->lightControl->intensityChangedDelegatedEvent += gcnew IntensityChangedDelegateEvent(this, &PropertiesWindow::onLightIntensityChanged);
                 this->lightControl->outerAngleChangedDelegatedEvent += gcnew OuterAngleChangedDelegateEvent(this, &PropertiesWindow::onLightOuterAngleChanged);
                 this->lightControl->innerAngleChangedDelegatedEvent += gcnew InnerAngleChangedDelegateEvent(this, &PropertiesWindow::onLightInnerAngleChanged);
+                this->lightControl->lightTypeChangedDelegatedEvent += gcnew LightTypeChangedDelegateEvent(this, &PropertiesWindow::onLightTypeChanged);
                 // Mesh Control Events
                 this->meshControl->renderSimplChangedHandler += gcnew RenderSimplChanged(this, &PropertiesWindow::onSimplMeshCheckChanged);
                 this->meshControl->vertexNumeric->ValueChanged += gcnew System::EventHandler(this, &PropertiesWindow::onVertexCountNumericChanged);
@@ -46,6 +47,7 @@ namespace SceneRenderer {
                 this->cameraControl->farDistanceNumeric->ValueChanged += gcnew System::EventHandler(this, &PropertiesWindow::onFarDistanceChanged);
                 this->cameraControl->orthoSizeValue->ValueChanged += gcnew System::EventHandler(this, &PropertiesWindow::onOrthoSizeChanged);
                 this->cameraControl->zpValue->ValueChanged += gcnew System::EventHandler(this, &PropertiesWindow::onZeroParallaxChanged);
+                this->cameraControl->upvector->valuesChangedEvent += gcnew ValuesChanged(this, &PropertiesWindow::onVectorUpChanged);
                 // Construct unmanaged vectors
                 this->lightComponentPtr  = nullptr;
                 this->cameraComponentPtr =  nullptr;
@@ -77,6 +79,7 @@ namespace SceneRenderer {
             System::Void onLightIntensityChanged(System::Object  ^sender, System::EventArgs  ^e);
             System::Void onLightOuterAngleChanged(System::Object  ^sender, System::EventArgs  ^e);
             System::Void onLightInnerAngleChanged(System::Object  ^sender, System::EventArgs  ^e);
+            System::Void onLightTypeChanged(System::Object  ^sender, System::EventArgs  ^e);
             // Mesh control events
             System::Void onSimplMeshCheckChanged(System::Object  ^sender, System::EventArgs  ^e);
             System::Void onVertexCountNumericChanged(System::Object  ^sender, System::EventArgs  ^e);
@@ -88,6 +91,7 @@ namespace SceneRenderer {
             System::Void onFarDistanceChanged(System::Object  ^sender, System::EventArgs  ^e);
             System::Void onOrthoSizeChanged(System::Object  ^sender, System::EventArgs  ^e);
             System::Void onZeroParallaxChanged(System::Object  ^sender, System::EventArgs  ^e);
+            System::Void onVectorUpChanged(System::Object  ^sender, System::EventArgs  ^e);
 
         protected:
             /// <summary>
@@ -145,12 +149,12 @@ namespace SceneRenderer {
                 this->tableLayoutPanel1->Controls->Add(this->trnfrControl, 0, 0);
                 this->tableLayoutPanel1->Controls->Add(this->componentPanel, 0, 1);
                 this->tableLayoutPanel1->Dock = System::Windows::Forms::DockStyle::Fill;
-                this->tableLayoutPanel1->Location = System::Drawing::Point(0, 20);
+                this->tableLayoutPanel1->Location = System::Drawing::Point(0, 25);
                 this->tableLayoutPanel1->Name = L"tableLayoutPanel1";
                 this->tableLayoutPanel1->RowCount = 2;
                 this->tableLayoutPanel1->RowStyles->Add((gcnew System::Windows::Forms::RowStyle()));
                 this->tableLayoutPanel1->RowStyles->Add((gcnew System::Windows::Forms::RowStyle()));
-                this->tableLayoutPanel1->Size = System::Drawing::Size(384, 392);
+                this->tableLayoutPanel1->Size = System::Drawing::Size(384, 387);
                 this->tableLayoutPanel1->TabIndex = 4;
                 //
                 // trnfrControl
@@ -212,7 +216,7 @@ namespace SceneRenderer {
                 // baseControl
                 //
                 this->baseControl->Dock = System::Windows::Forms::DockStyle::Top;
-                this->baseControl->Location = System::Drawing::Point(0, 0);
+                this->baseControl->Location = System::Drawing::Point(0, 5);
                 this->baseControl->Name = L"baseControl";
                 this->baseControl->Size = System::Drawing::Size(384, 20);
                 this->baseControl->TabIndex = 3;
@@ -226,6 +230,7 @@ namespace SceneRenderer {
                 this->Controls->Add(this->baseControl);
                 this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::SizableToolWindow;
                 this->Name = L"PropertiesWindow";
+                this->Padding = System::Windows::Forms::Padding(0, 5, 0, 0);
                 this->Text = L"Properties";
                 this->FormClosing += gcnew System::Windows::Forms::FormClosingEventHandler(this, &PropertiesWindow::InspectorWindow_FormClosing);
                 this->tableLayoutPanel1->ResumeLayout(false);

@@ -94,10 +94,12 @@ void types::Material::setTexturesUniforms()
 
 void types::Material::setTexturesUniforms(types::ShaderProgram *shp)
 {
-    for (auto it = this->textures.begin(); it != this->textures.end(); it++) {
+    for (auto it = this->textures.rbegin(); it != this->textures.rend(); it++) {
         // Obtain texID and textype to query data info
         unsigned int texID = ((Texture *)*it)->geTexId();
         unsigned int texType = ((Texture *)*it)->getType();
+        // bind texture
+        ((Texture *)*it)->bind();
         // Set to the texture map shader the current texture assigned ID
         shp->setUniform(core::ShadersData::Samplers2D::NAMES[texType], texID);
     }
@@ -105,12 +107,13 @@ void types::Material::setTexturesUniforms(types::ShaderProgram *shp)
 
 void types::Material::useMaterialShader()
 {
+    this->matShader->disable();
     this->matShader->use();
 }
 
 types::Material::~Material(void)
 {
-    for each(types::Texture * var in this->textures) {
-        collections::TexturesCollection::Instance()->unloadTexture(var->geTexId());
+    for (auto it = this->textures.rbegin(); it != this->textures.rend(); it++) {
+        collections::TexturesCollection::Instance()->unloadTexture((*it)->geTexId());
     }
 }

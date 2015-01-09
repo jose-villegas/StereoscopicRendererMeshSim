@@ -11,7 +11,7 @@ struct Light {
     float attenuation;
     float innerConeAngle; // Spot Light
     float outerConeAngle; // Spot Light
-    int lightType;	      // Control parameters
+    uint lightType;	      // Control parameters
 };
 
 struct Material {
@@ -38,3 +38,8 @@ layout ( std140 ) uniform sharedMatrices {
 
 // Common Uniforms Variables
 uniform Material material;
+
+// type identifiers
+const uint LIGHT_POINT       = 0;
+const uint LIGHT_SPOT        = 1;
+const uint LIGHT_DIRECTIONAL = 2;

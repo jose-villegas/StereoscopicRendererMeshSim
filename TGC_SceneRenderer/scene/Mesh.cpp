@@ -29,10 +29,11 @@ bool Mesh::loadMesh(const std::string &sFileName)
     // read filename with assimp importer
     const aiScene *pScene = Importer.ReadFile(sFileName.c_str(),
                             aiProcess_Triangulate
+                            | aiProcess_OptimizeMeshes
                             | aiProcess_JoinIdenticalVertices
                             | aiProcess_GenSmoothNormals
                             | aiProcess_CalcTangentSpace
-                            | aiProcess_FlipUVs);
+                            /*| aiProcess_FlipUVs*/);
 
     if (pScene) {
         std::cout << "Mesh(" << this << ") " << "Loading asset " << sFileName << std::endl;
@@ -44,9 +45,6 @@ bool Mesh::loadMesh(const std::string &sFileName)
     if (bRtrn) { std::cout << "Mesh(" << this << ") " << "Asset " << sFileName << " loaded successfully" << std::endl; }
     else { std::cout << "Mesh(" << this << ") " << "An error occured loading asset " << sFileName << std::endl; }
 
-    utils::MeshReductor mRed;
-    //mRed.load(this);
-    //mRed.reduce(0.8f);
     return bRtrn;
 }
 
@@ -268,7 +266,6 @@ void Mesh::render()
         // Binds the mesh material textures for shader use and set shaders material
         // uniforms, the material shadeprogram has to be set for the uniforms
         this->materials[materialIndex]->useMaterialShader();
-        this->materials[materialIndex]->bindTextures();
         this->materials[materialIndex]->setUniforms();
         // Draw mesh triangles  with loaded buffer object data
         glDrawElements(GL_TRIANGLES, meshEntries[i]->indicesCount, GL_UNSIGNED_INT, 0);

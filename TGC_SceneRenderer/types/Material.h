@@ -39,13 +39,17 @@ namespace types {
             // matShader needs to be set
             void useMaterialShader();
             void bindTextures() const;
-            // Pass the textures ID to the ShaderProgram
+            // Pass and binds the textures ID to the ShaderProgram
             void setTexturesUniforms(types::ShaderProgram *shp);
             // Uses the class member stored ShaderProgram _matShader
             void setTexturesUniforms();
             // Implemented pure virtual method, check ShaderLink class
+            // sets the shaderprogram uniform data and
+            // sets the stored textures uniforms
             void setUniforms(types::ShaderProgram *shp);
             // Uses the class member stored ShaderProgram _matShader
+            // sets the shaderprogram uniform data and
+            // sets the stored textures uniforms
             void setUniforms();
 
             unsigned int textureCount() const { return textures.size(); };

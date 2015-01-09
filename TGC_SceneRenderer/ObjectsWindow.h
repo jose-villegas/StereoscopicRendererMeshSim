@@ -174,12 +174,14 @@ namespace SceneRenderer {
                 this->directionalLightToolStripMenuItem->Name = L"directionalLightToolStripMenuItem";
                 this->directionalLightToolStripMenuItem->Size = System::Drawing::Size(161, 22);
                 this->directionalLightToolStripMenuItem->Text = L"Directional Light";
+                this->directionalLightToolStripMenuItem->Click += gcnew System::EventHandler(this, &ObjectsWindow::directionalLightToolStripMenuItem_Click);
                 //
                 // spotLightToolStripMenuItem
                 //
                 this->spotLightToolStripMenuItem->Name = L"spotLightToolStripMenuItem";
                 this->spotLightToolStripMenuItem->Size = System::Drawing::Size(161, 22);
                 this->spotLightToolStripMenuItem->Text = L"Spot Light";
+                this->spotLightToolStripMenuItem->Click += gcnew System::EventHandler(this, &ObjectsWindow::spotLightToolStripMenuItem_Click);
                 //
                 // pointLightToolStripMenuItem
                 //
@@ -314,9 +316,39 @@ namespace SceneRenderer {
                 this->objectRealIndexes.Add(collections::SceneObjectsCollection::Instance()->getLastObjectIndex());
             }
 
+        public: void addSpotLight()
+            {
+                scene::Light *newLight = collections::SceneObjectsCollection::Instance()->addLight(scene::Light::Spot);
+
+                if (!newLight) { return; }
+
+                std::string objectName = newLight->base->objectName;
+                this->listView1->Items->Add(gcnew System::String(objectName.c_str()));
+                this->objectRealIndexes.Add(collections::SceneObjectsCollection::Instance()->getLastObjectIndex());
+            }
+
+        public: void addDirectionalLight()
+            {
+                scene::Light *newLight = collections::SceneObjectsCollection::Instance()->addLight(scene::Light::Directional);
+
+                if (!newLight) { return; }
+
+                std::string objectName = newLight->base->objectName;
+                this->listView1->Items->Add(gcnew System::String(objectName.c_str()));
+                this->objectRealIndexes.Add(collections::SceneObjectsCollection::Instance()->getLastObjectIndex());
+            }
+
         private: System::Void pointLightToolStripMenuItem_Click(System::Object  ^sender, System::EventArgs  ^e)
             {
                 addPointLight();
+            }
+        private: System::Void spotLightToolStripMenuItem_Click(System::Object  ^sender, System::EventArgs  ^e)
+            {
+                addSpotLight();
+            }
+        private: System::Void directionalLightToolStripMenuItem_Click(System::Object  ^sender, System::EventArgs  ^e)
+            {
+                addDirectionalLight();
             }
     };
 }

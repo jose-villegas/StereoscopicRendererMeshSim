@@ -462,15 +462,20 @@ void utils::MeshReductor::reduce(const float prcentil /* 0.0 - 1.0 */)
 void utils::MeshReductor::reduce(const unsigned int vertexCount)
 {
     unsigned int meshIndex; actualPolyCount = meshIndex = actualVertexCount = 0;
-    unsigned int reductionPerMesh = (unsigned int)std::ceil((float)(originalVertexCount - vertexCount) / (float)baseMesh->meshEntries.size());
     unsigned int reductionTotalAcum = 0;
+    unsigned int reductionPerMesh = 0;
+    float percentilReduction = (float)(originalVertexCount - vertexCount) / originalVertexCount;
 
     for (auto it = this->reducedMeshEntries.begin(); it != this->reducedMeshEntries.end(); ++it, ++meshIndex) {
-        (*it).reduceAndSetBufferData(baseMesh->meshEntries[meshIndex], baseMesh->meshEntries[meshIndex]->vertices.size() - reductionPerMesh);
+        reductionPerMesh = (unsigned int)std::ceil(baseMesh->meshEntries[meshIndex]->vertices.size() * percentilReduction);
+
+        if (reductionTotalAcum <= originalVertexCount - vertexCount) {
+            (*it).reduceAndSetBufferData(baseMesh->meshEntries[meshIndex], baseMesh->meshEntries[meshIndex]->vertices.size() - reductionPerMesh);
+        }
+
         reductionTotalAcum += reductionPerMesh;
         actualPolyCount += (*it).polyCount;
         actualVertexCount += (*it).vertexCount;
-
-        if (reductionTotalAcum >= originalVertexCount - vertexCount) { break; }
     }
 }
+

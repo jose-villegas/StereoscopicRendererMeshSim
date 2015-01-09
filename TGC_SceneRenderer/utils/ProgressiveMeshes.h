@@ -44,11 +44,15 @@ namespace utils {
                     std::unordered_map<unsigned int, Face * > faces;
                     void removeNonNeighbor(Vertex *v);
             };
-
+            // class specific collections of vertices and faces
             std::map<unsigned int, Vertex * > progVertices;
             std::map<unsigned int, Face * > progFaces;
 
+            // calculates edge collapse cost between
+            // two vertices
             float edgeCollapseCost(Vertex *u, Vertex *v);
+            // calculates minimum collapse cost between
+            // all neighbors
             void edgeCostAtVertex(Vertex *v);
             // updates u and v neighbors and faces after
             // collapsing the uv edge
@@ -119,11 +123,14 @@ namespace utils {
             ~MeshReductor() {};
 
             void load(scene::Mesh *baseMesh);
-            void reduce(const float prcentil /* 0.0 - 1.0 */);
+            /* 0.0 - 1.0 */
+            void reduce(const float prcentil);
+            // provide final vertex count
             void reduce(const unsigned int vertexCount);
 
             unsigned int getActualPolyCount() const { return actualPolyCount; }
             unsigned int getActualVertexCount() const { return actualVertexCount; }
+
             unsigned int getOriginalPolyCount() const { return originalPolyCount; }
             unsigned int getOriginalVertexCount() const { return originalVertexCount; }
 

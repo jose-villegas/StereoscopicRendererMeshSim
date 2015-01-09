@@ -183,6 +183,27 @@ System::Void SceneRenderer::PropertiesWindow::onLightInnerAngleChanged(System::O
     this->lightComponentPtr->innerConeAngle = (float)this->lightControl->innerAngleValue->Value;
 }
 
+System::Void SceneRenderer::PropertiesWindow::onLightTypeChanged(System::Object ^sender, System::EventArgs ^e)
+{
+    if (changedActiveIndex || !this->lightComponentPtr) { return; }
+
+    scene::Light::LightType lightType = scene::Light::Point;
+    unsigned int lightTypeControl = lightControl->getLightType();
+
+    switch (lightTypeControl) {
+        case 0: lightType = scene::Light::Point; break;
+
+        case 1: lightType = scene::Light::Spot; break;
+
+        case 2: lightType = scene::Light::Directional; break;
+
+        default:
+            break;
+    }
+
+    this->lightComponentPtr->lightType = lightType;
+}
+
 System::Void SceneRenderer::PropertiesWindow::onSimplMeshCheckChanged(System::Object ^sender, System::EventArgs ^e)
 {
     if (changedActiveIndex || !this->meshComponentPtr) { return; }
@@ -263,4 +284,11 @@ System::Void SceneRenderer::PropertiesWindow::onZeroParallaxChanged(System::Obje
     if (changedActiveIndex || !this->cameraComponentPtr) { return; }
 
     cameraComponentPtr->setZeroParallax((float)this->cameraControl->zpValue->Value);
+}
+
+System::Void SceneRenderer::PropertiesWindow::onVectorUpChanged(System::Object ^sender, System::EventArgs ^e)
+{
+    if (changedActiveIndex || !this->cameraComponentPtr) { return; }
+
+    cameraComponentPtr->setVectorUp((float)this->cameraControl->upvector->X(), (float)this->cameraControl->upvector->Y(), (float)this->cameraControl->upvector->Z());
 }
