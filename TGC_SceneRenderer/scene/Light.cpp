@@ -3,11 +3,13 @@ using namespace scene;
 
 Light::Light(void)
 {
-    this->color          = glm::vec3(1.0, 1.0, 1.0);
+    this->color          = glm::vec3(1.0f, 1.0f, 1.0f);
     this->attenuation    = 0.5f;
     this->intensity      = 1.0f;
-    this->innerConeAngle = 30;
-    this->outerConeAngle = 90;
+    this->innerConeAngle = glm::radians(30.0f);
+    this->outerConeAngle = glm::radians(90.0f);
+    this->cosInnerConeAngle = std::cos(this->innerConeAngle);
+    this->cosOuterConeAngle = std::cos(this->outerConeAngle);
     this->lightType      = Point;
     this->base = new bases::BaseObject("Light");
 }
@@ -45,11 +47,18 @@ scene::Light::~Light(void)
 
 scene::Light::Light(const LightType &lghtType)
 {
-    this->color          = glm::vec3(1.0, 1.0, 1.0);
+    this->color          = glm::vec3(1.0f, 1.0f, 1.0f);
     this->attenuation    = 0.5f;
     this->intensity      = 1.0f;
-    this->innerConeAngle = 30;
-    this->outerConeAngle = 90;
+    this->innerConeAngle = glm::radians(30.0f);
+    this->outerConeAngle = glm::radians(90.0f);
+    this->cosInnerConeAngle = std::cos(this->innerConeAngle);
+    this->cosOuterConeAngle = std::cos(this->outerConeAngle);
     this->lightType      = lightType;
     this->base = new bases::BaseObject(getLightTypeString(lghtType) + " Light");
+}
+
+glm::vec3 scene::Light::getDirection()
+{
+    return glm::mat3_cast(this->base->transform.rotation) * glm::vec3(0.0, -1.0, 0.0);
 }

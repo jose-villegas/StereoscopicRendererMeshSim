@@ -29,11 +29,12 @@ glm::mat4 scene::Camera::getViewMatrix(const glm::vec3 &cameraPosition, const gl
     return glm::lookAt(cameraPosition, cameraTarget, vectorUp);
 }
 
-glm::mat4 scene::Camera::getViewMatrix() const
+glm::mat4 scene::Camera::getViewMatrix()
 {
     glm::vec3 cameraPosition = this->base->transform.position;
-    glm::vec3 cameraTarget = (this->base->transform.position + glm::vec3(0.0, 0.0, -1.0)) * glm::mat3_cast(this->base->transform.rotation);
-    return glm::lookAt(cameraPosition, cameraTarget, this->vectorUp);
+    glm::vec3 cameraTarget = this->getCameraTarget();
+    glm::vec3 vecUp = this->calculateVectorUp();
+    return glm::lookAt(cameraPosition, cameraTarget, vecUp);
 }
 
 glm::mat4 scene::Camera::getProjectionTypeMatrix() const
@@ -84,11 +85,13 @@ void scene::Camera::setProjection(const float &aspectRatio, const float &fieldOf
     this->nearClippingPlane.width = this->nearClippingPlane.height * this->aspectRatio;
     this->farClippingPlane.height = 2.f * glm::tan(this->fieldOfView / 2.f) * this->farClippingPlane.distance;
     this->farClippingPlane.width = this->farClippingPlane.height * this->aspectRatio;
+    // calculate vector up based on rotation transform
+    this->calculateVectorUp();
 
     // planes points
     if (this->base) {
         glm::vec3 cameraPosition = this->base->transform.position;
-        glm::vec3 cameraTarget = (this->base->transform.position + glm::vec3(0.0, 0.0, -1.0)) * glm::mat3_cast(this->base->transform.rotation);
+        glm::vec3 cameraTarget = this->getCameraTarget();
         glm::vec3 cameraDirection = glm::normalize(cameraPosition - cameraTarget);
         this->farClippingPlane.updatePoints(cameraTarget, cameraDirection, vectorUp, glm::cross(vectorUp, cameraDirection));
         this->nearClippingPlane.updatePoints(cameraTarget, cameraDirection, vectorUp, glm::cross(vectorUp, cameraDirection));
@@ -143,32 +146,49 @@ void scene::Camera::setEyeSeparation(const float val)
 
 void scene::Camera::renderFromPOV(const core::Renderer *actRenderer)
 {
-    // sets the light uniform block with active lights params
-    actRenderer->lights->setUniformBlock();
+    glm::mat4 viewMatrix = this->getViewMatrix();
 
     // actrenderer elemental matrices for shader use
     if (this->projectionType == Stereoscopic) {
+        // translated view matrices
+        glm::mat4 leftViewMatrix = viewMatrix * glm::translate(glm::vec3(this->eyeSeparation / 2.f, 0.f, 0.f));
+        glm::mat4 rightViewMatrix = viewMatrix * glm::translate(glm::vec3(-this->eyeSeparation / 2.f, 0.f, 0.f));
         // render from left pov
         actRenderer->matrices->setProjectionMatrix(this->leftFrustum());
         // displace world to the right
-        actRenderer->matrices->setViewMatrix(this->getViewMatrix() * glm::translate(glm::vec3(this->eyeSeparation / 2.f, 0.f, 0.f)));
+        actRenderer->matrices->setViewMatrix(leftViewMatrix);
+        // update lights with new translated view matrix
+        actRenderer->lights->setViewMatrix(leftViewMatrix);
+        // sets the light uniform block with active lights params
+        actRenderer->lights->setUniformBlock();
         // render in red
         glColorMask(true, false, false, false);
+        // render all meshes from pov
         renderMeshes(actRenderer);
         // clear depth to avoid depth test
         glClear(GL_DEPTH_BUFFER_BIT) ;
         // render from right pov
         actRenderer->matrices->setProjectionMatrix(this->rightFrustum());
         // displace world to the left
-        actRenderer->matrices->setViewMatrix(this->getViewMatrix() * glm::translate(glm::vec3(-this->eyeSeparation / 2.f, 0.f, 0.f)));
+        actRenderer->matrices->setViewMatrix(rightViewMatrix);
+        // update lights with new translated view matrix
+        actRenderer->lights->setViewMatrix(rightViewMatrix);
+        // sets the light uniform block with active lights params
+        actRenderer->lights->setUniformBlock();
         // render to cyan
         glColorMask(false, true, true, false);
+        // render all meshes from pov
         renderMeshes(actRenderer);
         // restore original color mask
         glColorMask(true, true, true, true);
     } else {
-        actRenderer->matrices->setViewMatrix(this->getViewMatrix()) ;
+        actRenderer->matrices->setViewMatrix(viewMatrix) ;
         actRenderer->matrices->setProjectionMatrix(this->getProjectionTypeMatrix());
+        // update lights with new translated view matrix
+        actRenderer->lights->setViewMatrix(viewMatrix);
+        // sets the light uniform block with active lights params
+        actRenderer->lights->setUniformBlock();
+        // render all meshes from pov
         renderMeshes(actRenderer);
     }
 }
@@ -219,4 +239,16 @@ void scene::Camera::renderMeshes(const core::Renderer *actRenderer)
         // finally call glDraw with mesh data
         actRenderer->meshes->getMesh(i)->render();
     }
+}
+
+glm::vec3 scene::Camera::getCameraTarget() const
+{
+    glm::vec3 cameraTarget = glm::mat3_cast(this->base->transform.rotation) * glm::vec3(0.0, 0.0, -1.0);
+    return cameraTarget + this->base->transform.position;
+}
+
+const glm::vec3 &scene::Camera::calculateVectorUp()
+{
+    this->vectorUp = glm::mat3_cast(this->base->transform.rotation) * glm::vec3(0.0, 1.0, 0.0);
+    return this->vectorUp;
 }

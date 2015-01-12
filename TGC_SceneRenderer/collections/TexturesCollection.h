@@ -34,6 +34,8 @@ namespace collections {
         protected:
             TexturesCollection(const TexturesCollection &cpy);
             TexturesCollection();
+
+            bool preventDuplicates;
             static TexturesCollection *instance;
             // Texture Collection
             std::map<unsigned int, types::Texture *> textures;

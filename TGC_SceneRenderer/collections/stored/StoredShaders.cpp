@@ -17,7 +17,7 @@ void collections::stored::StoredShaders::LoadShaders()
     shp->attachShader(frag);
     shp->link();
     // Control Vars
-    core::ShadersData::AddShaderData(shp);
+    AddShaderData(shp);
     // Texture Maps
     shp->addUniform("diffuseMap");
     shaders[core::StoredShaders::Shaders::Diffuse] = shp;
@@ -48,6 +48,19 @@ void collections::stored::StoredShaders::Clear()
     }
 
     shaders.clear();
+}
+
+void collections::stored::StoredShaders::AddShaderData(types::ShaderProgram *shp)
+{
+    // Elemental matrices uniform block
+    shp->addUniformBlock(core::ShadersData::UniformBlocks::SHAREDMATRICES_NAME, 0);
+    // Lights uniform block
+    shp->addUniformBlock(core::ShadersData::UniformBlocks::SHAREDLIGHTS_NAME, 1);
+
+    // Material Params
+    for (int i = 0; i < core::ShadersData::Structures::MATERIAL_MEMBER_COUNT; i++) {
+        shp->addUniform(std::string(core::ShadersData::Uniforms::MATERIAL_INSTANCE_NAME) + "." + std::string(core::ShadersData::Structures::MATERIAL_MEMBER_NAMES[i]));
+    }
 }
 
 std::vector<types::ShaderProgram *> collections::stored::StoredShaders::shaders;

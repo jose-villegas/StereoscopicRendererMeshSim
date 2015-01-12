@@ -10,6 +10,7 @@ namespace collections {
             private:
 
                 static std::vector<types::ShaderProgram *> shaders;
+                static void AddShaderData(types::ShaderProgram *shp);
 
             public:
 

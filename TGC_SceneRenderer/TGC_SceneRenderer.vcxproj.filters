@@ -72,9 +72,6 @@
     <ClCompile Include="Bases\BaseObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="include\GL\gl_core_4_4.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Types\ShaderProgram.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -124,6 +121,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="utils\ProgressiveMeshes.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="include\GL\gl_core_4_4.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -185,12 +185,6 @@
     <ClInclude Include="Bases\BaseObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\GL\gl_core_4_4.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\GL\wglext.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\FreeImage\FreeImage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -242,6 +236,12 @@
     <ClInclude Include="utils\ProgressiveMeshes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\GL\wglext.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\GL\gl_core_4_4.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="app.rc">
@@ -273,8 +273,6 @@
   <ItemGroup>
     <None Include="Resources\Shaders\diffuse.frag" />
     <None Include="Resources\Shaders\diffuse.vert" />
-    <None Include="resources\Shaders\bumped_diffuse.frag" />
-    <None Include="resources\Shaders\bumped_diffuse.vert" />
     <None Include="resources\shaders\shared_data.glsl" />
   </ItemGroup>
 </Project>

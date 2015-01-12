@@ -342,10 +342,12 @@ namespace SceneRenderer {
             {
                 addPointLight();
             }
+
         private: System::Void spotLightToolStripMenuItem_Click(System::Object  ^sender, System::EventArgs  ^e)
             {
                 addSpotLight();
             }
+
         private: System::Void directionalLightToolStripMenuItem_Click(System::Object  ^sender, System::EventArgs  ^e)
             {
                 addDirectionalLight();

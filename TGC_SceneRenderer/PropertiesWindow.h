@@ -47,7 +47,6 @@ namespace SceneRenderer {
                 this->cameraControl->farDistanceNumeric->ValueChanged += gcnew System::EventHandler(this, &PropertiesWindow::onFarDistanceChanged);
                 this->cameraControl->orthoSizeValue->ValueChanged += gcnew System::EventHandler(this, &PropertiesWindow::onOrthoSizeChanged);
                 this->cameraControl->zpValue->ValueChanged += gcnew System::EventHandler(this, &PropertiesWindow::onZeroParallaxChanged);
-                this->cameraControl->upvector->valuesChangedEvent += gcnew ValuesChanged(this, &PropertiesWindow::onVectorUpChanged);
                 // Construct unmanaged vectors
                 this->lightComponentPtr  = nullptr;
                 this->cameraComponentPtr =  nullptr;
@@ -91,7 +90,6 @@ namespace SceneRenderer {
             System::Void onFarDistanceChanged(System::Object  ^sender, System::EventArgs  ^e);
             System::Void onOrthoSizeChanged(System::Object  ^sender, System::EventArgs  ^e);
             System::Void onZeroParallaxChanged(System::Object  ^sender, System::EventArgs  ^e);
-            System::Void onVectorUpChanged(System::Object  ^sender, System::EventArgs  ^e);
 
         protected:
             /// <summary>

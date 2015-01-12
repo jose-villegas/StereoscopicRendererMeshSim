@@ -5,6 +5,7 @@
 #include <unordered_map>
 #include <string>
 #include <utility>
+
 namespace types {
 
     class ShaderProgram {
@@ -35,13 +36,13 @@ namespace types {
             unsigned int fragmentShaderCount;
             unsigned int vertexShaderCount;
             // shaders related to this shaderprogram
-            std::vector<Shader *> attachedShaders;
+            std::vector<types::Shader *> attachedShaders;
 
         public:
             ShaderProgram(void);
             ~ShaderProgram(void);
 
-            void attachShader(Shader *pShader);
+            void attachShader(types::Shader *pShader);
             bool link() const;
             void use() const;
             void disable() const;

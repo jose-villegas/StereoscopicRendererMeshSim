@@ -46,10 +46,11 @@ void core::Renderer::setup()
     // Initialize Engine Data
     core::Data::Initialize();
     // Setup OpenGL Flags
-    //glCullFace(GL_BACK);
-    //glEnable(GL_CULL_FACE);
+    glCullFace(GL_BACK);
+    glEnable(GL_CULL_FACE);
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LEQUAL);
+    glDisable(GL_TEXTURE);
     // Load member classes
     this->matrices = new Matrices();
     // Get a default stored shader
@@ -66,7 +67,7 @@ void core::Renderer::setup()
     this->lights->setUniformBlockInfo();
     // Add lights to scene objects
     this->sceneObjects->addLight(scene::Light::Point);
-    this->lights->getLight(0)->base->transform.setPosition(0.0, 0.0, 1.0);
+    this->lights->getLight(0)->base->transform.setPosition(0.0, 0.0, 3.0);
     // Add test objects
     this->sceneObjects->addMesh(StoredMeshes::Sphere);
 }

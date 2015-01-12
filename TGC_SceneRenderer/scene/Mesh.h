@@ -30,19 +30,15 @@ namespace scene {
             unsigned int getVertexCount() const { return vertexCount; }
             unsigned int getSubmeshesCount() const { return this->meshEntries.size(); }
 
-        protected:
-            friend class collections::MeshesCollection;
-            // Mesh Reduction Classes have access to private
-            // and protected data for modifications
-            friend class utils::ProgressiveMesh;
-            friend class utils::MeshReductor;
-
             class SubMesh {
                 public:
                     // MeshEntry general data
                     std::vector<types::Vertex> vertices;
                     std::vector<unsigned int> indices;
                     std::vector<types::Face> faces;
+                    glm::vec3 centerVertex;
+                    glm::vec3 minVertex;
+                    glm::vec3 maxVertex;
                     // Rendering params
                     unsigned int indicesCount;
                     bool enableRendering;
@@ -66,6 +62,9 @@ namespace scene {
                     SubMesh(const std::vector<types::Vertex> &vertices, const std::vector<unsigned int> &indices, const std::vector<types::Face> &faces);
             };
 
+        protected:
+            friend class collections::MeshesCollection;
+
             unsigned int polyCount;
             unsigned int vertexCount;
             bool enableRendering;
@@ -85,11 +84,14 @@ namespace scene {
             void initMesh(unsigned int index, const aiMesh *paiMesh);
             bool initFromScene(const aiScene *paiScene, const std::string &sFilename);
             bool initMaterials(const aiScene *paiScene, const std::string &sFilename);
+
+            bool loadMeshTexture(const aiMaterial *pMaterial, types::Texture::TextureType textureType, std::string dirPlusSlash, types::Material *currentMat);
+
             const unsigned int subMeshCount() const { return this->meshEntries.size(); }
             void clear();
 
             // Mesh Reduction properties
-        private:
+        protected:
 
             bool meshReductionEnabled;
             utils::MeshReductor *meshReductor;
@@ -99,5 +101,7 @@ namespace scene {
             void enableMeshReduction();
             utils::MeshReductor *getMeshReductor() const { return meshReductor; }
             bool isMeshReductionEnabled() const { return meshReductionEnabled; }
+
+            const std::vector<SubMesh * > &getMeshEntries() const { return meshEntries; }
     };
 }

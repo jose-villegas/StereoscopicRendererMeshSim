@@ -35,7 +35,7 @@ namespace scene {
 
                 void updatePoints(glm::vec3 position, glm::vec3 direction, glm::vec3 up, glm::vec3 right);
             };
-
+            glm::vec3 getCameraTarget() const;
             void renderMeshes(const core::Renderer *actRenderer);
             // Depend on each other so they need to be encapsulated anyways
             Plane nearClippingPlane;
@@ -66,7 +66,7 @@ namespace scene {
             TypeProjection projectionType;
 
             glm::mat4 getViewMatrix(const glm::vec3 &cameraPosition, const glm::vec3 &cameraTarget, const glm::vec3 &vectorUp) const;
-            glm::mat4 getViewMatrix() const;
+            glm::mat4 getViewMatrix();
             glm::mat4 getProjectionTypeMatrix() const;
             glm::mat4 getFrustumMatrix() const;
             glm::mat4 getOrthographicMatrix() const;
@@ -76,7 +76,8 @@ namespace scene {
             // members getters
             const Plane &getNearClippingPlane() const { return this->nearClippingPlane; }
             const Plane &getFarClippingPlane() const { return this->farClippingPlane; }
-            const glm::vec3 &getVectorUp() const { return vectorUp; }
+            const glm::vec3 &calculateVectorUp();
+            const glm::vec3 &getVectorUp() const { return vectorUp ;}
             float getFieldOfView() const { return fieldOfView; }
             float getAspectRatio() const { return aspectRatio; }
             float getOrthoProjectionSize() const { return orthoProjectionSize; }
@@ -90,7 +91,6 @@ namespace scene {
             void setEyeSeparation(const float val);
             void setOrthoProjectionSize(float val) { orthoProjectionSize = val; }
             void setZeroParallax(float val) { zeroParallax = val; }
-            void setVectorUp(glm::vec3 val) { vectorUp = val; }
             void setVectorUp(float a, float b, float c) { vectorUp = glm::vec3(a, b, c); }
             // camera render meshes
             void renderFromPOV(const core::Renderer *actRenderer);

@@ -1,14 +1,15 @@
-#include "Data.h"
-#include <string>
-#include "..\Utils\Time.h"
-#include "..\Utils\FrameRate.h"
+#include "..\Collections\SceneObjectsCollection.h"
 #include "..\Collections\TexturesCollection.h"
 #include "..\Collections\stored\StoredShaders.h"
-#include "..\collections\LightsCollection.h"
-#include <thread>
-#include "..\collections\MeshesCollection.h"
+#include "..\Types\Shader.h"
+#include "..\Utils\FrameRate.h"
+#include "..\Utils\Time.h"
 #include "..\collections\CamerasCollection.h"
-#include "..\Collections\SceneObjectsCollection.h"
+#include "..\collections\LightsCollection.h"
+#include "..\collections\MeshesCollection.h"
+#include "Data.h"
+#include <string>
+#include <thread>
 using namespace core;
 
 const char *core::ShadersData::UniformBlocks::SHAREDLIGHTS_INSTANCE_NAME = "light";
@@ -54,6 +55,8 @@ const GLchar *core::ShadersData::Structures::LIGHT_MEMBER_NAMES[] = {
     "attenuation",
     "innerConeAngle",
     "outerConeAngle",
+    "cosInnerConeAngle",
+    "cosOuterConeAngle",
     "lightType"
 };
 
@@ -87,7 +90,7 @@ const char *core::StoredShaders::FILENAMES[] = {
     "/resources/shaders/diffuse",
 };
 
-const std::string core::StoredShaders::Filename(const Shaders &index, const types::Shader::ShaderType &type)
+const std::string core::StoredShaders::Filename(const Shaders &index, const unsigned int &type)
 {
     std::string extension = ".";
 
@@ -102,14 +105,6 @@ const std::string core::StoredShaders::Filename(const Shaders &index, const type
 
         case types::Shader::Geometry:
             extension += "geom";
-            break;
-
-        case types::Shader::TesselationControl:
-            extension += "tessc";
-            break;
-
-        case types::Shader::TesselationEvaluation:
-            extension += "tesse";
             break;
     }
 
@@ -134,19 +129,6 @@ const char *core::StoredMeshes::FILENAMES[] = {
     "/resources/models/sphere/sphere.obj",
     "/resources/models/torus/torus.obj"
 };
-
-void core::ShadersData::AddShaderData(types::ShaderProgram *shp)
-{
-    // Elemental matrices uniform block
-    shp->addUniformBlock(core::ShadersData::UniformBlocks::SHAREDMATRICES_NAME, 0);
-    // Lights uniform block
-    shp->addUniformBlock(core::ShadersData::UniformBlocks::SHAREDLIGHTS_NAME, 1);
-
-    // Material Params
-    for (int i = 0; i < Structures::MATERIAL_MEMBER_COUNT; i++) {
-        shp->addUniform(std::string(Uniforms::MATERIAL_INSTANCE_NAME) + "." + std::string(Structures::MATERIAL_MEMBER_NAMES[i]));
-    }
-}
 
 void core::ShadersData::CREATE_SHAREDLIGHTS_COMPLETE_NAMES(char *outNames[])
 {

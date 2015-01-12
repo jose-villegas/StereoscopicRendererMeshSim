@@ -6,10 +6,10 @@ types::Texture::Texture(const std::string &sFilename, const unsigned int &texId,
 {
     this->sFilename     = sFilename;
     this->texId         = texId;
-    this->textureType         = tType;
-    this->bitsPerPixel = 0;
-    this->width        = 0;
-    this->height       = 0;
+    this->textureType   = tType;
+    this->bitsPerPixel  = 0;
+    this->width         = 0;
+    this->height        = 0;
     this->oglTexId      = -1;
 }
 
@@ -17,10 +17,10 @@ types::Texture::Texture(const unsigned int &texId, const TextureType &tType)
 {
     this->sFilename     = "Texture";
     this->texId         = texId;
-    this->textureType         = tType;
-    this->bitsPerPixel = 0;
-    this->width        = 0;
-    this->height       = 0;
+    this->textureType   = tType;
+    this->bitsPerPixel  = 0;
+    this->width         = 0;
+    this->height        = 0;
     this->oglTexId      = -1;
 }
 
@@ -93,6 +93,37 @@ bool types::Texture::load(const std::string &sFilename)
 void types::Texture::unload() const
 {
     glDeleteTextures(1, &oglTexId);
+}
+
+std::string types::Texture::getTextureTypeString()
+{
+    switch (textureType) {
+        case None        : return "None"; break;
+
+        case Diffuse     : return "Diffuse"; break;
+
+        case Specular    : return "Specular"; break;
+
+        case Ambient     : return "Ambient"; break;
+
+        case Emissive    : return "Emissive"; break;
+
+        case Height      : return "Height"; break;
+
+        case Normals     : return "Normals"; break;
+
+        case Shininess   : return "Shininess"; break;
+
+        case Ocapacity   : return "Ocapacity"; break;
+
+        case Displacement: return "Displacement"; break;
+
+        case Lightmap    : return "Lightmap"; break;
+
+        case Reflection  : return "Reflection"; break;
+    }
+
+    return "";
 }
 
 Texture::~Texture()

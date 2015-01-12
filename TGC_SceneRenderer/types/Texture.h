@@ -1,8 +1,9 @@
 #pragma once
-#include "GL/gl_core_4_4.h"
+#include "../core/Data.h"
 #include "assimp/material.h"
 #include "FreeImage/FreeImage.h"
 #include <string>
+
 namespace types {
     class Texture {
         public:
@@ -34,7 +35,8 @@ namespace types {
             unsigned int getHeight()   const { return this->height;  };
             unsigned int getOGLTexId() const { return this->oglTexId; };
             unsigned int geTexId()     const { return this->texId;    };
-            unsigned int getType()     const { return this->textureType;    };
+            unsigned int getType()     const { return this->textureType; };
+            std::string getTextureTypeString();
 
             std::string getFilename() { return this->sFilename; };
 

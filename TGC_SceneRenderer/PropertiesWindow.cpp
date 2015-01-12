@@ -15,6 +15,9 @@ System::Void SceneRenderer::PropertiesWindow::setActiveObjectIndex(unsigned int 
     this->lightComponentPtr      = nullptr;
     this->cameraComponentPtr     = nullptr;
     // Hide components
+    this->lightControl->Enabled  = false;
+    this->cameraControl->Enabled = false;
+    this->meshControl->Enabled   = false;
     this->lightControl->Visible  = false;
     this->cameraControl->Visible = false;
     this->meshControl->Visible   = false;
@@ -74,8 +77,8 @@ System::Void SceneRenderer::PropertiesWindow::setActiveObjectIndex(unsigned int 
                 wLightColor,
                 ((scene::Light *)ptr)->intensity,
                 ((scene::Light *)ptr)->attenuation,
-                ((scene::Light *)ptr)->outerConeAngle,
-                ((scene::Light *)ptr)->innerConeAngle,
+                (double)glm::degrees(((scene::Light *)ptr)->outerConeAngle),
+                (double)glm::degrees(((scene::Light *)ptr)->innerConeAngle),
                 ((scene::Light *)ptr)->lightType
             );
         } else if (dynamic_cast<scene::Camera *>(ptr) != 0) {
@@ -89,12 +92,15 @@ System::Void SceneRenderer::PropertiesWindow::setActiveObjectIndex(unsigned int 
                                            cameraComponentPtr->getZeroParallax(),
                                            cameraComponentPtr->getEyeSeparation(),
                                            (unsigned int)cameraComponentPtr->projectionType);
-            this->cameraControl->setUpVector(cameraComponentPtr->getVectorUp().x,
-                                             cameraComponentPtr->getVectorUp().y,
-                                             cameraComponentPtr->getVectorUp().z);
+            this->cameraControl->setUpVector(cameraComponentPtr->calculateVectorUp().x,
+                                             cameraComponentPtr->calculateVectorUp().y,
+                                             cameraComponentPtr->calculateVectorUp().z);
         }
     }
 
+    this->lightControl->Enabled  = true;
+    this->cameraControl->Enabled = true;
+    this->meshControl->Enabled   = true;
     this->lightControl->Refresh();
     this->cameraControl->Refresh();
     this->meshControl->Refresh();
@@ -122,6 +128,11 @@ System::Void SceneRenderer::PropertiesWindow::onRotationVectorChanged(System::Ob
         (float)glm::radians(this->trnfrControl->Rotation()->Y()),
         (float)glm::radians(this->trnfrControl->Rotation()->Z())
     );
+
+    if (this->cameraComponentPtr) {
+        glm::vec3 vecUp = cameraComponentPtr->calculateVectorUp();
+        this->cameraControl->setUpVector(vecUp.x, vecUp.y, vecUp.z);
+    }
 }
 
 System::Void SceneRenderer::PropertiesWindow::onScaleVectorChanged(System::Object ^sender, System::EventArgs ^e)
@@ -173,14 +184,16 @@ System::Void SceneRenderer::PropertiesWindow::onLightOuterAngleChanged(System::O
 {
     if (changedActiveIndex || !this->lightComponentPtr) { return; }
 
-    this->lightComponentPtr->outerConeAngle = (float)this->lightControl->outerAngleValue->Value;
+    this->lightComponentPtr->outerConeAngle = (float)glm::radians((float)this->lightControl->outerAngleValue->Value);
+    this->lightComponentPtr->setCosInnerConeAngle(); this->lightComponentPtr->setCosOuterConeAngle();
 }
 
 System::Void SceneRenderer::PropertiesWindow::onLightInnerAngleChanged(System::Object ^sender, System::EventArgs ^e)
 {
     if (changedActiveIndex || !this->lightComponentPtr) { return; }
 
-    this->lightComponentPtr->innerConeAngle = (float)this->lightControl->innerAngleValue->Value;
+    this->lightComponentPtr->innerConeAngle = (float)glm::radians((float)this->lightControl->innerAngleValue->Value);
+    this->lightComponentPtr->setCosInnerConeAngle(); this->lightComponentPtr->setCosOuterConeAngle();
 }
 
 System::Void SceneRenderer::PropertiesWindow::onLightTypeChanged(System::Object ^sender, System::EventArgs ^e)
@@ -210,7 +223,9 @@ System::Void SceneRenderer::PropertiesWindow::onSimplMeshCheckChanged(System::Ob
 
     if (this->meshComponentPtr->isMeshReductionEnabled()) { return; }
 
-    this->meshComponentPtr->enableMeshReduction();
+    if (this->meshControl->meshSimplChecked()) {
+        this->meshComponentPtr->enableMeshReduction();
+    }
 }
 
 System::Void SceneRenderer::PropertiesWindow::onVertexCountNumericChanged(System::Object ^sender, System::EventArgs ^e)
@@ -284,11 +299,4 @@ System::Void SceneRenderer::PropertiesWindow::onZeroParallaxChanged(System::Obje
     if (changedActiveIndex || !this->cameraComponentPtr) { return; }
 
     cameraComponentPtr->setZeroParallax((float)this->cameraControl->zpValue->Value);
-}
-
-System::Void SceneRenderer::PropertiesWindow::onVectorUpChanged(System::Object ^sender, System::EventArgs ^e)
-{
-    if (changedActiveIndex || !this->cameraComponentPtr) { return; }
-
-    cameraComponentPtr->setVectorUp((float)this->cameraControl->upvector->X(), (float)this->cameraControl->upvector->Y(), (float)this->cameraControl->upvector->Z());
 }

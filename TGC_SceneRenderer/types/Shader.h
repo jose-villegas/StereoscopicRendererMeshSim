@@ -1,5 +1,5 @@
 #pragma once
-#include "GL/gl_core_4_4.h"
+#include "../core/Data.h"
 #include <iostream>
 #include <string>
 #include <sstream>
@@ -15,8 +15,6 @@ namespace types {
                 Vertex = GL_VERTEX_SHADER,
                 Fragment = GL_FRAGMENT_SHADER,
                 Geometry = GL_GEOMETRY_SHADER,
-                TesselationControl = GL_TESS_CONTROL_SHADER,
-                TesselationEvaluation = GL_TESS_EVALUATION_SHADER
             };
 
             Shader(const ShaderType &shaderType);

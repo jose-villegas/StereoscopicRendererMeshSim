@@ -8,9 +8,3 @@ BaseObject::BaseObject(void) : objectName("SceneObject"), active(true), transfor
 bases::BaseObject::BaseObject(const std::string &sObjectName) : objectName(sObjectName), active(true), transform(types::Transform())
 {
 }
-
-void bases::BaseObject::render()
-{
-}
-
-

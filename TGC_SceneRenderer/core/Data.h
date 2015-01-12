@@ -1,6 +1,6 @@
 #pragma once
 #include "assimp\material.h"
-#include "..\Types\ShaderProgram.h"
+#include "GL\gl_core_4_4.h"
 
 namespace core {
 
@@ -56,7 +56,7 @@ namespace core {
             class Structures {
                 public:
 
-                    static const int LIGHT_MEMBER_COUNT = 8;
+                    static const int LIGHT_MEMBER_COUNT = 10;
                     static const GLchar *LIGHT_MEMBER_NAMES[];
                     static const int MATERIAL_MEMBER_COUNT = 4;
                     static const GLchar *MATERIAL_MEMBER_NAMES[];
@@ -106,9 +106,7 @@ namespace core {
                     static const char *NAMES[];
                     static const char *DEFAULT_TEX_FILENAME;
             };
-
-            // Attachs predefined uniforms to the shader program
-            static void AddShaderData(types::ShaderProgram *shp);
+            // complete filename location for shaders-data
             static const std::string Filename();
         private:
             static const char *FILENAME;
@@ -125,7 +123,7 @@ namespace core {
             };
 
             static const char *NAMES[];
-            static const std::string Filename(const Shaders &index, const types::Shader::ShaderType &type);
+            static const std::string Filename(const Shaders &index, const unsigned int &type);
         private:
             static const char *FILENAMES[];
     };

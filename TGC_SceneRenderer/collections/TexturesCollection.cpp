@@ -11,7 +11,7 @@ TexturesCollection *TexturesCollection::Instance()
     return instance;
 }
 
-TexturesCollection::TexturesCollection()
+TexturesCollection::TexturesCollection() : preventDuplicates(true)
 {
 }
 
@@ -22,6 +22,16 @@ TexturesCollection::~TexturesCollection()
 
 bool TexturesCollection::addTexture(const std::string &sFilename, const unsigned int texID, types::Texture::TextureType textureType)
 {
+    if (preventDuplicates) {
+        for (auto it = this->textures.begin(); it != this->textures.end(); it++) {
+            if ((*it).second->getFilename() == sFilename) {
+                std::cout << "Textures(" << this << "): " << "File " << std::string(sFilename) << " already loaded, "
+                          << (*it).second->getTextureTypeString() << " texture associated successfully" << std::endl;
+                textures[texID] = (*it).second; return true;
+            }
+        }
+    }
+
     types::Texture *newTex = new types::Texture(sFilename, texID, textureType);
     bool loadingResult = newTex->load();
 
@@ -40,7 +50,7 @@ bool TexturesCollection::addTexture(const std::string &sFilename, const unsigned
 
     // Store new texID and return success
     textures[texID] = newTex;
-    std::cout << "Textures(" << this << "): " << "Texture " << std::string(sFilename) << " loaded successfully" << std::endl;
+    std::cout << "Textures(" << this << "): " << newTex->getTextureTypeString() << " texture " << std::string(sFilename) << " loaded successfully" << std::endl;
     return loadingResult;
 }
 

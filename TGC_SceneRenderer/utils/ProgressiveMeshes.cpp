@@ -439,7 +439,7 @@ void utils::MeshReductor::load(scene::Mesh *baseMesh)
     this->baseMesh = baseMesh;
     originalPolyCount = originalVertexCount = 0;
 
-    for (auto it = baseMesh->meshEntries.begin(); it != baseMesh->meshEntries.end(); ++it) {
+    for (auto it = baseMesh->getMeshEntries().begin(); it != baseMesh->getMeshEntries().end(); ++it) {
         this->reducedMeshEntries.push_back(ProgressiveMesh(*it));
         this->reducedMeshEntries.back().permuteVertices(*it);
         originalVertexCount += this->reducedMeshEntries.back().vertexCount;
@@ -467,10 +467,10 @@ void utils::MeshReductor::reduce(const unsigned int vertexCount)
     float percentilReduction = (float)(originalVertexCount - vertexCount) / originalVertexCount;
 
     for (auto it = this->reducedMeshEntries.begin(); it != this->reducedMeshEntries.end(); ++it, ++meshIndex) {
-        reductionPerMesh = (unsigned int)std::ceil(baseMesh->meshEntries[meshIndex]->vertices.size() * percentilReduction);
+        reductionPerMesh = (unsigned int)std::ceil(baseMesh->getMeshEntries()[meshIndex]->vertices.size() * percentilReduction);
 
         if (reductionTotalAcum <= originalVertexCount - vertexCount) {
-            (*it).reduceAndSetBufferData(baseMesh->meshEntries[meshIndex], baseMesh->meshEntries[meshIndex]->vertices.size() - reductionPerMesh);
+            (*it).reduceAndSetBufferData(baseMesh->getMeshEntries()[meshIndex], baseMesh->getMeshEntries()[meshIndex]->vertices.size() - reductionPerMesh);
         }
 
         reductionTotalAcum += reductionPerMesh;

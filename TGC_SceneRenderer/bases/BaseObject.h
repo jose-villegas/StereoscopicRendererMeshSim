@@ -8,10 +8,12 @@ namespace bases {
             bool active;
             std::string objectName;
             types::Transform transform;
+
             BaseObject(void);
             BaseObject(const std::string &sObjectName);
-            virtual void render();
             virtual ~BaseObject() {};
+
+            virtual void render() {};
     };
 }
 

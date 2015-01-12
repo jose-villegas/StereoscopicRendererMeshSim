@@ -3,6 +3,8 @@
 
 System::Void SceneRenderer::ObjectsWindow::listView1_ItemSelectionChanged(System::Object ^sender, System::Windows::Forms::ListViewItemSelectionChangedEventArgs ^e)
 {
+    ((MainWindow ^)this->InstancedBy)->GetInspectorWindow()->setActiveObjectIndex(-1);
+
     if (e->ItemIndex == selectedIndex) { return; }
 
     selectedIndex = e->ItemIndex;

@@ -5,13 +5,15 @@ const uint MAX_LIGHTS = 32;
 // Shared Structures
 struct Light {
     vec3 position;
-    vec3 direction;       // For Directional and Spot Light
+    vec3 direction;           // For Directional and Spot Light
     vec3 color;
     float intensity;
     float attenuation;
-    float innerConeAngle; // Spot Light
-    float outerConeAngle; // Spot Light
-    uint lightType;	      // Control parameters
+    float innerConeAngle;     // Spot Light
+    float outerConeAngle;     // Spot Light
+    float cosInnerConeAngle;  // Spot Light
+    float cosOuterConeAngle;  // Spot Light
+    uint lightType;	          // Control parameters
 };
 
 struct Material {

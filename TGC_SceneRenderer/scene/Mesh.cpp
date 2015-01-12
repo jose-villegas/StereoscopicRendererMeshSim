@@ -67,6 +67,7 @@ void Mesh::initMesh(unsigned int index, const aiMesh *paiMesh)
     meshEntries[index] = new SubMesh();
     meshEntries[index]->materialIndex = paiMesh->mMaterialIndex;
     const aiVector3D Zero3D(0.0f, 0.0f, 0.0f);
+    aiVector3D maxPos(-std::numeric_limits<float>::infinity()), minPos(std::numeric_limits<float>::infinity());
 
     for (unsigned int i = 0 ; i < paiMesh->mNumVertices ; i++) {
         const aiVector3D *pPos      = &(paiMesh->mVertices[i]);
@@ -82,6 +83,13 @@ void Mesh::initMesh(unsigned int index, const aiMesh *paiMesh)
             glm::vec3(pBitangent->x, pBitangent->y, pBitangent->z)
         );
         meshEntries[index]->vertices.push_back(v);
+        // set center min max pos values
+        pPos->x > maxPos.x ? maxPos.x = pPos->x : maxPos.x = maxPos.x;
+        pPos->y > maxPos.y ? maxPos.y = pPos->y : maxPos.y = maxPos.y;
+        pPos->z > maxPos.z ? maxPos.z = pPos->z : maxPos.z = maxPos.z;
+        pPos->x < minPos.x ? minPos.x = pPos->x : minPos.x = minPos.x;
+        pPos->y < minPos.y ? minPos.y = pPos->y : minPos.y = minPos.y;
+        pPos->z < minPos.z ? minPos.z = pPos->z : minPos.z = minPos.z;
         // total mesh values
         this->vertexCount++;
     }
@@ -109,6 +117,11 @@ void Mesh::initMesh(unsigned int index, const aiMesh *paiMesh)
         polyCount++;
     }
 
+    // setting meshEntry center and min max bounds
+    meshEntries[index]->maxVertex = glm::vec3(maxPos.x, maxPos.y, maxPos.z);
+    meshEntries[index]->minVertex = glm::vec3(minPos.x, minPos.y, minPos.z);
+    meshEntries[index]->centerVertex = glm::vec3((maxPos.x + minPos.x) / 2, (maxPos.y + minPos.y) / 2, (maxPos.z + minPos.z) / 2);
+    // setting meshEntry vertex and index buffer data
     meshEntries[index]->generateBuffers();
     meshEntries[index]->setBuffersData();
 }
@@ -117,7 +130,7 @@ bool Mesh::initMaterials(const aiScene *pScene, const std::string &sFilename)
 {
     // Extract the directory part from the file name
     std::string::size_type slashIndex = sFilename.find_last_of("/");
-    std::string dir;
+    std::string dir, dirPlusSlash;
     std::string slashDir = "/";
     // Try with \ slashes if / didn't work out
 
@@ -136,76 +149,32 @@ bool Mesh::initMaterials(const aiScene *pScene, const std::string &sFilename)
         dir = sFilename.substr(0, slashIndex);
     }
 
+    dirPlusSlash = dir + slashDir;
     bool bRtrn = true;
 
     // Initialize the materials
     for (unsigned int i = 0 ; i < pScene->mNumMaterials ; i++) {
         const aiMaterial *pMaterial = pScene->mMaterials[i];
         types::Material *currentMat = new types::Material();
-        // Get Texture Count
-        int diffuseTextureCount      = pMaterial->GetTextureCount(aiTextureType_DIFFUSE);
-        int specularTextureCount     = pMaterial->GetTextureCount(aiTextureType_SPECULAR);
-        int ambientextureCount       = pMaterial->GetTextureCount(aiTextureType_AMBIENT);
-        int emissiveTextureCount     = pMaterial->GetTextureCount(aiTextureType_EMISSIVE);
-        int heightTextureCount       = pMaterial->GetTextureCount(aiTextureType_HEIGHT);
-        int normalTextureCount       = pMaterial->GetTextureCount(aiTextureType_NORMALS);
-        int shininessTextureCount    = pMaterial->GetTextureCount(aiTextureType_SHININESS);
-        int ocapacityTextureCount    = pMaterial->GetTextureCount(aiTextureType_OPACITY);
-        int displacementTextureCount = pMaterial->GetTextureCount(aiTextureType_DISPLACEMENT);
-        int lightmapTextureCount     = pMaterial->GetTextureCount(aiTextureType_LIGHTMAP);
-        int reflectionTextureCount   = pMaterial->GetTextureCount(aiTextureType_REFLECTION);
-
-        for (int tIndex = 0; tIndex < diffuseTextureCount; tIndex++) {
-            aiString textureFilename;
-
-            if (pMaterial->GetTexture(aiTextureType_DIFFUSE, tIndex, &textureFilename) == AI_SUCCESS) {
-                std::string fullPath = dir + slashDir + textureFilename.data;
-
-                if (!texCollection->addTexture(fullPath, texCollection->textureCount(), types::Texture::Diffuse)) {
-                    bRtrn = false;
-                    currentMat->addTexture(texCollection->getDefaultTexture());
-                } else {
-                    currentMat->addTexture(texCollection->getTexture(texCollection->textureCount() - 1));
-                }
-            }
-        }
-
-        for (int tIndex = 0; tIndex < heightTextureCount; tIndex++) {
-            aiString textureFilename;
-
-            if (pMaterial->GetTexture(aiTextureType_HEIGHT, tIndex, &textureFilename) == AI_SUCCESS) {
-                std::string fullPath = dir + slashDir + textureFilename.data;
-
-                if (!texCollection->addTexture(fullPath, texCollection->textureCount(), types::Texture::Height)) {
-                    bRtrn = false;
-                    currentMat->addTexture(texCollection->getDefaultTexture());
-                } else {
-                    currentMat->addTexture(texCollection->getTexture(texCollection->textureCount() - 1));
-                }
-            }
-        }
-
-        for (int tIndex = 0; tIndex < normalTextureCount; tIndex++) {
-            aiString textureFilename;
-
-            if (pMaterial->GetTexture(aiTextureType_NORMALS, tIndex, &textureFilename) == AI_SUCCESS) {
-                std::string fullPath = dir + slashDir + textureFilename.data;
-
-                if (!texCollection->addTexture(fullPath, texCollection->textureCount(), types::Texture::Normals)) {
-                    bRtrn = false;
-                    currentMat->addTexture(texCollection->getDefaultTexture());
-                } else {
-                    currentMat->addTexture(texCollection->getTexture(texCollection->textureCount() - 1));
-                }
-            }
-        }
+        // load all mesh associated textures
+        bRtrn = loadMeshTexture(pMaterial, types::Texture::TextureType::Diffuse, dirPlusSlash, currentMat);
+        bRtrn = loadMeshTexture(pMaterial, types::Texture::TextureType::Specular, dirPlusSlash, currentMat);
+        bRtrn = loadMeshTexture(pMaterial, types::Texture::TextureType::Ambient, dirPlusSlash, currentMat);
+        bRtrn = loadMeshTexture(pMaterial, types::Texture::TextureType::Emissive, dirPlusSlash, currentMat);
+        bRtrn = loadMeshTexture(pMaterial, types::Texture::TextureType::Height, dirPlusSlash, currentMat);
+        bRtrn = loadMeshTexture(pMaterial, types::Texture::TextureType::Normals, dirPlusSlash, currentMat);
+        bRtrn = loadMeshTexture(pMaterial, types::Texture::TextureType::Shininess, dirPlusSlash, currentMat);
+        bRtrn = loadMeshTexture(pMaterial, types::Texture::TextureType::Ocapacity, dirPlusSlash, currentMat);
+        bRtrn = loadMeshTexture(pMaterial, types::Texture::TextureType::Displacement, dirPlusSlash, currentMat);
+        bRtrn = loadMeshTexture(pMaterial, types::Texture::TextureType::Lightmap, dirPlusSlash, currentMat);
+        bRtrn = loadMeshTexture(pMaterial, types::Texture::TextureType::Reflection, dirPlusSlash, currentMat);
 
         if (currentMat->textureCount() == 0) { currentMat->addTexture(texCollection->getDefaultTexture()); }
 
         // default material properties
-        aiColor4D ambient(0.1f, 0.1f, 0.1f, 0.1f);
-        aiColor4D diffuse(0.0f, 0.0f, 0.0f, 0.0f);
-        aiColor4D specular(0.0f, 0.0f, 0.0f, 0.0f);
+        aiColor4D ambient(0.1f);
+        aiColor4D diffuse(0.5f);
+        aiColor4D specular(0.5f);
         // Assume diffuse highlights as default
         int shadingModel = core::StoredShaders::Diffuse;
         float shininess = 16.0f;
@@ -346,4 +315,26 @@ void scene::Mesh::enableMeshReduction()
     this->meshReductor = new utils::MeshReductor();
     meshReductor->load(this);
     this->meshReductionEnabled = true;
+}
+
+bool scene::Mesh::loadMeshTexture(const aiMaterial *pMaterial, types::Texture::TextureType textureType, std::string dirPlusSlash, types::Material *currentMat)
+{
+    int diffuseTextureCount = pMaterial->GetTextureCount((aiTextureType)textureType);
+    bool bRtrn = true;
+
+    for (int tIndex = 0; tIndex < diffuseTextureCount; tIndex++) {
+        aiString textureFilename;
+
+        if (pMaterial->GetTexture((aiTextureType)textureType, tIndex, &textureFilename) == AI_SUCCESS) {
+            std::string fullPath = dirPlusSlash + textureFilename.data;
+
+            if (!texCollection->addTexture(fullPath, texCollection->textureCount(), textureType)) {
+                currentMat->addTexture(texCollection->getDefaultTexture()); bRtrn = false;
+            } else {
+                currentMat->addTexture(texCollection->getTexture(texCollection->textureCount() - 1));
+            }
+        }
+    }
+
+    return bRtrn;
 }

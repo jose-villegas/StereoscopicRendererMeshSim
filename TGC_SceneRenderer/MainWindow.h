@@ -78,14 +78,6 @@ namespace SceneRenderer {
             /// <summary>
             /// Required designer variable.
             /// </summary>
-
-
-
-
-
-
-
-
         private: System::Windows::Forms::ToolStripMenuItem   ^editToolStripMenuItem;
         private: System::Windows::Forms::ToolStripMenuItem   ^modelsToolStripMenuItem;
         private: System::Windows::Forms::ToolStripMenuItem   ^sceneObjectToolStripMenuItem;

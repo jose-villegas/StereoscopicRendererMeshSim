@@ -154,6 +154,7 @@
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</CompileAsManaged>
     </ClCompile>
     <ClCompile Include="Context\LibInfo.cpp" />
+    <ClCompile Include="include\GL\gl_core_4_4.c" />
     <ClCompile Include="utils\ProgressiveMeshes.cpp">
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</CompileAsManaged>
@@ -162,7 +163,6 @@
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</CompileAsManaged>
     </ClCompile>
-    <ClCompile Include="include\GL\gl_core_4_4.c" />
     <ClCompile Include="Collections\stored\StoredShaders.cpp">
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</CompileAsManaged>
@@ -260,11 +260,11 @@
     <ClInclude Include="collections\CamerasCollection.h" />
     <ClInclude Include="core\Data.h" />
     <ClInclude Include="Context\LibInfo.h" />
+    <ClInclude Include="include\GL\gl_core_4_4.h" />
+    <ClInclude Include="include\GL\wglext.h" />
     <ClInclude Include="utils\ProgressiveMeshes.h" />
     <ClInclude Include="types\Face.h" />
     <ClInclude Include="include\FreeImage\FreeImage.h" />
-    <ClInclude Include="include\GL\gl_core_4_4.h" />
-    <ClInclude Include="include\GL\wglext.h" />
     <ClInclude Include="Collections\stored\StoredShaders.h" />
     <ClInclude Include="core\Matrices.h" />
     <ClInclude Include="bases\ShaderLinks.h" />
@@ -322,8 +322,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="resources\Shaders\bumped_diffuse.frag" />
-    <None Include="resources\Shaders\bumped_diffuse.vert" />
     <None Include="Resources\Shaders\diffuse.vert" />
     <None Include="Resources\Shaders\diffuse.frag" />
     <None Include="resources\shaders\shared_data.glsl" />

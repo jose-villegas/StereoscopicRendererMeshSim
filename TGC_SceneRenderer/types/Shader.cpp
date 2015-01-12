@@ -40,7 +40,7 @@ bool types::Shader::loadFromString(std::string &sSource, const std::string &toke
 
     // Insert after token
     sSource.insert(glslTokenIndex + token.size(), data);
-    std::cout << "Shader(" << this << "): " << getShaderTypeString() << " data modified \n " << data << "\ninserted at token " << token << std::endl;
+    std::cout << "Shader(" << this << "): " << getShaderTypeString() << " data modified, raw string inserted at token " << token << std::endl;
     // Load normally
     return loadFromString(sSource);
 }
@@ -136,14 +136,6 @@ std::string types::Shader::getShaderTypeString()
 
         case types::Shader::Geometry:
             return "Geometry shader";
-            break;
-
-        case types::Shader::TesselationControl:
-            return "Tesselation control shader";
-            break;
-
-        case types::Shader::TesselationEvaluation:
-            return "Tesselation evaluation shader";
             break;
 
         default:
