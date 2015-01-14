@@ -17,19 +17,31 @@ namespace types {
                 Height       = aiTextureType_HEIGHT,
                 Normals      = aiTextureType_NORMALS,
                 Shininess    = aiTextureType_SHININESS,
-                Ocapacity    = aiTextureType_OPACITY,
+                Opacity      = aiTextureType_OPACITY,
                 Displacement = aiTextureType_DISPLACEMENT,
                 Lightmap     = aiTextureType_LIGHTMAP,
                 Reflection   = aiTextureType_REFLECTION
             };
 
+            enum TextureFilteringMode {
+                Nearest              = GL_NEAREST,
+                Linear               = GL_LINEAR,
+                NearestMipmapNearest = GL_LINEAR_MIPMAP_NEAREST,
+                LinearMipmapNearest  = GL_LINEAR_MIPMAP_NEAREST,
+                NearestMipmapLinear  = GL_NEAREST_MIPMAP_LINEAR,
+                LinearMipmapLinear   = GL_LINEAR_MIPMAP_LINEAR,
+            };
+
             Texture(const std::string &sFilename, const unsigned int &texId, const TextureType &tType);
             Texture(const unsigned int &texId, const TextureType &tType);
             ~Texture();
+            // binds the texture to appropiate texture type
+            // meaning GL_TEXTURE0 + textureType const int
             void bind() const;
             bool load();
             bool load(const std::string &sFilename);
             void unload() const;
+            void setFilteringMode(const TextureFilteringMode min, const TextureFilteringMode mag);
 
             unsigned int getWidth()    const { return this->width;   };
             unsigned int getHeight()   const { return this->height;  };
@@ -45,13 +57,26 @@ namespace types {
                 return lhs.textureType > rhs.textureType;
             }
 
+            static void setAnisotropicFilteringLevel(const float level);
+
         private:
+            static bool evaluateAnisoLevel(const float level);
+
+            TextureType textureType;
+
+            TextureFilteringMode magFilteringMode;
+            TextureFilteringMode minFilteringMode;
+
+            // aniso level shared between all textures, 0 = disabled
+            static float anisotropicFilteringLevel;
+
             unsigned int width;
             unsigned int height;
             unsigned int bitsPerPixel;
             unsigned int oglTexId;
             unsigned int texId;
-            TextureType textureType;
+            bool generateMipmaps;
+
             std::string sFilename;
     };
 }

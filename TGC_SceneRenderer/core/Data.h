@@ -2,6 +2,9 @@
 #include "assimp\material.h"
 #include "GL\gl_core_4_4.h"
 
+#define TEXTURE_MAX_ANISOTROPY_EXT     0x84FE
+#define MAX_TEXTURE_MAX_ANISOTROPY_EXT 0x84FF
+
 namespace core {
 
     class Data {
@@ -24,15 +27,24 @@ namespace core {
 
     class EngineData {
 
+        private:
+
+            static bool anisotropicFilteringAvailable;
+            static GLfloat maxAnisotropicFiltering;
             friend void core::Data::Initialize();
 
         public:
+
+            static bool AnisotropicFilteringAvaible() { return anisotropicFilteringAvailable; }
+            static float MaxAnisotropicFilteringAvaible() { return (float)maxAnisotropicFiltering; }
+
             class Commoms {
                 public:
                     static const int DEFAULT_TEXTURE_ID = 0;
                     static const int INVALID_MATERIAL = -1;
                     static const int INVALID_VALUE = -1;
             };
+
             // Engine / Shaders Constrains
             class Constrains {
                 public:
@@ -72,8 +84,8 @@ namespace core {
             class UniformBlocks {
                 public:
                     // SharedLight Uniform Block Info
-                    static const int SHAREDLIGHTS_MEMBER_COUNT = 2;
-                    static const int SHAREDLIGHTS_COMPLETE_COUNT = EngineData::Constrains::MAX_LIGHTS * Structures::LIGHT_MEMBER_COUNT + 1;
+                    static const int SHAREDLIGHTS_MEMBER_COUNT = 3;
+                    static const int SHAREDLIGHTS_COMPLETE_COUNT = EngineData::Constrains::MAX_LIGHTS * Structures::LIGHT_MEMBER_COUNT + SHAREDLIGHTS_MEMBER_COUNT - 1;
                     static const GLchar *SHAREDLIGHTS_MEMBER_NAMES[];
                     static GLchar *SHAREDLIGHTS_COMPLETE_NAMES[SHAREDLIGHTS_COMPLETE_COUNT]; // Inialize() ShadersData for non-const members
                     static const char *SHAREDLIGHTS_NAME;
@@ -100,13 +112,14 @@ namespace core {
                         Ocapacity    = aiTextureType_OPACITY,
                         Displacement = aiTextureType_DISPLACEMENT,
                         Lightmap     = aiTextureType_LIGHTMAP,
-                        Reflection   = aiTextureType_REFLECTION
+                        Reflection   = aiTextureType_REFLECTION,
+                        Count		 = 12
                     };
                     // Ordered by TextureType
                     static const char *NAMES[];
                     static const char *DEFAULT_TEX_FILENAME;
             };
-            // complete filename location for shaders-data
+            // complete filename location for shared_data.glsl file string
             static const std::string Filename();
         private:
             static const char *FILENAME;
@@ -119,6 +132,13 @@ namespace core {
         public:
             enum Shaders {
                 Diffuse,
+                Specular,
+                OpacityDiffuse,
+                OpacitySpecular,
+                BumpedDiffuse,
+                BumpedSpecular,
+                BumpedOpacityDiffuse,
+                BumpedOpacitySpecular,
                 Count // not a shader, represents the number of available shaders
             };
 

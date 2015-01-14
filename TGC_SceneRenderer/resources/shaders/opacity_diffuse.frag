@@ -6,6 +6,7 @@ in vec3 normal;
 in vec3 position;
 // Uniforms
 uniform sampler2D diffuseMap;
+uniform sampler2D opacityMap;
 // Output fragment data
 layout (location = 0) out vec4 fragColor;
 
@@ -108,10 +109,11 @@ void main()
 {
 	// obtain texture color at current position
 	vec4 diffuseColor = texture(diffuseMap, texCoord);
+    vec4 opacityValue = texture(opacityMap, texCoord);
 	// calculate phong shading
 	vec3 accumColor = phong(position, normal, diffuseColor.rgb);
 	// correct gama values
 	accumColor = gamma_correction(accumColor);
 	// output fragment color
-	fragColor = vec4(accumColor, 1.f);
+	fragColor = vec4(accumColor, opacityValue.r);
 }

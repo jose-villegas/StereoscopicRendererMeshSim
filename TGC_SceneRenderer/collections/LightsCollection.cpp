@@ -43,7 +43,9 @@ void collections::LightsCollection::setUniformBlock()
         memcpy(this->uniformBlockInfo->dataPointer + this->uniformBlockInfo->offset[9 + line], &lights[i]->lightType, sizeof(int));
     }
 
-    memcpy(this->uniformBlockInfo->dataPointer + this->uniformBlockInfo->offset[core::ShadersData::UniformBlocks::SHAREDLIGHTS_COMPLETE_COUNT - 1], &lightCount, sizeof(unsigned int));
+    int sharedLightsCompleteCount = core::ShadersData::UniformBlocks::SHAREDLIGHTS_COMPLETE_COUNT;
+    memcpy(this->uniformBlockInfo->dataPointer + this->uniformBlockInfo->offset[sharedLightsCompleteCount - 2], glm::value_ptr(scene::Light::ambientLight), sizeof(glm::vec3));
+    memcpy(this->uniformBlockInfo->dataPointer + this->uniformBlockInfo->offset[sharedLightsCompleteCount - 1], &lightCount, sizeof(unsigned int));
     updateUniformBufferData();
 }
 

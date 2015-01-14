@@ -274,5 +274,29 @@
     <None Include="Resources\Shaders\diffuse.frag" />
     <None Include="Resources\Shaders\diffuse.vert" />
     <None Include="resources\shaders\shared_data.glsl" />
+    <None Include="resources\shaders\bumped_diffuse.frag" />
+    <None Include="resources\shaders\bumped_diffuse.vert" />
+    <None Include="resources\shaders\bumped_opacity_diffuse.frag" />
+    <None Include="resources\shaders\bumped_opacity_diffuse.vert" />
+    <None Include="resources\shaders\bumped_opacity_specular.frag" />
+    <None Include="resources\shaders\bumped_opacity_specular.vert" />
+    <None Include="resources\shaders\bumped_specular.frag" />
+    <None Include="resources\shaders\bumped_specular.vert" />
+    <None Include="resources\shaders\opacity_diffuse.frag" />
+    <None Include="resources\shaders\opacity_diffuse.vert" />
+    <None Include="resources\shaders\opacity_specular.frag" />
+    <None Include="resources\shaders\opacity_specular.vert" />
+    <None Include="resources\shaders\specular.frag" />
+    <None Include="resources\shaders\specular.vert" />
+    <None Include="resources\models\cube\cube.mtl" />
+    <None Include="resources\models\cylinder\cylinder.mtl" />
+    <None Include="resources\models\sphere\sphere.mtl" />
+    <None Include="resources\models\torus\torus.mtl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Object Include="resources\models\cube\cube.obj" />
+    <Object Include="resources\models\cylinder\cylinder.obj" />
+    <Object Include="resources\models\sphere\sphere.obj" />
+    <Object Include="resources\models\torus\torus.obj" />
   </ItemGroup>
 </Project>

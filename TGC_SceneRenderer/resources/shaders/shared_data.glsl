@@ -1,4 +1,6 @@
 
+// utiliti constants
+const float PI = 3.14159f;
 // Rendering Constrains
 const uint MAX_LIGHTS = 32;
 
@@ -24,11 +26,6 @@ struct Material {
 };
 
 // Shared Uniform Blocks
-layout ( std140 ) uniform sharedLights {
-    Light source[MAX_LIGHTS];
-    uint count;
-} light;
-
 layout ( std140 ) uniform sharedMatrices {
     mat4 modelViewProjection;
     mat4 modelView;
@@ -38,6 +35,12 @@ layout ( std140 ) uniform sharedMatrices {
     mat4 normal;
 } matrix;
 
+layout ( std140 ) uniform sharedLights {
+    Light source[MAX_LIGHTS];
+    vec3 ambientLight;
+    uint count;
+} light;
+
 // Common Uniforms Variables
 uniform Material material;
 
@@ -45,3 +48,9 @@ uniform Material material;
 const uint LIGHT_POINT       = 0;
 const uint LIGHT_SPOT        = 1;
 const uint LIGHT_DIRECTIONAL = 2;
+
+// commom functions
+vec3 gamma_correction(vec3 color)
+{
+    return pow(color, vec3(1.0f / 2.2f));
+}

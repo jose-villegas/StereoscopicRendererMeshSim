@@ -322,9 +322,41 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="resources\models\cube\cube.mtl" />
+    <None Include="resources\models\cylinder\cylinder.mtl" />
+    <None Include="resources\models\sphere\sphere.mtl" />
+    <None Include="resources\models\torus\torus.mtl" />
+    <None Include="resources\shaders\bumped_diffuse.frag" />
+    <None Include="resources\shaders\bumped_diffuse.vert" />
+    <None Include="resources\shaders\bumped_opacity_diffuse.frag" />
+    <None Include="resources\shaders\bumped_opacity_diffuse.vert" />
+    <None Include="resources\shaders\bumped_opacity_specular.frag" />
+    <None Include="resources\shaders\bumped_opacity_specular.vert" />
+    <None Include="resources\shaders\bumped_specular.frag" />
+    <None Include="resources\shaders\bumped_specular.vert" />
     <None Include="Resources\Shaders\diffuse.vert" />
     <None Include="Resources\Shaders\diffuse.frag" />
+    <None Include="resources\shaders\opacity_diffuse.frag" />
+    <None Include="resources\shaders\opacity_diffuse.vert" />
+    <None Include="resources\shaders\opacity_specular.frag" />
+    <None Include="resources\shaders\opacity_specular.vert" />
     <None Include="resources\shaders\shared_data.glsl" />
+    <None Include="resources\shaders\specular.frag" />
+    <None Include="resources\shaders\specular.vert" />
+  </ItemGroup>
+  <ItemGroup>
+    <Object Include="resources\models\cube\cube.obj">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </Object>
+    <Object Include="resources\models\cylinder\cylinder.obj">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </Object>
+    <Object Include="resources\models\sphere\sphere.obj">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </Object>
+    <Object Include="resources\models\torus\torus.obj">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </Object>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

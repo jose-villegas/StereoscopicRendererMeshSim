@@ -7,7 +7,11 @@ Material::Material(void)
 {
     ambient = diffuse = specular = glm::vec3(0.5f);
     this->shininess = 16.0f;
+    this->emission = glm::vec3(0.5);
     this->matShader = nullptr;
+    this->hasTextureType = this->shaderTextures = std::vector<bool>(core::ShadersData::Samplers2D::Count);
+    std::fill(this->hasTextureType.begin(), this->hasTextureType.end(), false);
+    std::fill(this->shaderTextures.begin(), this->shaderTextures.end(), false);
 
     // resize ShaderLink data vector for this structure
     for (int i = 0; i < core::ShadersData::Structures::MATERIAL_MEMBER_COUNT; i++) {
@@ -22,6 +26,7 @@ void types::Material::addTexture(Texture *tex)
     if (!tex) { return; }
 
     this->textures.insert(tex);
+    this->hasTextureType[(int)tex->getType()] = true;
 }
 
 void types::Material::addTexture(Texture *tex[], const unsigned int texCount)
@@ -29,6 +34,8 @@ void types::Material::addTexture(Texture *tex[], const unsigned int texCount)
     if (texCount == 0) { return; }
 
     this->textures.insert(tex, tex + texCount);
+
+    for (unsigned int i = 0; i < texCount; i++) { this->hasTextureType[(int)tex[i]->getType()] = true; }
 }
 
 void types::Material::setShaderProgram(ShaderProgram *shp)
@@ -84,7 +91,30 @@ void types::Material::bindTextures() const
 
 void types::Material::guessMaterialShader()
 {
-    setShaderProgram(collections::stored::StoredShaders::getDefaultShader("Diffuse"));
+    // reset shaderprogram associated texture uniforms
+    std::fill(this->shaderTextures.begin(), this->shaderTextures.end(), false);
+    // default shader program
+    types::ShaderProgram *defShader = collections::stored::StoredShaders::getStoredShader(core::StoredShaders::Diffuse);
+    this->shaderTextures[types::Texture::Diffuse] = true;
+
+    // guess by stored material textures
+
+    if (hasTextureType[types::Texture::Specular]) {
+        defShader = collections::stored::StoredShaders::getStoredShader(core::StoredShaders::Specular);
+        this->shaderTextures[types::Texture::Specular] = true;
+    }
+
+    if (hasTextureType[types::Texture::Normals]) {
+        defShader = collections::stored::StoredShaders::getStoredShader(core::StoredShaders::BumpedDiffuse);
+        this->shaderTextures[types::Texture::Normals] = true;
+
+        if (hasTextureType[types::Texture::Specular]) {
+            defShader = collections::stored::StoredShaders::getStoredShader(core::StoredShaders::BumpedSpecular);
+            this->shaderTextures[types::Texture::Specular] = true;
+        }
+    }
+
+    setShaderProgram(defShader);
 }
 
 void types::Material::setTexturesUniforms()
@@ -94,26 +124,48 @@ void types::Material::setTexturesUniforms()
 
 void types::Material::setTexturesUniforms(types::ShaderProgram *shp)
 {
-    for (auto it = this->textures.rbegin(); it != this->textures.rend(); it++) {
-        // Obtain texID and textype to query data info
-        unsigned int texID = ((Texture *)*it)->geTexId();
+    for (auto it = this->textures.begin(); it != this->textures.end(); it++) {
+        // Obtain textype to query data info
         unsigned int texType = ((Texture *)*it)->getType();
-        // bind texture
-        ((Texture *)*it)->bind();
-        // Set to the texture map shader the current texture assigned ID
-        shp->setUniform(core::ShadersData::Samplers2D::NAMES[texType], texID);
+
+        // only bind textures bound to the shader
+        if (this->shaderTextures[texType]) {
+            // bind texture
+            ((Texture *)*it)->bind();
+            // Set to the texture map shader the current texture assigned ID
+            shp->setUniform(core::ShadersData::Samplers2D::NAMES[texType], (int)texType);
+        }
     }
 }
 
 void types::Material::useMaterialShader()
 {
-    this->matShader->disable();
     this->matShader->use();
 }
 
 types::Material::~Material(void)
 {
-    for (auto it = this->textures.rbegin(); it != this->textures.rend(); it++) {
-        collections::TexturesCollection::Instance()->unloadTexture((*it)->geTexId());
+    auto it = this->textures.begin();
+
+    while (!this->textures.empty()) {
+        collections::TexturesCollection::Instance()->unloadTexture((*it)->geTexId()) ? delete *it : 0;
+        this->textures.erase(it++);
     }
+}
+
+void types::Material::loadMaterialValues(const aiMaterial *aiMat)
+{
+    aiColor4D tmpAmb(0.1f), tmpDiff(0.5f), tmpSpc(0.5f), tmpEmm(0.5);
+    // query assimp material properties
+    aiGetMaterialColor(aiMat, AI_MATKEY_COLOR_AMBIENT, &tmpAmb);
+    aiGetMaterialColor(aiMat, AI_MATKEY_COLOR_DIFFUSE, &tmpDiff);
+    aiGetMaterialColor(aiMat, AI_MATKEY_COLOR_SPECULAR, &tmpSpc);
+    aiGetMaterialColor(aiMat, AI_MATKEY_COLOR_EMISSIVE, &tmpEmm);
+    aiGetMaterialFloat(aiMat, AI_MATKEY_SHININESS, &shininess);
+    aiGetMaterialInteger(aiMat, AI_MATKEY_SHADING_MODEL, &shadingModel);
+    // Save properties to current material
+    this->ambient = glm::vec3(tmpAmb.r, tmpAmb.g, tmpAmb.b);
+    this->diffuse = glm::vec3(tmpDiff.r, tmpDiff.g, tmpDiff.b);
+    this->specular = glm::vec3(tmpSpc.r, tmpSpc.g, tmpSpc.b);
+    this->emission = glm::vec3(tmpEmm.r, tmpEmm.g, tmpEmm.b);
 }

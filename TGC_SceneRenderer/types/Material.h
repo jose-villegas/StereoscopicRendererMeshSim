@@ -14,6 +14,8 @@ namespace types {
             };
             // Ordered Textures by type check Texture.h
             std::set<Texture *, TexturePtrComp> textures;
+            std::vector<bool> shaderTextures;
+            std::vector<bool> hasTextureType;
             ShaderProgram *matShader;
             Material(const Material &mat);
 
@@ -23,14 +25,13 @@ namespace types {
             glm::vec3 ambient;
             glm::vec3 diffuse;
             glm::vec3 specular;
+            glm::vec3 emission;
+            int shadingModel;
             float shininess;
-
-            /*
-             * Assigns a guessed ShaderProgram from the stored shaders
-             * based on the stored textures and their type for example
-             * a material with diffuse and normal maps would be assigned
-             * a BumpedDiffuse ShaderProgram
-             */
+            // Assigns a guessed ShaderProgram from the stored shaders
+            // based on the stored textures and their type, for example
+            // a material with diffuse and normal maps would be assigned
+            // a BumpedDiffuse ShaderProgram
             void guessMaterialShader();
             // Adds textures, either a single texture or many textures pass in an array
             void addTexture(Texture *tex);
@@ -51,6 +52,9 @@ namespace types {
             // sets the shaderprogram uniform data and
             // sets the stored textures uniforms
             void setUniforms();
+            // uses assimp pMaterial structure to load relevant
+            // parameters data
+            void loadMaterialValues(const aiMaterial *aiMat);
 
             unsigned int textureCount() const { return textures.size(); };
     };

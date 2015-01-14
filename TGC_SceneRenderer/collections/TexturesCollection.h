@@ -16,9 +16,7 @@ namespace collections {
             // creates Unique Static Instance
             static TexturesCollection *Instance();
             // loads a new texture
-            bool addTexture(const std::string &sFilename, const unsigned int texID, types::Texture::TextureType textureType);
-            // loads a new texture with unique texID (slower)
-            bool addTexture(const std::string &sFilename, types::Texture::TextureType textureType);
+            types::Texture *addTexture(const std::string &sFilename, types::Texture::TextureType textureType);
             // frees memory reserved for texID texture
             bool unloadTexture(const unsigned int &texID);
             // sets texID texture as the current active texture
@@ -37,6 +35,7 @@ namespace collections {
 
             bool preventDuplicates;
             static TexturesCollection *instance;
+            static int count;
             // Texture Collection
             std::map<unsigned int, types::Texture *> textures;
     };

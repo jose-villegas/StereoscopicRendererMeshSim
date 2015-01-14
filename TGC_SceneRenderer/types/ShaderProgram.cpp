@@ -110,15 +110,15 @@ GLuint types::ShaderProgram::addUniform(const std::string &sUniformName)
 unsigned int types::ShaderProgram::addUniformBlock(const std::string &sUniformBlockName, const unsigned int &bindingPoint)
 {
     auto it  = this->uniformBlocks.find(sUniformBlockName);
+    // Query block index
+    GLuint blockIndex = glGetUniformBlockIndex(this->programID, sUniformBlockName.c_str());
 
     // There is a uniform block with this name already saved
     if (it != this->uniformBlocks.end()) {
-        std::cout << "ShaderProgram(" << this << "): " << "There is a uniform block with name (" << sUniformBlockName << ") already saved " << std::endl;
-        return -1;
+        std::cout << "ShaderProgram(" << this << "): " << "There is a uniform block with name (" << sUniformBlockName << ") already saved, trying binding to programID..." << std::endl;
+        // we still trying to bind the uniform block to this shaderprogram since the blockIndex can change between shaderprograms
+        glUniformBlockBinding(this->programID, blockIndex, bindingPoint); return true;
     }
-
-    // Query block index
-    GLuint blockIndex = glGetUniformBlockIndex(this->programID, sUniformBlockName.c_str());
 
     // No uniform with this name
     if (blockIndex == GL_INVALID_INDEX) {

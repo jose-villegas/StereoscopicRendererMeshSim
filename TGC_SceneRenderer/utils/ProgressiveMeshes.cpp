@@ -22,7 +22,10 @@ bool utils::ProgressiveMesh::Face::replaceVertex(std::unordered_map<unsigned int
 
     // erase in the old vertex this face association
     it = oldVertex->faces.erase(oldVertex->faces.find(this->mappingId));
+
     // add to the new vertex this face as an associate
+    if (newVertex->faces.find(this->mappingId) != newVertex->faces.end()) { return false; }
+
     newVertex->faces[this->mappingId] = this;
     // remove non-neighbors
     std::for_each(this->vertices.begin(), this->vertices.end(), [oldVertex](Vertex * vertex) {
@@ -36,8 +39,9 @@ bool utils::ProgressiveMesh::Face::replaceVertex(std::unordered_map<unsigned int
 
         for (unsigned int j = 0; j < 3; j++) {
             if (j != i) {
-                //if (this->vertices[i]->neightbors.find(this->vertices[j]->mappingId) == this->vertices[i]->neightbors.end())
-                this->vertices[i]->neightbors[this->vertices[j]->mappingId] = this->vertices[j];
+                if (this->vertices[i]->neightbors.find(this->vertices[j]->mappingId) == this->vertices[i]->neightbors.end()) {
+                    this->vertices[i]->neightbors[this->vertices[j]->mappingId] = this->vertices[j];
+                }
             }
         }
     }

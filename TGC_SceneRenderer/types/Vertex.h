@@ -21,6 +21,8 @@ namespace types {
             Vertex(const glm::vec3 &pos, const glm::vec2 &tex, const glm::vec3 &normal, const glm::vec3 &tangent, glm::vec3 bitangent);
             Vertex();
             ~Vertex() {};
+
+            void orthogonalize();
     };
 }
 

@@ -46,15 +46,15 @@ void core::Renderer::setup()
     // Initialize Engine Data
     core::Data::Initialize();
     // Setup OpenGL Flags
-    glCullFace(GL_BACK);
-    glEnable(GL_CULL_FACE);
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LEQUAL);
-    glDisable(GL_TEXTURE);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    types::Texture::setAnisotropicFilteringLevel(core::EngineData::MaxAnisotropicFilteringAvaible());
     // Load member classes
     this->matrices = new Matrices();
     // Get a default stored shader
-    types::ShaderProgram *shProgram = collections::stored::StoredShaders::getDefaultShader(core::StoredShaders::Diffuse);
+    types::ShaderProgram *shProgram = collections::stored::StoredShaders::getStoredShader(core::StoredShaders::Diffuse);
     // Initial camera setup
     this->activeCamera = this->sceneObjects->addCamera();
     this->activeCamera->base->transform.position.z += 5;

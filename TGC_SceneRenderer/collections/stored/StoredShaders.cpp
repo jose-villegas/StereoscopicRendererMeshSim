@@ -4,33 +4,44 @@ using namespace collections::stored;
 void collections::stored::StoredShaders::LoadShaders()
 {
     shaders.resize(core::StoredShaders::Shaders::Count);
-    // Creating diffuse shader program
-    types::ShaderProgram *shp = new types::ShaderProgram();
-    types::Shader *vert = new types::Shader(types::Shader::Vertex);
-    types::Shader *frag = new types::Shader(types::Shader::Fragment);
+    // shared_data.glsl raw string to be added to include token
     std::string shared_data = types::Shader::fileToString(core::ShadersData::Filename());
-    vert->loadFromFile(core::StoredShaders::Filename(core::StoredShaders::Diffuse, types::Shader::Vertex), "--include shared_data.glsl", shared_data);
-    frag->loadFromFile(core::StoredShaders::Filename(core::StoredShaders::Diffuse, types::Shader::Fragment), "--include shared_data.glsl", shared_data);
-    vert->compile();
-    frag->compile();
-    shp->attachShader(vert);
-    shp->attachShader(frag);
-    shp->link();
-    // Control Vars
-    AddShaderData(shp);
-    // Texture Maps
-    shp->addUniform("diffuseMap");
-    shaders[core::StoredShaders::Shaders::Diffuse] = shp;
+
+    for (int i = 0; i < core::StoredShaders::Count; i++) {
+        // reserve for new shader program
+        types::ShaderProgram *shp = new types::ShaderProgram();
+        // reserve new shaders
+        types::Shader *vert = new types::Shader(types::Shader::Vertex);
+        types::Shader *frag = new types::Shader(types::Shader::Fragment);
+        // load shaders file to a string and concat shared_data.glsl
+        vert->loadFromFile(core::StoredShaders::Filename((core::StoredShaders::Shaders)i, types::Shader::Vertex), "--include shared_data.glsl", shared_data);
+        frag->loadFromFile(core::StoredShaders::Filename((core::StoredShaders::Shaders)i, types::Shader::Fragment), "--include shared_data.glsl", shared_data);
+        // compile and verify fragment and vertex shaders
+        vert->compile(); frag->compile();
+        // attach to shader program after successful
+        // compilation, link shaders with shader program
+        shp->attachShader(vert); shp->attachShader(frag); shp->link();
+        // add uniform and uniformblock data to shaderprogram
+        AddShaderData(shp);
+
+        // try to associate shaderprogram mapping textures
+        for (int j = 1; j < core::ShadersData::Samplers2D::Count; j++) {
+            shp->addUniform(core::ShadersData::Samplers2D::NAMES[j]);
+        }
+
+        // add shaderprogram to class storage vector
+        shaders[i] = shp;
+    }
 }
 
-types::ShaderProgram *collections::stored::StoredShaders::getDefaultShader(const core::StoredShaders::Shaders &sh)
+types::ShaderProgram *collections::stored::StoredShaders::getStoredShader(const core::StoredShaders::Shaders &sh)
 {
     if (shaders.empty()) { return nullptr; }
 
     return shaders[sh];
 }
 
-types::ShaderProgram *collections::stored::StoredShaders::getDefaultShader(const std::string &shaderName)
+types::ShaderProgram *collections::stored::StoredShaders::getStoredShader(const std::string &shaderName)
 {
     for (int i = 0; i < core::StoredShaders::Count; i++) {
         if (core::StoredShaders::NAMES[i] == shaderName) {

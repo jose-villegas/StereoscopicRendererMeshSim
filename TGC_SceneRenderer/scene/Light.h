@@ -16,9 +16,12 @@ namespace collections {
 
 namespace scene {
 
+
     class Light : public bases::BaseComponent {
 
         public:
+
+            static glm::vec3 ambientLight;
 
             static enum LightType {
                 Point,

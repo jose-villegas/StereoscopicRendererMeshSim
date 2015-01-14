@@ -4,24 +4,28 @@ using namespace types;
 
 types::Texture::Texture(const std::string &sFilename, const unsigned int &texId, const TextureType &tType)
 {
-    this->sFilename     = sFilename;
-    this->texId         = texId;
-    this->textureType   = tType;
-    this->bitsPerPixel  = 0;
-    this->width         = 0;
-    this->height        = 0;
-    this->oglTexId      = -1;
+    this->sFilename        = sFilename;
+    this->texId            = texId;
+    this->textureType      = tType;
+    this->bitsPerPixel     = 0;
+    this->width            = 0;
+    this->height           = 0;
+    this->oglTexId         = -1;
+    this->generateMipmaps  = true;
+    this->minFilteringMode = magFilteringMode = LinearMipmapLinear;
 }
 
 types::Texture::Texture(const unsigned int &texId, const TextureType &tType)
 {
-    this->sFilename     = "Texture";
-    this->texId         = texId;
-    this->textureType   = tType;
-    this->bitsPerPixel  = 0;
-    this->width         = 0;
-    this->height        = 0;
-    this->oglTexId      = -1;
+    this->sFilename        = "Texture";
+    this->texId            = texId;
+    this->textureType      = tType;
+    this->bitsPerPixel     = 0;
+    this->width            = 0;
+    this->height           = 0;
+    this->oglTexId         = -1;
+    this->generateMipmaps  = true;
+    this->minFilteringMode = magFilteringMode = LinearMipmapLinear;
 }
 
 bool types::Texture::load()
@@ -81,8 +85,23 @@ bool types::Texture::load(const std::string &sFilename)
     glBindTexture(GL_TEXTURE_2D, oglTexId);											// bind to the new texture ID
     // store the texture data for OpenGL use
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, imageFormat, GL_UNSIGNED_BYTE, bits);
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    if (this->generateMipmaps) {
+        glGenerateMipmap(GL_TEXTURE_2D);
+        // bilinear or trilinear
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, (GLfloat)this->minFilteringMode);
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, (GLfloat)this->magFilteringMode);
+    } else {
+        // bilinear
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    }
+
+    // anisotropic ( better quality texture filtering if available )
+    if (evaluateAnisoLevel(anisotropicFilteringLevel)) {
+        glTexParameterf(GL_TEXTURE_2D, TEXTURE_MAX_ANISOTROPY_EXT, (GLfloat)anisotropicFilteringLevel);
+    }
+
     glBindTexture(GL_TEXTURE_2D, 0);
     // Free FreeImage's copy of the data
     FreeImage_Unload(dib);
@@ -114,7 +133,7 @@ std::string types::Texture::getTextureTypeString()
 
         case Shininess   : return "Shininess"; break;
 
-        case Ocapacity   : return "Ocapacity"; break;
+        case Opacity   : return "Ocapacity"; break;
 
         case Displacement: return "Displacement"; break;
 
@@ -126,12 +145,32 @@ std::string types::Texture::getTextureTypeString()
     return "";
 }
 
+void types::Texture::setFilteringMode(const TextureFilteringMode min, const TextureFilteringMode mag)
+{
+    this->minFilteringMode = min;
+    this->magFilteringMode = mag;
+}
+
+bool types::Texture::evaluateAnisoLevel(const float level)
+{
+    return core::EngineData::AnisotropicFilteringAvaible() && level > 0 && level <= core::EngineData::MaxAnisotropicFilteringAvaible();
+}
+
+void types::Texture::setAnisotropicFilteringLevel(const float level)
+{
+    if (evaluateAnisoLevel(level)) {
+        anisotropicFilteringLevel = level;
+    }
+}
+
 Texture::~Texture()
 {
 }
 
 void Texture::bind() const
 {
-    glActiveTexture(texId);
+    glActiveTexture(GL_TEXTURE0 + (int)this->textureType);
     glBindTexture(GL_TEXTURE_2D, oglTexId);
 }
+
+float types::Texture::anisotropicFilteringLevel = 0;

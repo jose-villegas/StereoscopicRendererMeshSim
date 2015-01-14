@@ -13,3 +13,14 @@ Vertex::Vertex(const glm::vec3 &pos, const glm::vec2 &tex, const glm::vec3 &norm
 types::Vertex::Vertex()
 {
 }
+
+void types::Vertex::orthogonalize()
+{
+    // Gram-Schmidt orthogonalize
+    tangent = glm::normalize(tangent - normal * glm::dot(normal, tangent));
+
+    // Calculate handedness
+    if (glm::dot(glm::cross(normal, tangent), bitangent) < 0.0f) {
+        tangent = tangent * -1.0f;
+    }
+}

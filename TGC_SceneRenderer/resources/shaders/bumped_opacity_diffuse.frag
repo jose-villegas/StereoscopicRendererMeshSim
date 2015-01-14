@@ -1,11 +1,15 @@
 #version 440 core
 //--include shared_data.glsl
+
 // Input data
 in vec2 texCoord;
 in vec3 normal;
 in vec3 position;
+in mat3 TBN;
 // Uniforms
 uniform sampler2D diffuseMap;
+uniform sampler2D normalsMap;
+uniform sampler2D opacityMap;
 // Output fragment data
 layout (location = 0) out vec4 fragColor;
 
@@ -13,23 +17,23 @@ vec3 phong(vec3 pos, vec3 norm, in vec3 fragDiffuse)
 {
     vec3 normal = normalize(norm);
     vec3 result = material.ambient * fragDiffuse + light.ambientLight;
-    vec3 viewDirection = normalize(-pos);
+    vec3 viewDirection = normalize(TBN * (-pos));
 
     for(uint i = 0; i < light.count; i++) {
-        vec3 lightDirection = normalize(light.source[i].position - pos);
+        vec3 lightDirection = normalize(TBN * (light.source[i].position - pos));
         float attenuationFactor = light.source[i].attenuation;
         // default to no spotlight mode
         float spotLightFactor = 1.0f;
 
         if(light.source[i].lightType == LIGHT_SPOT) {
-        	vec3 spotDirection = normalize(light.source[i].direction);
-        	float cosAngle = dot(-lightDirection, spotDirection);
-        	float cosInnerMinusOuter = light.source[i].cosInnerConeAngle - light.source[i].cosOuterConeAngle;
-        	// final spot light factor smooth translation between outer angle and inner angle
-        	spotLightFactor = clamp((cosAngle - light.source[i].cosOuterConeAngle) / cosInnerMinusOuter, 0.0f, 1.0f);
+            vec3 spotDirection = normalize(TBN * light.source[i].direction);
+            float cosAngle = dot(-lightDirection, spotDirection);
+            float cosInnerMinusOuter = light.source[i].cosInnerConeAngle - light.source[i].cosOuterConeAngle;
+            // final spot light factor smooth translation between outer angle and inner angle
+            spotLightFactor = clamp((cosAngle - light.source[i].cosOuterConeAngle) / cosInnerMinusOuter, 0.0f, 1.0f);
         } else if(light.source[i].lightType == LIGHT_DIRECTIONAL) {
-        	lightDirection = normalize(light.source[i].direction);
-        	attenuationFactor = 0.0f;
+            lightDirection = normalize(TBN * light.source[i].direction);
+            attenuationFactor = 0.0f;
         }
 
         // diffuse
@@ -52,23 +56,23 @@ vec3 oren_nayar(vec3 pos, vec3 norm, in vec3 fragDiffuse, float roughness)
 {
     vec3 normal = normalize(norm);
     vec3 result = material.ambient * fragDiffuse + light.ambientLight;
-    vec3 viewDirection = normalize(-pos);
+    vec3 viewDirection = normalize(TBN * (-pos));
 
     for(uint i = 0; i < light.count; i++) {
-        vec3 lightDirection = normalize(light.source[i].position - pos);
+        vec3 lightDirection = normalize(TBN * (light.source[i].position - pos));
         float attenuationFactor = light.source[i].attenuation;
         // default to no spotlight mode
         float spotLightFactor = 1.0f;
 
         if(light.source[i].lightType == LIGHT_SPOT) {
-        	vec3 spotDirection = normalize(light.source[i].direction);
-        	float cosAngle = dot(-lightDirection, spotDirection);
-        	float cosInnerMinusOuter = light.source[i].cosInnerConeAngle - light.source[i].cosOuterConeAngle;
-        	// final spot light factor smooth translation between outer angle and inner angle
-        	spotLightFactor = clamp((cosAngle - light.source[i].cosOuterConeAngle) / cosInnerMinusOuter, 0.0f, 1.0f);
+            vec3 spotDirection = normalize(TBN * light.source[i].direction);
+            float cosAngle = dot(-lightDirection, spotDirection);
+            float cosInnerMinusOuter = light.source[i].cosInnerConeAngle - light.source[i].cosOuterConeAngle;
+            // final spot light factor smooth translation between outer angle and inner angle
+            spotLightFactor = clamp((cosAngle - light.source[i].cosOuterConeAngle) / cosInnerMinusOuter, 0.0f, 1.0f);
         } else if(light.source[i].lightType == LIGHT_DIRECTIONAL) {
-        	lightDirection = normalize(light.source[i].direction);
-        	attenuationFactor = 0.0f;
+            lightDirection = normalize(TBN * light.source[i].direction);
+            attenuationFactor = 0.0f;
         }
 
         // attenuation calcuation
@@ -106,12 +110,18 @@ vec3 oren_nayar(vec3 pos, vec3 norm, in vec3 fragDiffuse, float roughness)
 
 void main()
 {
-	// obtain texture color at current position
-	vec4 diffuseColor = texture(diffuseMap, texCoord);
-	// calculate phong shading
-	vec3 accumColor = phong(position, normal, diffuseColor.rgb);
-	// correct gama values
-	accumColor = gamma_correction(accumColor);
-	// output fragment color
-	fragColor = vec4(accumColor, 1.f);
+    vec4 opacityValue = texture(opacityMap, texCoord);
+    
+    if(opacityValue.r == 0.5) { 
+        discard;
+    }
+    // obtain texture color at current position
+    vec4 diffuseColor = texture(diffuseMap, texCoord);
+    vec3 normalFromMap = texture(normalsMap, texCoord).rgb * 2.f - 1.f;
+    // calculate phong shading
+    vec3 accumColor = phong(position, normalFromMap, diffuseColor.rgb);
+    // correct gama values
+    accumColor = gamma_correction(accumColor);
+    // output fragment color
+    fragColor = vec4(accumColor, opacityValue.r);
 }

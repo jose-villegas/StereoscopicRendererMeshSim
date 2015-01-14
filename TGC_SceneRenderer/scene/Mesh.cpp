@@ -13,7 +13,17 @@ Mesh::Mesh(void) : polyCount(0), vertexCount(0), enableRendering(true), meshRedu
 
 Mesh::~Mesh(void)
 {
-    clear();
+    for (auto it = materials.begin(); it != materials.end(); it++) {
+        delete *it;
+    }
+
+    materials.clear();
+
+    for (auto it = meshEntries.begin(); it != meshEntries.end(); it++) {
+        delete *it;
+    }
+
+    meshEntries.clear();
 
     if (this->meshReductionEnabled) { delete this->meshReductor; }
 
@@ -22,21 +32,17 @@ Mesh::~Mesh(void)
 
 bool Mesh::loadMesh(const std::string &sFileName)
 {
-    // Release the previously loaded mesh (if it exists)
-    clear();
-    bool bRtrn = false;
+    this->filepath = sFileName; bool bRtrn = false;
     Assimp::Importer Importer;
     // read filename with assimp importer
     const aiScene *pScene = Importer.ReadFile(sFileName.c_str(),
-                            aiProcess_Triangulate
-                            | aiProcess_OptimizeMeshes
-                            | aiProcess_JoinIdenticalVertices
-                            | aiProcess_GenSmoothNormals
-                            | aiProcess_CalcTangentSpace
+                            aiProcessPreset_TargetRealtime_Quality
                             /*| aiProcess_FlipUVs*/);
 
     if (pScene) {
         std::cout << "Mesh(" << this << ") " << "Loading asset " << sFileName << std::endl;
+        this->filename = pScene->mRootNode->mName.C_Str();
+        this->fileExtension = this->filename.substr(filename.find_last_of(".") + 1);
         bRtrn = initFromScene(pScene, sFileName);
     } else {
         std::cout << "Mesh(" << this << ") " << "Error parsing '" << sFileName << "': '" << Importer.GetErrorString() << std::endl;
@@ -82,6 +88,7 @@ void Mesh::initMesh(unsigned int index, const aiMesh *paiMesh)
             glm::vec3(pTangent->x, pTangent->y, pTangent->z),
             glm::vec3(pBitangent->x, pBitangent->y, pBitangent->z)
         );
+        v.orthogonalize();
         meshEntries[index]->vertices.push_back(v);
         // set center min max pos values
         pPos->x > maxPos.x ? maxPos.x = pPos->x : maxPos.x = maxPos.x;
@@ -150,64 +157,41 @@ bool Mesh::initMaterials(const aiScene *pScene, const std::string &sFilename)
     }
 
     dirPlusSlash = dir + slashDir;
-    bool bRtrn = true;
+    bool foundTextures = false;
 
     // Initialize the materials
     for (unsigned int i = 0 ; i < pScene->mNumMaterials ; i++) {
         const aiMaterial *pMaterial = pScene->mMaterials[i];
         types::Material *currentMat = new types::Material();
         // load all mesh associated textures
-        bRtrn = loadMeshTexture(pMaterial, types::Texture::TextureType::Diffuse, dirPlusSlash, currentMat);
-        bRtrn = loadMeshTexture(pMaterial, types::Texture::TextureType::Specular, dirPlusSlash, currentMat);
-        bRtrn = loadMeshTexture(pMaterial, types::Texture::TextureType::Ambient, dirPlusSlash, currentMat);
-        bRtrn = loadMeshTexture(pMaterial, types::Texture::TextureType::Emissive, dirPlusSlash, currentMat);
-        bRtrn = loadMeshTexture(pMaterial, types::Texture::TextureType::Height, dirPlusSlash, currentMat);
-        bRtrn = loadMeshTexture(pMaterial, types::Texture::TextureType::Normals, dirPlusSlash, currentMat);
-        bRtrn = loadMeshTexture(pMaterial, types::Texture::TextureType::Shininess, dirPlusSlash, currentMat);
-        bRtrn = loadMeshTexture(pMaterial, types::Texture::TextureType::Ocapacity, dirPlusSlash, currentMat);
-        bRtrn = loadMeshTexture(pMaterial, types::Texture::TextureType::Displacement, dirPlusSlash, currentMat);
-        bRtrn = loadMeshTexture(pMaterial, types::Texture::TextureType::Lightmap, dirPlusSlash, currentMat);
-        bRtrn = loadMeshTexture(pMaterial, types::Texture::TextureType::Reflection, dirPlusSlash, currentMat);
+        foundTextures |= loadMeshTexture(pMaterial, types::Texture::TextureType::Diffuse, dirPlusSlash, currentMat);
+        foundTextures |= loadMeshTexture(pMaterial, types::Texture::TextureType::Specular, dirPlusSlash, currentMat);
+        foundTextures |= loadMeshTexture(pMaterial, types::Texture::TextureType::Ambient, dirPlusSlash, currentMat);
+        foundTextures |= loadMeshTexture(pMaterial, types::Texture::TextureType::Emissive, dirPlusSlash, currentMat);
+        foundTextures |= loadMeshTexture(pMaterial, types::Texture::TextureType::Height, dirPlusSlash, currentMat);
+        foundTextures |= loadMeshTexture(pMaterial, types::Texture::TextureType::Normals, dirPlusSlash, currentMat);
+        foundTextures |= loadMeshTexture(pMaterial, types::Texture::TextureType::Shininess, dirPlusSlash, currentMat);
+        foundTextures |= loadMeshTexture(pMaterial, types::Texture::TextureType::Opacity, dirPlusSlash, currentMat);
+        foundTextures |= loadMeshTexture(pMaterial, types::Texture::TextureType::Displacement, dirPlusSlash, currentMat);
+        foundTextures |= loadMeshTexture(pMaterial, types::Texture::TextureType::Lightmap, dirPlusSlash, currentMat);
+        foundTextures |= loadMeshTexture(pMaterial, types::Texture::TextureType::Reflection, dirPlusSlash, currentMat);
 
-        if (currentMat->textureCount() == 0) { currentMat->addTexture(texCollection->getDefaultTexture()); }
+        if (currentMat->textureCount() == 0) {
+            currentMat->addTexture(texCollection->getDefaultTexture());
+        }
 
         // default material properties
-        aiColor4D ambient(0.1f);
-        aiColor4D diffuse(0.5f);
-        aiColor4D specular(0.5f);
-        // Assume diffuse highlights as default
-        int shadingModel = core::StoredShaders::Diffuse;
-        float shininess = 16.0f;
-        // query current material properties
-        aiGetMaterialColor(pMaterial, AI_MATKEY_COLOR_AMBIENT, &ambient);
-        aiGetMaterialColor(pMaterial, AI_MATKEY_COLOR_DIFFUSE, &diffuse);
-        aiGetMaterialColor(pMaterial, AI_MATKEY_COLOR_SPECULAR, &specular);
-        aiGetMaterialFloat(pMaterial, AI_MATKEY_SHININESS, &shininess);
-        aiGetMaterialInteger(pMaterial, AI_MATKEY_SHADING_MODEL, &shadingModel);
-        // Save properties to current material
-        currentMat->ambient = glm::vec3(ambient.r, ambient.g, ambient.b);
-        currentMat->diffuse = glm::vec3(diffuse.r, diffuse.g, diffuse.b);
-        currentMat->specular = glm::vec3(specular.r, specular.g, specular.b);
+        currentMat->loadMaterialValues(pMaterial);
         // Guess the shader type based on textures supplied
         currentMat->guessMaterialShader();
         // Save current mat to mesh materials
         materials.push_back(currentMat);
     }
 
-    return bRtrn;
-}
+    // create a default material if no materials found
+    if (pScene->mNumMaterials <= 0) { materials.push_back(new types::Material()); materials.back()->addTexture(texCollection->getDefaultTexture()); }
 
-void Mesh::clear()
-{
-    for (auto it = materials.begin(); it != materials.end(); it++) {
-        delete *it;
-    }
-
-    materials.clear();
-
-    for (auto it = meshEntries.begin(); it != meshEntries.end(); it++) {
-        delete *it;
-    }
+    return foundTextures;
 }
 
 void Mesh::render()
@@ -320,21 +304,25 @@ void scene::Mesh::enableMeshReduction()
 bool scene::Mesh::loadMeshTexture(const aiMaterial *pMaterial, types::Texture::TextureType textureType, std::string dirPlusSlash, types::Material *currentMat)
 {
     int diffuseTextureCount = pMaterial->GetTextureCount((aiTextureType)textureType);
-    bool bRtrn = true;
+    bool foundTextures = false;
 
     for (int tIndex = 0; tIndex < diffuseTextureCount; tIndex++) {
         aiString textureFilename;
 
         if (pMaterial->GetTexture((aiTextureType)textureType, tIndex, &textureFilename) == AI_SUCCESS) {
             std::string fullPath = dirPlusSlash + textureFilename.data;
+            // verify file extension, assimp loads wavefront .obj bump maps as height maps
+            types::Texture *newTex = texCollection->addTexture(fullPath, this->fileExtension == "obj" && textureType == types::Texture::Height ? types::Texture::Normals : textureType);
 
-            if (!texCollection->addTexture(fullPath, texCollection->textureCount(), textureType)) {
-                currentMat->addTexture(texCollection->getDefaultTexture()); bRtrn = false;
+            if (nullptr == newTex) {
+                currentMat->addTexture(texCollection->getDefaultTexture());
             } else {
-                currentMat->addTexture(texCollection->getTexture(texCollection->textureCount() - 1));
+                currentMat->addTexture(newTex);
             }
         }
+
+        foundTextures = true;
     }
 
-    return bRtrn;
+    return foundTextures;
 }

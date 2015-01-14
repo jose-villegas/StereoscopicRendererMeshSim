@@ -71,6 +71,9 @@ namespace scene {
 
         private:
 
+            std::string filepath;
+            std::string filename;
+            std::string fileExtension;
             std::vector<SubMesh * > meshEntries;
             std::vector<types::Material * > materials;
             // Engine Textures Collection
@@ -88,7 +91,6 @@ namespace scene {
             bool loadMeshTexture(const aiMaterial *pMaterial, types::Texture::TextureType textureType, std::string dirPlusSlash, types::Material *currentMat);
 
             const unsigned int subMeshCount() const { return this->meshEntries.size(); }
-            void clear();
 
             // Mesh Reduction properties
         protected:
