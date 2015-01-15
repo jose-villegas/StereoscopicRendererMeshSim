@@ -15,7 +15,7 @@ layout (location = 0) out vec4 fragColor;
 vec3 phong(vec3 pos, vec3 norm, in vec3 fragDiffuse, in vec3 fragSpecular)
 {
     vec3 normal = normalize(norm);
-    vec3 result = material.ambient * fragDiffuse + light.ambientLight;
+    vec3 result = material.ambient * fragDiffuse * light.ambientLight;
     vec3 viewDirection = normalize(TBN * (-pos));
 
     for(uint i = 0; i < light.count; i++) {
@@ -29,7 +29,7 @@ vec3 phong(vec3 pos, vec3 norm, in vec3 fragDiffuse, in vec3 fragSpecular)
             float cosAngle = dot(-lightDirection, spotDirection);
             float cosInnerMinusOuter = light.source[i].cosInnerConeAngle - light.source[i].cosOuterConeAngle;
             // final spot light factor smooth translation between outer angle and inner angle
-            spotLightFactor = clamp((cosAngle - light.source[i].cosOuterConeAngle) / cosInnerMinusOuter, 0.0f, 1.0f);
+            spotLightFactor = smoothstep(0.0f, 1.0f, (cosAngle - light.source[i].cosOuterConeAngle) / cosInnerMinusOuter);
         } else if(light.source[i].lightType == LIGHT_DIRECTIONAL) {
             lightDirection = normalize(TBN * light.source[i].direction);
             attenuationFactor = 0.0f;
@@ -47,11 +47,13 @@ vec3 phong(vec3 pos, vec3 norm, in vec3 fragDiffuse, in vec3 fragSpecular)
             specularCoefficient = pow(max(0.0f, dot(viewDirection, reflectDirection)), material.shininess);
         }
 
+        vec3 specular = material.specular * specularCoefficient * fragSpecular * light.source[i].color * light.source[i].intensity;
+
         // Attenuation Calcuation
         float lightDistance = length(light.source[i].position - pos);
         float attenuation = 1.0f / (1.0f +  attenuationFactor * pow(lightDistance, 2.0f));
 
-        result += spotLightFactor * attenuation * diffuse;
+        result += spotLightFactor * attenuation * (diffuse + specular);
 
     }
 
@@ -62,7 +64,7 @@ vec3 phong(vec3 pos, vec3 norm, in vec3 fragDiffuse, in vec3 fragSpecular)
 vec3 blinn_phong(vec3 pos, vec3 norm, in vec3 fragDiffuse, in vec3 fragSpecular)
 {
     vec3 normal = normalize(norm);
-    vec3 result = material.ambient * fragDiffuse + light.ambientLight;
+    vec3 result = material.ambient * fragDiffuse * light.ambientLight;
     vec3 viewDirection = normalize(TBN * (-pos));
 
     for(uint i = 0; i < light.count; i++) {
@@ -76,7 +78,7 @@ vec3 blinn_phong(vec3 pos, vec3 norm, in vec3 fragDiffuse, in vec3 fragSpecular)
         	float cosAngle = dot(-lightDirection, spotDirection);
         	float cosInnerMinusOuter = light.source[i].cosInnerConeAngle - light.source[i].cosOuterConeAngle;
         	// final spot light factor smooth translation between outer angle and inner angle
-        	spotLightFactor = clamp((cosAngle - light.source[i].cosOuterConeAngle) / cosInnerMinusOuter, 0.0f, 1.0f);
+        	spotLightFactor = smoothstep(0.0f, 1.0f, (cosAngle - light.source[i].cosOuterConeAngle) / cosInnerMinusOuter);
         } else if(light.source[i].lightType == LIGHT_DIRECTIONAL) {
         	lightDirection = normalize(TBN * light.source[i].direction);
         	attenuationFactor = 0.0f;
@@ -113,7 +115,7 @@ vec3 blinn_phong(vec3 pos, vec3 norm, in vec3 fragDiffuse, in vec3 fragSpecular)
 vec3 oren_nayar_blinn(vec3 pos, vec3 norm, in vec3 fragDiffuse, in vec3 fragSpecular, float roughness) 
 {
 	vec3 normal = normalize(norm);
-    vec3 result = material.ambient * fragDiffuse + light.ambientLight;
+    vec3 result = material.ambient * fragDiffuse * light.ambientLight;
     vec3 viewDirection = normalize(TBN * (-pos));
 
     for(uint i = 0; i < light.count; i++) {
@@ -127,7 +129,7 @@ vec3 oren_nayar_blinn(vec3 pos, vec3 norm, in vec3 fragDiffuse, in vec3 fragSpec
         	float cosAngle = dot(-lightDirection, spotDirection);
         	float cosInnerMinusOuter = light.source[i].cosInnerConeAngle - light.source[i].cosOuterConeAngle;
         	// final spot light factor smooth translation between outer angle and inner angle
-        	spotLightFactor = clamp((cosAngle - light.source[i].cosOuterConeAngle) / cosInnerMinusOuter, 0.0f, 1.0f);
+        	spotLightFactor = smoothstep(0.0f, 1.0f, (cosAngle - light.source[i].cosOuterConeAngle) / cosInnerMinusOuter);
         } else if(light.source[i].lightType == LIGHT_DIRECTIONAL) {
         	lightDirection = normalize(TBN * light.source[i].direction);
         	attenuationFactor = 0.0f;
@@ -170,10 +172,10 @@ vec3 oren_nayar_blinn(vec3 pos, vec3 norm, in vec3 fragDiffuse, in vec3 fragSpec
 
         vec3 specular = material.specular * specularCoefficient * fragSpecular * light.source[i].color * light.source[i].intensity;
 
-        // guarante energy conserving diffuse with specular value
+        // guarante energy conserving diffuse with specular value, both must sum 1.0
         diffuse /= min(max((1.f - specular), 0.f), 1.f);
 
-        result += spotLightFactor * attenuation * (diffuse);
+        result += spotLightFactor * attenuation * (diffuse + specular);
 
     }
 

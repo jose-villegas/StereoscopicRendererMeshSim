@@ -35,9 +35,7 @@ bool Mesh::loadMesh(const std::string &sFileName)
     this->filepath = sFileName; bool bRtrn = false;
     Assimp::Importer Importer;
     // read filename with assimp importer
-    const aiScene *pScene = Importer.ReadFile(sFileName.c_str(),
-                            aiProcessPreset_TargetRealtime_Quality
-                            /*| aiProcess_FlipUVs*/);
+    const aiScene *pScene = Importer.ReadFile(sFileName.c_str(), aiProcessPreset_TargetRealtime_Quality);
 
     if (pScene) {
         std::cout << "Mesh(" << this << ") " << "Loading asset " << sFileName << std::endl;
@@ -56,22 +54,36 @@ bool Mesh::loadMesh(const std::string &sFileName)
 
 bool Mesh::initFromScene(const aiScene *pScene, const std::string &sFilename)
 {
-    meshEntries.resize(pScene->mNumMeshes);
+    // Load associated materials
+    bool rtrn = initMaterials(pScene, sFilename);
+    glm::vec3 maxPos(-std::numeric_limits<float>::infinity()); glm::vec3 minPos(std::numeric_limits<float>::infinity());
 
     // Initialize the meshes in the scene one by one
-    for (unsigned int i = 0 ; i < meshEntries.size() ; i++) {
-        const aiMesh *paiMesh = pScene->mMeshes[i];
-        initMesh(i, paiMesh);
+    for (unsigned int i = 0; i < pScene->mNumMeshes; i++) {
+        // init submesh entry
+        this->meshEntries.push_back(initMesh(i, pScene->mMeshes[i]));
+        // set whole mesh scene center min max pos values
+        glm::vec3 subMeshMax = this->meshEntries.back()->maxPoint;
+        glm::vec3 subMeshMin = this->meshEntries.back()->minPoint;
+        maxPos.x = subMeshMax.x > maxPos.x ? subMeshMax.x : maxPos.x;
+        maxPos.y = subMeshMax.y > maxPos.y ? subMeshMax.y : maxPos.y;
+        maxPos.z = subMeshMax.z > maxPos.z ? subMeshMax.z : maxPos.z;
+        minPos.x = subMeshMin.x < minPos.x ? subMeshMin.x : minPos.x;
+        minPos.y = subMeshMin.y < minPos.y ? subMeshMin.y : minPos.y;
+        minPos.z = subMeshMin.z < minPos.z ? subMeshMin.z : minPos.z;
     }
 
-    // Load associated materials
-    return initMaterials(pScene, sFilename);
+    this->maxPoint = maxPos;
+    this->minPoint = minPos;
+    this->midPoint = glm::vec3((maxPos.x + minPos.x) / 2, (maxPos.y + minPos.y) / 2, (maxPos.z + minPos.z) / 2);
+    // return boolean value if any error occured during loading
+    return rtrn;
 }
 
-void Mesh::initMesh(unsigned int index, const aiMesh *paiMesh)
+Mesh::SubMesh *Mesh::initMesh(unsigned int index, const aiMesh *paiMesh)
 {
-    meshEntries[index] = new SubMesh();
-    meshEntries[index]->materialIndex = paiMesh->mMaterialIndex;
+    SubMesh *newSubMesh = new SubMesh();
+    newSubMesh->materialIndex = paiMesh->mMaterialIndex;
     const aiVector3D Zero3D(0.0f, 0.0f, 0.0f);
     aiVector3D maxPos(-std::numeric_limits<float>::infinity()), minPos(std::numeric_limits<float>::infinity());
 
@@ -89,14 +101,14 @@ void Mesh::initMesh(unsigned int index, const aiMesh *paiMesh)
             glm::vec3(pBitangent->x, pBitangent->y, pBitangent->z)
         );
         v.orthogonalize();
-        meshEntries[index]->vertices.push_back(v);
-        // set center min max pos values
-        pPos->x > maxPos.x ? maxPos.x = pPos->x : maxPos.x = maxPos.x;
-        pPos->y > maxPos.y ? maxPos.y = pPos->y : maxPos.y = maxPos.y;
-        pPos->z > maxPos.z ? maxPos.z = pPos->z : maxPos.z = maxPos.z;
-        pPos->x < minPos.x ? minPos.x = pPos->x : minPos.x = minPos.x;
-        pPos->y < minPos.y ? minPos.y = pPos->y : minPos.y = minPos.y;
-        pPos->z < minPos.z ? minPos.z = pPos->z : minPos.z = minPos.z;
+        newSubMesh->vertices.push_back(v);
+        // set submesh center min max pos values
+        maxPos.x = pPos->x > maxPos.x ? pPos->x : maxPos.x;
+        maxPos.y = pPos->y > maxPos.y ? pPos->y : maxPos.y;
+        maxPos.z = pPos->z > maxPos.z ? pPos->z : maxPos.z;
+        minPos.x = pPos->x < minPos.x ? pPos->x : minPos.x;
+        minPos.y = pPos->y < minPos.y ? pPos->y : minPos.y;
+        minPos.z = pPos->z < minPos.z ? pPos->z : minPos.z;
         // total mesh values
         this->vertexCount++;
     }
@@ -106,15 +118,15 @@ void Mesh::initMesh(unsigned int index, const aiMesh *paiMesh)
         // verify triangulation preprocess
         assert(face.mNumIndices == 3);
         // indices info
-        meshEntries[index]->indices.push_back(face.mIndices[0]);
-        meshEntries[index]->indices.push_back(face.mIndices[1]);
-        meshEntries[index]->indices.push_back(face.mIndices[2]);
+        newSubMesh->indices.push_back(face.mIndices[0]);
+        newSubMesh->indices.push_back(face.mIndices[1]);
+        newSubMesh->indices.push_back(face.mIndices[2]);
         // add face info
-        meshEntries[index]->faces.push_back(
+        newSubMesh->faces.push_back(
             types::Face(
-                meshEntries[index]->vertices[face.mIndices[0]],
-                meshEntries[index]->vertices[face.mIndices[1]],
-                meshEntries[index]->vertices[face.mIndices[2]],
+                newSubMesh->vertices[face.mIndices[0]],
+                newSubMesh->vertices[face.mIndices[1]],
+                newSubMesh->vertices[face.mIndices[2]],
                 face.mIndices[0],
                 face.mIndices[1],
                 face.mIndices[2]
@@ -125,12 +137,14 @@ void Mesh::initMesh(unsigned int index, const aiMesh *paiMesh)
     }
 
     // setting meshEntry center and min max bounds
-    meshEntries[index]->maxVertex = glm::vec3(maxPos.x, maxPos.y, maxPos.z);
-    meshEntries[index]->minVertex = glm::vec3(minPos.x, minPos.y, minPos.z);
-    meshEntries[index]->centerVertex = glm::vec3((maxPos.x + minPos.x) / 2, (maxPos.y + minPos.y) / 2, (maxPos.z + minPos.z) / 2);
+    newSubMesh->maxPoint    = glm::vec3(maxPos.x, maxPos.y, maxPos.z);
+    newSubMesh->minPoint    = glm::vec3(minPos.x, minPos.y, minPos.z);
+    newSubMesh->midPoint = glm::vec3((maxPos.x + minPos.x) / 2, (maxPos.y + minPos.y) / 2, (maxPos.z + minPos.z) / 2);
     // setting meshEntry vertex and index buffer data
-    meshEntries[index]->generateBuffers();
-    meshEntries[index]->setBuffersData();
+    newSubMesh->generateBuffers();
+    newSubMesh->setBuffersData();
+    // return created subMesh
+    return newSubMesh;
 }
 
 bool Mesh::initMaterials(const aiScene *pScene, const std::string &sFilename)
@@ -208,6 +222,12 @@ void Mesh::render()
         // ignore empty submeshes
         if (!meshEntries[i]->enableRendering) { continue; }
 
+        const unsigned int materialIndex = meshEntries[i]->materialIndex;
+        // Binds the mesh material textures for shader use and set shaders material
+        // uniforms, the material shadeprogram has to be set for the uniforms
+        this->materials[materialIndex]->useMaterialShader();
+        this->materials[materialIndex]->setUniforms();
+        // bind vertex buffer and index buffer data to layout locations
         glBindBuffer(GL_ARRAY_BUFFER, meshEntries[i]->VB);
         glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(types::Vertex), 0);						// Vertex Position
         glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(types::Vertex), (const GLvoid *)12);		// Vertex UVS
@@ -215,11 +235,6 @@ void Mesh::render()
         glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(types::Vertex), (const GLvoid *)32);		// Vertex Tangents
         glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(types::Vertex), (const GLvoid *)44);		// Vertex Bitangets
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, meshEntries[i]->IB);
-        const unsigned int materialIndex = meshEntries[i]->materialIndex;
-        // Binds the mesh material textures for shader use and set shaders material
-        // uniforms, the material shadeprogram has to be set for the uniforms
-        this->materials[materialIndex]->useMaterialShader();
-        this->materials[materialIndex]->setUniforms();
         // Draw mesh triangles  with loaded buffer object data
         glDrawElements(GL_TRIANGLES, meshEntries[i]->indicesCount, GL_UNSIGNED_INT, 0);
     }
@@ -312,12 +327,15 @@ bool scene::Mesh::loadMeshTexture(const aiMaterial *pMaterial, types::Texture::T
         if (pMaterial->GetTexture((aiTextureType)textureType, tIndex, &textureFilename) == AI_SUCCESS) {
             std::string fullPath = dirPlusSlash + textureFilename.data;
             // verify file extension, assimp loads wavefront .obj bump maps as height maps
-            types::Texture *newTex = texCollection->addTexture(fullPath, this->fileExtension == "obj" && textureType == types::Texture::Height ? types::Texture::Normals : textureType);
+            textureType = this->fileExtension == "obj" && textureType == types::Texture::Height ? types::Texture::Normals : textureType;
+            // reserve space and create new texture
+            types::Texture *newTex = texCollection->addTexture(fullPath, textureType);
 
+            // assign texture to material
             if (nullptr == newTex) {
-                currentMat->addTexture(texCollection->getDefaultTexture());
+                currentMat->addTexture(texCollection->getDefaultTexture(), textureType);
             } else {
-                currentMat->addTexture(newTex);
+                currentMat->addTexture(newTex, textureType);
             }
         }
 

@@ -60,7 +60,7 @@ scene::Light::Light(const LightType &lghtType)
 
 glm::vec3 scene::Light::getDirection()
 {
-    return glm::mat3_cast(this->base->transform.rotation) * glm::vec3(0.0, -1.0, 0.0);
+    return glm::mat3_cast(this->base->transform.rotation) * glm::vec3(0.0, 1.0, 0.0);
 }
 
-glm::vec3 scene::Light::ambientLight = glm::vec3(0.00001f);
+glm::vec3 scene::Light::ambientLight = glm::vec3(0.01f);

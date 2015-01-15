@@ -1,15 +1,16 @@
 #pragma once
-#include "../types/Vertex.h"
+#include "../bases/BaseComponent.h"
+#include "../bounding/Bounds.h"
+#include "../collections/TexturesCollection.h"
 #include "../types/Face.h"
 #include "../types/Material.h"
-#include "../bases/BaseComponent.h"
-#include "../collections/TexturesCollection.h"
+#include "../types/Vertex.h"
 #include "Assimp/Importer.hpp"
-#include "Assimp/scene.h"
 #include "Assimp/postprocess.h"
+#include "Assimp/scene.h"
 #include "GLM/glm.hpp"
-#include <vector>
 #include <iostream>
+#include <vector>
 
 namespace collections {
     class MeshesCollection;
@@ -22,7 +23,7 @@ namespace utils {
 
 namespace scene {
 
-    class Mesh : public bases::BaseComponent {
+    class Mesh : public bases::BaseComponent, public bounding::Bounds {
         public:
             void render();
 
@@ -30,15 +31,12 @@ namespace scene {
             unsigned int getVertexCount() const { return vertexCount; }
             unsigned int getSubmeshesCount() const { return this->meshEntries.size(); }
 
-            class SubMesh {
+            class SubMesh : public bounding::Bounds {
                 public:
                     // MeshEntry general data
                     std::vector<types::Vertex> vertices;
                     std::vector<unsigned int> indices;
                     std::vector<types::Face> faces;
-                    glm::vec3 centerVertex;
-                    glm::vec3 minVertex;
-                    glm::vec3 maxVertex;
                     // Rendering params
                     unsigned int indicesCount;
                     bool enableRendering;
@@ -84,7 +82,7 @@ namespace scene {
             ~Mesh(void);
 
             bool loadMesh(const std::string &sFileName);
-            void initMesh(unsigned int index, const aiMesh *paiMesh);
+            Mesh::SubMesh *initMesh(unsigned int index, const aiMesh *paiMesh);
             bool initFromScene(const aiScene *paiScene, const std::string &sFilename);
             bool initMaterials(const aiScene *paiScene, const std::string &sFilename);
 

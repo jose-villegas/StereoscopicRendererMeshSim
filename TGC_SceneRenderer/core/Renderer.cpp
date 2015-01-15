@@ -46,10 +46,12 @@ void core::Renderer::setup()
     // Initialize Engine Data
     core::Data::Initialize();
     // Setup OpenGL Flags
+    glEnable(GL_CULL_FACE);
     glEnable(GL_DEPTH_TEST);
+    glDisable(GL_BLEND);
+    // glBlendFunc(GL_SRC_COLOR, GL_ONE_MINUS_SRC_ALPHA);
     glDepthFunc(GL_LEQUAL);
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glCullFace(GL_BACK);
     types::Texture::setAnisotropicFilteringLevel(core::EngineData::MaxAnisotropicFilteringAvaible());
     // Load member classes
     this->matrices = new Matrices();
@@ -74,15 +76,15 @@ void core::Renderer::setup()
 
 void core::Renderer::loop()
 {
+    // clear background color and buffers bits
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f) ;
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    // from cameras collection get the current active camera
     this->activeCamera = this->cameras->getActiveCamera();
 
     if (!this->activeCamera) { return; }
 
-    // call active camera with this class collection
-    // camera will draw depending on its parameters
-    // and the current loaded data in renderer collections
+    // render from this camera position and parameters
     this->activeCamera->renderFromPOV(this);
 }
 

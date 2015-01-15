@@ -12,7 +12,7 @@ layout (location = 0) out vec4 fragColor;
 vec3 phong(vec3 pos, vec3 norm, in vec3 fragDiffuse)
 {
     vec3 normal = normalize(norm);
-    vec3 result = material.ambient * fragDiffuse + light.ambientLight;
+    vec3 result = material.ambient * fragDiffuse * light.ambientLight;
     vec3 viewDirection = normalize(-pos);
 
     for(uint i = 0; i < light.count; i++) {
@@ -26,13 +26,13 @@ vec3 phong(vec3 pos, vec3 norm, in vec3 fragDiffuse)
         	float cosAngle = dot(-lightDirection, spotDirection);
         	float cosInnerMinusOuter = light.source[i].cosInnerConeAngle - light.source[i].cosOuterConeAngle;
         	// final spot light factor smooth translation between outer angle and inner angle
-        	spotLightFactor = clamp((cosAngle - light.source[i].cosOuterConeAngle) / cosInnerMinusOuter, 0.0f, 1.0f);
+        	spotLightFactor = smoothstep(0.0f, 1.0f, (cosAngle - light.source[i].cosOuterConeAngle) / cosInnerMinusOuter);
         } else if(light.source[i].lightType == LIGHT_DIRECTIONAL) {
         	lightDirection = normalize(light.source[i].direction);
         	attenuationFactor = 0.0f;
         }
 
-        // diffuse
+        // diffuse or simply lambert term
         float diffuseCoefficient = max(0.0f, dot(normal, lightDirection));
         vec3 diffuse = material.diffuse * diffuseCoefficient * fragDiffuse * light.source[i].color * light.source[i].intensity;
 
@@ -51,7 +51,7 @@ vec3 phong(vec3 pos, vec3 norm, in vec3 fragDiffuse)
 vec3 oren_nayar(vec3 pos, vec3 norm, in vec3 fragDiffuse, float roughness)
 {
     vec3 normal = normalize(norm);
-    vec3 result = material.ambient * fragDiffuse + light.ambientLight;
+    vec3 result = material.ambient * fragDiffuse * light.ambientLight;
     vec3 viewDirection = normalize(-pos);
 
     for(uint i = 0; i < light.count; i++) {
@@ -65,7 +65,7 @@ vec3 oren_nayar(vec3 pos, vec3 norm, in vec3 fragDiffuse, float roughness)
         	float cosAngle = dot(-lightDirection, spotDirection);
         	float cosInnerMinusOuter = light.source[i].cosInnerConeAngle - light.source[i].cosOuterConeAngle;
         	// final spot light factor smooth translation between outer angle and inner angle
-        	spotLightFactor = clamp((cosAngle - light.source[i].cosOuterConeAngle) / cosInnerMinusOuter, 0.0f, 1.0f);
+        	spotLightFactor = smoothstep(0.0f, 1.0f, (cosAngle - light.source[i].cosOuterConeAngle) / cosInnerMinusOuter);
         } else if(light.source[i].lightType == LIGHT_DIRECTIONAL) {
         	lightDirection = normalize(light.source[i].direction);
         	attenuationFactor = 0.0f;
@@ -87,7 +87,7 @@ vec3 oren_nayar(vec3 pos, vec3 norm, in vec3 fragDiffuse, float roughness)
         float gamma = dot(viewDirection - normal * vDotN, lightDirection - normal * lDotN);
         float roughnessSquared = roughness * roughness;
 
-        // calculate oren-nayar A
+        // calculate oren-nayar A, B
         float A = 1.f - 0.5f * (roughnessSquared / (roughnessSquared  + 0.57));
         float B = 0.45f * (roughnessSquared / (roughnessSquared + 0.09f));
         float C = sin(alpha) * tan(beta);

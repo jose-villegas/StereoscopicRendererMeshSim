@@ -9,8 +9,9 @@ Material::Material(void)
     this->shininess = 16.0f;
     this->emission = glm::vec3(0.5);
     this->matShader = nullptr;
-    this->hasTextureType = this->shaderTextures = std::vector<bool>(core::ShadersData::Samplers2D::Count);
-    std::fill(this->hasTextureType.begin(), this->hasTextureType.end(), false);
+    this->hasTextureType.resize((unsigned int)Texture::TextureType::Count);
+    this->shaderTextures.resize((unsigned int)Texture::TextureType::Count);
+    std::fill(this->hasTextureType.begin(), this->hasTextureType.end(), 0);
     std::fill(this->shaderTextures.begin(), this->shaderTextures.end(), false);
 
     // resize ShaderLink data vector for this structure
@@ -25,17 +26,17 @@ void types::Material::addTexture(Texture *tex)
     // if texture is null, cancel
     if (!tex) { return; }
 
-    this->textures.insert(tex);
-    this->hasTextureType[(int)tex->getType()] = true;
+    this->textures.push_back(tex);
+    this->hasTextureType[(int)tex->getType()] = textures.size();
 }
 
-void types::Material::addTexture(Texture *tex[], const unsigned int texCount)
+void types::Material::addTexture(Texture *tex, types::Texture::TextureType texType)
 {
-    if (texCount == 0) { return; }
+    // if texture is null, cancel
+    if (!tex) { return; }
 
-    this->textures.insert(tex, tex + texCount);
-
-    for (unsigned int i = 0; i < texCount; i++) { this->hasTextureType[(int)tex[i]->getType()] = true; }
+    this->textures.push_back(tex);
+    this->hasTextureType[texType] = textures.size();
 }
 
 void types::Material::setShaderProgram(ShaderProgram *shp)
@@ -114,6 +115,32 @@ void types::Material::guessMaterialShader()
         }
     }
 
+    if (hasTextureType[types::Texture::Opacity]) {
+        defShader = collections::stored::StoredShaders::getStoredShader(core::StoredShaders::OpacityDiffuse);
+        this->shaderTextures[types::Texture::Opacity] = true;
+
+        if (hasTextureType[types::Texture::Specular]) {
+            defShader = collections::stored::StoredShaders::getStoredShader(core::StoredShaders::OpacitySpecular);
+        }
+
+        if (hasTextureType[types::Texture::Normals]) {
+            defShader = collections::stored::StoredShaders::getStoredShader(core::StoredShaders::BumpedOpacityDiffuse);
+
+            if (hasTextureType[types::Texture::Specular]) {
+                defShader = collections::stored::StoredShaders::getStoredShader(core::StoredShaders::BumpedOpacitySpecular);
+            }
+        }
+    }
+
+    unsigned int i = 0;
+
+    for (unsigned i = 0; i < shaderTextures.size(); i++) {
+        if (shaderTextures[i]) {
+            std::pair<unsigned int, Texture::TextureType> activePair(hasTextureType[i], (Texture::TextureType)i);
+            this->activeShaderTextures.push_back(activePair);
+        }
+    }
+
     setShaderProgram(defShader);
 }
 
@@ -124,17 +151,14 @@ void types::Material::setTexturesUniforms()
 
 void types::Material::setTexturesUniforms(types::ShaderProgram *shp)
 {
-    for (auto it = this->textures.begin(); it != this->textures.end(); it++) {
+    for (auto it = this->activeShaderTextures.begin(); it != this->activeShaderTextures.end(); it++) {
+        Texture *texture = this->textures[it->first - 1];
         // Obtain textype to query data info
-        unsigned int texType = ((Texture *)*it)->getType();
-
-        // only bind textures bound to the shader
-        if (this->shaderTextures[texType]) {
-            // bind texture
-            ((Texture *)*it)->bind();
-            // Set to the texture map shader the current texture assigned ID
-            shp->setUniform(core::ShadersData::Samplers2D::NAMES[texType], (int)texType);
-        }
+        unsigned int texType = it->second;
+        // bind shader associated texture
+        texture->bind();
+        // Set to the texture map shader the current texture assigned ID
+        shp->setUniform(core::ShadersData::Samplers2D::NAMES[texType], (int)texture->getType());
     }
 }
 
@@ -145,12 +169,11 @@ void types::Material::useMaterialShader()
 
 types::Material::~Material(void)
 {
-    auto it = this->textures.begin();
-
-    while (!this->textures.empty()) {
+    for (auto it = this->textures.begin(); it != this->textures.end(); it++) {
         collections::TexturesCollection::Instance()->unloadTexture((*it)->geTexId()) ? delete *it : 0;
-        this->textures.erase(it++);
     }
+
+    this->textures.clear();
 }
 
 void types::Material::loadMaterialValues(const aiMaterial *aiMat)

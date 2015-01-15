@@ -1,4 +1,5 @@
 #include "StoredShaders.h"
+#include "..\Types\Texture.h"
 using namespace collections::stored;
 
 void collections::stored::StoredShaders::LoadShaders()
@@ -25,7 +26,7 @@ void collections::stored::StoredShaders::LoadShaders()
         AddShaderData(shp);
 
         // try to associate shaderprogram mapping textures
-        for (int j = 1; j < core::ShadersData::Samplers2D::Count; j++) {
+        for (int j = 1; j < types::Texture::Count; j++) {
             shp->addUniform(core::ShadersData::Samplers2D::NAMES[j]);
         }
 

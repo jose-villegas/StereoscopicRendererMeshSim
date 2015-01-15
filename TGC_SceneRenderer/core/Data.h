@@ -100,21 +100,6 @@ namespace core {
 
             class Samplers2D {
                 public:
-                    enum TextureType {
-                        None         = aiTextureType_NONE,
-                        Diffuse      = aiTextureType_DIFFUSE,
-                        Specular     = aiTextureType_SPECULAR,
-                        Ambient      = aiTextureType_AMBIENT,
-                        Emissive     = aiTextureType_EMISSIVE,
-                        Height       = aiTextureType_HEIGHT,
-                        Normals      = aiTextureType_NORMALS,
-                        Shininess    = aiTextureType_SHININESS,
-                        Ocapacity    = aiTextureType_OPACITY,
-                        Displacement = aiTextureType_DISPLACEMENT,
-                        Lightmap     = aiTextureType_LIGHTMAP,
-                        Reflection   = aiTextureType_REFLECTION,
-                        Count		 = 12
-                    };
                     // Ordered by TextureType
                     static const char *NAMES[];
                     static const char *DEFAULT_TEX_FILENAME;

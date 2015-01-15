@@ -20,7 +20,8 @@ namespace types {
                 Opacity      = aiTextureType_OPACITY,
                 Displacement = aiTextureType_DISPLACEMENT,
                 Lightmap     = aiTextureType_LIGHTMAP,
-                Reflection   = aiTextureType_REFLECTION
+                Reflection   = aiTextureType_REFLECTION,
+                Count		 = 12
             };
 
             enum TextureFilteringMode {

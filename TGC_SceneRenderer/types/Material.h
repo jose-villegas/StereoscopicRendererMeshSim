@@ -1,33 +1,34 @@
 #pragma once
-#include "../collections/stored/StoredShaders.h"
 #include "../bases/ShaderLinks.h"
+#include "../collections/stored/StoredShaders.h"
 #include "../core/Data.h"
-#include "Texture.h"
 #include "ShaderProgram.h"
-#include <set>
+#include "Texture.h"
+#include <utility>
+
 namespace types {
 
     class Material : public bases::ShaderLink {
         private:
-            struct TexturePtrComp {
-                bool operator()(const Texture *lhs, const Texture *rhs) const  { return lhs->getType() < rhs->getType(); }
-            };
-            // Ordered Textures by type check Texture.h
-            std::set<Texture *, TexturePtrComp> textures;
+            std::vector<Texture *> textures;
             std::vector<bool> shaderTextures;
-            std::vector<bool> hasTextureType;
+            std::vector<unsigned int> hasTextureType;
+            std::vector<std::pair<unsigned int, Texture::TextureType>> activeShaderTextures;
             ShaderProgram *matShader;
             Material(const Material &mat);
 
         public:
+
             Material(void);
             ~Material(void);
+
             glm::vec3 ambient;
             glm::vec3 diffuse;
             glm::vec3 specular;
             glm::vec3 emission;
             int shadingModel;
             float shininess;
+
             // Assigns a guessed ShaderProgram from the stored shaders
             // based on the stored textures and their type, for example
             // a material with diffuse and normal maps would be assigned
@@ -35,7 +36,7 @@ namespace types {
             void guessMaterialShader();
             // Adds textures, either a single texture or many textures pass in an array
             void addTexture(Texture *tex);
-            void addTexture(Texture *tex[], const unsigned int texCount);
+            void addTexture(Texture *tex, types::Texture::TextureType texType);
             void setShaderProgram(ShaderProgram *shp);
             // matShader needs to be set
             void useMaterialShader();
@@ -57,6 +58,8 @@ namespace types {
             void loadMaterialValues(const aiMaterial *aiMat);
 
             unsigned int textureCount() const { return textures.size(); };
+
+            bool isUsingTextureType(types::Texture::TextureType texType) { return (unsigned int)texType < this->shaderTextures.size() ? this->shaderTextures[texType] : false; };
     };
 }
 

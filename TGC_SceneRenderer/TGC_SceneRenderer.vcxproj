@@ -145,6 +145,9 @@
     <ClCompile Include="Bounding\Volumes\BoundingBox.cpp">
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
     </ClCompile>
+    <ClCompile Include="bounding\Bounds.cpp">
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
+    </ClCompile>
     <ClCompile Include="collections\CamerasCollection.cpp">
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</CompileAsManaged>
@@ -257,6 +260,7 @@
     <ClInclude Include="Bases\BaseComponent.h" />
     <ClInclude Include="Bounding\Volumes\BoundingSphere.h" />
     <ClInclude Include="Bounding\Volumes\BoundingBox.h" />
+    <ClInclude Include="bounding\Bounds.h" />
     <ClInclude Include="collections\CamerasCollection.h" />
     <ClInclude Include="core\Data.h" />
     <ClInclude Include="Context\LibInfo.h" />

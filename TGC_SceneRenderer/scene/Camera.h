@@ -20,10 +20,9 @@ namespace core {
 namespace scene {
 
     class Camera : public bases::BaseComponent {
-        private:
+        protected:
             friend class collections::CamerasCollection;
-            // control vars
-            bool changedValues;
+
             // planes structure
             struct Plane {
                 // left-buttom, right-buttom, left-top, right-top
@@ -35,8 +34,7 @@ namespace scene {
 
                 void updatePoints(glm::vec3 position, glm::vec3 direction, glm::vec3 up, glm::vec3 right);
             };
-            glm::vec3 getCameraTarget() const;
-            void renderMeshes(const core::Renderer *actRenderer);
+
             // Depend on each other so they need to be encapsulated anyways
             Plane nearClippingPlane;
             Plane farClippingPlane;
@@ -55,6 +53,10 @@ namespace scene {
             Camera(void);
             Camera(const Camera &cam);
             ~Camera(void);
+
+            glm::vec3 getCameraTarget() const;
+            void renderMeshes(const core::Renderer *actRenderer);
+
         public:
 
             enum TypeProjection {
