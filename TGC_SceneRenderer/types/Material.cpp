@@ -26,6 +26,7 @@ void types::Material::addTexture(Texture *tex)
     // if texture is null, cancel
     if (!tex) { return; }
 
+    tex->addReference();
     this->textures.push_back(tex);
     this->hasTextureType[(int)tex->getType()] = textures.size();
 }
@@ -35,6 +36,7 @@ void types::Material::addTexture(Texture *tex, types::Texture::TextureType texTy
     // if texture is null, cancel
     if (!tex) { return; }
 
+    tex->addReference();
     this->textures.push_back(tex);
     this->hasTextureType[texType] = textures.size();
 }
@@ -124,10 +126,10 @@ void types::Material::guessMaterialShader()
         }
 
         if (hasTextureType[types::Texture::Normals]) {
-            defShader = collections::stored::StoredShaders::getStoredShader(core::StoredShaders::BumpedOpacityDiffuse);
+            defShader = collections::stored::StoredShaders::getStoredShader(core::StoredShaders::OpacityBumpedDiffuse);
 
             if (hasTextureType[types::Texture::Specular]) {
-                defShader = collections::stored::StoredShaders::getStoredShader(core::StoredShaders::BumpedOpacitySpecular);
+                defShader = collections::stored::StoredShaders::getStoredShader(core::StoredShaders::OpacityBumpedSpecular);
             }
         }
     }
@@ -170,7 +172,9 @@ void types::Material::useMaterialShader()
 types::Material::~Material(void)
 {
     for (auto it = this->textures.begin(); it != this->textures.end(); it++) {
-        collections::TexturesCollection::Instance()->unloadTexture((*it)->geTexId()) ? delete *it : 0;
+        if ((*it)->getReferenceCount() <= 1) {
+            collections::TexturesCollection::Instance()->unloadTexture((*it)->geTexId()) ? delete *it : 0;
+        } else { (*it)->removeReference(); }
     }
 
     this->textures.clear();

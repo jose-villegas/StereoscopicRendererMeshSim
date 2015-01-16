@@ -33,7 +33,7 @@ types::Texture *TexturesCollection::addTexture(const std::string &sFilename, typ
         }
     }
 
-    types::Texture *newTex = new types::Texture(sFilename, count, textureType);
+    types::Texture *newTex = new types::Texture(sFilename, idCounter, textureType);
     bool loadingResult = newTex->load();
 
     if (!loadingResult) {
@@ -42,16 +42,16 @@ types::Texture *TexturesCollection::addTexture(const std::string &sFilename, typ
     }
 
     //if this texture ID is in use, unload the current texture
-    std::map<unsigned int, types::Texture *>::iterator it = textures.find(count);
+    std::map<unsigned int, types::Texture *>::iterator it = textures.find(idCounter);
 
     if (it != textures.end()) {
-        std::cout << "Textures(" << this << "): " << "Warning texture: " << textures[count]->getFilename() << " replaced" << std::endl;
+        std::cout << "Textures(" << this << "): " << "Warning texture: " << textures[idCounter]->getFilename() << " replaced" << std::endl;
         it->second->unload();
         textures.erase(it);
     }
 
     // Store new texID and return success
-    textures[count++] = newTex;
+    textures[idCounter++] = newTex;
     std::cout << "Textures(" << this << "): " << newTex->getTextureTypeString() << " texture, oglId(" << newTex->getOGLTexId() << ") "
               << "texId(" << newTex->geTexId() << ") " << std::string(sFilename) << " loaded successfully" << std::endl;
     return newTex;
@@ -117,6 +117,6 @@ types::Texture *collections::TexturesCollection::getTexture(const unsigned &texI
     return this->textures[texID];
 }
 
-int collections::TexturesCollection::count = 0;
+int collections::TexturesCollection::idCounter = 0;
 
 TexturesCollection *collections::TexturesCollection::instance = nullptr;

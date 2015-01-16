@@ -1,6 +1,7 @@
 #pragma once
 #include "Collections/SceneObjectsCollection.h"
 #include "Context/OpenGL.h"
+#include "LoadingWindow.h"
 #include "ObjectsWindow.h"
 #include "PropertiesWindow.h"
 #include "Scene/Mesh.h"
@@ -30,6 +31,7 @@ namespace SceneRenderer {
                 // Setup OpenGL Render Context Inside a Panel
                 System::Windows::Forms::Panel ^oglRenderPanel = this->OpenGLRenderPanel;
                 OpenGL = gcnew COpenGL(oglRenderPanel, 0, 0, oglRenderPanel->ClientSize.Width, oglRenderPanel->ClientSize.Height);
+                OpenGL->calculateFramerate(false);
                 // Add OpenGL Info to Form Title
                 this->Text += " (" + OpenGL->OGL_INFO_STRING + ")";
                 // Other Components / Forms
@@ -69,12 +71,13 @@ namespace SceneRenderer {
                 }
             }
 
+        private: SceneRenderer::LoadingWindow ^loadingBar;
         private: OGLContext::COpenGL ^OpenGL;
         private: ObjectsWindow ^objectsWindow;
         private: PropertiesWindow ^inspWin;
         private: System::Windows::Forms::MenuStrip  ^topMenuBar;
         private: System::Boolean consoleIsActive;
-        private: System::Boolean renderingEnabled;
+        public: System::Boolean renderingEnabled;
             /// <summary>
             /// Required designer variable.
             /// </summary>
@@ -104,6 +107,19 @@ namespace SceneRenderer {
         private: System::Windows::Forms::ToolStripMenuItem   ^wireframeToolStripMenuItem;
         private: System::Windows::Forms::ToolStripMenuItem   ^texturesToolStripMenuItem;
         private: System::Windows::Forms::ToolStripMenuItem  ^pointsToolStripMenuItem;
+        private: System::Windows::Forms::StatusStrip  ^statusBottomBar;
+        private: System::Windows::Forms::Panel  ^panel1;
+
+        private: System::Windows::Forms::ToolStripStatusLabel  ^fpsCounter;
+        private: System::Windows::Forms::ToolStripStatusLabel  ^toolStripStatusLabel1;
+        private: System::ComponentModel::BackgroundWorker  ^loadingBarWindow;
+
+
+
+
+
+
+
 
             System::ComponentModel::Container ^components;
 
@@ -140,7 +156,14 @@ namespace SceneRenderer {
                 this->propertiesToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
                 this->assetImportFileDialog = (gcnew System::Windows::Forms::OpenFileDialog());
                 this->OpenGLRenderPanel = (gcnew System::Windows::Forms::Panel());
+                this->statusBottomBar = (gcnew System::Windows::Forms::StatusStrip());
+                this->fpsCounter = (gcnew System::Windows::Forms::ToolStripStatusLabel());
+                this->toolStripStatusLabel1 = (gcnew System::Windows::Forms::ToolStripStatusLabel());
+                this->panel1 = (gcnew System::Windows::Forms::Panel());
+                this->loadingBarWindow = (gcnew System::ComponentModel::BackgroundWorker());
                 this->topMenuBar->SuspendLayout();
+                this->statusBottomBar->SuspendLayout();
+                this->panel1->SuspendLayout();
                 this->SuspendLayout();
                 //
                 // topMenuBar
@@ -169,27 +192,27 @@ namespace SceneRenderer {
                          this->wireframeToolStripMenuItem, this->texturesToolStripMenuItem
                 });
                 this->renderToolStripMenuItem->Name = L"renderToolStripMenuItem";
-                this->renderToolStripMenuItem->Size = System::Drawing::Size(152, 22);
+                this->renderToolStripMenuItem->Size = System::Drawing::Size(99, 22);
                 this->renderToolStripMenuItem->Text = L"View";
                 //
                 // pointsToolStripMenuItem
                 //
                 this->pointsToolStripMenuItem->Name = L"pointsToolStripMenuItem";
-                this->pointsToolStripMenuItem->Size = System::Drawing::Size(152, 22);
+                this->pointsToolStripMenuItem->Size = System::Drawing::Size(129, 22);
                 this->pointsToolStripMenuItem->Text = L"Points";
                 this->pointsToolStripMenuItem->Click += gcnew System::EventHandler(this, &MainWindow::pointsToolStripMenuItem_Click);
                 //
                 // wireframeToolStripMenuItem
                 //
                 this->wireframeToolStripMenuItem->Name = L"wireframeToolStripMenuItem";
-                this->wireframeToolStripMenuItem->Size = System::Drawing::Size(152, 22);
+                this->wireframeToolStripMenuItem->Size = System::Drawing::Size(129, 22);
                 this->wireframeToolStripMenuItem->Text = L"Wireframe";
                 this->wireframeToolStripMenuItem->Click += gcnew System::EventHandler(this, &MainWindow::wireframeToolStripMenuItem_Click);
                 //
                 // texturesToolStripMenuItem
                 //
                 this->texturesToolStripMenuItem->Name = L"texturesToolStripMenuItem";
-                this->texturesToolStripMenuItem->Size = System::Drawing::Size(152, 22);
+                this->texturesToolStripMenuItem->Size = System::Drawing::Size(129, 22);
                 this->texturesToolStripMenuItem->Text = L"Textured";
                 this->texturesToolStripMenuItem->Click += gcnew System::EventHandler(this, &MainWindow::texturesToolStripMenuItem_Click);
                 //
@@ -204,7 +227,7 @@ namespace SceneRenderer {
                 //
                 this->importAssetToolStripMenuItem->BackColor = System::Drawing::Color::White;
                 this->importAssetToolStripMenuItem->Name = L"importAssetToolStripMenuItem";
-                this->importAssetToolStripMenuItem->Size = System::Drawing::Size(152, 22);
+                this->importAssetToolStripMenuItem->Size = System::Drawing::Size(147, 22);
                 this->importAssetToolStripMenuItem->Text = L"Import Model";
                 this->importAssetToolStripMenuItem->Click += gcnew System::EventHandler(this, &MainWindow::importAssetToolStripMenuItem_Click);
                 //
@@ -223,7 +246,7 @@ namespace SceneRenderer {
                          this->toolStripSeparator5, this->cubeToolStripMenuItem, this->sphereToolStripMenuItem, this->torusToolStripMenuItem, this->cylinderToolStripMenuItem
                 });
                 this->createOtherToolStripMenuItem->Name = L"createOtherToolStripMenuItem";
-                this->createOtherToolStripMenuItem->Size = System::Drawing::Size(152, 22);
+                this->createOtherToolStripMenuItem->Size = System::Drawing::Size(108, 22);
                 this->createOtherToolStripMenuItem->Text = L"Create";
                 //
                 // cameraToolStripMenuItem
@@ -328,13 +351,62 @@ namespace SceneRenderer {
                 //
                 this->OpenGLRenderPanel->AutoSizeMode = System::Windows::Forms::AutoSizeMode::GrowAndShrink;
                 this->OpenGLRenderPanel->Dock = System::Windows::Forms::DockStyle::Fill;
-                this->OpenGLRenderPanel->Location = System::Drawing::Point(0, 24);
+                this->OpenGLRenderPanel->Location = System::Drawing::Point(0, 0);
                 this->OpenGLRenderPanel->Margin = System::Windows::Forms::Padding(0);
                 this->OpenGLRenderPanel->Name = L"OpenGLRenderPanel";
-                this->OpenGLRenderPanel->Size = System::Drawing::Size(1424, 838);
+                this->OpenGLRenderPanel->Size = System::Drawing::Size(1424, 814);
                 this->OpenGLRenderPanel->TabIndex = 3;
                 this->OpenGLRenderPanel->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &MainWindow::timer1_Tick);
                 this->OpenGLRenderPanel->Resize += gcnew System::EventHandler(this, &MainWindow::OpenGLRenderPanel_Resize);
+                //
+                // statusBottomBar
+                //
+                this->statusBottomBar->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem ^  >(2) {
+                    this->fpsCounter,
+                         this->toolStripStatusLabel1
+                });
+                this->statusBottomBar->Location = System::Drawing::Point(0, 838);
+                this->statusBottomBar->Name = L"statusBottomBar";
+                this->statusBottomBar->Size = System::Drawing::Size(1424, 24);
+                this->statusBottomBar->TabIndex = 4;
+                this->statusBottomBar->Text = L"statusStrip1";
+                //
+                // fpsCounter
+                //
+                this->fpsCounter->BackColor = System::Drawing::SystemColors::ButtonFace;
+                this->fpsCounter->Margin = System::Windows::Forms::Padding(10, 3, 0, 2);
+                this->fpsCounter->Name = L"fpsCounter";
+                this->fpsCounter->RightToLeft = System::Windows::Forms::RightToLeft::No;
+                this->fpsCounter->Size = System::Drawing::Size(1369, 19);
+                this->fpsCounter->Spring = true;
+                this->fpsCounter->Text = L"  ";
+                this->fpsCounter->TextAlign = System::Drawing::ContentAlignment::MiddleRight;
+                //
+                // toolStripStatusLabel1
+                //
+                this->toolStripStatusLabel1->BackColor = System::Drawing::SystemColors::ButtonFace;
+                this->toolStripStatusLabel1->BorderSides = static_cast<System::Windows::Forms::ToolStripStatusLabelBorderSides>((((System::Windows::Forms::ToolStripStatusLabelBorderSides::Left |
+                        System::Windows::Forms::ToolStripStatusLabelBorderSides::Top)
+                        | System::Windows::Forms::ToolStripStatusLabelBorderSides::Right)
+                        | System::Windows::Forms::ToolStripStatusLabelBorderSides::Bottom));
+                this->toolStripStatusLabel1->BorderStyle = System::Windows::Forms::Border3DStyle::Raised;
+                this->toolStripStatusLabel1->Name = L"toolStripStatusLabel1";
+                this->toolStripStatusLabel1->Size = System::Drawing::Size(30, 19);
+                this->toolStripStatusLabel1->Text = L"FPS";
+                this->toolStripStatusLabel1->Click += gcnew System::EventHandler(this, &MainWindow::toolStripStatusLabel1_Click);
+                //
+                // panel1
+                //
+                this->panel1->Controls->Add(this->OpenGLRenderPanel);
+                this->panel1->Dock = System::Windows::Forms::DockStyle::Fill;
+                this->panel1->Location = System::Drawing::Point(0, 24);
+                this->panel1->Name = L"panel1";
+                this->panel1->Size = System::Drawing::Size(1424, 814);
+                this->panel1->TabIndex = 5;
+                //
+                // backgroundWorker1
+                //
+                this->loadingBarWindow->DoWork += gcnew System::ComponentModel::DoWorkEventHandler(this, &MainWindow::backgroundWorker1_DoWork);
                 //
                 // MainWindow
                 //
@@ -342,7 +414,8 @@ namespace SceneRenderer {
                 this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
                 this->AutoValidate = System::Windows::Forms::AutoValidate::EnablePreventFocusChange;
                 this->ClientSize = System::Drawing::Size(1424, 862);
-                this->Controls->Add(this->OpenGLRenderPanel);
+                this->Controls->Add(this->panel1);
+                this->Controls->Add(this->statusBottomBar);
                 this->Controls->Add(this->topMenuBar);
                 this->MainMenuStrip = this->topMenuBar;
                 this->Name = L"MainWindow";
@@ -351,6 +424,9 @@ namespace SceneRenderer {
                 this->Shown += gcnew System::EventHandler(this, &MainWindow::MainWindow_Shown);
                 this->topMenuBar->ResumeLayout(false);
                 this->topMenuBar->PerformLayout();
+                this->statusBottomBar->ResumeLayout(false);
+                this->statusBottomBar->PerformLayout();
+                this->panel1->ResumeLayout(false);
                 this->ResumeLayout(false);
                 this->PerformLayout();
             }
@@ -366,6 +442,12 @@ namespace SceneRenderer {
                 OpenGL->swapOpenGLBuffers();
                 // Invalidate To Create a Game Loop
                 ((System::Windows::Forms::Panel ^)sender)->Invalidate();
+
+                // show frame rate label
+                if (OpenGL->calculatingFrameRate()) {
+                    this->fpsCounter->Text = OpenGL->getFrameRate().ToString();
+                    this->statusBottomBar->Refresh();
+                }
             }
 
         private: System::Void consoleToolStripMenuItem_Click(System::Object  ^sender, System::EventArgs  ^e)
@@ -384,16 +466,25 @@ namespace SceneRenderer {
 
         private: System::Void importAssetToolStripMenuItem_Click(System::Object  ^sender, System::EventArgs  ^e)
             {
+                // show file dialog
                 System::Windows::Forms::DialogResult result = assetImportFileDialog->ShowDialog();
+                // disable rendering while loading mesh
+                this->EnableRendering(false);
+                // show loading bar dialog
+                this->loadingBarWindow->RunWorkerAsync();
 
+                // run loading asset
                 if (result != System::Windows::Forms::DialogResult::Cancel) {
                     msclr::interop::marshal_context context;
                     std::string standardString = context.marshal_as<std::string>(assetImportFileDialog->FileName);
-                    // Load mesh
+                    // Load mesh raw data and add it to objects collection
                     collections::SceneObjectsCollection::Instance()->addMeshFromFile(standardString);
                     // Notify the objects window of the new addition
                     this->objectsWindow->addedObject();
                 }
+
+                // enable rendering again
+                this->EnableRendering(true);
             }
         private: System::Void MainWindow_Shown(System::Object  ^sender, System::EventArgs  ^e)
             {
@@ -464,6 +555,25 @@ namespace SceneRenderer {
                 this->texturesToolStripMenuItem->Checked = false;
                 this->pointsToolStripMenuItem->Checked = true;
                 this->OpenGL->renderMode(RenderMode::Points);
+            }
+
+        private: System::Void toolStripStatusLabel1_Click(System::Object  ^sender, System::EventArgs  ^e)
+            {
+                // toggle
+                this->OpenGL->calculateFramerate(!this->OpenGL->calculatingFrameRate());
+
+                // update fps counter accordly
+                if (!this->OpenGL->calculatingFrameRate()) {
+                    this->fpsCounter->Text = "";
+                    this->statusBottomBar->Refresh();
+                }
+            }
+
+        private: System::Void backgroundWorker1_DoWork(System::Object  ^sender, System::ComponentModel::DoWorkEventArgs  ^e)
+            {
+                loadingBar = gcnew SceneRenderer::LoadingWindow();
+                loadingBar->mainWindow = this;
+                loadingBar->ShowDialog();
             }
     };
 }

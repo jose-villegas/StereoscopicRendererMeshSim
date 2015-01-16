@@ -33,7 +33,9 @@ namespace core {
             // constructor private for single instance
             Renderer(void);
             Renderer(const Renderer &cpy);
+
             static Renderer *instance;
+
             Matrices *matrices;
             collections::CamerasCollection *cameras;
             collections::LightsCollection *lights;
@@ -43,6 +45,8 @@ namespace core {
             scene::Camera *activeCamera;
             utils::FrameRate *framerate;
             utils::Time *time;
+
+            bool initialized;
 
     };
 }

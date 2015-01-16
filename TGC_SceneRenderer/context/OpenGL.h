@@ -26,6 +26,7 @@ namespace OGLContext {
             System::Double getDeltaTime() { return time->deltaTime; }
             System::Double getTotalTime() { return time->totalTime; }
             System::Double getFrameRate() { return fmCalc->getCurrentFramerate(); }
+            System::Boolean calculatingFrameRate()  { return calcFramerate; }
             virtual System::Void render(System::Void);
             System::String ^OGL_INFO_STRING;
             System::Void clean();

@@ -118,16 +118,15 @@ namespace core {
             enum Shaders {
                 Diffuse,
                 Specular,
-                OpacityDiffuse,
-                OpacitySpecular,
                 BumpedDiffuse,
                 BumpedSpecular,
-                BumpedOpacityDiffuse,
-                BumpedOpacitySpecular,
+                OpacityDiffuse,
+                OpacitySpecular,
+                OpacityBumpedDiffuse,
+                OpacityBumpedSpecular,
                 Count // not a shader, represents the number of available shaders
             };
 
-            static const char *NAMES[];
             static const std::string Filename(const Shaders &index, const unsigned int &type);
         private:
             static const char *FILENAMES[];

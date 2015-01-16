@@ -29,6 +29,13 @@ namespace core {
             void setUniformBlock();
             // sets the class holder for uniform info and saves the uniform block info indices and offsets
             void setUniformBlockInfo();
+
+            const glm::mat4 &getModel() const { return this->model; };
+            const glm::mat4 &getView() const { return this->view; };
+            const glm::mat4 &getProjection() const { return this->projection; };
+            const glm::mat4 &getModelViewProjection() const { return this->modelViewProjection; };
+            const glm::mat4 &getModelView() const { return this->modelView; };
+            const glm::mat4 &getNormal() const { return this->normal; };
     };
 }
 

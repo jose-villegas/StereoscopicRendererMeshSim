@@ -4,6 +4,8 @@
 
 #include "../bases/BaseComponent.h"
 #include "../collections/CamerasCollection.h"
+#include "../types/Frustum.h"
+#include "../types/Plane.h"
 #include "glm/detail/type_mat.hpp"
 #include "glm/detail/type_vec.hpp"
 #include "glm/gtc/constants.hpp"
@@ -23,21 +25,11 @@ namespace scene {
         protected:
             friend class collections::CamerasCollection;
 
-            // planes structure
-            struct Plane {
-                // left-buttom, right-buttom, left-top, right-top
-                glm::vec3 points[4];
-                float width;
-                float height;
-                float distance; // distance from camera position
-                Plane() : width(-1), height(-1) {};
-
-                void updatePoints(glm::vec3 position, glm::vec3 direction, glm::vec3 up, glm::vec3 right);
-            };
-
+            types::Frustum cameraFrustum;
+            bool enableFrustumCulling;
             // Depend on each other so they need to be encapsulated anyways
-            Plane nearClippingPlane;
-            Plane farClippingPlane;
+            float nearClippingPlane;
+            float farClippingPlane;
             glm::vec4 horizontalVerticalClipping; // left - right - bottom - top
             glm::vec3 vectorUp;
             float fieldOfView;
@@ -76,8 +68,8 @@ namespace scene {
             void setViewPortRect(const float &left, const float &right, const float &bottom, const float &top);
             void setProjection(const float &aspectRatio, const float &fieldOfView, const float &nearClipping, const float &farClipping);
             // members getters
-            const Plane &getNearClippingPlane() const { return this->nearClippingPlane; }
-            const Plane &getFarClippingPlane() const { return this->farClippingPlane; }
+            float getNearClippingPlane() const { return this->nearClippingPlane; }
+            float getFarClippingPlane() const { return this->farClippingPlane; }
             const glm::vec3 &calculateVectorUp();
             const glm::vec3 &getVectorUp() const { return vectorUp ;}
             float getFieldOfView() const { return fieldOfView; }

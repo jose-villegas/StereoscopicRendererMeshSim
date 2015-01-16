@@ -137,8 +137,8 @@ Mesh::SubMesh *Mesh::initMesh(unsigned int index, const aiMesh *paiMesh)
     }
 
     // setting meshEntry center and min max bounds
-    newSubMesh->maxPoint    = glm::vec3(maxPos.x, maxPos.y, maxPos.z);
-    newSubMesh->minPoint    = glm::vec3(minPos.x, minPos.y, minPos.z);
+    newSubMesh->maxPoint = glm::vec3(maxPos.x, maxPos.y, maxPos.z);
+    newSubMesh->minPoint = glm::vec3(minPos.x, minPos.y, minPos.z);
     newSubMesh->midPoint = glm::vec3((maxPos.x + minPos.x) / 2, (maxPos.y + minPos.y) / 2, (maxPos.z + minPos.z) / 2);
     // setting meshEntry vertex and index buffer data
     newSubMesh->generateBuffers();
@@ -207,6 +207,13 @@ bool Mesh::initMaterials(const aiScene *pScene, const std::string &sFilename)
 
     return foundTextures;
 }
+
+struct Cmp {
+    bool operator()(const std::pair<unsigned int, double> &a, const std::pair<unsigned int, double> &b)
+    {
+        return a.first < b.first;
+    }
+};
 
 void Mesh::render()
 {

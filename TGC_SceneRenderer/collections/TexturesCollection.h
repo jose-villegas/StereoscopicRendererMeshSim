@@ -35,7 +35,7 @@ namespace collections {
 
             bool preventDuplicates;
             static TexturesCollection *instance;
-            static int count;
+            static int idCounter;
             // Texture Collection
             std::map<unsigned int, types::Texture *> textures;
     };

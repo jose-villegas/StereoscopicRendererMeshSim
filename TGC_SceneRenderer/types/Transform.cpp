@@ -9,7 +9,7 @@ using namespace types;
 Transform::Transform(void)
 {
     this->position = glm::vec3(0.0, 0.0, 0.0);
-    this->rotation = glm::quat(glm::vec3(0.0, 0.0, 0.0));
+    this->rotation = glm::quat();
     this->scale = glm::vec3(1.0, 1.0, 1.0);
 }
 

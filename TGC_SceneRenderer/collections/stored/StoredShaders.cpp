@@ -42,17 +42,6 @@ types::ShaderProgram *collections::stored::StoredShaders::getStoredShader(const 
     return shaders[sh];
 }
 
-types::ShaderProgram *collections::stored::StoredShaders::getStoredShader(const std::string &shaderName)
-{
-    for (int i = 0; i < core::StoredShaders::Count; i++) {
-        if (core::StoredShaders::NAMES[i] == shaderName) {
-            return shaders[i];
-        }
-    }
-
-    return nullptr;
-}
-
 void collections::stored::StoredShaders::Clear()
 {
     for (auto it = shaders.begin(); it != shaders.end(); ++it) {

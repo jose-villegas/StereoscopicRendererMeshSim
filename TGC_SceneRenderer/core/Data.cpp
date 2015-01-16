@@ -84,26 +84,15 @@ const char *core::ShadersData::Samplers2D::NAMES[] = {
     "reflectionMap"
 };
 
-const char *core::StoredShaders::NAMES[] = {
-    "Diffuse",
-    "Specular",
-    "OpacityDiffuse",
-    "OpacitySpecular",
-    "BumpedDiffuse",
-    "BumpedSpecular",
-    "BumpedOpacityDiffuse",
-    "BumpedOpacitySpecular"
-};
-
 const char *core::StoredShaders::FILENAMES[] = {
-    "/resources/shaders/diffuse",
-    "/resources/shaders/specular",
-    "/resources/shaders/opacity_diffuse",
-    "/resources/shaders/opacity_specular",
-    "/resources/shaders/bumped_diffuse",
-    "/resources/shaders/bumped_specular",
-    "/resources/shaders/bumped_opacity_diffuse",
-    "/resources/shaders/bumped_opacity_specular"
+    "/resources/shaders/opaque/diffuse",
+    "/resources/shaders/opaque/specular",
+    "/resources/shaders/opaque/bumped_diffuse",
+    "/resources/shaders/opaque/bumped_specular",
+    "/resources/shaders/transparent/opacity_diffuse",
+    "/resources/shaders/transparent/opacity_specular",
+    "/resources/shaders/transparent/opacity_bumped_diffuse",
+    "/resources/shaders/transparent/opacity_bumped_specular",
 };
 
 const std::string core::StoredShaders::Filename(const Shaders &index, const unsigned int &type)

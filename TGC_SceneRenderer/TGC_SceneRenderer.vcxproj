@@ -157,6 +157,13 @@
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</CompileAsManaged>
     </ClCompile>
     <ClCompile Include="Context\LibInfo.cpp" />
+    <ClCompile Include="LoadingWindow.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="types\Plane.cpp" />
+    <ClCompile Include="types\Frustum.cpp">
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
+    </ClCompile>
     <ClCompile Include="include\GL\gl_core_4_4.c" />
     <ClCompile Include="utils\ProgressiveMeshes.cpp">
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
@@ -264,6 +271,12 @@
     <ClInclude Include="collections\CamerasCollection.h" />
     <ClInclude Include="core\Data.h" />
     <ClInclude Include="Context\LibInfo.h" />
+    <ClInclude Include="LoadingWindow.h">
+      <FileType>CppForm</FileType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="types\Plane.h" />
+    <ClInclude Include="types\Frustum.h" />
     <ClInclude Include="include\GL\gl_core_4_4.h" />
     <ClInclude Include="include\GL\wglext.h" />
     <ClInclude Include="utils\ProgressiveMeshes.h" />
@@ -312,6 +325,10 @@
     <Image Include="resources\icons\vec3DSlider.png" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="LoadingWindow.resx">
+      <DependentUpon>LoadingWindow.h</DependentUpon>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </EmbeddedResource>
     <EmbeddedResource Include="PropertiesWindow.resx">
       <DependentUpon>PropertiesWindow.h</DependentUpon>
       <SubType>Designer</SubType>
@@ -351,15 +368,19 @@
   <ItemGroup>
     <Object Include="resources\models\cube\cube.obj">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </Object>
     <Object Include="resources\models\cylinder\cylinder.obj">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </Object>
     <Object Include="resources\models\sphere\sphere.obj">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </Object>
     <Object Include="resources\models\torus\torus.obj">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </Object>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

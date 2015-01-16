@@ -11,7 +11,9 @@ types::Texture::Texture(const std::string &sFilename, const unsigned int &texId,
     this->width            = 0;
     this->height           = 0;
     this->oglTexId         = -1;
+    this->referenceCount   = 0;
     this->generateMipmaps  = true;
+    this->enableAnisotropic = true;
     this->minFilteringMode = magFilteringMode = LinearMipmapLinear;
 }
 
@@ -23,8 +25,10 @@ types::Texture::Texture(const unsigned int &texId, const TextureType &tType)
     this->bitsPerPixel     = 0;
     this->width            = 0;
     this->height           = 0;
+    this->referenceCount   = 0;
     this->oglTexId         = -1;
     this->generateMipmaps  = true;
+    this->enableAnisotropic = true;
     this->minFilteringMode = magFilteringMode = LinearMipmapLinear;
 }
 
@@ -98,7 +102,7 @@ bool types::Texture::load(const std::string &sFilename)
     }
 
     // anisotropic ( better quality texture filtering if available )
-    if (evaluateAnisoLevel(anisotropicFilteringLevel)) {
+    if (evaluateAnisoLevel(this, anisotropicFilteringLevel)) {
         glTexParameterf(GL_TEXTURE_2D, TEXTURE_MAX_ANISOTROPY_EXT, (GLfloat)anisotropicFilteringLevel);
     }
 
@@ -151,16 +155,34 @@ void types::Texture::setFilteringMode(const TextureFilteringMode min, const Text
     this->magFilteringMode = mag;
 }
 
-bool types::Texture::evaluateAnisoLevel(const float level)
+bool types::Texture::evaluateAnisoLevel(Texture *tex, const float level)
 {
-    return core::EngineData::AnisotropicFilteringAvaible() && level > 0 && level <= core::EngineData::MaxAnisotropicFilteringAvaible();
+    return tex->enableAnisotropic && core::EngineData::AnisotropicFilteringAvaible() && level > 0 && level <= core::EngineData::MaxAnisotropicFilteringAvaible();
 }
 
 void types::Texture::setAnisotropicFilteringLevel(const float level)
 {
-    if (evaluateAnisoLevel(level)) {
+    if (core::EngineData::AnisotropicFilteringAvaible() && level > 0 && level <= core::EngineData::MaxAnisotropicFilteringAvaible()) {
         anisotropicFilteringLevel = level;
+    } else { anisotropicFilteringLevel = 0; }
+}
+
+bool types::Texture::enableAnisotropicFiltering(bool val)
+{
+    this->enableAnisotropic = val;
+
+    if (evaluateAnisoLevel(this, this->anisotropicFilteringLevel)) {
+        glBindTexture(GL_TEXTURE_2D, oglTexId);
+        glTexParameterf(GL_TEXTURE_2D, TEXTURE_MAX_ANISOTROPY_EXT, (GLfloat)anisotropicFilteringLevel);
+        glBindTexture(GL_TEXTURE_2D, 0);
+        return this->enableAnisotropic = val;
+    } else {
+        glBindTexture(GL_TEXTURE_2D, oglTexId);
+        glTexParameterf(GL_TEXTURE_2D, TEXTURE_MAX_ANISOTROPY_EXT, (GLfloat)0.f);
+        glBindTexture(GL_TEXTURE_2D, 0);
     }
+
+    return this->enableAnisotropic = false;
 }
 
 Texture::~Texture()

@@ -85,8 +85,8 @@ System::Void SceneRenderer::PropertiesWindow::setActiveObjectIndex(unsigned int 
             // set ptr to component
             this->cameraComponentPtr = (scene::Camera *)ptr;
             this->cameraControl->Visible = true;
-            this->cameraControl->setValues(cameraComponentPtr->getNearClippingPlane().distance,
-                                           cameraComponentPtr->getFarClippingPlane().distance,
+            this->cameraControl->setValues(cameraComponentPtr->getNearClippingPlane(),
+                                           cameraComponentPtr->getFarClippingPlane(),
                                            cameraComponentPtr->getFieldOfView(),
                                            cameraComponentPtr->getOrthoProjectionSize(),
                                            cameraComponentPtr->getZeroParallax(),

@@ -7,10 +7,8 @@ Camera::Camera(void)
 {
     this->projectionType = Perspective;
     // normal members
-    this->nearClippingPlane.distance = 0.1f;
-    this->farClippingPlane.distance = 1000.f;
-    this->farClippingPlane.distance = 1000.0f;
-    this->nearClippingPlane.distance = 0.1f;
+    this->nearClippingPlane = 0.1f;
+    this->farClippingPlane = 1000.f;
     this->vectorUp = glm::vec3(0.f, 1.f, 0.f);
     this->fieldOfView = 75.0f;
     this->aspectRatio = 16.0f / 9.0f;
@@ -21,7 +19,7 @@ Camera::Camera(void)
     this->eyeSeparation = 0.133f;
     // subclass members
     this->base = new bases::BaseObject("Camera");
-    setProjection(aspectRatio, fieldOfView, nearClippingPlane.distance, farClippingPlane.distance);
+    setProjection(aspectRatio, fieldOfView, nearClippingPlane, farClippingPlane);
 }
 
 glm::mat4 scene::Camera::getViewMatrix(const glm::vec3 &cameraPosition, const glm::vec3 &cameraTarget, const glm::vec3 &vectorUp) const
@@ -54,8 +52,8 @@ glm::mat4 scene::Camera::getFrustumMatrix() const
                         this->horizontalVerticalClipping.y,
                         this->horizontalVerticalClipping.z,
                         this->horizontalVerticalClipping.w,
-                        this->nearClippingPlane.distance,
-                        this->farClippingPlane.distance);
+                        this->nearClippingPlane,
+                        this->farClippingPlane);
 }
 
 glm::mat4 scene::Camera::getOrthographicMatrix() const
@@ -64,8 +62,8 @@ glm::mat4 scene::Camera::getOrthographicMatrix() const
                       this->horizontalVerticalClipping.y * this->orthoProjectionSize,
                       this->horizontalVerticalClipping.z * this->orthoProjectionSize,
                       this->horizontalVerticalClipping.w * this->orthoProjectionSize,
-                      this->nearClippingPlane.distance,
-                      this->farClippingPlane.distance);
+                      this->nearClippingPlane,
+                      this->farClippingPlane);
 }
 
 void scene::Camera::setViewPortRect(const float &left, const float &right, const float &bottom, const float &top)
@@ -78,40 +76,15 @@ void scene::Camera::setProjection(const float &aspectRatio, const float &fieldOf
     this->fieldOfView = fieldOfView;
     this->aspectRatio = aspectRatio;
     // update planes
-    this->nearClippingPlane.distance = nearClipping;
-    this->farClippingPlane.distance = farClipping;
-    // planes bounds
-    this->nearClippingPlane.height = 2.f * glm::tan(this->fieldOfView / 2.f) * this->nearClippingPlane.distance;
-    this->nearClippingPlane.width = this->nearClippingPlane.height * this->aspectRatio;
-    this->farClippingPlane.height = 2.f * glm::tan(this->fieldOfView / 2.f) * this->farClippingPlane.distance;
-    this->farClippingPlane.width = this->farClippingPlane.height * this->aspectRatio;
+    this->nearClippingPlane = nearClipping;
+    this->farClippingPlane = farClipping;
     // calculate vector up based on rotation transform
     this->calculateVectorUp();
-
-    // planes points
-    if (this->base) {
-        glm::vec3 cameraPosition = this->base->transform.position;
-        glm::vec3 cameraTarget = this->getCameraTarget();
-        glm::vec3 cameraDirection = glm::normalize(cameraPosition - cameraTarget);
-        this->farClippingPlane.updatePoints(cameraTarget, cameraDirection, vectorUp, glm::cross(vectorUp, cameraDirection));
-        this->nearClippingPlane.updatePoints(cameraTarget, cameraDirection, vectorUp, glm::cross(vectorUp, cameraDirection));
-    }
-
     // Set ViewPort Accordly
-    float ymax = nearClippingPlane.distance * glm::tan(fieldOfView * glm::pi<float>() / 360.f); // (fov * pi / 180) / 2
+    float ymax = nearClippingPlane * glm::tan(fieldOfView * glm::pi<float>() / 360.f); // (fov * pi / 180) / 2
     float xmax = ymax * aspectRatio;
     this->setViewPortRect(-xmax, xmax, -ymax, ymax);
 }
-
-void scene::Camera::Plane::updatePoints(glm::vec3 position, glm::vec3 direction, glm::vec3 up, glm::vec3 right)
-{
-    glm::vec3 planePosition =  position + direction * this->distance;
-    this->points[0] = planePosition - (up * height / 2.f) - (right * width / 2.f);
-    this->points[1] = planePosition - (up * height / 2.f) + (right * width / 2.f);
-    this->points[2] = planePosition + (up * height / 2.f) - (right * width / 2.f);
-    this->points[3] = planePosition + (up * height / 2.f) + (right * width / 2.f);
-}
-
 
 scene::Camera::~Camera(void)
 {
@@ -120,22 +93,22 @@ scene::Camera::~Camera(void)
 
 void scene::Camera::setAspectRatio(const float val)
 {
-    setProjection(val, this->fieldOfView, this->nearClippingPlane.distance, this->farClippingPlane.distance);
+    setProjection(val, this->fieldOfView, this->nearClippingPlane, this->farClippingPlane);
 }
 
 void scene::Camera::setNearClippingDistance(const float val)
 {
-    setProjection(this->aspectRatio, this->fieldOfView, val, this->farClippingPlane.distance);
+    setProjection(this->aspectRatio, this->fieldOfView, val, this->farClippingPlane);
 }
 
 void scene::Camera::setFarClippingDistance(const float val)
 {
-    setProjection(this->aspectRatio, this->fieldOfView, this->nearClippingPlane.distance, val);
+    setProjection(this->aspectRatio, this->fieldOfView, this->nearClippingPlane, val);
 }
 
 void scene::Camera::setFieldOfView(const float val)
 {
-    setProjection(this->aspectRatio, val, this->nearClippingPlane.distance, this->farClippingPlane.distance);
+    setProjection(this->aspectRatio, val, this->nearClippingPlane, this->farClippingPlane);
 }
 
 void scene::Camera::setEyeSeparation(const float val)
@@ -204,10 +177,10 @@ glm::mat4 scene::Camera::leftFrustum()
     float leftSeparationStep = horizontalClipStep - this->eyeSeparation / 2.f;
     float rightSeparationStep = horizontalClipStep + this->eyeSeparation / 2.f;
     // horizontal planes movement
-    left = -leftSeparationStep * this->nearClippingPlane.distance / this->zeroParallax;
-    right = rightSeparationStep * this->nearClippingPlane.distance / this->zeroParallax;
+    left = -leftSeparationStep * this->nearClippingPlane / this->zeroParallax;
+    right = rightSeparationStep * this->nearClippingPlane / this->zeroParallax;
     // return projection matrix
-    return glm::frustum(left, right, bottom, top, this->nearClippingPlane.distance, this->farClippingPlane.distance);
+    return glm::frustum(left, right, bottom, top, this->nearClippingPlane, this->farClippingPlane);
 }
 
 glm::mat4 scene::Camera::rightFrustum()
@@ -221,10 +194,10 @@ glm::mat4 scene::Camera::rightFrustum()
     float leftSeparationStep = horizontalClipStep - this->eyeSeparation / 2.f;
     float rightSeparationStep = horizontalClipStep + this->eyeSeparation / 2.f;
     // horizontal planes movement
-    left = -rightSeparationStep * this->nearClippingPlane.distance / this->zeroParallax;
-    right = leftSeparationStep * this->nearClippingPlane.distance / this->zeroParallax;
+    left = -rightSeparationStep * this->nearClippingPlane / this->zeroParallax;
+    right = leftSeparationStep * this->nearClippingPlane / this->zeroParallax;
     // return projection matrix
-    return glm::frustum(left, right, bottom, top, this->nearClippingPlane.distance, this->farClippingPlane.distance);
+    return glm::frustum(left, right, bottom, top, this->nearClippingPlane, this->farClippingPlane);
 }
 
 void scene::Camera::renderMeshes(const core::Renderer *actRenderer)
@@ -249,6 +222,5 @@ glm::vec3 scene::Camera::getCameraTarget() const
 
 const glm::vec3 &scene::Camera::calculateVectorUp()
 {
-    this->vectorUp = glm::mat3_cast(this->base->transform.rotation) * glm::vec3(0.0, 1.0, 0.0);
-    return this->vectorUp;
+    return this->vectorUp = glm::mat3_cast(this->base->transform.rotation) * glm::vec3(0.0, 1.0, 0.0);
 }

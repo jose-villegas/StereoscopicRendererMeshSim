@@ -15,7 +15,7 @@
 
 using namespace core;
 
-Renderer::Renderer(void)
+Renderer::Renderer(void) : initialized(false)
 {
     // Get Tools / Collections Instances
     this->framerate     = utils::FrameRate::Instance();
@@ -43,13 +43,13 @@ int core::Renderer::load()
 
 void core::Renderer::setup()
 {
+    if (this->initialized) { return; }
+
     // Initialize Engine Data
     core::Data::Initialize();
     // Setup OpenGL Flags
     glEnable(GL_CULL_FACE);
     glEnable(GL_DEPTH_TEST);
-    glDisable(GL_BLEND);
-    // glBlendFunc(GL_SRC_COLOR, GL_ONE_MINUS_SRC_ALPHA);
     glDepthFunc(GL_LEQUAL);
     glCullFace(GL_BACK);
     types::Texture::setAnisotropicFilteringLevel(core::EngineData::MaxAnisotropicFilteringAvaible());
@@ -72,6 +72,8 @@ void core::Renderer::setup()
     this->lights->getLight(0)->base->transform.setPosition(0.0, 0.0, 3.0);
     // Add test objects
     this->sceneObjects->addMesh(StoredMeshes::Sphere);
+    // set renderer is ready
+    this->initialized = true;
 }
 
 void core::Renderer::loop()
@@ -90,23 +92,31 @@ void core::Renderer::loop()
 
 void core::Renderer::viewport(const unsigned int &width, const unsigned int &height)
 {
+    if (!initialized) { return; }
+
     glViewport(0, 0, width, height);
     this->cameras->getActiveCamera()->setAspectRatio((float)width / (float)height);
 }
 
 void core::Renderer::polygonModel(Modes mode)
 {
+    if (!initialized) { return; }
+
     glPolygonMode(GL_FRONT_AND_BACK, mode);
 }
 
 void core::Renderer::unload()
 {
+    if (!initialized) { return; }
+
     core::Data::Clear();
     delete this->matrices;
 }
 
 core::Renderer::~Renderer()
 {
+    if (!initialized) { return; }
+
     unload();
 }
 

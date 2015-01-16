@@ -44,24 +44,33 @@ namespace types {
             void unload() const;
             void setFilteringMode(const TextureFilteringMode min, const TextureFilteringMode mag);
 
-            unsigned int getWidth()    const { return this->width;   };
-            unsigned int getHeight()   const { return this->height;  };
-            unsigned int getOGLTexId() const { return this->oglTexId; };
-            unsigned int geTexId()     const { return this->texId;    };
-            unsigned int getType()     const { return this->textureType; };
-            std::string getTextureTypeString();
+            unsigned int getWidth()    const { return this->width;   }
+            unsigned int getHeight()   const { return this->height;  }
+            unsigned int getOGLTexId() const { return this->oglTexId; }
+            unsigned int geTexId()     const { return this->texId;    }
+            unsigned int getType()     const { return this->textureType; }
+            unsigned int getReferenceCount() const { return this->referenceCount; }
+            // adds one material reference to total references count
+            void addReference() { this->referenceCount++; }
+            // removes one material reference to total references count
+            void removeReference() { this->referenceCount--; }
 
+            std::string getTextureTypeString();
             std::string getFilename() { return this->sFilename; };
+            // sets if this texture uses anisotropic filtering returns
+            // false if anistropic evaluation failed otherwise returns val
+            // warning: unbinds current binded texture
+            bool enableAnisotropicFiltering(bool val);
+
+            static void setAnisotropicFilteringLevel(const float level);
 
             friend bool operator <(const Texture &lhs, const Texture &rhs)
             {
                 return lhs.textureType > rhs.textureType;
             }
 
-            static void setAnisotropicFilteringLevel(const float level);
-
         private:
-            static bool evaluateAnisoLevel(const float level);
+            static bool evaluateAnisoLevel(Texture *tex, const float level);
 
             TextureType textureType;
 
@@ -76,7 +85,11 @@ namespace types {
             unsigned int bitsPerPixel;
             unsigned int oglTexId;
             unsigned int texId;
+            // amount of material references, used to safe deletion if different
+            // meshes share the same textures on different materials
+            unsigned int referenceCount;
             bool generateMipmaps;
+            bool enableAnisotropic;
 
             std::string sFilename;
     };
