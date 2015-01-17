@@ -108,6 +108,11 @@ void main()
 {
 	// obtain texture color at current position
 	vec4 diffuseColor = texture(diffuseMap, texCoord);
+
+    if(diffuseColor.a <= alphaCutoff) { 
+        discard;
+    }
+    
 	// calculate phong shading
 	vec3 accumColor = phong(position, normal, diffuseColor.rgb);
 	// correct gama values

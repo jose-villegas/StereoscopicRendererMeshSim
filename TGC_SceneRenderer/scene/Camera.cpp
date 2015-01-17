@@ -119,6 +119,10 @@ void scene::Camera::setEyeSeparation(const float val)
 
 void scene::Camera::renderFromPOV(const core::Renderer *actRenderer)
 {
+    // clear background color and buffers bits
+    glClearColor(0.0f, 0.0f, 0.0f, 0.0f) ;
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    // obtain view matrix, it doesn't change through the whole loop
     glm::mat4 viewMatrix = this->getViewMatrix();
 
     // actrenderer elemental matrices for shader use

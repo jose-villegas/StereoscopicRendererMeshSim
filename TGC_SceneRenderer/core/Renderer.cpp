@@ -12,6 +12,7 @@
 #include "glm/gtc/matrix_inverse.hpp"
 #include "Data.h"
 #include "../collections/MeshesCollection.h"
+#include "../types/TextureRenderer.h"
 
 using namespace core;
 
@@ -78,9 +79,6 @@ void core::Renderer::setup()
 
 void core::Renderer::loop()
 {
-    // clear background color and buffers bits
-    glClearColor(0.0f, 0.0f, 0.0f, 0.0f) ;
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     // from cameras collection get the current active camera
     this->activeCamera = this->cameras->getActiveCamera();
 

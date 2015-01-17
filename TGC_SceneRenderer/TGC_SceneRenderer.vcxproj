@@ -160,6 +160,7 @@
     <ClCompile Include="LoadingWindow.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="types\TextureRenderer.cpp" />
     <ClCompile Include="types\Plane.cpp" />
     <ClCompile Include="types\Frustum.cpp">
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
@@ -275,6 +276,7 @@
       <FileType>CppForm</FileType>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="types\TextureRenderer.h" />
     <ClInclude Include="types\Plane.h" />
     <ClInclude Include="types\Frustum.h" />
     <ClInclude Include="include\GL\gl_core_4_4.h" />

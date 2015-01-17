@@ -34,7 +34,7 @@ types::Texture *TexturesCollection::addTexture(const std::string &sFilename, typ
     }
 
     types::Texture *newTex = new types::Texture(sFilename, idCounter, textureType);
-    bool loadingResult = newTex->load();
+    bool loadingResult = newTex->loadTexture();
 
     if (!loadingResult) {
         std::cout << "Textures(" << this << "): " << "Error loading " << sFilename << " texture" << std::endl;

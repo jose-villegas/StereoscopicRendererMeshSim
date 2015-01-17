@@ -184,10 +184,15 @@ vec3 oren_nayar_blinn(vec3 pos, vec3 norm, in vec3 fragDiffuse, in vec3 fragSpec
 
 void main()
 {
+    vec4 opacityValue = texture(opacityMap, texCoord);
+
+    if(opacityValue.r <= alphaCutoff) { 
+        discard;
+    }
+
     // obtain texture color at current position
     vec4 diffuseColor = texture(diffuseMap, texCoord);
     vec4 specularColor = texture(specularMap, texCoord);
-    vec4 opacityValue = texture(opacityMap, texCoord);
     // calculate phong shading
     vec3 accumColor = blinn_phong(position, normal, diffuseColor.rgb, specularColor.rgb);
     // correct gama values

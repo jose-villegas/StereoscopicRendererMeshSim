@@ -10,11 +10,15 @@ types::Texture::Texture(const std::string &sFilename, const unsigned int &texId,
     this->bitsPerPixel     = 0;
     this->width            = 0;
     this->height           = 0;
-    this->oglTexId         = -1;
+    this->oglTexId         = 0;
     this->referenceCount   = 0;
     this->generateMipmaps  = true;
     this->enableAnisotropic = true;
+    this->textureDimension = GL_TEXTURE_2D;
+    this->internalFormat = GL_RGB;
+    this->readType = GL_UNSIGNED_BYTE;
     this->minFilteringMode = magFilteringMode = LinearMipmapLinear;
+    this->sWrappingMode = tWrappingMode = Repeat;
 }
 
 types::Texture::Texture(const unsigned int &texId, const TextureType &tType)
@@ -26,18 +30,38 @@ types::Texture::Texture(const unsigned int &texId, const TextureType &tType)
     this->width            = 0;
     this->height           = 0;
     this->referenceCount   = 0;
+    this->oglTexId         = 0;
+    this->generateMipmaps  = true;
+    this->enableAnisotropic = true;
+    this->textureDimension = GL_TEXTURE_2D;
+    this->internalFormat = GL_RGB;
+    this->readType = GL_UNSIGNED_BYTE;
+    this->minFilteringMode = magFilteringMode = LinearMipmapLinear;
+    this->sWrappingMode = tWrappingMode = Repeat;
+}
+
+types::Texture::Texture()
+{
+    this->sFilename        = "Empty";
+    this->texId            = 0;
+    this->textureType      = None;
+    this->bitsPerPixel     = 0;
+    this->width            = 0;
+    this->height           = 0;
+    this->referenceCount   = 0;
     this->oglTexId         = -1;
     this->generateMipmaps  = true;
     this->enableAnisotropic = true;
+    this->textureDimension = GL_TEXTURE_2D;
     this->minFilteringMode = magFilteringMode = LinearMipmapLinear;
 }
 
-bool types::Texture::load()
+bool types::Texture::loadTexture()
 {
-    return load(this->sFilename);
+    return loadTexture(this->sFilename);
 }
 
-bool types::Texture::load(const std::string &sFilename)
+bool types::Texture::loadTexture(const std::string &sFilename)
 {
     //check the file signature and deduce its format
     FREE_IMAGE_FORMAT fif = FreeImage_GetFileType(sFilename.c_str(), 0);
@@ -65,8 +89,6 @@ bool types::Texture::load(const std::string &sFilename)
         return false;
     }
 
-    // Convert to 32 for unified texture BPP
-    FreeImage_ConvertTo32Bits(dib);
     // Retrieve the image raw data
     BYTE *bits = FreeImage_GetBits(dib);
     //get the image width and height
@@ -81,25 +103,19 @@ bool types::Texture::load(const std::string &sFilename)
     }
 
     // Check Image Bit Density
-    GLuint imageFormat = bitsPerPixel == 32 ? GL_BGRA :
-                         bitsPerPixel == 24 ? GL_BGR  :
-                         bitsPerPixel == 16 ? GL_RG   :
-                         bitsPerPixel ==  8 ? GL_RED  : 0;
+    format = bitsPerPixel == 32 ? GL_BGRA :
+             bitsPerPixel == 24 ? GL_BGR  :
+             bitsPerPixel == 16 ? GL_RG   :
+             bitsPerPixel ==  8 ? GL_RED  : 0;
     glGenTextures(1, &oglTexId);
     glBindTexture(GL_TEXTURE_2D, oglTexId);											// bind to the new texture ID
     // store the texture data for OpenGL use
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, imageFormat, GL_UNSIGNED_BYTE, bits);
-
-    if (this->generateMipmaps) {
-        glGenerateMipmap(GL_TEXTURE_2D);
-        // bilinear or trilinear
-        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, (GLfloat)this->minFilteringMode);
-        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, (GLfloat)this->magFilteringMode);
-    } else {
-        // bilinear
-        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    }
+    internalFormat = GL_RGBA8;
+    glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, width, height, 0, format, readType, bits);
+    // set texture filtering mode
+    this->setFilteringMode(this->minFilteringMode, this->magFilteringMode, this->generateMipmaps);
+    // set wrapping mode
+    this->setWrappingMode(this->sWrappingMode, this->tWrappingMode);
 
     // anisotropic ( better quality texture filtering if available )
     if (evaluateAnisoLevel(this, anisotropicFilteringLevel)) {
@@ -110,11 +126,14 @@ bool types::Texture::load(const std::string &sFilename)
     // Free FreeImage's copy of the data
     FreeImage_Unload(dib);
     this->sFilename = sFilename;
+    // successful texture load
     return true;
 }
 
 void types::Texture::unload() const
 {
+    if (oglTexId == 0) { return; }
+
     glDeleteTextures(1, &oglTexId);
 }
 
@@ -149,10 +168,40 @@ std::string types::Texture::getTextureTypeString()
     return "";
 }
 
-void types::Texture::setFilteringMode(const TextureFilteringMode min, const TextureFilteringMode mag)
+void types::Texture::setFilteringMode(const TextureFilteringMode min, const TextureFilteringMode mag, const bool generateMipmaps)
 {
     this->minFilteringMode = min;
     this->magFilteringMode = mag;
+    this->generateMipmaps = generateMipmaps;
+
+    if (oglTexId == 0) { return; }
+
+    glBindTexture(GL_TEXTURE_2D, oglTexId);
+
+    // filtering mode
+    if (this->generateMipmaps) {
+        glGenerateMipmap(GL_TEXTURE_2D);
+        // bilinear or trilinear
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, (GLfloat)this->minFilteringMode);
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, (GLfloat)this->magFilteringMode);
+    } else {
+        // bilinear o discrete
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, (GLfloat)std::min(this->minFilteringMode, Linear));
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, (GLfloat)std::min(this->magFilteringMode, Linear));
+    }
+}
+
+void types::Texture::setWrappingMode(const TextureWrappingMode wrapS, const TextureWrappingMode wrapT)
+{
+    this->sWrappingMode = wrapS;
+    this->tWrappingMode = wrapT;
+
+    if (oglTexId == 0) { return; }
+
+    // bind and set wrapping mode
+    glBindTexture(GL_TEXTURE_2D, oglTexId);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, (GLint)wrapS);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, (GLint)wrapT);
 }
 
 bool types::Texture::evaluateAnisoLevel(Texture *tex, const float level)
@@ -171,18 +220,71 @@ bool types::Texture::enableAnisotropicFiltering(bool val)
 {
     this->enableAnisotropic = val;
 
+    if (oglTexId == 0) { return false; }
+
     if (evaluateAnisoLevel(this, this->anisotropicFilteringLevel)) {
         glBindTexture(GL_TEXTURE_2D, oglTexId);
         glTexParameterf(GL_TEXTURE_2D, TEXTURE_MAX_ANISOTROPY_EXT, (GLfloat)anisotropicFilteringLevel);
-        glBindTexture(GL_TEXTURE_2D, 0);
         return this->enableAnisotropic = val;
     } else {
         glBindTexture(GL_TEXTURE_2D, oglTexId);
         glTexParameterf(GL_TEXTURE_2D, TEXTURE_MAX_ANISOTROPY_EXT, (GLfloat)0.f);
-        glBindTexture(GL_TEXTURE_2D, 0);
     }
 
     return this->enableAnisotropic = false;
+}
+
+void types::Texture::createTexture(void *rawData)
+{
+    // The texture we're going to render to
+    glGenTextures(1, &oglTexId);
+    // bind the new texture
+    glBindTexture(GL_TEXTURE_2D, oglTexId);
+    // create empty texture
+    glTexImage2D(GL_TEXTURE_2D, 0, this->internalFormat, this->width, this->height, 0, this->format, this->readType, rawData);
+    // set filtering mode
+    this->setFilteringMode(this->minFilteringMode, this->magFilteringMode, this->generateMipmaps);
+    // set wrapping mode
+    this->setWrappingMode(this->sWrappingMode, this->tWrappingMode);
+}
+
+void types::Texture::createTexture()
+{
+    // The texture we're going to render to
+    glGenTextures(1, &oglTexId);
+    // bind the new texture
+    glBindTexture(GL_TEXTURE_2D, oglTexId);
+    // create empty texture
+    glTexImage2D(GL_TEXTURE_2D, 0, this->internalFormat, this->width, this->height, 0, this->format, this->readType, 0);
+    // set filtering mode
+    this->setFilteringMode(this->minFilteringMode, this->magFilteringMode, this->generateMipmaps);
+    // set wrapping mode
+    this->setWrappingMode(this->sWrappingMode, this->tWrappingMode);
+}
+
+void types::Texture::createTexture(const unsigned int width,
+                                   const unsigned int height,
+                                   const TextureFilteringMode min /*= Nearest*/,
+                                   const TextureFilteringMode mag /*= Nearest*/,
+                                   const TextureWrappingMode sWrap /*= Repeat*/,
+                                   const TextureWrappingMode tWrap /*= Repeat*/,
+                                   const bool generateMipmaps /*= false*/,
+                                   const unsigned int readType /* = GL_UNSIGNED_BYTE*/,
+                                   const GLint internalFormat /*= GL_RGB*/,
+                                   const GLint format /*= GL_RGB*/,
+                                   void *rawData /*= nullptr*/)
+{
+    this->width = width; this->height = height;
+    this->minFilteringMode = min;
+    this->magFilteringMode = mag;
+    this->sWrappingMode = sWrap;
+    this->tWrappingMode = tWrap;
+    this->generateMipmaps = generateMipmaps;
+    this->internalFormat = internalFormat;
+    this->format = format;
+    this->readType = readType;
+    // create textue with passed params
+    rawData == nullptr ? this->createTexture() : this->createTexture(rawData);
 }
 
 Texture::~Texture()

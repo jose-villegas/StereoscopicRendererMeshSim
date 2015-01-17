@@ -49,37 +49,37 @@ namespace SceneRenderer {
             /// </summary>
             void InitializeComponent(void)
             {
-                this->progressBar1 = (gcnew System::Windows::Forms::ProgressBar());
-                this->SuspendLayout();
-                //
-                // progressBar1
-                //
-                this->progressBar1->Dock = System::Windows::Forms::DockStyle::Top;
-                this->progressBar1->Location = System::Drawing::Point(0, 0);
-                this->progressBar1->Name = L"progressBar1";
-                this->progressBar1->Size = System::Drawing::Size(284, 23);
-                this->progressBar1->Style = System::Windows::Forms::ProgressBarStyle::Marquee;
-                this->progressBar1->TabIndex = 0;
-                //
-                // LoadingWindow
-                //
-                this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
-                this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-                this->AutoSize = true;
-                this->ClientSize = System::Drawing::Size(284, 23);
-                this->ControlBox = false;
-                this->Controls->Add(this->progressBar1);
-                this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::FixedToolWindow;
-                this->MaximizeBox = false;
-                this->MinimizeBox = false;
-                this->Name = L"LoadingWindow";
-                this->ShowIcon = false;
-                this->ShowInTaskbar = false;
-                this->Text = L"Loading...";
-                this->TopMost = true;
-                this->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &LoadingWindow::LoadingWindow_Paint);
-                this->ResumeLayout(false);
-            }
+				this->progressBar1 = (gcnew System::Windows::Forms::ProgressBar());
+				this->SuspendLayout();
+				// 
+				// progressBar1
+				// 
+				this->progressBar1->Dock = System::Windows::Forms::DockStyle::Top;
+				this->progressBar1->Location = System::Drawing::Point(0, 0);
+				this->progressBar1->Name = L"progressBar1";
+				this->progressBar1->Size = System::Drawing::Size(284, 23);
+				this->progressBar1->Style = System::Windows::Forms::ProgressBarStyle::Marquee;
+				this->progressBar1->TabIndex = 0;
+				// 
+				// LoadingWindow
+				// 
+				this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
+				this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
+				this->AutoSize = true;
+				this->ClientSize = System::Drawing::Size(284, 23);
+				this->ControlBox = false;
+				this->Controls->Add(this->progressBar1);
+				this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::FixedToolWindow;
+				this->MaximizeBox = false;
+				this->MinimizeBox = false;
+				this->Name = L"LoadingWindow";
+				this->ShowIcon = false;
+				this->ShowInTaskbar = false;
+				this->Text = L"Loading...";
+				this->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &LoadingWindow::LoadingWindow_Paint);
+				this->ResumeLayout(false);
+
+			}
             #pragma endregion
         private: System::Void LoadingWindow_Paint(System::Object  ^sender, System::Windows::Forms::PaintEventArgs  ^e);
     };

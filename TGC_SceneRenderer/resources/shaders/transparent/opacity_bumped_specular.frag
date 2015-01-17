@@ -188,7 +188,7 @@ void main()
 {
     vec4 opacityValue = texture(opacityMap, texCoord);
     
-    if(opacityValue.r == 0.5) { 
+    if(opacityValue.r <= alphaCutoff) { 
         discard;
     }
     // obtain texture color at current position

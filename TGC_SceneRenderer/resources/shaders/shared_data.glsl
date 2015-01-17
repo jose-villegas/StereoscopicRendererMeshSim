@@ -1,8 +1,9 @@
 
-// utiliti constants
-const float PI = 3.14159f;
+// utility constants
+const float PI          = 3.14159f;
+const float alphaCutoff = 0.1f;
 // Rendering Constrains
-const uint MAX_LIGHTS = 32;
+const uint MAX_LIGHTS   = 32;
 
 // Shared Structures
 struct Light {

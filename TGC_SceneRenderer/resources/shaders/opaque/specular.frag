@@ -185,6 +185,11 @@ void main()
 {
     // obtain texture color at current position
     vec4 diffuseColor = texture(diffuseMap, texCoord);
+
+    if(diffuseColor.a <= alphaCutoff) { 
+        discard;
+    }
+
     vec4 specularColor = texture(specularMap, texCoord);
     // calculate phong shading
     vec3 accumColor = blinn_phong(position, normal, diffuseColor.rgb, specularColor.rgb);

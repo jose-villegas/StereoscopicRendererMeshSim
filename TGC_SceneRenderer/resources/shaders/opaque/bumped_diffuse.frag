@@ -111,6 +111,11 @@ void main()
 {
 	// obtain texture color at current position
 	vec4 diffuseColor = texture(diffuseMap, texCoord);
+
+    if(diffuseColor.a <= alphaCutoff) { 
+        discard;
+    }
+
     vec3 normalFromMap = texture(normalsMap, texCoord).rgb * 2.f - 1.f;
 	// calculate phong shading
 	vec3 accumColor = phong(position, normalFromMap, diffuseColor.rgb);
