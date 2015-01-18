@@ -71,11 +71,11 @@ void bases::ShaderLinkBlock::updateUniformBufferData()
 
 void bases::ShaderLinkBlock::setShaderProgram(types::ShaderProgram *shp)
 {
-    this->sLinkSP = shp;
+    this->shaderLinkProgram = shp;
 }
 
 bases::ShaderLinkBlock::ShaderLinkBlock()
 {
-    this->sLinkSP = nullptr;
+    this->shaderLinkProgram = nullptr;
     this->uniformBlockInfo = nullptr;
 }

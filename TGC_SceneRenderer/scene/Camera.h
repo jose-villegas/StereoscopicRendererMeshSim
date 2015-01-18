@@ -16,7 +16,7 @@ namespace collections {
 }
 
 namespace core {
-    class Renderer;
+    class Engine;
 }
 
 namespace scene {
@@ -34,6 +34,8 @@ namespace scene {
             glm::vec3 vectorUp;
             float fieldOfView;
             float aspectRatio;
+            float width;
+            float height;
             // orthographic projection size
             float orthoProjectionSize;
             // stereo 3d projection data members
@@ -47,7 +49,7 @@ namespace scene {
             ~Camera(void);
 
             glm::vec3 getCameraTarget() const;
-            void renderMeshes(const core::Renderer *actRenderer);
+            void renderMeshes(const core::Engine *actRenderer);
 
         public:
 
@@ -86,8 +88,11 @@ namespace scene {
             void setOrthoProjectionSize(float val) { orthoProjectionSize = val; }
             void setZeroParallax(float val) { zeroParallax = val; }
             void setVectorUp(float a, float b, float c) { vectorUp = glm::vec3(a, b, c); }
-            // camera render meshes
-            void renderFromPOV(const core::Renderer *actRenderer);
+            // renders scene meshes from the camera point of view
+            void renderFromPOV(const core::Engine *actRenderer);
+            // sets the rendering view port and updates camera accordly,
+            // warning this changes the whole render target viewport
+            void viewport(const unsigned int width, const unsigned int height);
     };
 }
 

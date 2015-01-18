@@ -23,7 +23,7 @@ OGLContext::COpenGL::COpenGL(System::Windows::Forms::Panel ^parentForm, int iPos
     }
 
     // Create Renderer (Core::Renderer is in charge of rendering all scene objects and misc)
-    oglRender = core::Renderer::Instance();
+    oglRender = core::Engine::Instance();
 
     if (!oglRender->load()) {
         std::cout << "Failed to initialize OpenGL" << std::endl;
@@ -164,15 +164,15 @@ void OGLContext::COpenGL::renderMode(RenderMode mode)
 
     switch (mode) {
         case OGLContext::Points:
-            this->oglRender->polygonModel(core::Renderer::Points);
+            this->oglRender->polygonModel(core::Engine::Points);
             break;
 
         case OGLContext::Wireframe:
-            this->oglRender->polygonModel(core::Renderer::Wireframe);
+            this->oglRender->polygonModel(core::Engine::Wireframe);
             break;
 
         case OGLContext::Textured:
-            this->oglRender->polygonModel(core::Renderer::Textured);
+            this->oglRender->polygonModel(core::Engine::Textured);
             break;
 
         default:

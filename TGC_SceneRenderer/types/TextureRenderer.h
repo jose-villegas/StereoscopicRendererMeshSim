@@ -23,7 +23,9 @@ namespace types {
             TextureRenderer(void);
             ~TextureRenderer(void);
 
+            // creates a frame buffer object
             bool createRenderTarget(const unsigned int width, const unsigned int height);
+            // adds another texture target to a new color attachment
             void addColorAttachment(const Texture::TextureFilteringMode min = Texture::TextureFilteringMode::Nearest,
                                     const Texture::TextureFilteringMode mag = Texture::TextureFilteringMode::Nearest,
                                     const Texture::TextureWrappingMode sWrap = Texture::TextureWrappingMode::ClampToEdge,
@@ -41,6 +43,8 @@ namespace types {
             void bind();
             // unbinds this frame buffer object
             void unbind();
+            // returns const reference to depth texture class
+            const Texture *getDepthTexture() const { return this->depthTexture; }
     };
 }
 

@@ -115,7 +115,7 @@ unsigned int types::ShaderProgram::addUniformBlock(const std::string &sUniformBl
 
     // There is a uniform block with this name already saved
     if (it != this->uniformBlocks.end()) {
-        std::cout << "ShaderProgram(" << this << "): " << "There is a uniform block with name (" << sUniformBlockName << ") already saved, trying binding to programID..." << std::endl;
+        std::cout << "ShaderProgram(" << this << "): " << "There is a uniform block with name (" << sUniformBlockName << ") already saved, binding UBO to programID" << std::endl;
         // we still trying to bind the uniform block to this shaderprogram since the blockIndex can change between shaderprograms
         glUniformBlockBinding(this->programID, blockIndex, bindingPoint); return true;
     }

@@ -107,18 +107,18 @@ vec3 oren_nayar(vec3 pos, vec3 norm, in vec3 fragDiffuse, float roughness)
 
 void main()
 {
+    // obtain texture color at current position
+    vec4 diffuseColor = texture(diffuseMap, texCoord);
     vec4 opacityValue = texture(opacityMap, texCoord);
 
-    if(opacityValue.r <= alphaCutoff) { 
+    if(diffuseColor.a <= alphaCutoff || opacityValue.a <= alphaCutoff || opacityValue.r <= alphaCutoff) { 
         discard;
     }
 
-    // obtain texture color at current position
-    vec4 diffuseColor = texture(diffuseMap, texCoord);
 	// calculate phong shading
 	vec3 accumColor = phong(position, normal, diffuseColor.rgb);
 	// correct gama values
 	accumColor = gamma_correction(accumColor);
 	// output fragment color
-	fragColor = vec4(accumColor, opacityValue.r);
+	fragColor = vec4(accumColor, opacityValue.a);
 }

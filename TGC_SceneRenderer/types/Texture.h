@@ -62,7 +62,7 @@ namespace types {
                                const GLint format = GL_RGB,
                                void *rawData = nullptr);
             // deletes texture from the GPU memory
-            void unload() const;
+            void unload();
             // sets the texture min and mag filtering flag
             void setFilteringMode(const TextureFilteringMode min, const TextureFilteringMode mag, const bool generateMipmaps);
             // sets wrapping mode

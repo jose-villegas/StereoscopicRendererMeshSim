@@ -1,9 +1,10 @@
 #pragma once
 #include "../types/Transform.h"
+#include "Renderable.h"
 #include <string>
 namespace bases {
 
-    class BaseObject {
+    class BaseObject : public Renderable {
         public:
             bool active;
             std::string objectName;
@@ -12,8 +13,6 @@ namespace bases {
             BaseObject(void);
             BaseObject(const std::string &sObjectName);
             virtual ~BaseObject() {};
-
-            virtual void render() {};
     };
 }
 

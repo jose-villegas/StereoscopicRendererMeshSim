@@ -26,6 +26,7 @@ namespace scene {
     class Mesh : public bases::BaseComponent, public bounding::Bounds {
         public:
             void render();
+            void render(const bool positions, const bool uvs, const bool normals, const bool tangents, const bool bitangents, const bool disableShaders = false);
 
             unsigned int getPolyCount() const { return polyCount; }
             unsigned int getVertexCount() const { return vertexCount; }

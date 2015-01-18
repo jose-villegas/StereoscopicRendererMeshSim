@@ -1,4 +1,4 @@
-#include "Renderer.h"
+#include "Engine.h"
 
 #include "../collections/SceneObjectsCollection.h"
 #include "../collections/stored/StoredShaders.h"
@@ -16,7 +16,7 @@
 
 using namespace core;
 
-Renderer::Renderer(void) : initialized(false)
+Engine::Engine(void) : initialized(false)
 {
     // Get Tools / Collections Instances
     this->framerate     = utils::FrameRate::Instance();
@@ -28,21 +28,21 @@ Renderer::Renderer(void) : initialized(false)
     this->textures		= collections::TexturesCollection::Instance();
 }
 
-Renderer *core::Renderer::Instance()
+Engine *core::Engine::Instance()
 {
     if (!instance) {
-        instance = new Renderer();
+        instance = new Engine();
     }
 
     return instance;
 }
 
-int core::Renderer::load()
+int core::Engine::load()
 {
     return ogl_LoadFunctions();
 }
 
-void core::Renderer::setup()
+void core::Engine::setup()
 {
     if (this->initialized) { return; }
 
@@ -77,7 +77,7 @@ void core::Renderer::setup()
     this->initialized = true;
 }
 
-void core::Renderer::loop()
+void core::Engine::loop()
 {
     // from cameras collection get the current active camera
     this->activeCamera = this->cameras->getActiveCamera();
@@ -88,22 +88,21 @@ void core::Renderer::loop()
     this->activeCamera->renderFromPOV(this);
 }
 
-void core::Renderer::viewport(const unsigned int &width, const unsigned int &height)
+void core::Engine::viewport(const unsigned int width, const unsigned int height)
 {
     if (!initialized) { return; }
 
-    glViewport(0, 0, width, height);
-    this->cameras->getActiveCamera()->setAspectRatio((float)width / (float)height);
+    this->cameras->getActiveCamera()->viewport(width, height);
 }
 
-void core::Renderer::polygonModel(Modes mode)
+void core::Engine::polygonModel(Modes mode)
 {
     if (!initialized) { return; }
 
     glPolygonMode(GL_FRONT_AND_BACK, mode);
 }
 
-void core::Renderer::unload()
+void core::Engine::unload()
 {
     if (!initialized) { return; }
 
@@ -111,11 +110,11 @@ void core::Renderer::unload()
     delete this->matrices;
 }
 
-core::Renderer::~Renderer()
+core::Engine::~Engine()
 {
     if (!initialized) { return; }
 
     unload();
 }
 
-Renderer *core::Renderer::instance = nullptr;
+Engine *core::Engine::instance = nullptr;

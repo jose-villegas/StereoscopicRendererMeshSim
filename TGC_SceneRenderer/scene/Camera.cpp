@@ -1,5 +1,5 @@
 #include "Camera.h"
-#include "..\Core\Renderer.h"
+#include "..\Core\Engine.h"
 #include "..\collections\MeshesCollection.h"
 using namespace scene;
 
@@ -117,7 +117,7 @@ void scene::Camera::setEyeSeparation(const float val)
 }
 
 
-void scene::Camera::renderFromPOV(const core::Renderer *actRenderer)
+void scene::Camera::renderFromPOV(const core::Engine *actRenderer)
 {
     // clear background color and buffers bits
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f) ;
@@ -204,7 +204,7 @@ glm::mat4 scene::Camera::rightFrustum()
     return glm::frustum(left, right, bottom, top, this->nearClippingPlane, this->farClippingPlane);
 }
 
-void scene::Camera::renderMeshes(const core::Renderer *actRenderer)
+void scene::Camera::renderMeshes(const core::Engine *actRenderer)
 {
     for (unsigned int i = 0; i < actRenderer->meshes->meshCount(); i++) {
         // set model view matrix per mesh
@@ -227,4 +227,11 @@ glm::vec3 scene::Camera::getCameraTarget() const
 const glm::vec3 &scene::Camera::calculateVectorUp()
 {
     return this->vectorUp = glm::mat3_cast(this->base->transform.rotation) * glm::vec3(0.0, 1.0, 0.0);
+}
+
+void scene::Camera::viewport(const unsigned int width, const unsigned int height)
+{
+    glViewport(0, 0, width, height);
+    this->width = (float)width; this->height = (float)height;
+    this->setAspectRatio((float)this->width / (float)this->height);
 }

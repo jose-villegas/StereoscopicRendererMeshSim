@@ -8,7 +8,7 @@
 
 namespace core {
 
-    class Renderer {
+    class Engine {
 
         public:
 
@@ -18,23 +18,25 @@ namespace core {
                 Textured = GL_FILL,
             };
 
-            static Renderer *Instance();
+            static Engine *Instance();
+
             int load();
             void setup();
             void unload();
             void loop();
-            void viewport(const unsigned int &width, const unsigned int &height);
+            void viewport(const unsigned int width, const unsigned int height);
             void polygonModel(Modes mode);
-            ~Renderer();
+            void meshRenderFlags(bool position, bool uvs, bool normals, bool tangents, bool bitangets);
+            ~Engine();
 
         private:
             // camera has access to renderer collections
             friend class scene::Camera;
             // constructor private for single instance
-            Renderer(void);
-            Renderer(const Renderer &cpy);
+            Engine(void);
+            Engine(const Engine &cpy);
 
-            static Renderer *instance;
+            static Engine *instance;
 
             Matrices *matrices;
             collections::CamerasCollection *cameras;

@@ -8,7 +8,7 @@ Matrices::Matrices(void)
 
 void core::Matrices::setUniformBlock()
 {
-    if (!this->uniformBlockInfo || !this->sLinkSP) { return; }
+    if (!this->uniformBlockInfo || !this->shaderLinkProgram) { return; }
 
     // bind the uniform block as current
     bindUniformBuffer();
@@ -47,13 +47,13 @@ void core::Matrices::setProjectionMatrix(const glm::mat4 &value)
 
 void core::Matrices::setUniformBlockInfo()
 {
-    this->uniformBlockInfo = this->sLinkSP->getUniformBlock(ShadersData::UniformBlocks::SHAREDMATRICES_NAME);
+    this->uniformBlockInfo = this->shaderLinkProgram->getUniformBlock(ShadersData::UniformBlocks::SHAREDMATRICES_NAME);
 
     // if uniform block info is null cancel
     if (this->uniformBlockInfo == nullptr) { return; }
 
     // set the uniform block info indices and offsets
-    this->sLinkSP->setUniformBlockInfoIndexAndOffset(
+    this->shaderLinkProgram->setUniformBlockInfoIndexAndOffset(
         this->uniformBlockInfo,
         ShadersData::UniformBlocks::SHAREDMATRICES_MEMBER_NAMES,
         ShadersData::UniformBlocks::SHAREDMATRICES_MEMBER_COUNT

@@ -3,17 +3,13 @@
 #include <iostream>
 namespace bases {
 
-    class BaseComponent {
+    class BaseComponent : public Renderable {
         public:
             bool alwaysActive;
 
             BaseObject *base;
             BaseComponent(void);
             virtual ~BaseComponent() {};
-
-            // render base method free
-            // to implement in components
-            virtual void render() {};
     };
 }
 

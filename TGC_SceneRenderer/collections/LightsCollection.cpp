@@ -20,7 +20,7 @@ LightsCollection *collections::LightsCollection::Instance()
 
 void collections::LightsCollection::setUniformBlock()
 {
-    if (!this->uniformBlockInfo || !this->sLinkSP) { return; }
+    if (!this->uniformBlockInfo || !this->shaderLinkProgram) { return; }
 
     bindUniformBuffer();
     unsigned int lightCount = glm::min((int)this->lights.size(), core::EngineData::Constrains::MAX_LIGHTS);
@@ -51,13 +51,13 @@ void collections::LightsCollection::setUniformBlock()
 
 void collections::LightsCollection::setUniformBlockInfo()
 {
-    this->uniformBlockInfo = this->sLinkSP->getUniformBlock(core::ShadersData::UniformBlocks::SHAREDLIGHTS_NAME);
+    this->uniformBlockInfo = this->shaderLinkProgram->getUniformBlock(core::ShadersData::UniformBlocks::SHAREDLIGHTS_NAME);
 
     // if uniform block info is null cancel
     if (this->uniformBlockInfo == nullptr) { return; }
 
     // set the uniform block info indices and offsets
-    this->sLinkSP->setUniformBlockInfoIndexAndOffset(
+    this->shaderLinkProgram->setUniformBlockInfoIndexAndOffset(
         this->uniformBlockInfo,
         (const char **)core::ShadersData::UniformBlocks::SHAREDLIGHTS_COMPLETE_NAMES,
         core::ShadersData::UniformBlocks::SHAREDLIGHTS_COMPLETE_COUNT

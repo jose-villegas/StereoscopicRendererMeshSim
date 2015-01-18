@@ -130,11 +130,13 @@ bool types::Texture::loadTexture(const std::string &sFilename)
     return true;
 }
 
-void types::Texture::unload() const
+void types::Texture::unload()
 {
     if (oglTexId == 0) { return; }
 
     glDeleteTextures(1, &oglTexId);
+    // set texture as invalid
+    this->oglTexId = 0;
 }
 
 std::string types::Texture::getTextureTypeString()
@@ -289,6 +291,7 @@ void types::Texture::createTexture(const unsigned int width,
 
 Texture::~Texture()
 {
+    if (oglTexId == 0) { return; }
 }
 
 void Texture::bind() const

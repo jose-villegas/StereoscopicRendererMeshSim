@@ -10,6 +10,7 @@
 #include "Data.h"
 #include <string>
 #include <thread>
+#include "..\Types\Texture.h"
 using namespace core;
 
 const char *core::ShadersData::UniformBlocks::SHAREDLIGHTS_INSTANCE_NAME = "light";
@@ -24,7 +25,7 @@ const char *core::ShadersData::Uniforms::MATERIAL_INSTANCE_NAME = "material";
 
 const char *core::ShadersData::FILENAME = "/resources/shaders/shared_data.glsl";
 
-const char *core::ShadersData::Samplers2D::DEFAULT_TEX_FILENAME = "/resources/default.png";
+const char *core::ShadersData::Samplers::DEFAULT_TEX_FILENAME = "/resources/default.png";
 
 GLchar *core::ShadersData::UniformBlocks::SHAREDLIGHTS_COMPLETE_NAMES[SHAREDLIGHTS_COMPLETE_COUNT];
 
@@ -69,7 +70,7 @@ const GLchar *core::ShadersData::Structures::MATERIAL_MEMBER_NAMES[] = {
     "shininess"
 };
 
-const char *core::ShadersData::Samplers2D::NAMES[] = {
+const char *core::ShadersData::Samplers::NAMES[] = {
     "noneMap",
     "diffuseMap",
     "specularMap",
@@ -93,6 +94,7 @@ const char *core::StoredShaders::FILENAMES[] = {
     "/resources/shaders/transparent/opacity_specular",
     "/resources/shaders/transparent/opacity_bumped_diffuse",
     "/resources/shaders/transparent/opacity_bumped_specular",
+    "/resources/shaders/utility/depth",
 };
 
 const std::string core::StoredShaders::Filename(const Shaders &index, const unsigned int &type)
@@ -202,7 +204,7 @@ void core::Data::Initialize()
     collections::SceneObjectsCollection::Instance();
     collections::TexturesCollection::Instance();
     // Load Default Texture
-    collections::TexturesCollection::Instance()->addTexture(core::ExecutionInfo::EXEC_DIR + core::ShadersData::Samplers2D::DEFAULT_TEX_FILENAME, types::Texture::Diffuse);
+    collections::TexturesCollection::Instance()->loadDefaultTexture();
     // Load Engine Shaders
     collections::stored::StoredShaders::LoadShaders();
     // Tells the class that the relevant data has been already construed and loaded

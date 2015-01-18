@@ -160,6 +160,12 @@
     <ClCompile Include="LoadingWindow.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="bases\Renderable.cpp">
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
+    </ClCompile>
+    <ClCompile Include="utils\ShadowMapping.cpp">
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
+    </ClCompile>
     <ClCompile Include="types\TextureRenderer.cpp" />
     <ClCompile Include="types\Plane.cpp" />
     <ClCompile Include="types\Frustum.cpp">
@@ -204,7 +210,7 @@
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</CompileAsManaged>
     </ClCompile>
-    <ClCompile Include="Core\Renderer.cpp">
+    <ClCompile Include="Core\Engine.cpp">
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</CompileAsManaged>
     </ClCompile>
@@ -276,6 +282,8 @@
       <FileType>CppForm</FileType>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="bases\Renderable.h" />
+    <ClInclude Include="utils\ShadowMapping.h" />
     <ClInclude Include="types\TextureRenderer.h" />
     <ClInclude Include="types\Plane.h" />
     <ClInclude Include="types\Frustum.h" />
@@ -297,7 +305,7 @@
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="Collections\SceneObjectsCollection.h" />
-    <ClInclude Include="Core\Renderer.h" />
+    <ClInclude Include="Core\Engine.h" />
     <ClInclude Include="Scene\SceneObject.h" />
     <ClInclude Include="Bases\BaseObject.h" />
     <ClInclude Include="Context\Multisample\ARB_Multisample.h" />

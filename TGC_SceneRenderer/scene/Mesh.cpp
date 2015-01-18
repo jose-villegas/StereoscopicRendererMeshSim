@@ -253,6 +253,48 @@ void Mesh::render()
     glDisableVertexAttribArray(4);
 }
 
+void scene::Mesh::render(const bool positions, const bool uvs, const bool normals, const bool tangents, const bool bitangents, const bool disableShaders /*= false*/)
+{
+    if (!enableRendering) { return; }
+
+    positions  ? glEnableVertexAttribArray(0) : 0;
+    uvs        ? glEnableVertexAttribArray(1) : 0;
+    normals    ? glEnableVertexAttribArray(2) : 0;
+    tangents   ? glEnableVertexAttribArray(3) : 0;
+    bitangents ? glEnableVertexAttribArray(4) : 0;
+
+    for (unsigned int i = 0 ; i < meshEntries.size() ; i++) {
+        // ignore empty submeshes
+        if (!meshEntries[i]->enableRendering) { continue; }
+
+        // set mesh material shader and textures
+        if (!disableShaders) {
+            const unsigned int materialIndex = meshEntries[i]->materialIndex;
+            // Binds the mesh material textures for shader use and set shaders material
+            // uniforms, the material shadeprogram has to be set for the uniforms
+            this->materials[materialIndex]->useMaterialShader();
+            this->materials[materialIndex]->setUniforms();
+        }
+
+        // bind vertex buffer and index buffer data to layout locations
+        glBindBuffer(GL_ARRAY_BUFFER, meshEntries[i]->VB);
+        positions  ? glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(types::Vertex), 0) : 0;						// Vertex Position
+        uvs        ? glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(types::Vertex), (const GLvoid *)12) : 0;	// Vertex UVS
+        normals    ? glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(types::Vertex), (const GLvoid *)20) : 0;	// Vertex Normals
+        tangents   ? glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(types::Vertex), (const GLvoid *)32) : 0;	// Vertex Tangents
+        bitangents ? glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(types::Vertex), (const GLvoid *)44) : 0;	// Vertex Bitangets
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, meshEntries[i]->IB);
+        // Draw mesh triangles  with loaded buffer object data
+        glDrawElements(GL_TRIANGLES, meshEntries[i]->indicesCount, GL_UNSIGNED_INT, 0);
+    }
+
+    positions  ? glDisableVertexAttribArray(0) : 0;
+    uvs        ? glDisableVertexAttribArray(1) : 0;
+    normals    ? glDisableVertexAttribArray(2) : 0;
+    tangents   ? glDisableVertexAttribArray(3) : 0;
+    bitangents ? glDisableVertexAttribArray(4) : 0;
+}
+
 void Mesh::SubMesh::generateBuffers()
 {
     glGenBuffers(1, &VB);

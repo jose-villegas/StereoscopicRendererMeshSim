@@ -2,7 +2,7 @@
 #include <windows.h>
 #include "../utils/FrameRate.h"
 #include "../utils/Time.h"
-#include "../core/Renderer.h"
+#include "../core/Engine.h"
 #include "../collections/TexturesCollection.h"
 #include "LibInfo.h"
 #include "Multisample/arb_multisample.h"
@@ -43,7 +43,7 @@ namespace OGLContext {
             utils::Time *time;
             utils::FrameRate *fmCalc;
             System::Boolean calcFramerate;
-            core::Renderer *oglRender;
+            core::Engine *oglRender;
             HDC createHandle(System::Windows::Forms::Panel ^parentForm, int iPositionX, int iPositionY, GLsizei iWidth, GLsizei iHeight);
 
         protected:

@@ -160,7 +160,7 @@ void types::Material::setTexturesUniforms(types::ShaderProgram *shp)
         // bind shader associated texture
         texture->bind();
         // Set to the texture map shader the current texture assigned ID
-        shp->setUniform(core::ShadersData::Samplers2D::NAMES[texType], (int)texture->getType());
+        shp->setUniform(core::ShadersData::Samplers::NAMES[texType], (int)texture->getType());
     }
 }
 

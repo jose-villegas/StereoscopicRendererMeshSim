@@ -27,7 +27,7 @@ void collections::stored::StoredShaders::LoadShaders()
 
         // try to associate shaderprogram mapping textures
         for (int j = 1; j < types::Texture::Count; j++) {
-            shp->addUniform(core::ShadersData::Samplers2D::NAMES[j]);
+            shp->addUniform(core::ShadersData::Samplers::NAMES[j]);
         }
 
         // add shaderprogram to class storage vector

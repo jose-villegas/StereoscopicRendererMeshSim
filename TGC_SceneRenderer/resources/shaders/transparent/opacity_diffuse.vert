@@ -18,7 +18,7 @@ void main()
 	vec4 vertexPos = vec4(vertexPosition, 1.0f);
 
 	texCoord = vertexTexCoords;
-	normal = oren_nayar((matrix.normal * vec4(vertexNormal, 0.0f)).xyz, 0.3);
+	normal = normalize((matrix.normal * vec4(vertexNormal, 0.0f)).xyz);
 	position = vec3(matrix.modelView * vertexPos);
 
 	gl_Position = matrix.modelViewProjection * vertexPos;

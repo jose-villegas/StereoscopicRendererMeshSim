@@ -1,6 +1,7 @@
 #pragma once
 #include "..\types\ShaderProgram.h"
 #include "..\core\Data.h"
+
 namespace collections {
 
     namespace stored {

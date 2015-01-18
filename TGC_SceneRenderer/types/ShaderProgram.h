@@ -32,7 +32,7 @@ namespace types {
             std::unordered_map<std::string, unsigned int> uniformLoc;
             // ogl indentifier for this program
             unsigned int programID;
-
+            // associated shaders count
             unsigned int fragmentShaderCount;
             unsigned int vertexShaderCount;
             // shaders related to this shaderprogram

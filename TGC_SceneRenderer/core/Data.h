@@ -98,7 +98,7 @@ namespace core {
 
             };
 
-            class Samplers2D {
+            class Samplers {
                 public:
                     // Ordered by TextureType
                     static const char *NAMES[];
@@ -115,6 +115,7 @@ namespace core {
             friend void core::Data::Initialize();
 
         public:
+
             enum Shaders {
                 Diffuse,
                 Specular,
@@ -124,6 +125,7 @@ namespace core {
                 OpacitySpecular,
                 OpacityBumpedDiffuse,
                 OpacityBumpedSpecular,
+                Depth,
                 Count // not a shader, represents the number of available shaders
             };
 
