@@ -5,7 +5,7 @@ Future 3D Graphics Engine / Scene Editor for computer graphics topic projects (c
 */... working on .../*
 
 Spot light shadows
-![alt tag](http://i.imgur.com/LsDn50H.png)
+![alt tag](http://i.imgur.com/Bg41431.png)
 
 ![alt tag](http://i.imgur.com/5TTEQA9.png)
 
