@@ -12,10 +12,6 @@
 #include <iostream>
 #include <vector>
 
-namespace collections {
-    class MeshesCollection;
-}
-
 namespace utils {
     class ProgressiveMesh;
     class MeshReductor;
@@ -26,13 +22,13 @@ namespace scene {
     class Mesh : public bases::BaseComponent, public bounding::Bounds {
         public:
             void render();
-            void render(const bool positions, const bool uvs, const bool normals, const bool tangents, const bool bitangents, const bool disableShaders = false);
+            void render(const bool positions, const bool uvs, const bool normals, const bool tangents, const bool bitangents, const bool enableShaders = true);
 
             unsigned int getPolyCount() const { return polyCount; }
             unsigned int getVertexCount() const { return vertexCount; }
             unsigned int getSubmeshesCount() const { return this->meshEntries.size(); }
 
-            class SubMesh : public bounding::Bounds {
+            class SubMesh : public bases::BaseComponent, public bounding::Bounds {
                 public:
                     // MeshEntry general data
                     std::vector<types::Vertex> vertices;
@@ -40,7 +36,6 @@ namespace scene {
                     std::vector<types::Face> faces;
                     // Rendering params
                     unsigned int indicesCount;
-                    bool enableRendering;
                     //  ogl data setting / handling
                     void generateBuffers();
                     // VB and IB need to set with generateBuffers() changes
@@ -61,12 +56,17 @@ namespace scene {
                     SubMesh(const std::vector<types::Vertex> &vertices, const std::vector<unsigned int> &indices, const std::vector<types::Face> &faces);
             };
 
-        protected:
-            friend class collections::MeshesCollection;
+            Mesh(void);
+            ~Mesh(void);
 
+            bool loadMesh(const std::string &sFileName);
+            const unsigned int subMeshCount() const { return this->meshEntries.size(); }
+
+        protected:
+
+            Mesh(const Mesh &mesh) : polyCount(0), vertexCount(0), meshReductionEnabled(false) {};
             unsigned int polyCount;
             unsigned int vertexCount;
-            bool enableRendering;
 
         private:
 
@@ -78,18 +78,10 @@ namespace scene {
             // Engine Textures Collection
             collections::TexturesCollection *texCollection;
 
-            Mesh(void);
-            Mesh(const Mesh &mesh) : polyCount(0), vertexCount(0), enableRendering(true), meshReductionEnabled(false) {};
-            ~Mesh(void);
-
-            bool loadMesh(const std::string &sFileName);
             Mesh::SubMesh *initMesh(unsigned int index, const aiMesh *paiMesh);
             bool initFromScene(const aiScene *paiScene, const std::string &sFilename);
             bool initMaterials(const aiScene *paiScene, const std::string &sFilename);
-
             bool loadMeshTexture(const aiMaterial *pMaterial, types::Texture::TextureType textureType, std::string dirPlusSlash, types::Material *currentMat);
-
-            const unsigned int subMeshCount() const { return this->meshEntries.size(); }
 
             // Mesh Reduction properties
         protected:

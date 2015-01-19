@@ -58,20 +58,22 @@ void types::TextureRenderer::addColorAttachment(
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
-void types::TextureRenderer::attachDepthTexture()
+void types::TextureRenderer::attachDepthTexture(const Texture::TextureFilteringMode min /*= Texture::TextureFilteringMode::Nearest*/,
+        const Texture::TextureFilteringMode mag /*= Texture::TextureFilteringMode::Nearest*/,
+        const Texture::TextureWrappingMode sWrap /*= Texture::TextureWrappingMode::ClampToEdge*/,
+        const Texture::TextureWrappingMode tWrap /*= Texture::TextureWrappingMode::ClampToEdge*/,
+        const unsigned int depthPrecision /*= GL_DEPTH_COMPONENT24*/,
+        const unsigned int compareMode /*= GL_COMPARE_REF_TO_TEXTURE*/,
+        const unsigned int compareFunction /*= GL_EQUAL */)
 {
     // no framebuffer set or depth component already attached to framebuffer
     if (this->enableDepthBuffer || this->frameBufferId == 0) { return; }
 
     this->enableDepthBuffer = true;
     depthTexture = new Texture();
-    depthTexture->createTexture(this->width, this->height,
-                                Texture::TextureFilteringMode::Nearest,
-                                Texture::TextureFilteringMode::Nearest,
-                                Texture::TextureWrappingMode::ClampToEdge,
-                                Texture::TextureWrappingMode::ClampToEdge, false, GL_FLOAT,
-                                GL_DEPTH_COMPONENT24, GL_DEPTH_COMPONENT,
-                                nullptr);
+    depthTexture->createTexture(this->width, this->height, min, mag, sWrap, tWrap, false, GL_FLOAT, depthPrecision, GL_DEPTH_COMPONENT, nullptr);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_FUNC, compareFunction);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, compareMode);
     // bind frame buffer to set depth texture
     glBindFramebuffer(GL_FRAMEBUFFER, this->frameBufferId);
     // associate depth texture with framebuffer

@@ -1,7 +1,6 @@
 #include "BaseComponent.h"
 using namespace bases;
 
-BaseComponent::BaseComponent(void)
+BaseComponent::BaseComponent(void) : active(true)
 {
-    this->alwaysActive = false;
 }

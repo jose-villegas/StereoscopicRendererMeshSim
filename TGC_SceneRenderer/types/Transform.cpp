@@ -25,9 +25,19 @@ void types::Transform::setPosition(const float &value0, const float &value1, con
     this->position.z = value2;
 }
 
+void types::Transform::setPosition(const glm::vec3 &position)
+{
+    this->position = position;
+}
+
 void types::Transform::setRotation(const float &value0, const float &value1, const float &value2)
 {
     this->rotation = glm::quat(glm::vec3(value0, value1, value2));
+}
+
+void types::Transform::setRotation(const glm::vec3 &yawPitchRoll)
+{
+    this->rotation = glm::quat(yawPitchRoll);
 }
 
 void types::Transform::setScale(const float &value0, const float &value1, const float &value2)
@@ -35,6 +45,11 @@ void types::Transform::setScale(const float &value0, const float &value1, const 
     this->scale.x = value0;
     this->scale.y = value1;
     this->scale.z = value2;
+}
+
+void types::Transform::setScale(const glm::vec3 &scale)
+{
+    this->scale = scale;
 }
 
 glm::vec3 types::Transform::eulerAngles()

@@ -4,10 +4,6 @@
 #include "../Scene/Light.h"
 #include <vector>
 
-namespace scene {
-    class Light; // Forward Declare to solve circular dependency
-}
-
 namespace collections {
 
     class LightsCollection : public bases::ShaderLinkBlock {

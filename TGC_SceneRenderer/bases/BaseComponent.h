@@ -5,7 +5,7 @@ namespace bases {
 
     class BaseComponent : public Renderable {
         public:
-            bool alwaysActive;
+            bool active;
 
             BaseObject *base;
             BaseComponent(void);

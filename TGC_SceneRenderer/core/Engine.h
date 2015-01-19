@@ -1,5 +1,8 @@
 #pragma once
 
+#include "../collections/CamerasCollection.h"
+#include "../collections/LightsCollection.h"
+#include "../collections/MeshesCollection.h"
 #include "../collections/SceneObjectsCollection.h"
 #include "../collections/TexturesCollection.h"
 #include "../utils/FrameRate.h"

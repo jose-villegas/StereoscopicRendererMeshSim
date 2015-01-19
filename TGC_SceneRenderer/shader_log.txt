@@ -1,0 +1,225 @@
+ShaderProgram(08477918): Shader Program 1 created successfully
+Shader(0847B480): Vertex shader data modified, raw string inserted at token --include shared_data.glsl
+Shader(0847B480): Vertex shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/opaque/diffuse.vert loaded successfully
+Shader(0847B638): Fragment shader data modified, raw string inserted at token --include shared_data.glsl
+Shader(0847B638): Fragment shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/opaque/diffuse.frag loaded successfully
+Shader(0847B480): Vertex shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/opaque/diffuse.vert compilation successful
+Shader(0847B638): Fragment shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/opaque/diffuse.frag compilation successful
+ShaderProgram(08477918): Shader program linking successful
+ShaderProgram(08477918): Uniform block (sharedMatrices) saved successfully
+ShaderProgram(08477918): Uniform block (sharedLights) saved successfully
+ShaderProgram(08477918): Uniform (material.ambient) bound to location: 1
+ShaderProgram(08477918): Uniform (material.diffuse) bound to location: 2
+ShaderProgram(08477918): Could not add uniform: (material.specular) location returned -1
+ShaderProgram(08477918): Could not add uniform: (material.shininess) location returned -1
+ShaderProgram(08477918): Uniform (diffuseMap) bound to location: 0
+ShaderProgram(08477918): Could not add uniform: (specularMap) location returned -1
+ShaderProgram(08477918): Could not add uniform: (ambientMap) location returned -1
+ShaderProgram(08477918): Could not add uniform: (emissiveMap) location returned -1
+ShaderProgram(08477918): Could not add uniform: (heightMap) location returned -1
+ShaderProgram(08477918): Could not add uniform: (normalsMap) location returned -1
+ShaderProgram(08477918): Could not add uniform: (shininessMap) location returned -1
+ShaderProgram(08477918): Could not add uniform: (opacityMap) location returned -1
+ShaderProgram(08477918): Could not add uniform: (displacementMap) location returned -1
+ShaderProgram(08477918): Could not add uniform: (lightmapMap) location returned -1
+ShaderProgram(08477918): Could not add uniform: (reflectionMap) location returned -1
+ShaderProgram(08497698): Shader Program 4 created successfully
+Shader(08494688): Vertex shader data modified, raw string inserted at token --include shared_data.glsl
+Shader(08494688): Vertex shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/opaque/specular.vert loaded successfully
+Shader(084947F8): Fragment shader data modified, raw string inserted at token --include shared_data.glsl
+Shader(084947F8): Fragment shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/opaque/specular.frag loaded successfully
+Shader(08494688): Vertex shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/opaque/specular.vert compilation successful
+Shader(084947F8): Fragment shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/opaque/specular.frag compilation successful
+ShaderProgram(08497698): Shader program linking successful
+ShaderProgram(08497698): There is a uniform block with name (sharedMatrices) already saved, binding UBO to programID
+ShaderProgram(08497698): There is a uniform block with name (sharedLights) already saved, binding UBO to programID
+ShaderProgram(08497698): Uniform (material.ambient) bound to location: 1
+ShaderProgram(08497698): Uniform (material.diffuse) bound to location: 2
+ShaderProgram(08497698): Uniform (material.specular) bound to location: 4
+ShaderProgram(08497698): Uniform (material.shininess) bound to location: 3
+ShaderProgram(08497698): Uniform (diffuseMap) bound to location: 0
+ShaderProgram(08497698): Uniform (specularMap) bound to location: 333
+ShaderProgram(08497698): Could not add uniform: (ambientMap) location returned -1
+ShaderProgram(08497698): Could not add uniform: (emissiveMap) location returned -1
+ShaderProgram(08497698): Could not add uniform: (heightMap) location returned -1
+ShaderProgram(08497698): Could not add uniform: (normalsMap) location returned -1
+ShaderProgram(08497698): Could not add uniform: (shininessMap) location returned -1
+ShaderProgram(08497698): Could not add uniform: (opacityMap) location returned -1
+ShaderProgram(08497698): Could not add uniform: (displacementMap) location returned -1
+ShaderProgram(08497698): Could not add uniform: (lightmapMap) location returned -1
+ShaderProgram(08497698): Could not add uniform: (reflectionMap) location returned -1
+ShaderProgram(0849E720): Shader Program 7 created successfully
+Shader(084A0258): Vertex shader data modified, raw string inserted at token --include shared_data.glsl
+Shader(084A0258): Vertex shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/opaque/bumped_diffuse.vert loaded successfully
+Shader(084A0418): Fragment shader data modified, raw string inserted at token --include shared_data.glsl
+Shader(084A0418): Fragment shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/opaque/bumped_diffuse.frag loaded successfully
+Shader(084A0258): Vertex shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/opaque/bumped_diffuse.vert compilation successful
+Shader(084A0418): Fragment shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/opaque/bumped_diffuse.frag compilation successful
+ShaderProgram(0849E720): Shader program linking successful
+ShaderProgram(0849E720): There is a uniform block with name (sharedMatrices) already saved, binding UBO to programID
+ShaderProgram(0849E720): There is a uniform block with name (sharedLights) already saved, binding UBO to programID
+ShaderProgram(0849E720): Uniform (material.ambient) bound to location: 1
+ShaderProgram(0849E720): Uniform (material.diffuse) bound to location: 2
+ShaderProgram(0849E720): Could not add uniform: (material.specular) location returned -1
+ShaderProgram(0849E720): Could not add uniform: (material.shininess) location returned -1
+ShaderProgram(0849E720): Uniform (diffuseMap) bound to location: 0
+ShaderProgram(0849E720): Could not add uniform: (specularMap) location returned -1
+ShaderProgram(0849E720): Could not add uniform: (ambientMap) location returned -1
+ShaderProgram(0849E720): Could not add uniform: (emissiveMap) location returned -1
+ShaderProgram(0849E720): Could not add uniform: (heightMap) location returned -1
+ShaderProgram(0849E720): Uniform (normalsMap) bound to location: 3
+ShaderProgram(0849E720): Could not add uniform: (shininessMap) location returned -1
+ShaderProgram(0849E720): Could not add uniform: (opacityMap) location returned -1
+ShaderProgram(0849E720): Could not add uniform: (displacementMap) location returned -1
+ShaderProgram(0849E720): Could not add uniform: (lightmapMap) location returned -1
+ShaderProgram(0849E720): Could not add uniform: (reflectionMap) location returned -1
+ShaderProgram(05EB49B0): Shader Program 10 created successfully
+Shader(05EB4C98): Vertex shader data modified, raw string inserted at token --include shared_data.glsl
+Shader(05EB4C98): Vertex shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/opaque/bumped_specular.vert loaded successfully
+Shader(084D0D18): Fragment shader data modified, raw string inserted at token --include shared_data.glsl
+Shader(084D0D18): Fragment shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/opaque/bumped_specular.frag loaded successfully
+Shader(05EB4C98): Vertex shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/opaque/bumped_specular.vert compilation successful
+Shader(084D0D18): Fragment shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/opaque/bumped_specular.frag compilation successful
+ShaderProgram(05EB49B0): Shader program linking successful
+ShaderProgram(05EB49B0): There is a uniform block with name (sharedMatrices) already saved, binding UBO to programID
+ShaderProgram(05EB49B0): There is a uniform block with name (sharedLights) already saved, binding UBO to programID
+ShaderProgram(05EB49B0): Uniform (material.ambient) bound to location: 1
+ShaderProgram(05EB49B0): Uniform (material.diffuse) bound to location: 2
+ShaderProgram(05EB49B0): Uniform (material.specular) bound to location: 4
+ShaderProgram(05EB49B0): Uniform (material.shininess) bound to location: 3
+ShaderProgram(05EB49B0): Uniform (diffuseMap) bound to location: 0
+ShaderProgram(05EB49B0): Uniform (specularMap) bound to location: 334
+ShaderProgram(05EB49B0): Could not add uniform: (ambientMap) location returned -1
+ShaderProgram(05EB49B0): Could not add uniform: (emissiveMap) location returned -1
+ShaderProgram(05EB49B0): Could not add uniform: (heightMap) location returned -1
+ShaderProgram(05EB49B0): Uniform (normalsMap) bound to location: 5
+ShaderProgram(05EB49B0): Could not add uniform: (shininessMap) location returned -1
+ShaderProgram(05EB49B0): Could not add uniform: (opacityMap) location returned -1
+ShaderProgram(05EB49B0): Could not add uniform: (displacementMap) location returned -1
+ShaderProgram(05EB49B0): Could not add uniform: (lightmapMap) location returned -1
+ShaderProgram(05EB49B0): Could not add uniform: (reflectionMap) location returned -1
+ShaderProgram(084E0DA0): Shader Program 13 created successfully
+Shader(0851FE68): Vertex shader data modified, raw string inserted at token --include shared_data.glsl
+Shader(0851FE68): Vertex shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/transparent/opacity_diffuse.vert loaded successfully
+Shader(084E8700): Fragment shader data modified, raw string inserted at token --include shared_data.glsl
+Shader(084E8700): Fragment shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/transparent/opacity_diffuse.frag loaded successfully
+Shader(0851FE68): Vertex shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/transparent/opacity_diffuse.vert compilation successful
+Shader(084E8700): Fragment shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/transparent/opacity_diffuse.frag compilation successful
+ShaderProgram(084E0DA0): Shader program linking successful
+ShaderProgram(084E0DA0): There is a uniform block with name (sharedMatrices) already saved, binding UBO to programID
+ShaderProgram(084E0DA0): There is a uniform block with name (sharedLights) already saved, binding UBO to programID
+ShaderProgram(084E0DA0): Uniform (material.ambient) bound to location: 1
+ShaderProgram(084E0DA0): Uniform (material.diffuse) bound to location: 2
+ShaderProgram(084E0DA0): Could not add uniform: (material.specular) location returned -1
+ShaderProgram(084E0DA0): Could not add uniform: (material.shininess) location returned -1
+ShaderProgram(084E0DA0): Uniform (diffuseMap) bound to location: 0
+ShaderProgram(084E0DA0): Could not add uniform: (specularMap) location returned -1
+ShaderProgram(084E0DA0): Could not add uniform: (ambientMap) location returned -1
+ShaderProgram(084E0DA0): Could not add uniform: (emissiveMap) location returned -1
+ShaderProgram(084E0DA0): Could not add uniform: (heightMap) location returned -1
+ShaderProgram(084E0DA0): Could not add uniform: (normalsMap) location returned -1
+ShaderProgram(084E0DA0): Could not add uniform: (shininessMap) location returned -1
+ShaderProgram(084E0DA0): Uniform (opacityMap) bound to location: 3
+ShaderProgram(084E0DA0): Could not add uniform: (displacementMap) location returned -1
+ShaderProgram(084E0DA0): Could not add uniform: (lightmapMap) location returned -1
+ShaderProgram(084E0DA0): Could not add uniform: (reflectionMap) location returned -1
+ShaderProgram(085008A8): Shader Program 16 created successfully
+Shader(08500B98): Vertex shader data modified, raw string inserted at token --include shared_data.glsl
+Shader(08500B98): Vertex shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/transparent/opacity_specular.vert loaded successfully
+Shader(08500D38): Fragment shader data modified, raw string inserted at token --include shared_data.glsl
+Shader(08500D38): Fragment shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/transparent/opacity_specular.frag loaded successfully
+Shader(08500B98): Vertex shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/transparent/opacity_specular.vert compilation successful
+Shader(08500D38): Fragment shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/transparent/opacity_specular.frag compilation successful
+ShaderProgram(085008A8): Shader program linking successful
+ShaderProgram(085008A8): There is a uniform block with name (sharedMatrices) already saved, binding UBO to programID
+ShaderProgram(085008A8): There is a uniform block with name (sharedLights) already saved, binding UBO to programID
+ShaderProgram(085008A8): Uniform (material.ambient) bound to location: 1
+ShaderProgram(085008A8): Uniform (material.diffuse) bound to location: 2
+ShaderProgram(085008A8): Uniform (material.specular) bound to location: 4
+ShaderProgram(085008A8): Uniform (material.shininess) bound to location: 3
+ShaderProgram(085008A8): Uniform (diffuseMap) bound to location: 0
+ShaderProgram(085008A8): Uniform (specularMap) bound to location: 334
+ShaderProgram(085008A8): Could not add uniform: (ambientMap) location returned -1
+ShaderProgram(085008A8): Could not add uniform: (emissiveMap) location returned -1
+ShaderProgram(085008A8): Could not add uniform: (heightMap) location returned -1
+ShaderProgram(085008A8): Could not add uniform: (normalsMap) location returned -1
+ShaderProgram(085008A8): Could not add uniform: (shininessMap) location returned -1
+ShaderProgram(085008A8): Uniform (opacityMap) bound to location: 5
+ShaderProgram(085008A8): Could not add uniform: (displacementMap) location returned -1
+ShaderProgram(085008A8): Could not add uniform: (lightmapMap) location returned -1
+ShaderProgram(085008A8): Could not add uniform: (reflectionMap) location returned -1
+ShaderProgram(0852EAC0): Shader Program 19 created successfully
+Shader(0852F0D8): Vertex shader data modified, raw string inserted at token --include shared_data.glsl
+Shader(0852F0D8): Vertex shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/transparent/opacity_bumped_diffuse.vert loaded successfully
+Shader(0852F238): Fragment shader data modified, raw string inserted at token --include shared_data.glsl
+Shader(0852F238): Fragment shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/transparent/opacity_bumped_diffuse.frag loaded successfully
+Shader(0852F0D8): Vertex shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/transparent/opacity_bumped_diffuse.vert compilation successful
+Shader(0852F238): Fragment shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/transparent/opacity_bumped_diffuse.frag compilation successful
+ShaderProgram(0852EAC0): Shader program linking successful
+ShaderProgram(0852EAC0): There is a uniform block with name (sharedMatrices) already saved, binding UBO to programID
+ShaderProgram(0852EAC0): There is a uniform block with name (sharedLights) already saved, binding UBO to programID
+ShaderProgram(0852EAC0): Uniform (material.ambient) bound to location: 1
+ShaderProgram(0852EAC0): Uniform (material.diffuse) bound to location: 2
+ShaderProgram(0852EAC0): Could not add uniform: (material.specular) location returned -1
+ShaderProgram(0852EAC0): Could not add uniform: (material.shininess) location returned -1
+ShaderProgram(0852EAC0): Uniform (diffuseMap) bound to location: 0
+ShaderProgram(0852EAC0): Could not add uniform: (specularMap) location returned -1
+ShaderProgram(0852EAC0): Could not add uniform: (ambientMap) location returned -1
+ShaderProgram(0852EAC0): Could not add uniform: (emissiveMap) location returned -1
+ShaderProgram(0852EAC0): Could not add uniform: (heightMap) location returned -1
+ShaderProgram(0852EAC0): Uniform (normalsMap) bound to location: 3
+ShaderProgram(0852EAC0): Could not add uniform: (shininessMap) location returned -1
+ShaderProgram(0852EAC0): Uniform (opacityMap) bound to location: 4
+ShaderProgram(0852EAC0): Could not add uniform: (displacementMap) location returned -1
+ShaderProgram(0852EAC0): Could not add uniform: (lightmapMap) location returned -1
+ShaderProgram(0852EAC0): Could not add uniform: (reflectionMap) location returned -1
+ShaderProgram(085315F0): Shader Program 22 created successfully
+Shader(08558BF8): Vertex shader data modified, raw string inserted at token --include shared_data.glsl
+Shader(08558BF8): Vertex shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/transparent/opacity_bumped_specular.vert loaded successfully
+Shader(08558DB0): Fragment shader data modified, raw string inserted at token --include shared_data.glsl
+Shader(08558DB0): Fragment shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/transparent/opacity_bumped_specular.frag loaded successfully
+Shader(08558BF8): Vertex shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/transparent/opacity_bumped_specular.vert compilation successful
+Shader(08558DB0): Fragment shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/transparent/opacity_bumped_specular.frag compilation successful
+ShaderProgram(085315F0): Shader program linking successful
+ShaderProgram(085315F0): There is a uniform block with name (sharedMatrices) already saved, binding UBO to programID
+ShaderProgram(085315F0): There is a uniform block with name (sharedLights) already saved, binding UBO to programID
+ShaderProgram(085315F0): Uniform (material.ambient) bound to location: 1
+ShaderProgram(085315F0): Uniform (material.diffuse) bound to location: 2
+ShaderProgram(085315F0): Uniform (material.specular) bound to location: 4
+ShaderProgram(085315F0): Uniform (material.shininess) bound to location: 3
+ShaderProgram(085315F0): Uniform (diffuseMap) bound to location: 0
+ShaderProgram(085315F0): Uniform (specularMap) bound to location: 335
+ShaderProgram(085315F0): Could not add uniform: (ambientMap) location returned -1
+ShaderProgram(085315F0): Could not add uniform: (emissiveMap) location returned -1
+ShaderProgram(085315F0): Could not add uniform: (heightMap) location returned -1
+ShaderProgram(085315F0): Uniform (normalsMap) bound to location: 5
+ShaderProgram(085315F0): Could not add uniform: (shininessMap) location returned -1
+ShaderProgram(085315F0): Uniform (opacityMap) bound to location: 6
+ShaderProgram(085315F0): Could not add uniform: (displacementMap) location returned -1
+ShaderProgram(085315F0): Could not add uniform: (lightmapMap) location returned -1
+ShaderProgram(085315F0): Could not add uniform: (reflectionMap) location returned -1
+ShaderProgram(085B3358): Shader Program 25 created successfully
+Shader(085B3D58): Vertex shader data modified, raw string inserted at token --include shared_data.glsl
+Shader(085B3D58): Vertex shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/utility/depth.vert loaded successfully
+Shader(085B3CB8): Fragment shader data modified, raw string inserted at token --include shared_data.glsl
+Shader(085B3CB8): Fragment shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/utility/depth.frag loaded successfully
+Shader(085B3D58): Vertex shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/utility/depth.vert compilation successful
+Shader(085B3CB8): Fragment shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/utility/depth.frag compilation successful
+ShaderProgram(085B3358): Shader program linking successful
+ShaderProgram(085B3358): There is a uniform block with name (sharedMatrices) already saved, binding UBO to programID
+ShaderProgram(085B3358): There is a uniform block with name (sharedLights) already saved, binding UBO to programID
+ShaderProgram(085B3358): Could not add uniform: (material.ambient) location returned -1
+ShaderProgram(085B3358): Could not add uniform: (material.diffuse) location returned -1
+ShaderProgram(085B3358): Could not add uniform: (material.specular) location returned -1
+ShaderProgram(085B3358): Could not add uniform: (material.shininess) location returned -1
+ShaderProgram(085B3358): Could not add uniform: (diffuseMap) location returned -1
+ShaderProgram(085B3358): Could not add uniform: (specularMap) location returned -1
+ShaderProgram(085B3358): Could not add uniform: (ambientMap) location returned -1
+ShaderProgram(085B3358): Could not add uniform: (emissiveMap) location returned -1
+ShaderProgram(085B3358): Could not add uniform: (heightMap) location returned -1
+ShaderProgram(085B3358): Could not add uniform: (normalsMap) location returned -1
+ShaderProgram(085B3358): Could not add uniform: (shininessMap) location returned -1
+ShaderProgram(085B3358): Could not add uniform: (opacityMap) location returned -1
+ShaderProgram(085B3358): Could not add uniform: (displacementMap) location returned -1
+ShaderProgram(085B3358): Could not add uniform: (lightmapMap) location returned -1
+ShaderProgram(085B3358): Could not add uniform: (reflectionMap) location returned -1

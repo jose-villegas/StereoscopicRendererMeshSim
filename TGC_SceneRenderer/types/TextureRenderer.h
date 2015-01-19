@@ -5,6 +5,12 @@ namespace types {
 
     class TextureRenderer {
 
+        public:
+
+            enum RenderType {
+                Target0 = types::Texture::TextureType::Count,
+            };
+
         private:
             // render data
             unsigned int frameBufferId;
@@ -35,16 +41,27 @@ namespace types {
                                     const unsigned internalFormat = GL_RGB,
                                     const unsigned format = GL_RGB
                                    );
-            // attach depth component to a texture, can't use this if rendering depth to a render buffer
-            void attachDepthTexture();
+            // attach depth component to a texture, can't use this if rendering depth to a
+            //  render buffer, default values set for shadow mapping can be modified
+            void attachDepthTexture(const Texture::TextureFilteringMode min = Texture::TextureFilteringMode::Nearest,
+                                    const Texture::TextureFilteringMode mag = Texture::TextureFilteringMode::Nearest,
+                                    const Texture::TextureWrappingMode sWrap = Texture::TextureWrappingMode::ClampToEdge,
+                                    const Texture::TextureWrappingMode tWrap = Texture::TextureWrappingMode::ClampToEdge,
+                                    const unsigned int depthPrecision = GL_DEPTH_COMPONENT24,
+                                    const unsigned int compareMode = GL_COMPARE_REF_TO_TEXTURE,
+                                    const unsigned int compareFunction = GL_LEQUAL
+                                   );
             // attach depth component to a render buffer, can't use this if rendering depth to texture
             void attachDepthRenderBuffer();
             // binds the associated framebuffer object
             void bind();
             // unbinds this frame buffer object
             void unbind();
-            // returns const reference to depth texture class
-            const Texture *getDepthTexture() const { return this->depthTexture; }
+            // returns pointer to depth texture class
+            Texture *getDepthTexture() const { return this->depthTexture; }
+            // get all the framebuffer object color attachments
+            const std::vector<Texture *> &getColorAttachments() const { return colorAttachments; }
+
     };
 }
 

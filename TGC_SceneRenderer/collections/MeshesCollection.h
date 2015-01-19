@@ -2,10 +2,6 @@
 #include "..\Scene\Mesh.h"
 #include <utility>
 
-namespace scene {
-    class Mesh;
-}
-
 namespace collections {
 
     class MeshesCollection {

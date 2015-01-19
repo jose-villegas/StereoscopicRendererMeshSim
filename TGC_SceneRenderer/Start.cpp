@@ -2,7 +2,7 @@
 
 #include "MainWindow.h"
 
-// #define COUT_TO_FILE
+#define COUT_TO_FILE
 
 using namespace SceneRenderer;
 

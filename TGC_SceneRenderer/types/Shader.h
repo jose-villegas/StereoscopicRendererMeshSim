@@ -52,6 +52,7 @@ namespace types {
             bool compile();
             GLuint getId() const { return id; }
             types::Shader::ShaderType getType() const { return shaderType; }
+            std::string getSourceCode() const { return sourceCode; }
 
         private:
 

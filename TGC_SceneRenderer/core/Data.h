@@ -21,7 +21,7 @@ namespace core {
             friend void core::Data::Initialize();
 
         public:
-            static const unsigned int AVAILABLE_CORES;
+            static const unsigned int AVAILABLE_CPU_CORES;
             static const std::string EXEC_DIR;
     };
 
@@ -49,7 +49,7 @@ namespace core {
             class Constrains {
                 public:
                     static const int MAX_LIGHTS = 32;
-                    static const int MAX_SHADOWMAPS = 2;
+                    static const int MAX_SHADOWMAPS = 1;
             };
     };
 
@@ -72,6 +72,8 @@ namespace core {
                     static const GLchar *LIGHT_MEMBER_NAMES[];
                     static const int MATERIAL_MEMBER_COUNT = 4;
                     static const GLchar *MATERIAL_MEMBER_NAMES[];
+                    static const int SHADOW_MEMBER_COUNT = 3;
+                    static const GLchar *SHADOW_MEMBER_NAMES[];
             };
 
             // Usual uniforms
@@ -95,19 +97,28 @@ namespace core {
                     static const GLchar *SHAREDMATRICES_MEMBER_NAMES[];
                     static const char *SHAREDMATRICES_NAME;
                     static const char *SHAREDMATRICES_INSTANCE_NAME;
+                    // shared shadowing uniform block info
+                    static const int SHAREDSHADOWING_MEMBER_COUNT = 3;
+                    static const int SHAREDSHADOWING_COMPLETE_COUNT = Structures::SHADOW_MEMBER_COUNT + SHAREDSHADOWING_MEMBER_COUNT - 1;
+                    static const GLchar *SHAREDSHADOWING_COMPLETE_NAMES[SHAREDSHADOWING_COMPLETE_COUNT];
+                    static const char *SHAREDSHADOWING_NAME;
+                    static const char *SHAREDSHADOWING_INSTANCE_NAME;
 
             };
 
             class Samplers {
                 public:
+                    static const int SamplersCount = 16;
                     // Ordered by TextureType
-                    static const char *NAMES[];
+                    static const char *NAMES[SamplersCount];
                     static const char *DEFAULT_TEX_FILENAME;
             };
             // complete filename location for shared_data.glsl file string
-            static const std::string Filename();
+            static const std::string DataFilename();
+            static const std::string FunctionsFilename();
         private:
-            static const char *FILENAME;
+            static const char *DATA_FILENAME;
+            static const char *FUNCTIONS_FILENAME;
     };
 
     class StoredShaders {

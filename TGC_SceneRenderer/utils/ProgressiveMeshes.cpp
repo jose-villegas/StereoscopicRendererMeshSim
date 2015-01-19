@@ -429,11 +429,11 @@ void utils::ProgressiveMesh::reduceAndSetBufferData(scene::Mesh::SubMesh *input,
     ReducedMesh *rslt = reduceVerticesCount(input->vertices, input->indices, input->faces, vertexCount);
 
     if (rslt) {
-        input->enableRendering = true;
+        input->active = true;
         input->setBuffersData(rslt->vertices, rslt->indices);
         delete rslt;
     } else {
-        input->enableRendering = false;
+        input->active = false;
         input->setBuffersData(std::vector<types::Vertex>(), std::vector<unsigned int>());
     }
 }

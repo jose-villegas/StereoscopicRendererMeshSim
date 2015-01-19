@@ -23,15 +23,26 @@ const char *core::ShadersData::UniformBlocks::SHAREDMATRICES_NAME = "sharedMatri
 
 const char *core::ShadersData::Uniforms::MATERIAL_INSTANCE_NAME = "material";
 
-const char *core::ShadersData::FILENAME = "/resources/shaders/shared_data.glsl";
+const char *core::ShadersData::DATA_FILENAME = "/resources/shaders/shared_data.glsl";
+
+const char *core::ShadersData::FUNCTIONS_FILENAME =  "/resources/shaders/shared_functions.glsl";
 
 const char *core::ShadersData::Samplers::DEFAULT_TEX_FILENAME = "/resources/default.png";
 
+const char *core::ShadersData::UniformBlocks::SHAREDSHADOWING_INSTANCE_NAME = "shadowing";
+
+const char *core::ShadersData::UniformBlocks::SHAREDSHADOWING_NAME = "sharedShadowing";
+
 GLchar *core::ShadersData::UniformBlocks::SHAREDLIGHTS_COMPLETE_NAMES[SHAREDLIGHTS_COMPLETE_COUNT];
 
-const std::string core::ShadersData::Filename()
+const std::string core::ShadersData::DataFilename()
 {
-    return ExecutionInfo::EXEC_DIR + FILENAME;
+    return ExecutionInfo::EXEC_DIR + DATA_FILENAME;
+}
+
+const std::string core::ShadersData::FunctionsFilename()
+{
+    return ExecutionInfo::EXEC_DIR + FUNCTIONS_FILENAME;
 }
 
 const char *core::ShadersData::UniformBlocks::SHAREDLIGHTS_MEMBER_NAMES[] = {
@@ -48,6 +59,15 @@ const GLchar *core::ShadersData::UniformBlocks::SHAREDMATRICES_MEMBER_NAMES[] = 
     "sharedMatrices.projection",
     "sharedMatrices.normal"
 };
+
+const GLchar *core::ShadersData::UniformBlocks::SHAREDSHADOWING_COMPLETE_NAMES[] = {
+    "sharedShadowing.source[0].mapSize",
+    "sharedShadowing.source[0].strength",
+    "sharedShadowing.source[0].biasModelViewProjection",
+    "sharedShadowing.enabled",
+    "sharedShadowing.shadowCount",
+};
+
 
 const GLchar *core::ShadersData::Structures::LIGHT_MEMBER_NAMES[] = {
     "position",
@@ -70,7 +90,14 @@ const GLchar *core::ShadersData::Structures::MATERIAL_MEMBER_NAMES[] = {
     "shininess"
 };
 
-const char *core::ShadersData::Samplers::NAMES[] = {
+const GLchar *core::ShadersData::Structures::SHADOW_MEMBER_NAMES[] = {
+    "lightIndex",
+    "strength",
+    "biasModelViewProjection",
+};
+
+
+const char *core::ShadersData::Samplers::NAMES[SamplersCount] = {
     "noneMap",
     "diffuseMap",
     "specularMap",
@@ -82,7 +109,11 @@ const char *core::ShadersData::Samplers::NAMES[] = {
     "opacityMap",
     "displacementMap",
     "lightmapMap",
-    "reflectionMap"
+    "reflectionMap",
+    "shadowMap0",
+    "shadowMap1",
+    "shadowMap2",
+    "shadowMap3",
 };
 
 const char *core::StoredShaders::FILENAMES[] = {
@@ -232,7 +263,7 @@ bool core::Data::dataSet = false;;
 
 const std::string core::ExecutionInfo::EXEC_DIR = "";
 
-unsigned const int core::ExecutionInfo::AVAILABLE_CORES = std::thread::hardware_concurrency() <= 0 ? 1 : std::thread::hardware_concurrency();
+unsigned const int core::ExecutionInfo::AVAILABLE_CPU_CORES = std::thread::hardware_concurrency() <= 0 ? 1 : std::thread::hardware_concurrency();
 
 bool core::EngineData::anisotropicFilteringAvailable = false;
 

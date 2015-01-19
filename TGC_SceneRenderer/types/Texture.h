@@ -21,8 +21,15 @@ namespace types {
                 Displacement = aiTextureType_DISPLACEMENT,
                 Lightmap     = aiTextureType_LIGHTMAP,
                 Reflection   = aiTextureType_REFLECTION,
-                Count		 = 12
+                Count		 = 12,
+                // available misc textures
+                Type0, Type1, Type2, Type3, Type4, Type5,
+                Type6, Type7, Type8, Type9, Type10, Type11,
+                Type12, Type13, Type14, Type15, Type16, Type17,
+                Type18, Type19, Type20,
             };
+
+            void setTextureType(const unsigned typeId) { this->textureType = (TextureType)typeId; };
 
             enum TextureFilteringMode {
                 Nearest              = GL_NEAREST,
@@ -46,6 +53,8 @@ namespace types {
             // binds the texture to appropiate texture type
             // meaning GL_TEXTURE0 + textureType const int
             void bind() const;
+            // returns to GL_TEXTURE0 as active
+            void unbind() const;
             // uses class sFilename
             bool loadTexture();
             // loads texture from specified filepath

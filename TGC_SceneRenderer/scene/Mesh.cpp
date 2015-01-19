@@ -4,7 +4,7 @@
 #include "..\collections\MeshesCollection.h"
 using namespace scene;
 
-Mesh::Mesh(void) : polyCount(0), vertexCount(0), enableRendering(true), meshReductionEnabled(false)
+Mesh::Mesh(void) : polyCount(0), vertexCount(0), meshReductionEnabled(false)
 {
     texCollection = collections::TexturesCollection::Instance();
     this->base = new bases::BaseObject("Mesh");
@@ -217,7 +217,7 @@ struct Cmp {
 
 void Mesh::render()
 {
-    if (!enableRendering) { return; }
+    if (!active) { return; }
 
     glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
@@ -227,7 +227,7 @@ void Mesh::render()
 
     for (unsigned int i = 0 ; i < meshEntries.size() ; i++) {
         // ignore empty submeshes
-        if (!meshEntries[i]->enableRendering) { continue; }
+        if (!meshEntries[i]->active) { continue; }
 
         const unsigned int materialIndex = meshEntries[i]->materialIndex;
         // Binds the mesh material textures for shader use and set shaders material
@@ -253,9 +253,9 @@ void Mesh::render()
     glDisableVertexAttribArray(4);
 }
 
-void scene::Mesh::render(const bool positions, const bool uvs, const bool normals, const bool tangents, const bool bitangents, const bool disableShaders /*= false*/)
+void scene::Mesh::render(const bool positions, const bool uvs, const bool normals, const bool tangents, const bool bitangents, const bool enableShaders /*= true*/)
 {
-    if (!enableRendering) { return; }
+    if (!active) { return; }
 
     positions  ? glEnableVertexAttribArray(0) : 0;
     uvs        ? glEnableVertexAttribArray(1) : 0;
@@ -265,10 +265,10 @@ void scene::Mesh::render(const bool positions, const bool uvs, const bool normal
 
     for (unsigned int i = 0 ; i < meshEntries.size() ; i++) {
         // ignore empty submeshes
-        if (!meshEntries[i]->enableRendering) { continue; }
+        if (!meshEntries[i]->active) { continue; }
 
         // set mesh material shader and textures
-        if (!disableShaders) {
+        if (enableShaders) {
             const unsigned int materialIndex = meshEntries[i]->materialIndex;
             // Binds the mesh material textures for shader use and set shaders material
             // uniforms, the material shadeprogram has to be set for the uniforms
@@ -301,7 +301,7 @@ void Mesh::SubMesh::generateBuffers()
     glGenBuffers(1, &IB);
 }
 
-Mesh::SubMesh::SubMesh() : enableRendering(true)
+Mesh::SubMesh::SubMesh()
 {
     this->VB            = core::EngineData::Commoms::INVALID_VALUE;
     this->IB            = core::EngineData::Commoms::INVALID_VALUE;
@@ -309,7 +309,7 @@ Mesh::SubMesh::SubMesh() : enableRendering(true)
     this->indicesCount  = 0;
 }
 
-scene::Mesh::SubMesh::SubMesh(const std::vector<types::Vertex> &vertices, const std::vector<unsigned int> &indices, const std::vector<types::Face> &faces) : enableRendering(true)
+scene::Mesh::SubMesh::SubMesh(const std::vector<types::Vertex> &vertices, const std::vector<unsigned int> &indices, const std::vector<types::Face> &faces)
 {
     this->VB            = core::EngineData::Commoms::INVALID_VALUE;
     this->IB            = core::EngineData::Commoms::INVALID_VALUE;

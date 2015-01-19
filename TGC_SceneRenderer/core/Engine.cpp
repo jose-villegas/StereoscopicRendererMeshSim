@@ -13,6 +13,7 @@
 #include "Data.h"
 #include "../collections/MeshesCollection.h"
 #include "../types/TextureRenderer.h"
+#include "../utils/ShadowMapping.h"
 
 using namespace core;
 
@@ -71,6 +72,7 @@ void core::Engine::setup()
     // Add lights to scene objects
     this->sceneObjects->addLight(scene::Light::Point);
     this->lights->getLight(0)->base->transform.setPosition(0.0, 0.0, 3.0);
+    this->lights->getLight(0)->enableShadowProjection(true);
     // Add test objects
     this->sceneObjects->addMesh(StoredMeshes::Sphere);
     // set renderer is ready
@@ -85,7 +87,7 @@ void core::Engine::loop()
     if (!this->activeCamera) { return; }
 
     // render from this camera position and parameters
-    this->activeCamera->renderFromPOV(this);
+    this->activeCamera->render(this);
 }
 
 void core::Engine::viewport(const unsigned int width, const unsigned int height)

@@ -1,8 +1,7 @@
-#include "SceneObjectsCollection.h"
-#include "../scene/Camera.h"
-#include "../scene/Light.h"
-#include "../Scene/Mesh.h"
+#include "CamerasCollection.h"
+#include "LightsCollection.h"
 #include "MeshesCollection.h"
+#include "SceneObjectsCollection.h"
 using namespace collections;
 
 SceneObjectsCollection::SceneObjectsCollection(void)

@@ -6,7 +6,8 @@ void collections::stored::StoredShaders::LoadShaders()
 {
     shaders.resize(core::StoredShaders::Shaders::Count);
     // shared_data.glsl raw string to be added to include token
-    std::string shared_data = types::Shader::fileToString(core::ShadersData::Filename());
+    std::string shared_data = types::Shader::fileToString(core::ShadersData::DataFilename());
+    std::string shared_functions = types::Shader::fileToString(core::ShadersData::FunctionsFilename());
 
     for (int i = 0; i < core::StoredShaders::Count; i++) {
         // reserve for new shader program
@@ -17,6 +18,8 @@ void collections::stored::StoredShaders::LoadShaders()
         // load shaders file to a string and concat shared_data.glsl
         vert->loadFromFile(core::StoredShaders::Filename((core::StoredShaders::Shaders)i, types::Shader::Vertex), "--include shared_data.glsl", shared_data);
         frag->loadFromFile(core::StoredShaders::Filename((core::StoredShaders::Shaders)i, types::Shader::Fragment), "--include shared_data.glsl", shared_data);
+        vert->loadFromString(vert->getSourceCode(), "--include shared_functions.glsl", shared_functions);
+        frag->loadFromString(frag->getSourceCode(), "--include shared_functions.glsl", shared_functions);
         // compile and verify fragment and vertex shaders
         vert->compile(); frag->compile();
         // attach to shader program after successful
@@ -26,7 +29,7 @@ void collections::stored::StoredShaders::LoadShaders()
         AddShaderData(shp);
 
         // try to associate shaderprogram mapping textures
-        for (int j = 1; j < types::Texture::Count; j++) {
+        for (int j = 1; j < core::ShadersData::Samplers::SamplersCount; j++) {
             shp->addUniform(core::ShadersData::Samplers::NAMES[j]);
         }
 
@@ -57,6 +60,8 @@ void collections::stored::StoredShaders::AddShaderData(types::ShaderProgram *shp
     shp->addUniformBlock(core::ShadersData::UniformBlocks::SHAREDMATRICES_NAME, 0);
     // Lights uniform block
     shp->addUniformBlock(core::ShadersData::UniformBlocks::SHAREDLIGHTS_NAME, 1);
+    // shadows uniform block
+    shp->addUniformBlock(core::ShadersData::UniformBlocks::SHAREDSHADOWING_NAME, 2);
 
     // Material Params
     for (int i = 0; i < core::ShadersData::Structures::MATERIAL_MEMBER_COUNT; i++) {

@@ -1,5 +1,6 @@
 #include "Material.h"
 #include "..\Collections\TexturesCollection.h"
+#include "..\Scene\Light.h"
 
 using namespace types;
 
@@ -161,6 +162,19 @@ void types::Material::setTexturesUniforms(types::ShaderProgram *shp)
         texture->bind();
         // Set to the texture map shader the current texture assigned ID
         shp->setUniform(core::ShadersData::Samplers::NAMES[texType], (int)texture->getType());
+    }
+
+    if (scene::Light::getShadowCount() > 0) {
+        // get all the available shadow projectors, if shadowing is enabled we need to update the model matrix per model
+        const std::array<utils::ShadowMapping *, core::EngineData::Constrains::MAX_SHADOWMAPS> &shadowProjectors = scene::Light::getShadowProjectors();
+
+        // update model matrix per model and recalculate
+        for (auto it = shadowProjectors.begin(); it != shadowProjectors.end(); it++) {
+            // no shadow casting
+            if (*it == nullptr) { continue; }
+
+            (*it)->setTextureMapUniform(shp);
+        }
     }
 }
 

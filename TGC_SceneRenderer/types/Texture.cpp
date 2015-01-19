@@ -289,6 +289,12 @@ void types::Texture::createTexture(const unsigned int width,
     rawData == nullptr ? this->createTexture() : this->createTexture(rawData);
 }
 
+void types::Texture::unbind() const
+{
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, 0);
+}
+
 Texture::~Texture()
 {
     if (oglTexId == 0) { return; }

@@ -1,17 +1,16 @@
 #pragma once
-#include "../collections/LightsCollection.h"
-#include "../types/ShaderProgram.h"
 #include "../bases/BaseComponent.h"
 #include "../bases/ShaderLinks.h"
 #include "../core/Data.h"
+#include "../types/ShaderProgram.h"
+#include "../utils/ShadowMapping.h"
 #include "glm/detail/type_mat.hpp"
 #include "glm/detail/type_vec.hpp"
 #include "glm/gtc/matrix_transform.hpp"
-#include <unordered_map>
-#include <utility>
+#include <array>
 
-namespace collections {
-    class LightsCollection;  // Forward Declare to solve circular dependency
+namespace utils {
+    class ShadowMapping;
 }
 
 namespace scene {
@@ -30,14 +29,20 @@ namespace scene {
             };
 
         private:
-            friend class collections::LightsCollection;
-            // Only Lights Collection can create Light Objects
+            // shadowing params static shared between all lights
+            static std::array<utils::ShadowMapping *, core::EngineData::Constrains::MAX_SHADOWMAPS> shadowProjector;
+            static unsigned int shadowProjectorCount;
+            // shadowing params specific per class instance
+            bool projectShadows;
+            int shadowProjectorIndex;
+
             Light(const Light &lght);
-            Light(const LightType &lghtType);
-            Light(void);
-            ~Light(void);
 
         public:
+
+            Light(void);
+            Light(const LightType &lghtType);
+            ~Light(void);
 
             glm::vec3 color;
             float intensity;
@@ -54,13 +59,23 @@ namespace scene {
             void setColor(const float &value0, const float &value1, const float &value2);
             // Values 0 - 255
             void setColor(const unsigned int &value0, const unsigned int &value1, const unsigned int &value2);
-            // light direction based on rotation and origin position with up vector
+            // light direction based on rotation and origin position with forward vector
             glm::vec3 getDirection();
+            // set if this light casts shadows
+            void enableShadowProjection(bool value);
+            // gets the light associated projection index
+            int getShadowProjectorIndex() const { return shadowProjectorIndex; }
+            // get the light's associated shadow projector
+            utils::ShadowMapping *getShadowProjector() { return shadowProjector[this->shadowProjectorIndex]; };
+            // gets all the shadow projectors, null pointer means no shadow casting
+            static const std::array<utils::ShadowMapping *, core::EngineData::Constrains::MAX_SHADOWMAPS> &getShadowProjectors() { return shadowProjector; }
 
             float setCosInnerConeAngle() { return cosInnerConeAngle = std::cos(innerConeAngle); }
             float setCosOuterConeAngle() { return cosOuterConeAngle = std::cos(outerConeAngle); }
 
             static std::string getLightTypeString(const LightType &lightType);
+            // returns if there is any light projecting shadows
+            static const unsigned int &getShadowCount() { return shadowProjectorCount; };
     };
 }
 

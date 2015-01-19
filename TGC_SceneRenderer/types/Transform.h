@@ -17,6 +17,9 @@ namespace types {
             void setPosition(const float &value0, const float &value1, const float &value2);
             void setRotation(const float &value0, const float &value1, const float &value2);
             void setScale(const float &value0, const float &value1, const float &value2);
+            void setPosition(const glm::vec3 &position);
+            void setRotation(const glm::vec3 &yawPitchRoll);
+            void setScale(const glm::vec3 &scale);
             glm::vec3 eulerAngles();
     };
 }

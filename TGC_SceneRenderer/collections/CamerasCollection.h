@@ -2,10 +2,6 @@
 #include "..\Scene\Camera.h"
 #include <vector>
 
-namespace scene {
-    class Camera;
-}
-
 namespace collections {
 
     class CamerasCollection {

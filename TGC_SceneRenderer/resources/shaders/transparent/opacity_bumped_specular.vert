@@ -1,4 +1,5 @@
 #version 440 core
+
 //--include shared_data.glsl
 
 // Input vertex data
@@ -11,7 +12,14 @@ layout(location = 4) in vec3 vertexBitangent;
 out vec2 texCoord;
 out vec3 normal;
 out vec3 position;
-out mat3 TBN;
+
+out vec3 tangent;
+out vec3 bitangent;
+out vec3 normalView;
+// shadowing
+out vec4 shadowCoord[MAX_SHADOWS];
+
+//--include shared_functions.glsl
 
 void main()
 {
@@ -23,11 +31,15 @@ void main()
 	position = vec3(matrix.modelView * vertexPos);
 
 	// model to camera view
-	vec3 vertexTangentViewSpace = vec3(matrix.modelView * vec4(vertexTangent, 0.f));
-	vec3 vertexBitangentViewSpace = vec3(matrix.modelView * vec4(vertexBitangent, 0.f));
-	vec3 vertexNormalViewSpace = vec3(matrix.modelView * vec4(vertexNormal, 0.f));
+	tangent = vec3(matrix.modelView * vec4(vertexTangent, 0.f));
+	bitangent = vec3(matrix.modelView * vec4(vertexBitangent, 0.f));
+	normalView = vec3(matrix.modelView * vec4(vertexNormal, 0.f));
 
-	TBN = transpose(mat3(vertexTangentViewSpace, vertexBitangentViewSpace, vertexNormalViewSpace));
+	if(shadowing.enabled > 0) {
+		for(int i = 0; i < shadowing.shadowCount; i++) {
+			shadowCoord[i] = shadowing.source[i].biasModelViewProjection * vec4(vertexPos);
+		}
+	}
 
 	gl_Position = matrix.modelViewProjection * vertexPos;
 }

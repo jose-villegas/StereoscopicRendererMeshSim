@@ -3,17 +3,12 @@
 #define GLM_FORCE_RADIANS
 
 #include "../bases/BaseComponent.h"
-#include "../collections/CamerasCollection.h"
 #include "../types/Frustum.h"
 #include "../types/Plane.h"
 #include "glm/detail/type_mat.hpp"
 #include "glm/detail/type_vec.hpp"
 #include "glm/gtc/constants.hpp"
 #include "glm/gtc/matrix_transform.hpp"
-
-namespace collections {
-    class CamerasCollection;
-}
 
 namespace core {
     class Engine;
@@ -23,7 +18,6 @@ namespace scene {
 
     class Camera : public bases::BaseComponent {
         protected:
-            friend class collections::CamerasCollection;
 
             types::Frustum cameraFrustum;
             bool enableFrustumCulling;
@@ -37,21 +31,22 @@ namespace scene {
             float width;
             float height;
             // orthographic projection size
-            float orthoProjectionSize;
+            float orthoProjectionHorizontalSize;
+            float orthoProjectionVerticalSize;
             // stereo 3d projection data members
             float zeroParallax;
             float eyeSeparation;
             glm::mat4 leftFrustum();
             glm::mat4 rightFrustum();
-            // Only camerascollection can create cameras
-            Camera(void);
-            Camera(const Camera &cam);
-            ~Camera(void);
-
+            // calculate camera target based on rotation and vector forward
             glm::vec3 getCameraTarget() const;
-            void renderMeshes(const core::Engine *actRenderer);
+
+            void renderMeshes(const core::Engine *engine);
 
         public:
+
+            Camera(void);
+            ~Camera(void);
 
             enum TypeProjection {
                 Perspective,
@@ -76,7 +71,8 @@ namespace scene {
             const glm::vec3 &getVectorUp() const { return vectorUp ;}
             float getFieldOfView() const { return fieldOfView; }
             float getAspectRatio() const { return aspectRatio; }
-            float getOrthoProjectionSize() const { return orthoProjectionSize; }
+            float getOrthoProjectionHorizontalSize() const { return orthoProjectionHorizontalSize; }
+            float getOrthoProjectionVerticalSize() const { return orthoProjectionHorizontalSize; }
             float getZeroParallax() const { return zeroParallax; }
             float getEyeSeparation() const { return eyeSeparation; }
             // members setters, update projection based on new values
@@ -85,14 +81,17 @@ namespace scene {
             void setFarClippingDistance(const float val);
             void setFieldOfView(const float val);
             void setEyeSeparation(const float val);
-            void setOrthoProjectionSize(float val) { orthoProjectionSize = val; }
+            void setOrthoProjectionSize(float val) { orthoProjectionHorizontalSize = orthoProjectionVerticalSize = val; }
+            void setOrthoProjectionHorizontalSize(float val) { orthoProjectionHorizontalSize = val; }
+            void setOrthoProjectionVerticalSize(float val) { orthoProjectionVerticalSize = val; }
             void setZeroParallax(float val) { zeroParallax = val; }
             void setVectorUp(float a, float b, float c) { vectorUp = glm::vec3(a, b, c); }
             // renders scene meshes from the camera point of view
-            void renderFromPOV(const core::Engine *actRenderer);
+            void render(const core::Engine *engine);
             // sets the rendering view port and updates camera accordly,
             // warning this changes the whole render target viewport
             void viewport(const unsigned int width, const unsigned int height);
+            void viewport();
     };
 }
 

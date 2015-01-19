@@ -88,7 +88,7 @@ System::Void SceneRenderer::PropertiesWindow::setActiveObjectIndex(unsigned int 
             this->cameraControl->setValues(cameraComponentPtr->getNearClippingPlane(),
                                            cameraComponentPtr->getFarClippingPlane(),
                                            cameraComponentPtr->getFieldOfView(),
-                                           cameraComponentPtr->getOrthoProjectionSize(),
+                                           cameraComponentPtr->getOrthoProjectionHorizontalSize(),
                                            cameraComponentPtr->getZeroParallax(),
                                            cameraComponentPtr->getEyeSeparation(),
                                            (unsigned int)cameraComponentPtr->projectionType);
