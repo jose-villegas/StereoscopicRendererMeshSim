@@ -45,7 +45,10 @@ bool types::ShaderProgram::link() const
         glGetProgramiv(this->programID, GL_LINK_STATUS, &linkStatus);
 
         if (linkStatus == GL_FALSE) {
-            std::cout << "ShaderProgram(" << this << "): " << "Shader program linking failed" << std::endl;
+            // get error string
+            char errbuf[4096]; GLsizei len;
+            glGetProgramInfoLog(this->programID, sizeof(errbuf), &len, errbuf);
+            std::cout << "ShaderProgram(" << this << "): " << "Shader program linking failed \n" << errbuf << std::endl;
             return false;
         }
 

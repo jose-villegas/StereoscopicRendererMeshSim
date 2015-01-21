@@ -110,10 +110,7 @@ const char *core::ShadersData::Samplers::NAMES[SamplersCount] = {
     "displacementMap",
     "lightmapMap",
     "reflectionMap",
-    "shadowMap0",
-    "shadowMap1",
-    "shadowMap2",
-    "shadowMap3",
+    "depthMap[0]",
 };
 
 const char *core::StoredShaders::FILENAMES[] = {

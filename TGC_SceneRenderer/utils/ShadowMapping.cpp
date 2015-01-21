@@ -3,7 +3,7 @@
 
 using namespace utils;
 
-ShadowMapping::ShadowMapping(void) : shadowBias(0.5f), shadowMapSize(0), shadowMappingEnabled(true)
+ShadowMapping::ShadowMapping(void) : shadowMapSize(0), shadowMappingEnabled(true), shadowProjectionFarDistance(500.f)
 {
     this->depthRenderTexture  = nullptr;
     this->lightSource         = nullptr;
@@ -17,14 +17,17 @@ ShadowMapping::~ShadowMapping(void)
 {
 }
 
-void utils::ShadowMapping::setup(const unsigned int shadowMapSize)
+bool utils::ShadowMapping::setup(const unsigned int shadowMapSize)
 {
     // shadow mapping is already set up
-    if (nullptr != this->depthRenderTexture) { return; }
+    if (nullptr != this->depthRenderTexture) { return false; }
 
     this->depthRenderTexture = new types::TextureRenderer();
     // create frame buffer object with specified render size bounds
-    this->depthRenderTexture->createRenderTarget(shadowMapSize, shadowMapSize);
+    bool fboResponse = this->depthRenderTexture->createRenderTarget(shadowMapSize, shadowMapSize);
+
+    if (!fboResponse) { return fboResponse; }
+
     // attach a depth map to the fbo, no color attachments only need depth
     this->depthRenderTexture->attachDepthTexture();
     // we are not going to render o read to / from any color buffer
@@ -42,17 +45,19 @@ void utils::ShadowMapping::setup(const unsigned int shadowMapSize)
     this->matrices->setUniformBlockInfo();
     // set uniform block info
     this->setUniformBlockInfo();
+    // return fbo success
+    return fboResponse;
 }
 
-void utils::ShadowMapping::setup(const ShadowQualityPreset preset)
+bool utils::ShadowMapping::setup(const ShadowQualityPreset preset)
 {
-    this->setup((const unsigned int)preset);
+    return this->setup((const unsigned int)preset);
 }
 
 void utils::ShadowMapping::setLightSource(scene::Light *lightSource)
 {
     // invalid parameter or light source is already set
-    if (nullptr == lightSource || nullptr != this->lightSource || nullptr == depthRenderTexture) { return; }
+    if (nullptr == lightSource || nullptr != this->lightSource) { return; }
 
     // set class light handler
     this->lightSource = lightSource;
@@ -75,7 +80,7 @@ void utils::ShadowMapping::unbindMapping()
     this->depthRenderTexture->unbind();
 }
 
-void utils::ShadowMapping::projectShadowMap()
+void utils::ShadowMapping::shadowRenderPass()
 {
     if (nullptr == this->depthRenderTexture) { return; }
 
@@ -88,12 +93,15 @@ void utils::ShadowMapping::projectShadowMap()
     // set viewport accordly to texture size
     this->lightPov->viewport(this->shadowMapSize, this->shadowMapSize);
     // set the camera view from light direction, only spot lights supported right now
-    glm::vec3 lightDir = lightSource->getDirection();
+    glm::vec3 lightDir = glm::normalize(lightSource->getDirection());
     this->lightPov->base->transform.position = this->lightSource->base->transform.position;
     this->lightPov->base->transform.rotation = this->lightSource->base->transform.rotation;
-    // adds extra degrees to avoid some flickering on the spot light outer angle borders
-    float extraAngle = 2.f * glm::degrees(this->lightSource->outerConeAngle) / glm::pi<float>();
-    this->lightPov->setFieldOfView(glm::degrees(this->lightSource->outerConeAngle) + extraAngle);
+    // move the light some steps backward to map for closeups missing fragments
+    this->lightPov->base->transform.position += lightDir * glm::vec3(0.f, 0.f, -2.f);
+    // transform camera params to match light point of view
+    float lightConeAngle = glm::degrees(this->lightSource->outerConeAngle);
+    this->lightPov->setProjection(1.0, std::min(lightConeAngle * 2.f, 175.f), 2.0, this->shadowProjectionFarDistance);
+    // set view and projection matrices, these don't change through the whole render
     this->matrices->setViewMatrix(this->lightPov->getViewMatrix());
     this->matrices->setProjectionMatrix(this->lightPov->getFrustumMatrix());
     // get meshes collection single instance
@@ -161,10 +169,3 @@ void utils::ShadowMapping::setTextureMapUniform(types::ShaderProgram *shp)
 {
     shp->setUniform(core::ShadersData::Samplers::NAMES[types::Texture::TextureType::Count + 0], (int)this->depthRenderTexture->getDepthTexture()->getType());
 }
-
-const glm::mat4 utils::ShadowMapping::biasMatrix = glm::mat4(
-            0.5, 0.0, 0.0, 0.0,
-            0.0, 0.5, 0.0, 0.0,
-            0.0, 0.0, 0.5, 0.0,
-            0.5, 0.5, 0.5, 1.0
-        );

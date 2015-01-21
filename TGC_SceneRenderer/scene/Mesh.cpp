@@ -217,7 +217,7 @@ struct Cmp {
 
 void Mesh::render()
 {
-    if (!active) { return; }
+    if (!enableRender) { return; }
 
     glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
@@ -227,7 +227,7 @@ void Mesh::render()
 
     for (unsigned int i = 0 ; i < meshEntries.size() ; i++) {
         // ignore empty submeshes
-        if (!meshEntries[i]->active) { continue; }
+        if (!meshEntries[i]->enableRender) { continue; }
 
         const unsigned int materialIndex = meshEntries[i]->materialIndex;
         // Binds the mesh material textures for shader use and set shaders material
@@ -255,7 +255,7 @@ void Mesh::render()
 
 void scene::Mesh::render(const bool positions, const bool uvs, const bool normals, const bool tangents, const bool bitangents, const bool enableShaders /*= true*/)
 {
-    if (!active) { return; }
+    if (!enableRender) { return; }
 
     positions  ? glEnableVertexAttribArray(0) : 0;
     uvs        ? glEnableVertexAttribArray(1) : 0;
@@ -265,7 +265,7 @@ void scene::Mesh::render(const bool positions, const bool uvs, const bool normal
 
     for (unsigned int i = 0 ; i < meshEntries.size() ; i++) {
         // ignore empty submeshes
-        if (!meshEntries[i]->active) { continue; }
+        if (!meshEntries[i]->enableRender) { continue; }
 
         // set mesh material shader and textures
         if (enableShaders) {

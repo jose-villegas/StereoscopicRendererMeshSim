@@ -42,7 +42,7 @@ void main()
         }
     }
     // correct gama values
-    accumColor = gamma_correction(accumColor);
+    accumColor = gammaCorrection(accumColor);
     // output fragment color
     fragColor = vec4(accumColor, 1.f);
 }

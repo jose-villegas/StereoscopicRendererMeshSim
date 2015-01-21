@@ -25,6 +25,7 @@ void main()
         discard;
     }
 
+    vec3 norm = normalize(normal);
     vec4 specularColor = texture(specularMap, texCoord);
     // calculate phong shading
     vec3 accumColor = vec3(0.f);
@@ -32,15 +33,15 @@ void main()
     for(int i = 0; i < light.count; i++) {
 
         if(light.source[i].lightType == LIGHT_SPOT) {
-            accumColor += calculateSpotLight(light.source[i], position, normal, diffuseColor.rgb, specularColor.rgb);
+            accumColor += calculateSpotLight(light.source[i], position, norm, diffuseColor.rgb, specularColor.rgb);
         } else if(light.source[i].lightType == LIGHT_DIRECTIONAL) {
-            accumColor += calculateDirectionalLight(light.source[i], position, normal, diffuseColor.rgb, specularColor.rgb);
+            accumColor += calculateDirectionalLight(light.source[i], position, norm, diffuseColor.rgb, specularColor.rgb);
         } else {
-            accumColor += calculatePointLight(light.source[i], position, normal, diffuseColor.rgb, specularColor.rgb);
+            accumColor += calculatePointLight(light.source[i], position, norm, diffuseColor.rgb, specularColor.rgb);
         }
     }
     // correct gama values
-    accumColor = gamma_correction(accumColor);
+    accumColor = gammaCorrection(accumColor);
     // output fragment color
     fragColor = vec4(accumColor, opacityValue.a);
 }

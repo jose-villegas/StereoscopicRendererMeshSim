@@ -7,8 +7,8 @@ Light::Light(void)
     this->color                = glm::vec3(1.0f, 1.0f, 1.0f);
     this->attenuation          = 0.5f;
     this->intensity            = 1.0f;
-    this->innerConeAngle       = glm::radians(30.0f);
-    this->outerConeAngle       = glm::radians(90.0f);
+    this->innerConeAngle       = glm::radians(20.0f);
+    this->outerConeAngle       = glm::radians(45.0f);
     this->cosInnerConeAngle    = std::cos(this->innerConeAngle);
     this->cosOuterConeAngle    = std::cos(this->outerConeAngle);
     this->lightType            = Point;
@@ -21,16 +21,17 @@ scene::Light::Light(const LightType &lghtType)
     this->color             = glm::vec3(1.0f, 1.0f, 1.0f);
     this->attenuation       = 0.5f;
     this->intensity         = 1.0f;
-    this->innerConeAngle    = glm::radians(30.0f);
-    this->outerConeAngle    = glm::radians(90.0f);
+    this->innerConeAngle    = glm::radians(20.0f);
+    this->outerConeAngle    = glm::radians(45.0f);
     this->cosInnerConeAngle = std::cos(this->innerConeAngle);
     this->cosOuterConeAngle = std::cos(this->outerConeAngle);
-    this->lightType         = lightType;
+    this->lightType         = lghtType;
     this->base = new bases::BaseObject(getLightTypeString(lghtType) + " Light");
 }
 
 scene::Light::~Light(void)
 {
+    // this light is a shadow projection light
     if (this->shadowProjectorIndex >= 0) { this->enableShadowProjection(false); }
 
     collections::LightsCollection::Instance()->removeLight(this);
@@ -67,7 +68,7 @@ glm::vec3 scene::Light::getDirection()
     return glm::mat3_cast(this->base->transform.rotation) * glm::vec3(0.0, 0.0, -1.0);
 }
 
-void scene::Light::enableShadowProjection(bool value)
+void scene::Light::enableShadowProjection(bool value, const unsigned int depthMapSize /*= 128*/)
 {
     if (shadowProjectorCount >= core::EngineData::Constrains::MAX_SHADOWMAPS && value == true) { return; }
 
@@ -84,7 +85,7 @@ void scene::Light::enableShadowProjection(bool value)
         this->shadowProjectorIndex = std::distance(shadowProjector.begin(), std::find(shadowProjector.begin(), shadowProjector.end(), nullptr));
         // create shadow mapping render target
         shadowProjector[this->shadowProjectorIndex] = new utils::ShadowMapping();
-        shadowProjector[this->shadowProjectorIndex]->setup(utils::ShadowMapping::Medium);
+        shadowProjector[this->shadowProjectorIndex]->setup(depthMapSize);
         // projection from this light position
         shadowProjector[this->shadowProjectorIndex]->setLightSource(this);
     }

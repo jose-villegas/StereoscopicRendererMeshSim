@@ -3,392 +3,365 @@ Using Assimp v3.1.0 for asset loading
 OpenGL 4.4.0 NVIDIA 344.75s, GLSL 4.40 NVIDIA via Cg compiler
 **************************************************************************
 
-Textures(081609B0): Diffuse texture, oglId(1) texId(0) C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/default.png loaded successfully
-ShaderProgram(08172138): Shader Program 1 created successfully
-Shader(08177040): Vertex shader data modified, raw string inserted at token --include shared_data.glsl
-Shader(08177040): Vertex shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/opaque/diffuse.vert loaded successfully
-Shader(08177180): Fragment shader data modified, raw string inserted at token --include shared_data.glsl
-Shader(08177180): Fragment shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/opaque/diffuse.frag loaded successfully
-Shader(08177040): Vertex shader data modified, raw string inserted at token --include shared_functions.glsl
-Shader(08177040): Vertex shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/opaque/diffuse.vert loaded successfully
-Shader(08177180): Fragment shader data modified, raw string inserted at token --include shared_functions.glsl
-Shader(08177180): Fragment shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/opaque/diffuse.frag loaded successfully
-Shader(08177040): Vertex shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/opaque/diffuse.vert compilation successful
-Shader(08177180): Fragment shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/opaque/diffuse.frag compilation successful
-ShaderProgram(08172138): Shader program linking successful
-ShaderProgram(08172138): Uniform block (sharedMatrices) saved successfully
-ShaderProgram(08172138): Uniform block (sharedLights) saved successfully
-ShaderProgram(08172138): Uniform block (sharedShadowing) saved successfully
-ShaderProgram(08172138): Uniform (material.ambient) bound to location: 1
-ShaderProgram(08172138): Uniform (material.diffuse) bound to location: 2
-ShaderProgram(08172138): Could not add uniform: (material.specular) location returned -1
-ShaderProgram(08172138): Could not add uniform: (material.shininess) location returned -1
-ShaderProgram(08172138): Uniform (diffuseMap) bound to location: 0
-ShaderProgram(08172138): Could not add uniform: (specularMap) location returned -1
-ShaderProgram(08172138): Could not add uniform: (ambientMap) location returned -1
-ShaderProgram(08172138): Could not add uniform: (emissiveMap) location returned -1
-ShaderProgram(08172138): Could not add uniform: (heightMap) location returned -1
-ShaderProgram(08172138): Could not add uniform: (normalsMap) location returned -1
-ShaderProgram(08172138): Could not add uniform: (shininessMap) location returned -1
-ShaderProgram(08172138): Could not add uniform: (opacityMap) location returned -1
-ShaderProgram(08172138): Could not add uniform: (displacementMap) location returned -1
-ShaderProgram(08172138): Could not add uniform: (lightmapMap) location returned -1
-ShaderProgram(08172138): Could not add uniform: (reflectionMap) location returned -1
-ShaderProgram(08172138): Uniform (shadowMap0) bound to location: 3
-ShaderProgram(08172138): Could not add uniform: (shadowMap1) location returned -1
-ShaderProgram(08172138): Could not add uniform: (shadowMap2) location returned -1
-ShaderProgram(08172138): Could not add uniform: (shadowMap3) location returned -1
-ShaderProgram(0819F898): Shader Program 4 created successfully
-Shader(081A1070): Vertex shader data modified, raw string inserted at token --include shared_data.glsl
-Shader(081A1070): Vertex shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/opaque/specular.vert loaded successfully
-Shader(081A11F8): Fragment shader data modified, raw string inserted at token --include shared_data.glsl
-Shader(081A11F8): Fragment shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/opaque/specular.frag loaded successfully
-Shader(081A1070): Vertex shader data modified, raw string inserted at token --include shared_functions.glsl
-Shader(081A1070): Vertex shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/opaque/specular.vert loaded successfully
-Shader(081A11F8): Fragment shader data modified, raw string inserted at token --include shared_functions.glsl
-Shader(081A11F8): Fragment shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/opaque/specular.frag loaded successfully
-Shader(081A1070): Vertex shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/opaque/specular.vert compilation successful
-Shader(081A11F8): Fragment shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/opaque/specular.frag compilation successful
-ShaderProgram(0819F898): Shader program linking successful
-ShaderProgram(0819F898): There is a uniform block with name (sharedMatrices) already saved, binding UBO to programID
-ShaderProgram(0819F898): There is a uniform block with name (sharedLights) already saved, binding UBO to programID
-ShaderProgram(0819F898): There is a uniform block with name (sharedShadowing) already saved, binding UBO to programID
-ShaderProgram(0819F898): Uniform (material.ambient) bound to location: 1
-ShaderProgram(0819F898): Uniform (material.diffuse) bound to location: 2
-ShaderProgram(0819F898): Uniform (material.specular) bound to location: 4
-ShaderProgram(0819F898): Uniform (material.shininess) bound to location: 3
-ShaderProgram(0819F898): Uniform (diffuseMap) bound to location: 0
-ShaderProgram(0819F898): Uniform (specularMap) bound to location: 432
-ShaderProgram(0819F898): Could not add uniform: (ambientMap) location returned -1
-ShaderProgram(0819F898): Could not add uniform: (emissiveMap) location returned -1
-ShaderProgram(0819F898): Could not add uniform: (heightMap) location returned -1
-ShaderProgram(0819F898): Could not add uniform: (normalsMap) location returned -1
-ShaderProgram(0819F898): Could not add uniform: (shininessMap) location returned -1
-ShaderProgram(0819F898): Could not add uniform: (opacityMap) location returned -1
-ShaderProgram(0819F898): Could not add uniform: (displacementMap) location returned -1
-ShaderProgram(0819F898): Could not add uniform: (lightmapMap) location returned -1
-ShaderProgram(0819F898): Could not add uniform: (reflectionMap) location returned -1
-ShaderProgram(0819F898): Uniform (shadowMap0) bound to location: 5
-ShaderProgram(0819F898): Could not add uniform: (shadowMap1) location returned -1
-ShaderProgram(0819F898): Could not add uniform: (shadowMap2) location returned -1
-ShaderProgram(0819F898): Could not add uniform: (shadowMap3) location returned -1
-ShaderProgram(081A2858): Shader Program 7 created successfully
-Shader(08245D78): Vertex shader data modified, raw string inserted at token --include shared_data.glsl
-Shader(08245D78): Vertex shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/opaque/bumped_diffuse.vert loaded successfully
-Shader(08245F38): Fragment shader data modified, raw string inserted at token --include shared_data.glsl
-Shader(08245F38): Fragment shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/opaque/bumped_diffuse.frag loaded successfully
-Shader(08245D78): Vertex shader data modified, raw string inserted at token --include shared_functions.glsl
-Shader(08245D78): Vertex shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/opaque/bumped_diffuse.vert loaded successfully
-Shader(08245F38): Fragment shader data modified, raw string inserted at token --include shared_functions.glsl
-Shader(08245F38): Fragment shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/opaque/bumped_diffuse.frag loaded successfully
-Shader(08245D78): Vertex shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/opaque/bumped_diffuse.vert compilation successful
-Shader(08245F38): Fragment shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/opaque/bumped_diffuse.frag compilation successful
-ShaderProgram(081A2858): Shader program linking successful
-ShaderProgram(081A2858): There is a uniform block with name (sharedMatrices) already saved, binding UBO to programID
-ShaderProgram(081A2858): There is a uniform block with name (sharedLights) already saved, binding UBO to programID
-ShaderProgram(081A2858): There is a uniform block with name (sharedShadowing) already saved, binding UBO to programID
-ShaderProgram(081A2858): Uniform (material.ambient) bound to location: 1
-ShaderProgram(081A2858): Uniform (material.diffuse) bound to location: 2
-ShaderProgram(081A2858): Could not add uniform: (material.specular) location returned -1
-ShaderProgram(081A2858): Could not add uniform: (material.shininess) location returned -1
-ShaderProgram(081A2858): Uniform (diffuseMap) bound to location: 0
-ShaderProgram(081A2858): Could not add uniform: (specularMap) location returned -1
-ShaderProgram(081A2858): Could not add uniform: (ambientMap) location returned -1
-ShaderProgram(081A2858): Could not add uniform: (emissiveMap) location returned -1
-ShaderProgram(081A2858): Could not add uniform: (heightMap) location returned -1
-ShaderProgram(081A2858): Uniform (normalsMap) bound to location: 3
-ShaderProgram(081A2858): Could not add uniform: (shininessMap) location returned -1
-ShaderProgram(081A2858): Could not add uniform: (opacityMap) location returned -1
-ShaderProgram(081A2858): Could not add uniform: (displacementMap) location returned -1
-ShaderProgram(081A2858): Could not add uniform: (lightmapMap) location returned -1
-ShaderProgram(081A2858): Could not add uniform: (reflectionMap) location returned -1
-ShaderProgram(081A2858): Uniform (shadowMap0) bound to location: 4
-ShaderProgram(081A2858): Could not add uniform: (shadowMap1) location returned -1
-ShaderProgram(081A2858): Could not add uniform: (shadowMap2) location returned -1
-ShaderProgram(081A2858): Could not add uniform: (shadowMap3) location returned -1
-ShaderProgram(081C9DD0): Shader Program 10 created successfully
-Shader(06030890): Vertex shader data modified, raw string inserted at token --include shared_data.glsl
-Shader(06030890): Vertex shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/opaque/bumped_specular.vert loaded successfully
-Shader(06030A60): Fragment shader data modified, raw string inserted at token --include shared_data.glsl
-Shader(06030A60): Fragment shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/opaque/bumped_specular.frag loaded successfully
-Shader(06030890): Vertex shader data modified, raw string inserted at token --include shared_functions.glsl
-Shader(06030890): Vertex shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/opaque/bumped_specular.vert loaded successfully
-Shader(06030A60): Fragment shader data modified, raw string inserted at token --include shared_functions.glsl
-Shader(06030A60): Fragment shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/opaque/bumped_specular.frag loaded successfully
-Shader(06030890): Vertex shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/opaque/bumped_specular.vert compilation successful
-Shader(06030A60): Fragment shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/opaque/bumped_specular.frag compilation successful
-ShaderProgram(081C9DD0): Shader program linking successful
-ShaderProgram(081C9DD0): There is a uniform block with name (sharedMatrices) already saved, binding UBO to programID
-ShaderProgram(081C9DD0): There is a uniform block with name (sharedLights) already saved, binding UBO to programID
-ShaderProgram(081C9DD0): There is a uniform block with name (sharedShadowing) already saved, binding UBO to programID
-ShaderProgram(081C9DD0): Uniform (material.ambient) bound to location: 1
-ShaderProgram(081C9DD0): Uniform (material.diffuse) bound to location: 2
-ShaderProgram(081C9DD0): Uniform (material.specular) bound to location: 4
-ShaderProgram(081C9DD0): Uniform (material.shininess) bound to location: 3
-ShaderProgram(081C9DD0): Uniform (diffuseMap) bound to location: 0
-ShaderProgram(081C9DD0): Uniform (specularMap) bound to location: 433
-ShaderProgram(081C9DD0): Could not add uniform: (ambientMap) location returned -1
-ShaderProgram(081C9DD0): Could not add uniform: (emissiveMap) location returned -1
-ShaderProgram(081C9DD0): Could not add uniform: (heightMap) location returned -1
-ShaderProgram(081C9DD0): Uniform (normalsMap) bound to location: 5
-ShaderProgram(081C9DD0): Could not add uniform: (shininessMap) location returned -1
-ShaderProgram(081C9DD0): Could not add uniform: (opacityMap) location returned -1
-ShaderProgram(081C9DD0): Could not add uniform: (displacementMap) location returned -1
-ShaderProgram(081C9DD0): Could not add uniform: (lightmapMap) location returned -1
-ShaderProgram(081C9DD0): Could not add uniform: (reflectionMap) location returned -1
-ShaderProgram(081C9DD0): Uniform (shadowMap0) bound to location: 6
-ShaderProgram(081C9DD0): Could not add uniform: (shadowMap1) location returned -1
-ShaderProgram(081C9DD0): Could not add uniform: (shadowMap2) location returned -1
-ShaderProgram(081C9DD0): Could not add uniform: (shadowMap3) location returned -1
-ShaderProgram(082510A0): Shader Program 13 created successfully
-Shader(08251378): Vertex shader data modified, raw string inserted at token --include shared_data.glsl
-Shader(08251378): Vertex shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/transparent/opacity_diffuse.vert loaded successfully
-Shader(08251508): Fragment shader data modified, raw string inserted at token --include shared_data.glsl
-Shader(08251508): Fragment shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/transparent/opacity_diffuse.frag loaded successfully
-Shader(08251378): Vertex shader data modified, raw string inserted at token --include shared_functions.glsl
-Shader(08251378): Vertex shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/transparent/opacity_diffuse.vert loaded successfully
-Shader(08251508): Fragment shader data modified, raw string inserted at token --include shared_functions.glsl
-Shader(08251508): Fragment shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/transparent/opacity_diffuse.frag loaded successfully
-Shader(08251378): Vertex shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/transparent/opacity_diffuse.vert compilation successful
-Shader(08251508): Fragment shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/transparent/opacity_diffuse.frag compilation successful
-ShaderProgram(082510A0): Shader program linking successful
-ShaderProgram(082510A0): There is a uniform block with name (sharedMatrices) already saved, binding UBO to programID
-ShaderProgram(082510A0): There is a uniform block with name (sharedLights) already saved, binding UBO to programID
-ShaderProgram(082510A0): There is a uniform block with name (sharedShadowing) already saved, binding UBO to programID
-ShaderProgram(082510A0): Uniform (material.ambient) bound to location: 1
-ShaderProgram(082510A0): Uniform (material.diffuse) bound to location: 2
-ShaderProgram(082510A0): Could not add uniform: (material.specular) location returned -1
-ShaderProgram(082510A0): Could not add uniform: (material.shininess) location returned -1
-ShaderProgram(082510A0): Uniform (diffuseMap) bound to location: 0
-ShaderProgram(082510A0): Could not add uniform: (specularMap) location returned -1
-ShaderProgram(082510A0): Could not add uniform: (ambientMap) location returned -1
-ShaderProgram(082510A0): Could not add uniform: (emissiveMap) location returned -1
-ShaderProgram(082510A0): Could not add uniform: (heightMap) location returned -1
-ShaderProgram(082510A0): Could not add uniform: (normalsMap) location returned -1
-ShaderProgram(082510A0): Could not add uniform: (shininessMap) location returned -1
-ShaderProgram(082510A0): Uniform (opacityMap) bound to location: 3
-ShaderProgram(082510A0): Could not add uniform: (displacementMap) location returned -1
-ShaderProgram(082510A0): Could not add uniform: (lightmapMap) location returned -1
-ShaderProgram(082510A0): Could not add uniform: (reflectionMap) location returned -1
-ShaderProgram(082510A0): Uniform (shadowMap0) bound to location: 4
-ShaderProgram(082510A0): Could not add uniform: (shadowMap1) location returned -1
-ShaderProgram(082510A0): Could not add uniform: (shadowMap2) location returned -1
-ShaderProgram(082510A0): Could not add uniform: (shadowMap3) location returned -1
-ShaderProgram(08248CC0): Shader Program 16 created successfully
-Shader(082838D8): Vertex shader data modified, raw string inserted at token --include shared_data.glsl
-Shader(082838D8): Vertex shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/transparent/opacity_specular.vert loaded successfully
-Shader(08283A78): Fragment shader data modified, raw string inserted at token --include shared_data.glsl
-Shader(08283A78): Fragment shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/transparent/opacity_specular.frag loaded successfully
-Shader(082838D8): Vertex shader data modified, raw string inserted at token --include shared_functions.glsl
-Shader(082838D8): Vertex shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/transparent/opacity_specular.vert loaded successfully
-Shader(08283A78): Fragment shader data modified, raw string inserted at token --include shared_functions.glsl
-Shader(08283A78): Fragment shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/transparent/opacity_specular.frag loaded successfully
-Shader(082838D8): Vertex shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/transparent/opacity_specular.vert compilation successful
-Shader(08283A78): Fragment shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/transparent/opacity_specular.frag compilation successful
-ShaderProgram(08248CC0): Shader program linking successful
-ShaderProgram(08248CC0): There is a uniform block with name (sharedMatrices) already saved, binding UBO to programID
-ShaderProgram(08248CC0): There is a uniform block with name (sharedLights) already saved, binding UBO to programID
-ShaderProgram(08248CC0): There is a uniform block with name (sharedShadowing) already saved, binding UBO to programID
-ShaderProgram(08248CC0): Uniform (material.ambient) bound to location: 1
-ShaderProgram(08248CC0): Uniform (material.diffuse) bound to location: 2
-ShaderProgram(08248CC0): Uniform (material.specular) bound to location: 4
-ShaderProgram(08248CC0): Uniform (material.shininess) bound to location: 3
-ShaderProgram(08248CC0): Uniform (diffuseMap) bound to location: 0
-ShaderProgram(08248CC0): Uniform (specularMap) bound to location: 433
-ShaderProgram(08248CC0): Could not add uniform: (ambientMap) location returned -1
-ShaderProgram(08248CC0): Could not add uniform: (emissiveMap) location returned -1
-ShaderProgram(08248CC0): Could not add uniform: (heightMap) location returned -1
-ShaderProgram(08248CC0): Could not add uniform: (normalsMap) location returned -1
-ShaderProgram(08248CC0): Could not add uniform: (shininessMap) location returned -1
-ShaderProgram(08248CC0): Uniform (opacityMap) bound to location: 5
-ShaderProgram(08248CC0): Could not add uniform: (displacementMap) location returned -1
-ShaderProgram(08248CC0): Could not add uniform: (lightmapMap) location returned -1
-ShaderProgram(08248CC0): Could not add uniform: (reflectionMap) location returned -1
-ShaderProgram(08248CC0): Uniform (shadowMap0) bound to location: 6
-ShaderProgram(08248CC0): Could not add uniform: (shadowMap1) location returned -1
-ShaderProgram(08248CC0): Could not add uniform: (shadowMap2) location returned -1
-ShaderProgram(08248CC0): Could not add uniform: (shadowMap3) location returned -1
-ShaderProgram(08340E58): Shader Program 19 created successfully
-Shader(08283B70): Vertex shader data modified, raw string inserted at token --include shared_data.glsl
-Shader(08283B70): Vertex shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/transparent/opacity_bumped_diffuse.vert loaded successfully
-Shader(082E6F70): Fragment shader data modified, raw string inserted at token --include shared_data.glsl
-Shader(082E6F70): Fragment shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/transparent/opacity_bumped_diffuse.frag loaded successfully
-Shader(08283B70): Vertex shader data modified, raw string inserted at token --include shared_functions.glsl
-Shader(08283B70): Vertex shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/transparent/opacity_bumped_diffuse.vert loaded successfully
-Shader(082E6F70): Fragment shader data modified, raw string inserted at token --include shared_functions.glsl
-Shader(082E6F70): Fragment shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/transparent/opacity_bumped_diffuse.frag loaded successfully
-Shader(08283B70): Vertex shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/transparent/opacity_bumped_diffuse.vert compilation successful
-Shader(082E6F70): Fragment shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/transparent/opacity_bumped_diffuse.frag compilation successful
-ShaderProgram(08340E58): Shader program linking successful
-ShaderProgram(08340E58): There is a uniform block with name (sharedMatrices) already saved, binding UBO to programID
-ShaderProgram(08340E58): There is a uniform block with name (sharedLights) already saved, binding UBO to programID
-ShaderProgram(08340E58): There is a uniform block with name (sharedShadowing) already saved, binding UBO to programID
-ShaderProgram(08340E58): Uniform (material.ambient) bound to location: 1
-ShaderProgram(08340E58): Uniform (material.diffuse) bound to location: 2
-ShaderProgram(08340E58): Could not add uniform: (material.specular) location returned -1
-ShaderProgram(08340E58): Could not add uniform: (material.shininess) location returned -1
-ShaderProgram(08340E58): Uniform (diffuseMap) bound to location: 0
-ShaderProgram(08340E58): Could not add uniform: (specularMap) location returned -1
-ShaderProgram(08340E58): Could not add uniform: (ambientMap) location returned -1
-ShaderProgram(08340E58): Could not add uniform: (emissiveMap) location returned -1
-ShaderProgram(08340E58): Could not add uniform: (heightMap) location returned -1
-ShaderProgram(08340E58): Uniform (normalsMap) bound to location: 3
-ShaderProgram(08340E58): Could not add uniform: (shininessMap) location returned -1
-ShaderProgram(08340E58): Uniform (opacityMap) bound to location: 4
-ShaderProgram(08340E58): Could not add uniform: (displacementMap) location returned -1
-ShaderProgram(08340E58): Could not add uniform: (lightmapMap) location returned -1
-ShaderProgram(08340E58): Could not add uniform: (reflectionMap) location returned -1
-ShaderProgram(08340E58): Uniform (shadowMap0) bound to location: 5
-ShaderProgram(08340E58): Could not add uniform: (shadowMap1) location returned -1
-ShaderProgram(08340E58): Could not add uniform: (shadowMap2) location returned -1
-ShaderProgram(08340E58): Could not add uniform: (shadowMap3) location returned -1
-ShaderProgram(082AF808): Shader Program 22 created successfully
-Shader(0837D818): Vertex shader data modified, raw string inserted at token --include shared_data.glsl
-Shader(0837D818): Vertex shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/transparent/opacity_bumped_specular.vert loaded successfully
-Shader(0837C258): Fragment shader data modified, raw string inserted at token --include shared_data.glsl
-Shader(0837C258): Fragment shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/transparent/opacity_bumped_specular.frag loaded successfully
-Shader(0837D818): Vertex shader data modified, raw string inserted at token --include shared_functions.glsl
-Shader(0837D818): Vertex shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/transparent/opacity_bumped_specular.vert loaded successfully
-Shader(0837C258): Fragment shader data modified, raw string inserted at token --include shared_functions.glsl
-Shader(0837C258): Fragment shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/transparent/opacity_bumped_specular.frag loaded successfully
-Shader(0837D818): Vertex shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/transparent/opacity_bumped_specular.vert compilation successful
-Shader(0837C258): Fragment shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/transparent/opacity_bumped_specular.frag compilation successful
-ShaderProgram(082AF808): Shader program linking successful
-ShaderProgram(082AF808): There is a uniform block with name (sharedMatrices) already saved, binding UBO to programID
-ShaderProgram(082AF808): There is a uniform block with name (sharedLights) already saved, binding UBO to programID
-ShaderProgram(082AF808): There is a uniform block with name (sharedShadowing) already saved, binding UBO to programID
-ShaderProgram(082AF808): Uniform (material.ambient) bound to location: 1
-ShaderProgram(082AF808): Uniform (material.diffuse) bound to location: 2
-ShaderProgram(082AF808): Uniform (material.specular) bound to location: 4
-ShaderProgram(082AF808): Uniform (material.shininess) bound to location: 3
-ShaderProgram(082AF808): Uniform (diffuseMap) bound to location: 0
-ShaderProgram(082AF808): Uniform (specularMap) bound to location: 434
-ShaderProgram(082AF808): Could not add uniform: (ambientMap) location returned -1
-ShaderProgram(082AF808): Could not add uniform: (emissiveMap) location returned -1
-ShaderProgram(082AF808): Could not add uniform: (heightMap) location returned -1
-ShaderProgram(082AF808): Uniform (normalsMap) bound to location: 5
-ShaderProgram(082AF808): Could not add uniform: (shininessMap) location returned -1
-ShaderProgram(082AF808): Uniform (opacityMap) bound to location: 6
-ShaderProgram(082AF808): Could not add uniform: (displacementMap) location returned -1
-ShaderProgram(082AF808): Could not add uniform: (lightmapMap) location returned -1
-ShaderProgram(082AF808): Could not add uniform: (reflectionMap) location returned -1
-ShaderProgram(082AF808): Uniform (shadowMap0) bound to location: 7
-ShaderProgram(082AF808): Could not add uniform: (shadowMap1) location returned -1
-ShaderProgram(082AF808): Could not add uniform: (shadowMap2) location returned -1
-ShaderProgram(082AF808): Could not add uniform: (shadowMap3) location returned -1
-ShaderProgram(0837C0F8): Shader Program 25 created successfully
-Shader(08325A90): Vertex shader data modified, raw string inserted at token --include shared_data.glsl
-Shader(08325A90): Vertex shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/utility/depth.vert loaded successfully
-Shader(08325C50): Fragment shader data modified, raw string inserted at token --include shared_data.glsl
-Shader(08325C50): Fragment shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/utility/depth.frag loaded successfully
-Shader(08325A90): Token --include shared_functions.glsl not found inVertex shader source code
-Shader(08325A90): Vertex shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/utility/depth.vert loaded successfully
-Shader(08325C50): Token --include shared_functions.glsl not found inFragment shader source code
-Shader(08325C50): Fragment shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/utility/depth.frag loaded successfully
-Shader(08325A90): Vertex shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/utility/depth.vert compilation successful
-Shader(08325C50): Fragment shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/utility/depth.frag compilation successful
-ShaderProgram(0837C0F8): Shader program linking successful
-ShaderProgram(0837C0F8): There is a uniform block with name (sharedMatrices) already saved, binding UBO to programID
-ShaderProgram(0837C0F8): There is a uniform block with name (sharedLights) already saved, binding UBO to programID
-ShaderProgram(0837C0F8): There is a uniform block with name (sharedShadowing) already saved, binding UBO to programID
-ShaderProgram(0837C0F8): Could not add uniform: (material.ambient) location returned -1
-ShaderProgram(0837C0F8): Could not add uniform: (material.diffuse) location returned -1
-ShaderProgram(0837C0F8): Could not add uniform: (material.specular) location returned -1
-ShaderProgram(0837C0F8): Could not add uniform: (material.shininess) location returned -1
-ShaderProgram(0837C0F8): Could not add uniform: (diffuseMap) location returned -1
-ShaderProgram(0837C0F8): Could not add uniform: (specularMap) location returned -1
-ShaderProgram(0837C0F8): Could not add uniform: (ambientMap) location returned -1
-ShaderProgram(0837C0F8): Could not add uniform: (emissiveMap) location returned -1
-ShaderProgram(0837C0F8): Could not add uniform: (heightMap) location returned -1
-ShaderProgram(0837C0F8): Could not add uniform: (normalsMap) location returned -1
-ShaderProgram(0837C0F8): Could not add uniform: (shininessMap) location returned -1
-ShaderProgram(0837C0F8): Could not add uniform: (opacityMap) location returned -1
-ShaderProgram(0837C0F8): Could not add uniform: (displacementMap) location returned -1
-ShaderProgram(0837C0F8): Could not add uniform: (lightmapMap) location returned -1
-ShaderProgram(0837C0F8): Could not add uniform: (reflectionMap) location returned -1
-ShaderProgram(0837C0F8): Could not add uniform: (shadowMap0) location returned -1
-ShaderProgram(0837C0F8): Could not add uniform: (shadowMap1) location returned -1
-ShaderProgram(0837C0F8): Could not add uniform: (shadowMap2) location returned -1
-ShaderProgram(0837C0F8): Could not add uniform: (shadowMap3) location returned -1
-Mesh(08399158) Loading asset C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/models/sphere/sphere.obj
-Mesh(08399158) An error occured loading asset C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/models/sphere/sphere.obj
-Mesh(09A46D70) Loading asset C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\sponza.obj
-Textures(081609B0): Diffuse texture, oglId(3) texId(1) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_thorn_diff.tga loaded successfully
-Textures(081609B0): Specular texture, oglId(4) texId(2) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_thorn_spec.tga loaded successfully
-Textures(081609B0): File C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_thorn_diff.tga already loaded, Diffuse texture oglId(3) texId(1) associated successfully
-Textures(081609B0): Normals texture, oglId(5) texId(3) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_thorn_ddn.tga loaded successfully
-Textures(081609B0): Ocapacity texture, oglId(6) texId(4) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_thorn_mask.tga loaded successfully
-Textures(081609B0): Diffuse texture, oglId(7) texId(5) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\vase_round.tga loaded successfully
-Textures(081609B0): Specular texture, oglId(8) texId(6) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\vase_round_spec.tga loaded successfully
-Textures(081609B0): File C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\vase_round.tga already loaded, Diffuse texture oglId(7) texId(5) associated successfully
-Textures(081609B0): Normals texture, oglId(9) texId(7) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\vase_round_ddn.tga loaded successfully
-Textures(081609B0): Diffuse texture, oglId(10) texId(8) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\vase_plant.tga loaded successfully
-Textures(081609B0): Specular texture, oglId(11) texId(9) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\vase_plant_spec.tga loaded successfully
-Textures(081609B0): File C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\vase_plant.tga already loaded, Diffuse texture oglId(10) texId(8) associated successfully
-Textures(081609B0): Ocapacity texture, oglId(12) texId(10) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\vase_plant_mask.tga loaded successfully
-Textures(081609B0): Diffuse texture, oglId(13) texId(11) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\background.tga loaded successfully
-Textures(081609B0): File C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\background.tga already loaded, Diffuse texture oglId(13) texId(11) associated successfully
-Textures(081609B0): Normals texture, oglId(14) texId(12) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\background_ddn.tga loaded successfully
-Textures(081609B0): Diffuse texture, oglId(15) texId(13) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\gi_flag.tga loaded successfully
-Textures(081609B0): File C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\gi_flag.tga already loaded, Diffuse texture oglId(15) texId(13) associated successfully
-Textures(081609B0): Diffuse texture, oglId(16) texId(14) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\spnza_bricks_a_diff.tga loaded successfully
-Textures(081609B0): Specular texture, oglId(17) texId(15) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\spnza_bricks_a_spec.tga loaded successfully
-Textures(081609B0): File C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\spnza_bricks_a_diff.tga already loaded, Diffuse texture oglId(16) texId(14) associated successfully
-Textures(081609B0): Normals texture, oglId(18) texId(16) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\spnza_bricks_a_ddn.tga loaded successfully
-Textures(081609B0): Diffuse texture, oglId(19) texId(17) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_arch_diff.tga loaded successfully
-Textures(081609B0): Specular texture, oglId(20) texId(18) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_arch_spec.tga loaded successfully
-Textures(081609B0): File C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_arch_diff.tga already loaded, Diffuse texture oglId(19) texId(17) associated successfully
-Textures(081609B0): Diffuse texture, oglId(21) texId(19) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_ceiling_a_diff.tga loaded successfully
-Textures(081609B0): Specular texture, oglId(22) texId(20) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_ceiling_a_spec.tga loaded successfully
-Textures(081609B0): File C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_ceiling_a_diff.tga already loaded, Diffuse texture oglId(21) texId(19) associated successfully
-Textures(081609B0): Diffuse texture, oglId(23) texId(21) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_column_a_diff.tga loaded successfully
-Textures(081609B0): Specular texture, oglId(24) texId(22) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_column_a_spec.tga loaded successfully
-Textures(081609B0): File C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_column_a_diff.tga already loaded, Diffuse texture oglId(23) texId(21) associated successfully
-Textures(081609B0): Normals texture, oglId(25) texId(23) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_column_a_ddn.tga loaded successfully
-Textures(081609B0): Diffuse texture, oglId(26) texId(24) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_floor_a_diff.tga loaded successfully
-Textures(081609B0): Specular texture, oglId(27) texId(25) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_floor_a_spec.tga loaded successfully
-Textures(081609B0): File C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_floor_a_diff.tga already loaded, Diffuse texture oglId(26) texId(24) associated successfully
-Textures(081609B0): Diffuse texture, oglId(28) texId(26) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_column_c_diff.tga loaded successfully
-Textures(081609B0): Specular texture, oglId(29) texId(27) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_column_c_spec.tga loaded successfully
-Textures(081609B0): File C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_column_c_diff.tga already loaded, Diffuse texture oglId(28) texId(26) associated successfully
-Textures(081609B0): Normals texture, oglId(30) texId(28) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_column_c_ddn.tga loaded successfully
-Textures(081609B0): Diffuse texture, oglId(31) texId(29) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_details_diff.tga loaded successfully
-Textures(081609B0): Specular texture, oglId(32) texId(30) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_details_spec.tga loaded successfully
-Textures(081609B0): File C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_details_diff.tga already loaded, Diffuse texture oglId(31) texId(29) associated successfully
-Textures(081609B0): Diffuse texture, oglId(33) texId(31) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_column_b_diff.tga loaded successfully
-Textures(081609B0): Specular texture, oglId(34) texId(32) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_column_b_spec.tga loaded successfully
-Textures(081609B0): File C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_column_b_diff.tga already loaded, Diffuse texture oglId(33) texId(31) associated successfully
-Textures(081609B0): Normals texture, oglId(35) texId(33) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_column_b_ddn.tga loaded successfully
-Textures(081609B0): Diffuse texture, oglId(36) texId(34) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_flagpole_diff.tga loaded successfully
-Textures(081609B0): Specular texture, oglId(37) texId(35) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_flagpole_spec.tga loaded successfully
-Textures(081609B0): File C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_flagpole_diff.tga already loaded, Diffuse texture oglId(36) texId(34) associated successfully
-Textures(081609B0): Diffuse texture, oglId(38) texId(36) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_fabric_green_diff.tga loaded successfully
-Textures(081609B0): Specular texture, oglId(39) texId(37) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_fabric_spec.tga loaded successfully
-Textures(081609B0): File C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_fabric_green_diff.tga already loaded, Diffuse texture oglId(38) texId(36) associated successfully
-Textures(081609B0): Diffuse texture, oglId(40) texId(38) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_fabric_blue_diff.tga loaded successfully
-Textures(081609B0): File C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_fabric_spec.tga already loaded, Specular texture oglId(39) texId(37) associated successfully
-Textures(081609B0): File C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_fabric_blue_diff.tga already loaded, Diffuse texture oglId(40) texId(38) associated successfully
-Textures(081609B0): Diffuse texture, oglId(41) texId(39) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_fabric_diff.tga loaded successfully
-Textures(081609B0): File C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_fabric_spec.tga already loaded, Specular texture oglId(39) texId(37) associated successfully
-Textures(081609B0): File C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_fabric_diff.tga already loaded, Diffuse texture oglId(41) texId(39) associated successfully
-Textures(081609B0): Diffuse texture, oglId(42) texId(40) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_curtain_blue_diff.tga loaded successfully
-Textures(081609B0): File C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_curtain_blue_diff.tga already loaded, Diffuse texture oglId(42) texId(40) associated successfully
-Textures(081609B0): Diffuse texture, oglId(43) texId(41) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_curtain_diff.tga loaded successfully
-Textures(081609B0): File C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_curtain_diff.tga already loaded, Diffuse texture oglId(43) texId(41) associated successfully
-Textures(081609B0): Diffuse texture, oglId(44) texId(42) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_curtain_green_diff.tga loaded successfully
-Textures(081609B0): File C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_curtain_green_diff.tga already loaded, Diffuse texture oglId(44) texId(42) associated successfully
-Textures(081609B0): Diffuse texture, oglId(45) texId(43) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\chain_texture.tga loaded successfully
-Textures(081609B0): File C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\chain_texture.tga already loaded, Diffuse texture oglId(45) texId(43) associated successfully
-Textures(081609B0): Normals texture, oglId(46) texId(44) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\chain_texture_ddn.tga loaded successfully
-Textures(081609B0): Ocapacity texture, oglId(47) texId(45) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\chain_texture_mask.tga loaded successfully
-Textures(081609B0): Diffuse texture, oglId(48) texId(46) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\vase_hanging.tga loaded successfully
-Textures(081609B0): File C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\vase_hanging.tga already loaded, Diffuse texture oglId(48) texId(46) associated successfully
-Textures(081609B0): Diffuse texture, oglId(49) texId(47) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\vase_dif.tga loaded successfully
-Textures(081609B0): Specular texture, oglId(50) texId(48) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\vase_ddn.tga loaded successfully
-Textures(081609B0): File C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\vase_dif.tga already loaded, Diffuse texture oglId(49) texId(47) associated successfully
-Textures(081609B0): Diffuse texture, oglId(51) texId(49) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\lion.tga loaded successfully
-Textures(081609B0): File C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\lion.tga already loaded, Diffuse texture oglId(51) texId(49) associated successfully
-Textures(081609B0): Normals texture, oglId(52) texId(50) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\lion_ddn.tga loaded successfully
-Textures(081609B0): Diffuse texture, oglId(53) texId(51) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_roof_diff.tga loaded successfully
-Textures(081609B0): File C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_roof_diff.tga already loaded, Diffuse texture oglId(53) texId(51) associated successfully
-Mesh(09A46D70) Asset C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\sponza.obj loaded successfully
+Textures(075E1C60): Diffuse texture, oglId(1) texId(0) C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/default.png loaded successfully
+ShaderProgram(075F3D40): Shader Program 1 created successfully
+Shader(075F84E0): Vertex shader data modified, raw string inserted at token --include shared_data.glsl
+Shader(075F84E0): Vertex shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/opaque/diffuse.vert loaded successfully
+Shader(075F8668): Fragment shader data modified, raw string inserted at token --include shared_data.glsl
+Shader(075F8668): Fragment shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/opaque/diffuse.frag loaded successfully
+Shader(075F84E0): Vertex shader data modified, raw string inserted at token --include shared_functions.glsl
+Shader(075F84E0): Vertex shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/opaque/diffuse.vert loaded successfully
+Shader(075F8668): Fragment shader data modified, raw string inserted at token --include shared_functions.glsl
+Shader(075F8668): Fragment shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/opaque/diffuse.frag loaded successfully
+Shader(075F84E0): Vertex shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/opaque/diffuse.vert compilation successful
+Shader(075F8668): Fragment shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/opaque/diffuse.frag compilation successful
+ShaderProgram(075F3D40): Shader program linking successful
+ShaderProgram(075F3D40): Uniform block (sharedMatrices) saved successfully
+ShaderProgram(075F3D40): Uniform block (sharedLights) saved successfully
+ShaderProgram(075F3D40): Uniform block (sharedShadowing) saved successfully
+ShaderProgram(075F3D40): Uniform (material.ambient) bound to location: 2
+ShaderProgram(075F3D40): Uniform (material.diffuse) bound to location: 3
+ShaderProgram(075F3D40): Uniform (material.specular) bound to location: 5
+ShaderProgram(075F3D40): Uniform (material.shininess) bound to location: 4
+ShaderProgram(075F3D40): Uniform (diffuseMap) bound to location: 1
+ShaderProgram(075F3D40): Could not add uniform: (specularMap) location returned -1
+ShaderProgram(075F3D40): Could not add uniform: (ambientMap) location returned -1
+ShaderProgram(075F3D40): Could not add uniform: (emissiveMap) location returned -1
+ShaderProgram(075F3D40): Could not add uniform: (heightMap) location returned -1
+ShaderProgram(075F3D40): Could not add uniform: (normalsMap) location returned -1
+ShaderProgram(075F3D40): Could not add uniform: (shininessMap) location returned -1
+ShaderProgram(075F3D40): Could not add uniform: (opacityMap) location returned -1
+ShaderProgram(075F3D40): Could not add uniform: (displacementMap) location returned -1
+ShaderProgram(075F3D40): Could not add uniform: (lightmapMap) location returned -1
+ShaderProgram(075F3D40): Could not add uniform: (reflectionMap) location returned -1
+ShaderProgram(075F3D40): Uniform (depthMap[0]) bound to location: 0
+ShaderProgram(07621788): Shader Program 4 created successfully
+Shader(07622F60): Vertex shader data modified, raw string inserted at token --include shared_data.glsl
+Shader(07622F60): Vertex shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/opaque/specular.vert loaded successfully
+Shader(076230E8): Fragment shader data modified, raw string inserted at token --include shared_data.glsl
+Shader(076230E8): Fragment shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/opaque/specular.frag loaded successfully
+Shader(07622F60): Vertex shader data modified, raw string inserted at token --include shared_functions.glsl
+Shader(07622F60): Vertex shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/opaque/specular.vert loaded successfully
+Shader(076230E8): Fragment shader data modified, raw string inserted at token --include shared_functions.glsl
+Shader(076230E8): Fragment shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/opaque/specular.frag loaded successfully
+Shader(07622F60): Vertex shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/opaque/specular.vert compilation successful
+Shader(076230E8): Fragment shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/opaque/specular.frag compilation successful
+ShaderProgram(07621788): Shader program linking successful
+ShaderProgram(07621788): There is a uniform block with name (sharedMatrices) already saved, binding UBO to programID
+ShaderProgram(07621788): There is a uniform block with name (sharedLights) already saved, binding UBO to programID
+ShaderProgram(07621788): There is a uniform block with name (sharedShadowing) already saved, binding UBO to programID
+ShaderProgram(07621788): Uniform (material.ambient) bound to location: 2
+ShaderProgram(07621788): Uniform (material.diffuse) bound to location: 3
+ShaderProgram(07621788): Uniform (material.specular) bound to location: 5
+ShaderProgram(07621788): Uniform (material.shininess) bound to location: 4
+ShaderProgram(07621788): Uniform (diffuseMap) bound to location: 1
+ShaderProgram(07621788): Uniform (specularMap) bound to location: 432
+ShaderProgram(07621788): Could not add uniform: (ambientMap) location returned -1
+ShaderProgram(07621788): Could not add uniform: (emissiveMap) location returned -1
+ShaderProgram(07621788): Could not add uniform: (heightMap) location returned -1
+ShaderProgram(07621788): Could not add uniform: (normalsMap) location returned -1
+ShaderProgram(07621788): Could not add uniform: (shininessMap) location returned -1
+ShaderProgram(07621788): Could not add uniform: (opacityMap) location returned -1
+ShaderProgram(07621788): Could not add uniform: (displacementMap) location returned -1
+ShaderProgram(07621788): Could not add uniform: (lightmapMap) location returned -1
+ShaderProgram(07621788): Could not add uniform: (reflectionMap) location returned -1
+ShaderProgram(07621788): Uniform (depthMap[0]) bound to location: 0
+ShaderProgram(07623E70): Shader Program 7 created successfully
+Shader(0556EB38): Vertex shader data modified, raw string inserted at token --include shared_data.glsl
+Shader(0556EB38): Vertex shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/opaque/bumped_diffuse.vert loaded successfully
+Shader(0556ECF8): Fragment shader data modified, raw string inserted at token --include shared_data.glsl
+Shader(0556ECF8): Fragment shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/opaque/bumped_diffuse.frag loaded successfully
+Shader(0556EB38): Vertex shader data modified, raw string inserted at token --include shared_functions.glsl
+Shader(0556EB38): Vertex shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/opaque/bumped_diffuse.vert loaded successfully
+Shader(0556ECF8): Fragment shader data modified, raw string inserted at token --include shared_functions.glsl
+Shader(0556ECF8): Fragment shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/opaque/bumped_diffuse.frag loaded successfully
+Shader(0556EB38): Vertex shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/opaque/bumped_diffuse.vert compilation successful
+Shader(0556ECF8): Fragment shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/opaque/bumped_diffuse.frag compilation successful
+ShaderProgram(07623E70): Shader program linking successful
+ShaderProgram(07623E70): There is a uniform block with name (sharedMatrices) already saved, binding UBO to programID
+ShaderProgram(07623E70): There is a uniform block with name (sharedLights) already saved, binding UBO to programID
+ShaderProgram(07623E70): There is a uniform block with name (sharedShadowing) already saved, binding UBO to programID
+ShaderProgram(07623E70): Uniform (material.ambient) bound to location: 2
+ShaderProgram(07623E70): Uniform (material.diffuse) bound to location: 3
+ShaderProgram(07623E70): Uniform (material.specular) bound to location: 5
+ShaderProgram(07623E70): Uniform (material.shininess) bound to location: 4
+ShaderProgram(07623E70): Uniform (diffuseMap) bound to location: 1
+ShaderProgram(07623E70): Could not add uniform: (specularMap) location returned -1
+ShaderProgram(07623E70): Could not add uniform: (ambientMap) location returned -1
+ShaderProgram(07623E70): Could not add uniform: (emissiveMap) location returned -1
+ShaderProgram(07623E70): Could not add uniform: (heightMap) location returned -1
+ShaderProgram(07623E70): Uniform (normalsMap) bound to location: 6
+ShaderProgram(07623E70): Could not add uniform: (shininessMap) location returned -1
+ShaderProgram(07623E70): Could not add uniform: (opacityMap) location returned -1
+ShaderProgram(07623E70): Could not add uniform: (displacementMap) location returned -1
+ShaderProgram(07623E70): Could not add uniform: (lightmapMap) location returned -1
+ShaderProgram(07623E70): Could not add uniform: (reflectionMap) location returned -1
+ShaderProgram(07623E70): Uniform (depthMap[0]) bound to location: 0
+ShaderProgram(0769A2E0): Shader Program 10 created successfully
+Shader(0771AF78): Vertex shader data modified, raw string inserted at token --include shared_data.glsl
+Shader(0771AF78): Vertex shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/opaque/bumped_specular.vert loaded successfully
+Shader(07656990): Fragment shader data modified, raw string inserted at token --include shared_data.glsl
+Shader(07656990): Fragment shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/opaque/bumped_specular.frag loaded successfully
+Shader(0771AF78): Vertex shader data modified, raw string inserted at token --include shared_functions.glsl
+Shader(0771AF78): Vertex shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/opaque/bumped_specular.vert loaded successfully
+Shader(07656990): Fragment shader data modified, raw string inserted at token --include shared_functions.glsl
+Shader(07656990): Fragment shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/opaque/bumped_specular.frag loaded successfully
+Shader(0771AF78): Vertex shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/opaque/bumped_specular.vert compilation successful
+Shader(07656990): Fragment shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/opaque/bumped_specular.frag compilation successful
+ShaderProgram(0769A2E0): Shader program linking successful
+ShaderProgram(0769A2E0): There is a uniform block with name (sharedMatrices) already saved, binding UBO to programID
+ShaderProgram(0769A2E0): There is a uniform block with name (sharedLights) already saved, binding UBO to programID
+ShaderProgram(0769A2E0): There is a uniform block with name (sharedShadowing) already saved, binding UBO to programID
+ShaderProgram(0769A2E0): Uniform (material.ambient) bound to location: 2
+ShaderProgram(0769A2E0): Uniform (material.diffuse) bound to location: 3
+ShaderProgram(0769A2E0): Uniform (material.specular) bound to location: 5
+ShaderProgram(0769A2E0): Uniform (material.shininess) bound to location: 4
+ShaderProgram(0769A2E0): Uniform (diffuseMap) bound to location: 1
+ShaderProgram(0769A2E0): Uniform (specularMap) bound to location: 433
+ShaderProgram(0769A2E0): Could not add uniform: (ambientMap) location returned -1
+ShaderProgram(0769A2E0): Could not add uniform: (emissiveMap) location returned -1
+ShaderProgram(0769A2E0): Could not add uniform: (heightMap) location returned -1
+ShaderProgram(0769A2E0): Uniform (normalsMap) bound to location: 6
+ShaderProgram(0769A2E0): Could not add uniform: (shininessMap) location returned -1
+ShaderProgram(0769A2E0): Could not add uniform: (opacityMap) location returned -1
+ShaderProgram(0769A2E0): Could not add uniform: (displacementMap) location returned -1
+ShaderProgram(0769A2E0): Could not add uniform: (lightmapMap) location returned -1
+ShaderProgram(0769A2E0): Could not add uniform: (reflectionMap) location returned -1
+ShaderProgram(0769A2E0): Uniform (depthMap[0]) bound to location: 0
+ShaderProgram(07656FA8): Shader Program 13 created successfully
+Shader(076BBEA0): Vertex shader data modified, raw string inserted at token --include shared_data.glsl
+Shader(076BBEA0): Vertex shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/transparent/opacity_diffuse.vert loaded successfully
+Shader(0775EF78): Fragment shader data modified, raw string inserted at token --include shared_data.glsl
+Shader(0775EF78): Fragment shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/transparent/opacity_diffuse.frag loaded successfully
+Shader(076BBEA0): Vertex shader data modified, raw string inserted at token --include shared_functions.glsl
+Shader(076BBEA0): Vertex shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/transparent/opacity_diffuse.vert loaded successfully
+Shader(0775EF78): Fragment shader data modified, raw string inserted at token --include shared_functions.glsl
+Shader(0775EF78): Fragment shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/transparent/opacity_diffuse.frag loaded successfully
+Shader(076BBEA0): Vertex shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/transparent/opacity_diffuse.vert compilation successful
+Shader(0775EF78): Fragment shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/transparent/opacity_diffuse.frag compilation successful
+ShaderProgram(07656FA8): Shader program linking successful
+ShaderProgram(07656FA8): There is a uniform block with name (sharedMatrices) already saved, binding UBO to programID
+ShaderProgram(07656FA8): There is a uniform block with name (sharedLights) already saved, binding UBO to programID
+ShaderProgram(07656FA8): There is a uniform block with name (sharedShadowing) already saved, binding UBO to programID
+ShaderProgram(07656FA8): Uniform (material.ambient) bound to location: 2
+ShaderProgram(07656FA8): Uniform (material.diffuse) bound to location: 3
+ShaderProgram(07656FA8): Uniform (material.specular) bound to location: 5
+ShaderProgram(07656FA8): Uniform (material.shininess) bound to location: 4
+ShaderProgram(07656FA8): Uniform (diffuseMap) bound to location: 1
+ShaderProgram(07656FA8): Could not add uniform: (specularMap) location returned -1
+ShaderProgram(07656FA8): Could not add uniform: (ambientMap) location returned -1
+ShaderProgram(07656FA8): Could not add uniform: (emissiveMap) location returned -1
+ShaderProgram(07656FA8): Could not add uniform: (heightMap) location returned -1
+ShaderProgram(07656FA8): Could not add uniform: (normalsMap) location returned -1
+ShaderProgram(07656FA8): Could not add uniform: (shininessMap) location returned -1
+ShaderProgram(07656FA8): Uniform (opacityMap) bound to location: 6
+ShaderProgram(07656FA8): Could not add uniform: (displacementMap) location returned -1
+ShaderProgram(07656FA8): Could not add uniform: (lightmapMap) location returned -1
+ShaderProgram(07656FA8): Could not add uniform: (reflectionMap) location returned -1
+ShaderProgram(07656FA8): Uniform (depthMap[0]) bound to location: 0
+ShaderProgram(076F16A8): Shader Program 16 created successfully
+Shader(076F0A08): Vertex shader data modified, raw string inserted at token --include shared_data.glsl
+Shader(076F0A08): Vertex shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/transparent/opacity_specular.vert loaded successfully
+Shader(0771F3E0): Fragment shader data modified, raw string inserted at token --include shared_data.glsl
+Shader(0771F3E0): Fragment shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/transparent/opacity_specular.frag loaded successfully
+Shader(076F0A08): Vertex shader data modified, raw string inserted at token --include shared_functions.glsl
+Shader(076F0A08): Vertex shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/transparent/opacity_specular.vert loaded successfully
+Shader(0771F3E0): Fragment shader data modified, raw string inserted at token --include shared_functions.glsl
+Shader(0771F3E0): Fragment shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/transparent/opacity_specular.frag loaded successfully
+Shader(076F0A08): Vertex shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/transparent/opacity_specular.vert compilation successful
+Shader(0771F3E0): Fragment shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/transparent/opacity_specular.frag compilation successful
+ShaderProgram(076F16A8): Shader program linking successful
+ShaderProgram(076F16A8): There is a uniform block with name (sharedMatrices) already saved, binding UBO to programID
+ShaderProgram(076F16A8): There is a uniform block with name (sharedLights) already saved, binding UBO to programID
+ShaderProgram(076F16A8): There is a uniform block with name (sharedShadowing) already saved, binding UBO to programID
+ShaderProgram(076F16A8): Uniform (material.ambient) bound to location: 2
+ShaderProgram(076F16A8): Uniform (material.diffuse) bound to location: 3
+ShaderProgram(076F16A8): Uniform (material.specular) bound to location: 5
+ShaderProgram(076F16A8): Uniform (material.shininess) bound to location: 4
+ShaderProgram(076F16A8): Uniform (diffuseMap) bound to location: 1
+ShaderProgram(076F16A8): Uniform (specularMap) bound to location: 433
+ShaderProgram(076F16A8): Could not add uniform: (ambientMap) location returned -1
+ShaderProgram(076F16A8): Could not add uniform: (emissiveMap) location returned -1
+ShaderProgram(076F16A8): Could not add uniform: (heightMap) location returned -1
+ShaderProgram(076F16A8): Could not add uniform: (normalsMap) location returned -1
+ShaderProgram(076F16A8): Could not add uniform: (shininessMap) location returned -1
+ShaderProgram(076F16A8): Uniform (opacityMap) bound to location: 6
+ShaderProgram(076F16A8): Could not add uniform: (displacementMap) location returned -1
+ShaderProgram(076F16A8): Could not add uniform: (lightmapMap) location returned -1
+ShaderProgram(076F16A8): Could not add uniform: (reflectionMap) location returned -1
+ShaderProgram(076F16A8): Uniform (depthMap[0]) bound to location: 0
+ShaderProgram(07720BB8): Shader Program 19 created successfully
+Shader(077E38A8): Vertex shader data modified, raw string inserted at token --include shared_data.glsl
+Shader(077E38A8): Vertex shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/transparent/opacity_bumped_diffuse.vert loaded successfully
+Shader(077E3A50): Fragment shader data modified, raw string inserted at token --include shared_data.glsl
+Shader(077E3A50): Fragment shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/transparent/opacity_bumped_diffuse.frag loaded successfully
+Shader(077E38A8): Vertex shader data modified, raw string inserted at token --include shared_functions.glsl
+Shader(077E38A8): Vertex shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/transparent/opacity_bumped_diffuse.vert loaded successfully
+Shader(077E3A50): Fragment shader data modified, raw string inserted at token --include shared_functions.glsl
+Shader(077E3A50): Fragment shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/transparent/opacity_bumped_diffuse.frag loaded successfully
+Shader(077E38A8): Vertex shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/transparent/opacity_bumped_diffuse.vert compilation successful
+Shader(077E3A50): Fragment shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/transparent/opacity_bumped_diffuse.frag compilation successful
+ShaderProgram(07720BB8): Shader program linking successful
+ShaderProgram(07720BB8): There is a uniform block with name (sharedMatrices) already saved, binding UBO to programID
+ShaderProgram(07720BB8): There is a uniform block with name (sharedLights) already saved, binding UBO to programID
+ShaderProgram(07720BB8): There is a uniform block with name (sharedShadowing) already saved, binding UBO to programID
+ShaderProgram(07720BB8): Uniform (material.ambient) bound to location: 2
+ShaderProgram(07720BB8): Uniform (material.diffuse) bound to location: 3
+ShaderProgram(07720BB8): Uniform (material.specular) bound to location: 5
+ShaderProgram(07720BB8): Uniform (material.shininess) bound to location: 4
+ShaderProgram(07720BB8): Uniform (diffuseMap) bound to location: 1
+ShaderProgram(07720BB8): Could not add uniform: (specularMap) location returned -1
+ShaderProgram(07720BB8): Could not add uniform: (ambientMap) location returned -1
+ShaderProgram(07720BB8): Could not add uniform: (emissiveMap) location returned -1
+ShaderProgram(07720BB8): Could not add uniform: (heightMap) location returned -1
+ShaderProgram(07720BB8): Uniform (normalsMap) bound to location: 6
+ShaderProgram(07720BB8): Could not add uniform: (shininessMap) location returned -1
+ShaderProgram(07720BB8): Uniform (opacityMap) bound to location: 7
+ShaderProgram(07720BB8): Could not add uniform: (displacementMap) location returned -1
+ShaderProgram(07720BB8): Could not add uniform: (lightmapMap) location returned -1
+ShaderProgram(07720BB8): Could not add uniform: (reflectionMap) location returned -1
+ShaderProgram(07720BB8): Uniform (depthMap[0]) bound to location: 0
+ShaderProgram(077A4C30): Shader Program 22 created successfully
+Shader(07828AD0): Vertex shader data modified, raw string inserted at token --include shared_data.glsl
+Shader(07828AD0): Vertex shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/transparent/opacity_bumped_specular.vert loaded successfully
+Shader(07828C88): Fragment shader data modified, raw string inserted at token --include shared_data.glsl
+Shader(07828C88): Fragment shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/transparent/opacity_bumped_specular.frag loaded successfully
+Shader(07828AD0): Vertex shader data modified, raw string inserted at token --include shared_functions.glsl
+Shader(07828AD0): Vertex shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/transparent/opacity_bumped_specular.vert loaded successfully
+Shader(07828C88): Fragment shader data modified, raw string inserted at token --include shared_functions.glsl
+Shader(07828C88): Fragment shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/transparent/opacity_bumped_specular.frag loaded successfully
+Shader(07828AD0): Vertex shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/transparent/opacity_bumped_specular.vert compilation successful
+Shader(07828C88): Fragment shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/transparent/opacity_bumped_specular.frag compilation successful
+ShaderProgram(077A4C30): Shader program linking successful
+ShaderProgram(077A4C30): There is a uniform block with name (sharedMatrices) already saved, binding UBO to programID
+ShaderProgram(077A4C30): There is a uniform block with name (sharedLights) already saved, binding UBO to programID
+ShaderProgram(077A4C30): There is a uniform block with name (sharedShadowing) already saved, binding UBO to programID
+ShaderProgram(077A4C30): Uniform (material.ambient) bound to location: 2
+ShaderProgram(077A4C30): Uniform (material.diffuse) bound to location: 3
+ShaderProgram(077A4C30): Uniform (material.specular) bound to location: 5
+ShaderProgram(077A4C30): Uniform (material.shininess) bound to location: 4
+ShaderProgram(077A4C30): Uniform (diffuseMap) bound to location: 1
+ShaderProgram(077A4C30): Uniform (specularMap) bound to location: 434
+ShaderProgram(077A4C30): Could not add uniform: (ambientMap) location returned -1
+ShaderProgram(077A4C30): Could not add uniform: (emissiveMap) location returned -1
+ShaderProgram(077A4C30): Could not add uniform: (heightMap) location returned -1
+ShaderProgram(077A4C30): Uniform (normalsMap) bound to location: 6
+ShaderProgram(077A4C30): Could not add uniform: (shininessMap) location returned -1
+ShaderProgram(077A4C30): Uniform (opacityMap) bound to location: 7
+ShaderProgram(077A4C30): Could not add uniform: (displacementMap) location returned -1
+ShaderProgram(077A4C30): Could not add uniform: (lightmapMap) location returned -1
+ShaderProgram(077A4C30): Could not add uniform: (reflectionMap) location returned -1
+ShaderProgram(077A4C30): Uniform (depthMap[0]) bound to location: 0
+ShaderProgram(077A4D18): Shader Program 25 created successfully
+Shader(07803D88): Vertex shader data modified, raw string inserted at token --include shared_data.glsl
+Shader(07803D88): Vertex shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/utility/depth.vert loaded successfully
+Shader(07803F48): Fragment shader data modified, raw string inserted at token --include shared_data.glsl
+Shader(07803F48): Fragment shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/utility/depth.frag loaded successfully
+Shader(07803D88): Token --include shared_functions.glsl not found inVertex shader source code
+Shader(07803D88): Vertex shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/utility/depth.vert loaded successfully
+Shader(07803F48): Token --include shared_functions.glsl not found inFragment shader source code
+Shader(07803F48): Fragment shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/utility/depth.frag loaded successfully
+Shader(07803D88): Vertex shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/utility/depth.vert compilation successful
+Shader(07803F48): Fragment shader file C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/shaders/utility/depth.frag compilation successful
+ShaderProgram(077A4D18): Shader program linking successful
+ShaderProgram(077A4D18): There is a uniform block with name (sharedMatrices) already saved, binding UBO to programID
+ShaderProgram(077A4D18): There is a uniform block with name (sharedLights) already saved, binding UBO to programID
+ShaderProgram(077A4D18): There is a uniform block with name (sharedShadowing) already saved, binding UBO to programID
+ShaderProgram(077A4D18): Could not add uniform: (material.ambient) location returned -1
+ShaderProgram(077A4D18): Could not add uniform: (material.diffuse) location returned -1
+ShaderProgram(077A4D18): Could not add uniform: (material.specular) location returned -1
+ShaderProgram(077A4D18): Could not add uniform: (material.shininess) location returned -1
+ShaderProgram(077A4D18): Could not add uniform: (diffuseMap) location returned -1
+ShaderProgram(077A4D18): Could not add uniform: (specularMap) location returned -1
+ShaderProgram(077A4D18): Could not add uniform: (ambientMap) location returned -1
+ShaderProgram(077A4D18): Could not add uniform: (emissiveMap) location returned -1
+ShaderProgram(077A4D18): Could not add uniform: (heightMap) location returned -1
+ShaderProgram(077A4D18): Could not add uniform: (normalsMap) location returned -1
+ShaderProgram(077A4D18): Could not add uniform: (shininessMap) location returned -1
+ShaderProgram(077A4D18): Could not add uniform: (opacityMap) location returned -1
+ShaderProgram(077A4D18): Could not add uniform: (displacementMap) location returned -1
+ShaderProgram(077A4D18): Could not add uniform: (lightmapMap) location returned -1
+ShaderProgram(077A4D18): Could not add uniform: (reflectionMap) location returned -1
+ShaderProgram(077A4D18): Could not add uniform: (depthMap[0]) location returned -1
+Mesh(0783AEE8) Loading asset C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/models/sphere/sphere.obj
+Mesh(0783AEE8) An error occured loading asset C:/Users/Admin/Documents/Visual Studio 2012/Projects/TGC_SceneRenderer/TGC_SceneRenderer/resources/models/sphere/sphere.obj
+Mesh(08EE3CC0) Loading asset C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\sponza.obj
+Textures(075E1C60): Diffuse texture, oglId(3) texId(1) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_thorn_diff.tga loaded successfully
+Textures(075E1C60): Specular texture, oglId(4) texId(2) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_thorn_spec.tga loaded successfully
+Textures(075E1C60): File C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_thorn_diff.tga already loaded, Diffuse texture oglId(3) texId(1) associated successfully
+Textures(075E1C60): Normals texture, oglId(5) texId(3) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_thorn_ddn.tga loaded successfully
+Textures(075E1C60): Ocapacity texture, oglId(6) texId(4) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_thorn_mask.tga loaded successfully
+Textures(075E1C60): Diffuse texture, oglId(7) texId(5) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\vase_round.tga loaded successfully
+Textures(075E1C60): Specular texture, oglId(8) texId(6) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\vase_round_spec.tga loaded successfully
+Textures(075E1C60): File C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\vase_round.tga already loaded, Diffuse texture oglId(7) texId(5) associated successfully
+Textures(075E1C60): Normals texture, oglId(9) texId(7) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\vase_round_ddn.tga loaded successfully
+Textures(075E1C60): Diffuse texture, oglId(10) texId(8) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\vase_plant.tga loaded successfully
+Textures(075E1C60): Specular texture, oglId(11) texId(9) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\vase_plant_spec.tga loaded successfully
+Textures(075E1C60): File C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\vase_plant.tga already loaded, Diffuse texture oglId(10) texId(8) associated successfully
+Textures(075E1C60): Ocapacity texture, oglId(12) texId(10) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\vase_plant_mask.tga loaded successfully
+Textures(075E1C60): Diffuse texture, oglId(13) texId(11) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\background.tga loaded successfully
+Textures(075E1C60): File C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\background.tga already loaded, Diffuse texture oglId(13) texId(11) associated successfully
+Textures(075E1C60): Normals texture, oglId(14) texId(12) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\background_ddn.tga loaded successfully
+Textures(075E1C60): Diffuse texture, oglId(15) texId(13) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\gi_flag.tga loaded successfully
+Textures(075E1C60): File C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\gi_flag.tga already loaded, Diffuse texture oglId(15) texId(13) associated successfully
+Textures(075E1C60): Diffuse texture, oglId(16) texId(14) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\spnza_bricks_a_diff.tga loaded successfully
+Textures(075E1C60): Specular texture, oglId(17) texId(15) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\spnza_bricks_a_spec.tga loaded successfully
+Textures(075E1C60): File C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\spnza_bricks_a_diff.tga already loaded, Diffuse texture oglId(16) texId(14) associated successfully
+Textures(075E1C60): Normals texture, oglId(18) texId(16) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\spnza_bricks_a_ddn.tga loaded successfully
+Textures(075E1C60): Diffuse texture, oglId(19) texId(17) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_arch_diff.tga loaded successfully
+Textures(075E1C60): Specular texture, oglId(20) texId(18) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_arch_spec.tga loaded successfully
+Textures(075E1C60): File C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_arch_diff.tga already loaded, Diffuse texture oglId(19) texId(17) associated successfully
+Textures(075E1C60): Diffuse texture, oglId(21) texId(19) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_ceiling_a_diff.tga loaded successfully
+Textures(075E1C60): Specular texture, oglId(22) texId(20) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_ceiling_a_spec.tga loaded successfully
+Textures(075E1C60): File C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_ceiling_a_diff.tga already loaded, Diffuse texture oglId(21) texId(19) associated successfully
+Textures(075E1C60): Diffuse texture, oglId(23) texId(21) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_column_a_diff.tga loaded successfully
+Textures(075E1C60): Specular texture, oglId(24) texId(22) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_column_a_spec.tga loaded successfully
+Textures(075E1C60): File C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_column_a_diff.tga already loaded, Diffuse texture oglId(23) texId(21) associated successfully
+Textures(075E1C60): Normals texture, oglId(25) texId(23) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_column_a_ddn.tga loaded successfully
+Textures(075E1C60): Diffuse texture, oglId(26) texId(24) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_floor_a_diff.tga loaded successfully
+Textures(075E1C60): Specular texture, oglId(27) texId(25) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_floor_a_spec.tga loaded successfully
+Textures(075E1C60): File C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_floor_a_diff.tga already loaded, Diffuse texture oglId(26) texId(24) associated successfully
+Textures(075E1C60): Diffuse texture, oglId(28) texId(26) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_column_c_diff.tga loaded successfully
+Textures(075E1C60): Specular texture, oglId(29) texId(27) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_column_c_spec.tga loaded successfully
+Textures(075E1C60): File C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_column_c_diff.tga already loaded, Diffuse texture oglId(28) texId(26) associated successfully
+Textures(075E1C60): Normals texture, oglId(30) texId(28) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_column_c_ddn.tga loaded successfully
+Textures(075E1C60): Diffuse texture, oglId(31) texId(29) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_details_diff.tga loaded successfully
+Textures(075E1C60): Specular texture, oglId(32) texId(30) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_details_spec.tga loaded successfully
+Textures(075E1C60): File C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_details_diff.tga already loaded, Diffuse texture oglId(31) texId(29) associated successfully
+Textures(075E1C60): Diffuse texture, oglId(33) texId(31) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_column_b_diff.tga loaded successfully
+Textures(075E1C60): Specular texture, oglId(34) texId(32) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_column_b_spec.tga loaded successfully
+Textures(075E1C60): File C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_column_b_diff.tga already loaded, Diffuse texture oglId(33) texId(31) associated successfully
+Textures(075E1C60): Normals texture, oglId(35) texId(33) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_column_b_ddn.tga loaded successfully
+Textures(075E1C60): Diffuse texture, oglId(36) texId(34) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_flagpole_diff.tga loaded successfully
+Textures(075E1C60): Specular texture, oglId(37) texId(35) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_flagpole_spec.tga loaded successfully
+Textures(075E1C60): File C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_flagpole_diff.tga already loaded, Diffuse texture oglId(36) texId(34) associated successfully
+Textures(075E1C60): Diffuse texture, oglId(38) texId(36) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_fabric_green_diff.tga loaded successfully
+Textures(075E1C60): Specular texture, oglId(39) texId(37) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_fabric_spec.tga loaded successfully
+Textures(075E1C60): File C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_fabric_green_diff.tga already loaded, Diffuse texture oglId(38) texId(36) associated successfully
+Textures(075E1C60): Diffuse texture, oglId(40) texId(38) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_fabric_blue_diff.tga loaded successfully
+Textures(075E1C60): File C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_fabric_spec.tga already loaded, Specular texture oglId(39) texId(37) associated successfully
+Textures(075E1C60): File C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_fabric_blue_diff.tga already loaded, Diffuse texture oglId(40) texId(38) associated successfully
+Textures(075E1C60): Diffuse texture, oglId(41) texId(39) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_fabric_diff.tga loaded successfully
+Textures(075E1C60): File C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_fabric_spec.tga already loaded, Specular texture oglId(39) texId(37) associated successfully
+Textures(075E1C60): File C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_fabric_diff.tga already loaded, Diffuse texture oglId(41) texId(39) associated successfully
+Textures(075E1C60): Diffuse texture, oglId(42) texId(40) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_curtain_blue_diff.tga loaded successfully
+Textures(075E1C60): File C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_curtain_blue_diff.tga already loaded, Diffuse texture oglId(42) texId(40) associated successfully
+Textures(075E1C60): Diffuse texture, oglId(43) texId(41) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_curtain_diff.tga loaded successfully
+Textures(075E1C60): File C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_curtain_diff.tga already loaded, Diffuse texture oglId(43) texId(41) associated successfully
+Textures(075E1C60): Diffuse texture, oglId(44) texId(42) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_curtain_green_diff.tga loaded successfully
+Textures(075E1C60): File C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_curtain_green_diff.tga already loaded, Diffuse texture oglId(44) texId(42) associated successfully
+Textures(075E1C60): Diffuse texture, oglId(45) texId(43) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\chain_texture.tga loaded successfully
+Textures(075E1C60): File C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\chain_texture.tga already loaded, Diffuse texture oglId(45) texId(43) associated successfully
+Textures(075E1C60): Normals texture, oglId(46) texId(44) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\chain_texture_ddn.tga loaded successfully
+Textures(075E1C60): Ocapacity texture, oglId(47) texId(45) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\chain_texture_mask.tga loaded successfully
+Textures(075E1C60): Diffuse texture, oglId(48) texId(46) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\vase_hanging.tga loaded successfully
+Textures(075E1C60): File C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\vase_hanging.tga already loaded, Diffuse texture oglId(48) texId(46) associated successfully
+Textures(075E1C60): Diffuse texture, oglId(49) texId(47) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\vase_dif.tga loaded successfully
+Textures(075E1C60): Specular texture, oglId(50) texId(48) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\vase_ddn.tga loaded successfully
+Textures(075E1C60): File C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\vase_dif.tga already loaded, Diffuse texture oglId(49) texId(47) associated successfully
+Textures(075E1C60): Diffuse texture, oglId(51) texId(49) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\lion.tga loaded successfully
+Textures(075E1C60): File C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\lion.tga already loaded, Diffuse texture oglId(51) texId(49) associated successfully
+Textures(075E1C60): Normals texture, oglId(52) texId(50) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\lion_ddn.tga loaded successfully
+Textures(075E1C60): Diffuse texture, oglId(53) texId(51) C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_roof_diff.tga loaded successfully
+Textures(075E1C60): File C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\textures\sponza_roof_diff.tga already loaded, Diffuse texture oglId(53) texId(51) associated successfully
+Mesh(08EE3CC0) Asset C:\Users\Admin\Downloads\TestsModels\pmtest\crytek-sponza\sponza.obj loaded successfully

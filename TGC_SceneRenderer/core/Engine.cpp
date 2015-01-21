@@ -70,9 +70,9 @@ void core::Engine::setup()
     this->lights->setShaderProgram(shProgram);
     this->lights->setUniformBlockInfo();
     // Add lights to scene objects
-    this->sceneObjects->addLight(scene::Light::Point);
+    this->sceneObjects->addLight(scene::Light::Spot);
     this->lights->getLight(0)->base->transform.setPosition(0.0, 0.0, 3.0);
-    this->lights->getLight(0)->enableShadowProjection(true);
+    this->lights->getLight(0)->enableShadowProjection(true, utils::ShadowMapping::ShadowQualityPreset::VeryHigh);
     // Add test objects
     this->sceneObjects->addMesh(StoredMeshes::Sphere);
     // set renderer is ready

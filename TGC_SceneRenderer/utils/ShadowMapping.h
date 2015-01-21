@@ -15,7 +15,7 @@ namespace utils {
 
     class ShadowMapping : public bases::ShaderLinkBlock {
         public:
-            enum ShadowQualityPreset {
+            enum ShadowQualityPreset : unsigned int {
                 VeryLow  = 256,
                 Low      = 512,
                 Medium   = 1024,
@@ -24,12 +24,9 @@ namespace utils {
             };
 
         private:
-            static const glm::mat4 biasMatrix;
 
             // 0.0 - 1.0, 1 being a pure black shadow
             glm::vec3 shadowStrength;
-            // shadow bias matrix factor
-            float shadowBias;
             // depth texture and depth projection elemetal matrices
             types::TextureRenderer *depthRenderTexture;
             core::Matrices *matrices;
@@ -45,9 +42,11 @@ namespace utils {
             bool shadowMappingEnabled;
 
         public:
+
+            float shadowProjectionFarDistance;
             // creates a frame buffer object with the given texture quality
-            void setup(const ShadowQualityPreset preset);
-            void setup(const unsigned int shadowMapSize);
+            bool setup(const ShadowQualityPreset preset);
+            bool setup(const unsigned int shadowMapSize);
             // adds a light source to rcast shadows from
             void setLightSource(scene::Light *lightSource);
             // binds render target
@@ -55,7 +54,7 @@ namespace utils {
             // unbinds the render target
             void unbindMapping();
             // map to depth texture
-            void projectShadowMap();
+            void shadowRenderPass();
             // Sets uniform block data, needs uniformBlock info and sLinkSP to be set
             void setUniformBlock();
             // sets the uniformblockinfo based on the stored shaderprogram , sLinkSP

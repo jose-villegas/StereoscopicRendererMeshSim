@@ -4,8 +4,9 @@ const float PI          = 3.14159f;
 const float EPSILON     = 0.00001;
 const float alphaCutoff = 0.1f;
 // Rendering Constrains
-const uint MAX_LIGHTS   = 32;
-const uint MAX_SHADOWS  = 1;
+const uint MAX_LIGHTS            = 32;
+const uint MAX_SHADOWS           = 1;
+const uint MATERIAL_2DMAPS_COUNT = 11;
 
 // texture maps
 uniform sampler2D noneMap;         // unit = 0
@@ -20,11 +21,9 @@ uniform sampler2D opacityMap;      // unit = 8
 uniform sampler2D displacementMap; // unit = 9
 uniform sampler2D lightmapMap;     // unit = 10
 uniform samplerCube reflectionMap; // unit = 11
+
 // shadow maps avaible locations
-uniform sampler2DShadow shadowMap0; // unit = 12
-uniform sampler2DShadow shadowMap1; // unit = 13
-uniform sampler2DShadow shadowMap2; // unit = 14
-uniform sampler2DShadow shadowMap3; // unit = 15
+uniform sampler2DShadow depthMap[MAX_SHADOWS];
 
 // Shared Structures
 struct Light {

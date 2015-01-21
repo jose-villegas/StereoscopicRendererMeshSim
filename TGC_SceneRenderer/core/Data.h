@@ -108,7 +108,7 @@ namespace core {
 
             class Samplers {
                 public:
-                    static const int SamplersCount = 16;
+                    static const int SamplersCount = 12 + EngineData::Constrains::MAX_SHADOWMAPS;
                     // Ordered by TextureType
                     static const char *NAMES[SamplersCount];
                     static const char *DEFAULT_TEX_FILENAME;

@@ -27,6 +27,8 @@ namespace SceneRenderer {
             MainWindow(void)
             {
                 InitializeComponent();
+                // hide console to avoid cout buffer slowdown
+                ShowWindow(GetConsoleWindow(), SW_HIDE);
                 this->TopLevel = true;
                 // Setup OpenGL Render Context Inside a Panel
                 System::Windows::Forms::Panel ^oglRenderPanel = this->OpenGLRenderPanel;
@@ -35,7 +37,7 @@ namespace SceneRenderer {
                 // Add OpenGL Info to Form Title
                 this->Text += " (" + OpenGL->OGL_INFO_STRING + ")";
                 // Other Components / Forms
-                consoleIsActive            = true;
+                consoleIsActive            = false;
                 objectsWindow              = gcnew ObjectsWindow();
                 inspWin                    = gcnew SceneRenderer::PropertiesWindow();
                 objectsWindow->InstancedBy = this;

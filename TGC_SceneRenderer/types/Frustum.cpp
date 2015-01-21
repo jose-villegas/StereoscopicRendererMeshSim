@@ -16,7 +16,7 @@ void types::Frustum::setCameraProjectionParams(const float fov, const float aspe
     this->nearDistance = nearDistance;
     this->farDistance = farDistance;
     // compute frustum planes width and height
-    float tanG = (float)glm::tan((glm::pi<float>() / 180.f) * fov * 0.5f);
+    float tanG = (float)glm::tan(glm::radians(fov)  * 0.5f);
     // near width height
     nearHeight = nearDistance * tanG;
     nearWidth = nearHeight * aspectRatio;

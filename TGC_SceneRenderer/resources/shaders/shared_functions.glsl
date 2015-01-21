@@ -1,11 +1,11 @@
 // commom functions
-vec3 gamma_correction(vec3 color)
+vec3 gammaCorrection(vec3 color)
 {
     return pow(color, vec3(1.0f / 2.2f));
 }
 
 // shadow calculation
-vec3 calculateVisibility(vec4 shadowCoords, uint mapSize, sampler2DShadow shadowMap, vec3 shadowStrength)
+vec3 calculateVisibility(vec4 shadowCoords, uint mapSize, uint depthMapIndex, vec3 shadowStrength)
 {
     vec3 lightPos = shadowCoords.xyz / shadowCoords.w;
     vec2 shadowCoord;
@@ -22,38 +22,58 @@ vec3 calculateVisibility(vec4 shadowCoords, uint mapSize, sampler2DShadow shadow
         for (int x = -1 ; x <= 1 ; x++) {
             vec2 offsets = vec2(x * xOffset, y * yOffset);
             vec3 uvc = vec3(shadowCoord + offsets, z + EPSILON);
-            shadowFactor += texture(shadowMap, uvc);
+            shadowFactor += texture(depthMap[depthMapIndex], uvc);
         }
     }
     
     return shadowStrength + vec3(shadowFactor / 18.0);
 }
 
-vec3 diffusePlusSpecular(Light lght, vec3 lightDirection, vec3 position, vec3 normal, vec3 diffuseFrag, vec3 specularFrag) {                                                                   
+vec3 diffusePlusSpecular(Light lght, vec3 lightDir, vec3 pos, vec3 norm, vec3 diffFrag, vec3 specFrag) {
+
     vec3 diffuse  = vec3(0.f);                                                  
     vec3 specular = vec3(0.f);                                                  
-                                                                                            
-    float lambertian = dot(normal, -lightDirection);  
-    diffuse = lght.color * material.diffuse * diffuseFrag * lght.intensity * lambertian;  
-                                                                                            
-    vec3 viewDirection = normalize(-position);                             
-    vec3 lightReflection = normalize(reflect(lightDirection, normal)); 
 
-    float specularFactor = max(dot(viewDirection, lightReflection), 0.f);                              
-    specularFactor = pow(specularFactor, material.shininess);   
-                                                        
-    specular = lght.color * material.specular * specularFrag * specularFactor;                         
+    float lambertian = max(dot(norm, lightDir), 0.f);  
+    diffuse = lght.color * material.diffuse * diffFrag * lght.intensity * lambertian;  
+    
+    vec3 viewDirection = normalize(-pos);  
+    // blinn-phong specular
+    if(lambertian > 0.0f)  {                                                          
+                           
+        vec3 halfDirection = normalize(lightDir + viewDirection);
+
+        float specularFactor = max(dot(halfDirection, norm), 0.f);                              
+        specularFactor = pow(specularFactor, material.shininess); 
+                                                            
+        specular = lght.color * lght.intensity * material.specular * specFrag * specularFactor;
+                     
+    }
 
     return (diffuse + specular);       
 }
 
-vec3 diffuseLight(Light lght, vec3 lightDirection, vec3 normal, vec3 diffuseFrag) {
-    vec3 diffuse  = vec3(0.f); 
+vec3 diffusePlusSpecular(Light lght, vec3 lightDir, vec3 pos, vec3 norm, vec3 diffFrag) {
 
-    float lambertian = max(dot(normal, -lightDirection), 0.0f); 
-    diffuse = lght.color * material.diffuse * diffuseFrag * lght.intensity * lambertian;  
+    vec3 diffuse  = vec3(0.f);
+    vec3 specular = vec3(0.f); 
 
-    return diffuse;
+    float lambertian = max(dot(norm, lightDir), 0.0f); 
+    diffuse = lght.color * material.diffuse * diffFrag * lght.intensity * lambertian; 
+
+    vec3 viewDirection = normalize(-pos);
+    // blinn-phong specular
+    if(lambertian > 0.0f)  {                                                          
+                          
+        vec3 halfDirection = normalize(lightDir + viewDirection);
+
+        float specularFactor = max(dot(halfDirection, norm), 0.f);                              
+        specularFactor = pow(specularFactor, material.shininess); 
+                                                            
+        specular = lght.color * lght.intensity * material.specular * specularFactor;                         
+    }
+
+    return diffuse + specular;
 }
 
 vec3 lightAmbient(Light lght, vec3 ambientFrag) {
@@ -62,7 +82,7 @@ vec3 lightAmbient(Light lght, vec3 ambientFrag) {
 
 vec3 calculatePointLight(Light lght, vec3 position, vec3 normal, vec3 diffuseFrag, vec3 specularFrag) {
     // light direction from fragment to light
-    vec3 lightDirection = position - lght.position;
+    vec3 lightDirection = lght.position - position;
     // distance from fragment to light position, for attenuation
     float lightDistance = length(lightDirection);
     lightDirection = normalize(lightDirection);
@@ -72,7 +92,7 @@ vec3 calculatePointLight(Light lght, vec3 position, vec3 normal, vec3 diffuseFra
 
     if(shadowing.enabled > 0 && lght.lightType == LIGHT_SPOT /* temporal only spotlights available */) {
         for(int i = 0; i < shadowing.shadowCount; i++) {
-            visibility *= calculateVisibility(shadowCoord[i], shadowing.source[i].mapSize, shadowMap0, shadowing.source[i].strength);
+            visibility *= calculateVisibility(shadowCoord[i], shadowing.source[i].mapSize, i, shadowing.source[i].strength);
         }
     }
     // calculate attenuation from point light distance to frag
@@ -85,7 +105,7 @@ vec3 calculatePointLight(Light lght, vec3 position, vec3 normal, vec3 diffuseFra
 
 vec3 calculatePointLight(Light lght, vec3 position, vec3 normal, vec3 diffuseFrag) {
     // light direction from fragment to light
-    vec3 lightDirection = position - lght.position;
+    vec3 lightDirection = lght.position - position;
     // distance from fragment to light position, for attenuation
     float lightDistance = length(lightDirection);
     lightDirection = normalize(lightDirection);
@@ -95,13 +115,13 @@ vec3 calculatePointLight(Light lght, vec3 position, vec3 normal, vec3 diffuseFra
 
     if(shadowing.enabled > 0 && lght.lightType == LIGHT_SPOT /* temporal only spotlights available */) {
         for(int i = 0; i < shadowing.shadowCount; i++) {
-            visibility *= calculateVisibility(shadowCoord[i], shadowing.source[i].mapSize, shadowMap0, shadowing.source[i].strength);
+            visibility *= calculateVisibility(shadowCoord[i], shadowing.source[i].mapSize, i, shadowing.source[i].strength);
         }
     }
     // calculate attenuation from point light distance to frag
     float attenuationFactor = (1.0f + lght.attenuation * pow(lightDistance, 2.0f));    
     // calculate lighting                                               
-    vec3 color = lightAmbient(lght, diffuseFrag) + diffuseLight(lght, lightDirection, normal, diffuseFrag) * visibility / attenuationFactor;                            
+    vec3 color = lightAmbient(lght, diffuseFrag) + diffusePlusSpecular(lght, lightDirection, position, normal, diffuseFrag) * visibility / attenuationFactor;                            
     // apply attenuation factor                                                                           
     return color; 
 }
@@ -113,12 +133,13 @@ vec3 calculateSpotLight(Light lght, vec3 position, vec3 normal, vec3 diffuseFrag
     float cosAngle = dot(-lightDirection, spotDirection);
 
     // do not calculate complete lighting outside the light frustum
-    if(cosAngle <= 0.f) return lightAmbient(lght, diffuseFrag);
+    if(cosAngle <= lght.cosOuterConeAngle) return lightAmbient(lght, diffuseFrag);
 
     float cosInnerMinusOuter = lght.cosInnerConeAngle - lght.cosOuterConeAngle;
     // final spot light factor smooth translation between outer angle and inner angle
     float spotLightFactor = smoothstep(0.0f, 1.0f, (cosAngle - lght.cosOuterConeAngle) / cosInnerMinusOuter);
-    // final colorbitangent
+
+    // final color
     return lightAmbient(lght, diffuseFrag) + calculatePointLight(lght, position, normal, diffuseFrag) * spotLightFactor;
 }
 
@@ -128,22 +149,23 @@ vec3 calculateSpotLight(Light lght, vec3 position, vec3 normal, vec3 diffuseFrag
 
     float cosAngle = dot(-lightDirection, spotDirection);
 
-        // do not calculate complete lighting outside the light frustum
-    if(cosAngle <= 0.f) return lightAmbient(lght, diffuseFrag);
+    // do not calculate complete lighting outside the light frustum
+    if(cosAngle <= lght.cosOuterConeAngle) return lightAmbient(lght, diffuseFrag);
 
     float cosInnerMinusOuter = lght.cosInnerConeAngle - lght.cosOuterConeAngle;
     // final spot light factor smooth translation between outer angle and inner angle
     float spotLightFactor = smoothstep(0.0f, 1.0f, (cosAngle - lght.cosOuterConeAngle) / cosInnerMinusOuter);
+
     // final color
     return lightAmbient(lght, diffuseFrag) + calculatePointLight(lght, position, normal, diffuseFrag, specularFrag) * spotLightFactor;
 }
 
 vec3 calculateDirectionalLight(Light lght, vec3 position, vec3 normal, vec3 diffuseFrag, vec3 specularFrag) {
-    return lightAmbient(lght, specularFrag) + diffusePlusSpecular(lght, lght.direction, position, normal, diffuseFrag, specularFrag); 
+    return lightAmbient(lght, specularFrag) + diffusePlusSpecular(lght, -lght.direction, position, normal, diffuseFrag, specularFrag); 
 }
 
 vec3 calculateDirectionalLight(Light lght, vec3 position, vec3 normal, vec3 diffuseFrag) {                                                                       
-    return lightAmbient(lght, diffuseFrag) + diffuseLight(lght, lght.direction, normal, diffuseFrag); 
+    return lightAmbient(lght, diffuseFrag) + diffusePlusSpecular(lght, -lght.direction, position, normal, diffuseFrag); 
 }
 
 vec3 calculateBumpedNormal(vec3 normView, vec3 tang, vec3 bitang, sampler2D normals, vec2 texCoord)                                                                     

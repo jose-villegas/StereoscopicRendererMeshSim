@@ -242,6 +242,10 @@ System::Void SceneRenderer::PropertiesWindow::onEyeSeparationChanged(System::Obj
 {
     if (changedActiveIndex || !this->cameraComponentPtr) { return; }
 
+    if (this->cameraControl->calculateEyeSeparation->Checked) {
+        return;
+    }
+
     this->cameraComponentPtr->setEyeSeparation((float)this->cameraControl->separationValue->Value);
 }
 
@@ -299,4 +303,16 @@ System::Void SceneRenderer::PropertiesWindow::onZeroParallaxChanged(System::Obje
     if (changedActiveIndex || !this->cameraComponentPtr) { return; }
 
     cameraComponentPtr->setZeroParallax((float)this->cameraControl->zpValue->Value);
+
+    if (this->cameraControl->calculateEyeSeparation->Checked) {
+        this->cameraComponentPtr->calculateEyeSeparation();
+        this->cameraControl->separationValue->Value = System::Math::Min
+                (
+                    System::Math::Max(
+                        System::Decimal(this->cameraComponentPtr->getEyeSeparation()),
+                        this->cameraControl->separationValue->Minimum
+                    ), this->cameraControl->separationValue->Maximum
+                );
+        this->cameraControl->Refresh();
+    }
 }

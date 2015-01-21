@@ -346,9 +346,6 @@
     <None Include="resources\shaders\opaque\diffuse.vert" />
     <None Include="resources\shaders\opaque\specular.frag" />
     <None Include="resources\shaders\opaque\specular.vert" />
-    <None Include="resources\shaders\transparent\bumped_diffuse.frag" />
-    <None Include="resources\shaders\transparent\depth.frag" />
-    <None Include="resources\shaders\transparent\depth.vert" />
     <None Include="resources\shaders\transparent\opacity_bumped_diffuse.frag" />
     <None Include="resources\shaders\transparent\opacity_bumped_diffuse.vert" />
     <None Include="resources\shaders\transparent\opacity_bumped_specular.frag" />

@@ -11,8 +11,8 @@ namespace bases {
         public:
             bool enableRender;
 
-            Renderable(void);
-            virtual ~Renderable(void);
+            Renderable(void) : enableRender(true) {};
+            virtual ~Renderable(void) {};
             // render base method free
             // to implement in child objects
             virtual void render() {};

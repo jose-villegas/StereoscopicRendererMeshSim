@@ -5,6 +5,7 @@ using namespace scene;
 
 Camera::Camera(void)
 {
+    // default to perspective, can be modified
     this->projectionType                = Perspective;
     // normal members
     this->nearClippingPlane             = 0.1f;
@@ -13,7 +14,7 @@ Camera::Camera(void)
     this->fieldOfView                   = 75.0f;
     this->aspectRatio                   = 16.0f / 9.0f;
     // stereo members
-    this->zeroParallax                  = 1000.f;
+    this->zeroParallax                  = 10.f;
     this->eyeSeparation                 = 0.133f;
     // ortho members
     this->orthoProjectionHorizontalSize = this->orthoProjectionVerticalSize = 50.f;
@@ -81,7 +82,7 @@ void scene::Camera::setProjection(const float &aspectRatio, const float &fieldOf
     // calculate vector up based on rotation transform
     this->calculateVectorUp();
     // Set ViewPort Accordly
-    float ymax = nearClippingPlane * glm::tan(fieldOfView * glm::pi<float>() / 360.f); // (fov * pi / 180) / 2
+    float ymax = nearClippingPlane * glm::tan(glm::radians(this->fieldOfView) * 0.5f);
     float xmax = ymax * aspectRatio;
     this->setViewPortRect(-xmax, xmax, -ymax, ymax);
 }
@@ -128,7 +129,7 @@ void scene::Camera::render(const core::Engine *engine)
             // no shadow casting
             if (*it == nullptr) { continue; }
 
-            (*it)->projectShadowMap();
+            (*it)->shadowRenderPass();
         }
 
         // restore view port since projector changes the general viewport
@@ -278,4 +279,9 @@ void scene::Camera::viewport()
 {
     glViewport(0, 0, (GLsizei)this->width, (GLsizei)this->height);
     this->setAspectRatio((float)this->width / (float)this->height);
+}
+
+void scene::Camera::calculateEyeSeparation()
+{
+    this->eyeSeparation = 0.035f * std::tan(glm::radians(this->fieldOfView) / 2.f) * this->zeroParallax;
 }

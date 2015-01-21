@@ -49,8 +49,8 @@ namespace scene {
             float attenuation;
             // spot light members
             // params in radians
-            float innerConeAngle;
-            float outerConeAngle;
+            float innerConeAngle; // 0 - outerConeAngle
+            float outerConeAngle; // 0 - 90
             float cosInnerConeAngle;
             float cosOuterConeAngle;
 
@@ -61,8 +61,8 @@ namespace scene {
             void setColor(const unsigned int &value0, const unsigned int &value1, const unsigned int &value2);
             // light direction based on rotation and origin position with forward vector
             glm::vec3 getDirection();
-            // set if this light casts shadows
-            void enableShadowProjection(bool value);
+            // set if this light casts shadows, can set the depth width and height as second param, default is low quality
+            void enableShadowProjection(bool value, const unsigned int depthMapSize = 128);
             // gets the light associated projection index
             int getShadowProjectorIndex() const { return shadowProjectorIndex; }
             // get the light's associated shadow projector

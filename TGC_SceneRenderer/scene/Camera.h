@@ -92,6 +92,8 @@ namespace scene {
             // warning this changes the whole render target viewport
             void viewport(const unsigned int width, const unsigned int height);
             void viewport();
+            // calculates eye separation based on zero parallax, 3.5% * widthZp
+            void calculateEyeSeparation();
     };
 }
 
