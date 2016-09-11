@@ -1,6 +1,6 @@
 Stereoscopic Renderer and Mesh Simplification
 ====================
-3D Engine Sandbox with Stereoscopic rendering mode and mesh simplification implementation.
+Simple 3D engine with stereoscopic rendering mode and mesh simplification.
 
 Spot light shadows
 ![alt tag](http://i.imgur.com/Bg41431.png)
